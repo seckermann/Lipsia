@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Non-linear normalization</div>
+
+<div class="headtitle">vdemon, vdeform</div>
+
+<div class="content">
+The linear normalization obtained by applying '<a href="../vnormalize/index.html">vnormalize</a>' and '<a href="../vdotrans/index.html">vfunctrans/vdotrans</a>' 
+can be further improved by a subsequent processing step that performs
+an additional non-linear normalization known as 'demon matching'. In this type of non-linear normalization,
+an anatomical 3D data set, i.e. the model, is deformed such that it matches
+another 3D anatomical data set, i.e. the source, that serves as a fixed reference image.
+For example, the data set 'mr120_t1_pl.v' as model image may be deformed to match the
+data set 'mr131_t1_pl.v' as source image. Both images 'mr120_t1_pl.v' and
+'mr131_t1_pl.v' should be linearly normalized <u>before</u>
+non-linear normalization.
+<br><p>
+
+The use of the terms 'model' and 'source' is now in compliance with the paper
+by Thirion as cited below. (<B>Note:</B> This notation differs from
+the notation used in the previous implementation of demon matching in
+'vmatch' and 'vresample'. However, these programs are no longer
+available, but have been replaced by 'vdemon' and 'vdeform'.)<br><p>
+
+The output of 'vdemon' is a deformation field that describes
+how each pixel in 'mr120_t1_pl.v' should move in order to
+match a corresponding pixel in 'mr131_t1_pl.v'.Using 'vdeform',
+the deformation field can then be applied to the 
+3D anatomical data set, to a 3D zmap, or to 3D functional data.
+Because functional data have a lower spatial resolution than
+anatomical data or zmaps, the deformation field is automatically 
+downsampled by 'vdeform' when necessary. This way, each type of
+data keeps its
+original resolution when being deformed.
+<br><p>
+
+The images below illustrate the effects of non-linear
+normalization. The left image shows an average of 10 data sets
+after linear normalization. The right image shows the same
+10 data sets averaged after additional non-linear normalization.
+<br><p>
+
+<img src="images/match.gif" width=335 height=192><br><p>
+
+</div>
+
+<div class="subtitle">Obtaining the deformation field</div>
+
+<div class="content">
+The deformation field is obtained by applying the program
+'vdemon'. Here is a typical example where 'mr120_t1_pl.v' is deformed and 'mr131_t1_pl.v'
+is the fixed reference image:<br><p>
+
+<tt><b><a href="#vdemon">vdemon</a> -model mr120_t1_pl.v -source mr131_t1_pl.v -field field_120_131.v</b></tt><br><p>
+
+The computation of the deformation field takes approximately 3 minutes on a 1.7 GHz PC.<br><p>
+</div>
+
+<div class="subtitle">Applying the deformation field</div>
+
+<div class="content">
+The deformation field can now be applied to the 
+3D anatomical data set, to a 3D zmap, or to 3D functional data, all of
+which have to be linearly normalized already.
+The deformation field is applied to all objects found in the input file.
+A typical call looks like this:<br><p>
+
+<tt><b><a href="#vdeform">vdeform</a> -in mr120_t1_pl.v -out deformed120.v -field field_120_131.v</b></tt><br><p>
+
+This step takes only a few seconds of computation time. Be aware that the deformation of any type
+of data requires about 2.5 times the amount of free main memory (not swap space!) compared to the
+size of the data. Especially for functional data sets, the memory requirements can easily reach
+several hundred megabytes.<br><p>
+</div>
+
+<a name="vdemon"></a>
+<div class="headtitle">Parameters of 'vdemon':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-source<DD> 
+        Anatomical source image as fixed reference. Required.
+    <DT>-model<DD> 
+        Anatomical model image to be deformed. Required.
+    <DT>-field<DD>
+        Resulting 3D deformation field. Required.
+    <DT>-verbose [ true | false ]<DD>
+        Show status messages. Optional. Default: true
+</DL>
+</div>
+
+<a name="vdeform"></a>
+<div class="headtitle">Parameters of 'vdeform':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input image. Required.
+    <DT>-out<DD>
+         Deformed output image. Required.
+    <DT>-field<DD>
+        3D deformation field. Required.
+    <DT>-verbose [ true | false ]<DD>
+        Show status messages. Optional. Default: true
+</DL>
+</div>
+
+<div class="headtitle">Literature</div>
+<div class="content">
+J.-P. Thirion, "Image matching as a diffusion process:
+an analogy with Maxwell's demons", <i>Medical Image Analysis</i>, 2(3):243-260, 1998.<br><p>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

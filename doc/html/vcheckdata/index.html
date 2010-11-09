@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Utilities</div>
+
+<div class="headtitle">vcheckdata</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vcheckdata' is a tool for checking fMRI data data quality.
+It computes statistics (mean, standard deviation, kurtosis, etc.) of
+the timecourse in each voxel. It can be used to check for scanner problems
+such as inhomogeneities. If the parameter '-high' is set to some value > 0,
+a detrending is performed prior to the computation of the statistics.
+The detrending is done using a high-pass filter with cutoff wavelength of <high> seconds.
+<p>
+
+</div>
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+The following call computes the standard deviation (std) of each voxel's time course.
+Prior to the computation of the standard deviation, the data are detrended such
+that slow drifts with frequencies of less than 1/60 Hz are removed.
+The input data set remains unchanged.
+
+<br><br>
+
+<tt><b><a href="#vcheckdata"><u>vcheckdata</u></a> 
+-in data.v -out result.v -type std -high 60</b></tt><br><p>
+<br>
+
+</div>
+
+<a name="vcheckdata"></a>
+<div class="headtitle"><b>Parameters of 'vcheckdata'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-type<DD>
+        Type of statistics to compute.<br>
+	Choices are: [mean | std | percent | skewness | kurtosis | min | max | median]. Default: std
+    <DT>-high<DD>
+        Upper wavelength threshold in seconds for detrending. Default: 60
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

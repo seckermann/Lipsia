@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Getting started</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Getting started: preprocessing</div>
+
+<div class="subtitle">The standard preprocessing pipeline</div>
+<div class="content">
+
+
+<p>As a first, fMRI data should be preprocessed using a sequence of processing steps described
+below. Several different preprocessing strategies are possible. However, to get started,
+we suggest to use the following pipeline.
+
+
+<p>The very first step is data conversion. Let us assume that the data have been acquired in
+the DICOM data format and reside in a directory called "/scr/dicom/data". Lets us further assume that
+the functional scan we are interested in is in the subdirectory called "/scr/dicom/data/2".
+We now need to converted these functional data into the lipsia-format using the following call:
+
+<p><tt><b><a href="../vvinidi/index.html"><u>vvinidi</u></a> -in /scr/dicom/data/2 -out data.v -rf dcm</b></tt><br></p>
+
+Now view the data:
+<p><tt><b><a href="../vqview/index.html"><u>vqview</u></a> -in data.v</b></tt><br></p>
+
+Check for image artefacts such as subject motion and
+in particular, check the dynamic range. If values are within a small range (less than 300 or so),
+it may be advisable to apply a scaling by a constant factor:
+
+<p><tt><b>vnormvals -in data.v -scale 10 -out data1.v</b></tt><br></p>
+
+The next step is the correction for slicetiming. This is necessary as slices are not acquired simultaneously
+so that their temporal offset distort results. Note however, that this step should only be performed
+if the repetition time is not too long (about 3 seconds or less).
+
+<p><tt><b><a href="../vslicetime/slicetime.html"><u>vslicetime</u></a> -in data1.v -out data2.v</b></tt><br></p>
+
+
+As subjects may have moved during the scanning, we now apply a correction for motion:
+
+<p><tt><b><a href="../vmovcorrection/index.html"><u>vmovcorrection</u></a> -in data2.v 
+-out data3.v -report list.txt</b></tt><br></p>
+
+The text file "list.txt" contains information about translation and rotation parameters describing the
+motion. This file may later be used as a covariate in statistical tests. It can also be used to check for
+excessive motion leading to exclusion of the data set.
+
+The next two calls align the functional data to the MNI atlas using trilnear resamlping to an 
+isotropic voxel grid of 3x3x3 mm.
+
+<p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in data3.v -ref epi_template.v
+-trans trans.nii -transform 0 2 -optimizer 0 2 -bound 10 -prealign_m -smooth 2 -iter 1000 1000
+</b></tt><br></p>
+
+<p><tt><b><a href="../vdotrans3d/vdotrans3d.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v
+-res 3 -fmri</b></tt><br></p>
+
+
+<p> The final step of the preprocessing pipeline is to remove baseline drifts and spatial smoothing.
+<p><u>Spatial filtering</u> is used to increase the signal-to-noise-ratio (SNR), and to reduce
+the between subject variability for group studies. In our example, we will apply a spatial 3D Gaussian filter
+with a filter size of 6 mm FWHM (full width half maximum).</p>
+
+<p><u>Temporal filtering</u> can be used to remove drifts within the signal over time using a frequency
+filter. As a rule of thumb we suggest to remove low frequencies below 1/90 Hz. For some types of analysis
+itit is also advisable to remove high frequencies above 1/10 Hz. The following call performs these operations:
+
+<p><tt><b><a href="../vpreprocess/index.html"><u>vpreprocess</u></a> -in data4.v -out data5.v -fwhm 6 -low 10 -high 90</b></tt><br></p>
+ 
+This concludes the preprocessing pipeline. The preprocessed data are now in the file 'data5.v'.
+</div>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

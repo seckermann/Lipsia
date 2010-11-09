@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Rawdata Viewer</div>
+
+<div class="headtitle">vqview</div>
+
+<div class="content">
+<p>'vqview' is a rawdata rendering program. The rawdata is rendered
+like the well known <a src="../vlview/index.html">vlview</a>. According
+to the 3D view of the data, you can choose one of the possible timesteps
+or just start an animation to view them all.</p>
+<img src="example.png" /></div>
+
+<div class="subtitle">Interactive user-interface</div>
+
+<div class="content">To start 'vqview' with a set of rawdata:<br>
+<p><tt><b><a href="#vqview"><u>vqview</u></a> -in rawdata.v</b></tt>
+<p>
+It may take some time, to convert the given raw data to a renderable data structure.
+</p>
+</div>
+
+
+
+<div class="subtitle">Adjusting brigntness, contrast and animation
+speed</div>
+
+<div class="content">
+<p>Pressing &lt; Ctrl-P &gt;, or just klicking <i>Preferences</i> in
+the <i>Options</i>-menu opens the preference dialog.</p>
+<img src="pref.png" />
+<p>Here is it possible, to adjust the contrast and brightness using
+the corresponding sliders. A change of that values is instantaneous
+visible.</p>
+<p>The third slider is for adjusting the animation speed. The values
+says how much frames per second are visible. Changes of this sliders
+will also be saved instantaneous, but will not be used until you restart
+the animation. Which simply means stop the current animation (if there
+is one) and start a new one.</p>
+<p><b>Be aware!</b> The speed of the animation depends on your
+hardware. It is possible that rendering a frame takes more time than you
+want.</p>
+</div>
+
+
+<a name="vqview"></a>
+<div class="headtitle">Parameters of 'vqview':</div>
+
+<div class="content">
+<DL>
+
+	<DT>-help
+	<DD>Prints usage information.
+	<DT>-in
+	<DD>Input file. Default: (none)<br />
+	The input file must contain unsigned short raw data.
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img
+	src="../images/minerva.bmp" border="0" style="margin-right: 4px"
+	align="left"></a>
+
+
+<FONT style="font-family: Arial, Helvetica; font-size: 8pt;"> Max
+Planck Institute for Human Cognitive and Brain Sciences. Further
+Information: <A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A> <BR>Copyright
+&copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved. 
+<br />
+<br />
+</BODY>
+</HTML>

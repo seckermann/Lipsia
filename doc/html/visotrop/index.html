@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA&nbsp;&nbsp;&nbsp;&nbsp; Transpose and
+resample (isotropic) a 3D dataset </div>
+
+<div class="headtitle">visotrop</div>
+
+<div class="content">
+'visotrop' transposes a sagittal 3D dataset to axial direction,
+interpolates to an isotropic resolution of 1mm, and reslices in axial
+direction.
+The isotropic resolution can be selected by the user or is set by default
+to 1mm for images with a resolution >= 1mm. For images with a voxel size
+&lt; 1mm in one dimension (clinical images like T2*), the output image is
+resampled to this best image resolution. 'visotrop' displays the old and
+the new voxel resolution for verification. Subject T1 images should be
+processed with the parameter '-reso 1' to force voxel size of 1mm in the
+brain database.
+<p>For images acquried in axial direction, the image sliceing is kept
+axial. In this case the user can select to reorder the slices from to to
+down. Default is this reordering.
+<p>visotrop offers 3 interpolation methods: linear, nearest neighbor, cubic
+spline. Linear is default.
+<p>By default images are flipped to the neurological (natural) convention.
+<p>Example:
+<p><b><tt><u><a href="#visotrop">visotrop</a></u> -in subject1_image.v
+-out isotrop_image.v -reso -1</tt></b>
+<p><b><tt><u><a href="#visotrop">visotrop</a></u> -in t2star-image.v -out
+isotrop_t2star.v</tt></b>
+<br>
+<p>Input datasets are expected to be in VUByte format.
+<p>Input and output files can be specified on the command line or allowed
+to default to the standard input and
+output streams.
+</div>
+
+<a name="visotrop"></a>
+<div class="headtitle">Parameters of 'visotrop':</div>
+
+<div class="content">
+<dl>
+	<dt>-help<dd>
+	  Prints usage information.
+	<dt>-in<dd>
+	  Input file. Default: (none)
+	<dt>-out<dd>
+	  Output file. Default: (none)
+	<dt>-reso<dd>
+	  New voxel resolution in mm, def: -1 means min(1.0,"best source resolution"). Default: -1
+	<dt>-flip [ true | false ]<dd>
+	  Whether to flip to natural convention. Default: true
+	<dt>-reorder [ true | false ]<dd>
+	  Whether to reorder axial slices from axial source image. Default: true
+	<dt>-interpolation [ linear | NN | spline ]<dd>
+	  Type of interpolation (0: linear, 1: nearest neighbor, 2: cubic spline). Default: linear
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</body>
+</html>

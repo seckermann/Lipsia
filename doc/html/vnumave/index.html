@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Conjunction analysis</div>
+
+<div class="headtitle">vnumave</div>
+
+<div class="content">
+The program 'vnumave' performs a conjunction analysis.
+Its input are several activation maps.
+The program can be used in two different modes.
+</div>
+
+
+<div class="subtitle">First mode:</div>
+<div class="content">
+For each pixel, 'vnumave' counts the number of input maps
+whose value in this pixel is above a given threshold.
+
+<br><p>
+Example:<br><p>
+
+<tt><b><a href="#vnumave"><u>vnumave</u></a> -in zmap_*.v -out result.v -pos 3.0 -type num</b></tt><br><p>
+
+In this example, the input images are zmaps of a group of subjects.
+The resulting image 'result.v' has the same appearance as a zmap. However,
+the pixel values do not indicate significance values, but simply the
+number of subjects whose z-values are above the threshold specified in
+'-pos'.
+
+The resulting image can be visualized just like a z-map
+using standard visualization tools (e.g. <a href="../vlview/index.html">'vlview'</a>,'v <a href="../vlrender/index.html">'vlrender'</a>).
+</div>
+
+
+
+<div class="subtitle">Second mode:</div>
+<div class="content">
+For each pixel, 'vnumave' outputs the minimum z-value of all input maps.
+
+<br><p>
+Example:<br><p>
+
+<tt><b><a href="#vnumave"><u>vnumave</u></a> -in zmap_*.v -out result.v -type zmap</b></tt><br><p>
+
+The input images are zmaps of a group of subjects. The output is a zmap that corresponds
+to a logical <u>'AND'</u> of all input images (see reference below).
+
+</div>
+
+<br><p>
+
+
+      
+<a name="vnumave"></a>
+<div class="headtitle">Parameters of 'vnumave':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-pos<DD>
+        Positive threshold for individual zmaps. Default: 3.0
+    <DT>-neg<DD>
+        Negative threshold for individual zmaps. Default: -10000.0
+    <DT>-type [ num | zmap ]<DD>
+        Type of output. Default: num
+</DL>
+</div>
+
+<div class="headtitle">Literature:</div>
+
+<div class="content">
+<p>
+T.Nichols,M.Brett,J.Anderson,T.Wager,J.B. Poline (2004).
+"Valid conjunction inference with the minimum statistic."
+<i>NeuroImage</i>, 25, 653-660.
+</div>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

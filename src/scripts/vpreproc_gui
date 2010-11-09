@@ -1,0 +1,1148 @@
+#!/usr/bin/python
+from PyQt4 import *
+from PyQt4 import QtCore, QtGui
+import sys
+import os
+import string
+
+
+from PyQt4 import QtWebKit
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.setEnabled(True)
+        Form.resize(700,714)
+        self.tabWidget = QtGui.QTabWidget(Form)
+        self.tabWidget.setEnabled(True)
+        self.tabWidget.setGeometry(QtCore.QRect(10,10,681,561))
+        self.tabWidget.setTabPosition(QtGui.QTabWidget.North)
+        self.tabWidget.setTabShape(QtGui.QTabWidget.Rounded)
+        self.tabWidget.setElideMode(QtCore.Qt.ElideNone)
+        self.tabWidget.setObjectName("tabWidget")
+        self.tab = QtGui.QWidget()
+        self.tab.setObjectName("tab")
+        self.label = QtGui.QLabel(self.tab)
+        self.label.setGeometry(QtCore.QRect(20,10,71,19))
+        self.label.setObjectName("label")
+        self.b_add_data = QtGui.QPushButton(self.tab)
+        self.b_add_data.setGeometry(QtCore.QRect(20,240,83,29))
+        self.b_add_data.setObjectName("b_add_data")
+        self.listWidget = QtGui.QListWidget(self.tab)
+        self.listWidget.setGeometry(QtCore.QRect(20,30,311,201))
+        self.listWidget.setObjectName("listWidget")
+        self.b_add_data_dir = QtGui.QPushButton(self.tab)
+        self.b_add_data_dir.setGeometry(QtCore.QRect(115,240,121,29))
+        self.b_add_data_dir.setObjectName("b_add_data_dir")
+        self.b_remove_from_list = QtGui.QPushButton(self.tab)
+        self.b_remove_from_list.setGeometry(QtCore.QRect(250,240,83,29))
+        self.b_remove_from_list.setObjectName("b_remove_from_list")
+        self.text_tr = QtGui.QDoubleSpinBox(self.tab)
+        self.text_tr.setEnabled(False)
+        self.text_tr.setGeometry(QtCore.QRect(180,298,61,23))
+        self.text_tr.setObjectName("text_tr")
+        self.check_set_tr = QtGui.QCheckBox(self.tab)
+        self.check_set_tr.setGeometry(QtCore.QRect(30,298,151,24))
+        self.check_set_tr.setObjectName("check_set_tr")
+        self.label_7 = QtGui.QLabel(self.tab)
+        self.label_7.setGeometry(QtCore.QRect(250,300,21,20))
+        self.label_7.setObjectName("label_7")
+        self.groupBox = QtGui.QGroupBox(self.tab)
+        self.groupBox.setGeometry(QtCore.QRect(350,20,311,211))
+        self.groupBox.setObjectName("groupBox")
+        self.check_temporal_filtering = QtGui.QCheckBox(self.groupBox)
+        self.check_temporal_filtering.setGeometry(QtCore.QRect(10,140,201,24))
+        self.check_temporal_filtering.setObjectName("check_temporal_filtering")
+        self.check_movement = QtGui.QCheckBox(self.groupBox)
+        self.check_movement.setGeometry(QtCore.QRect(10,60,211,24))
+        self.check_movement.setChecked(False)
+        self.check_movement.setObjectName("check_movement")
+        self.check_atlas_registration = QtGui.QCheckBox(self.groupBox)
+        self.check_atlas_registration.setGeometry(QtCore.QRect(10,80,201,24))
+        self.check_atlas_registration.setObjectName("check_atlas_registration")
+        self.check_field = QtGui.QCheckBox(self.groupBox)
+        self.check_field.setGeometry(QtCore.QRect(10,20,171,24))
+        self.check_field.setChecked(False)
+        self.check_field.setObjectName("check_field")
+        self.check_spatial_filtering = QtGui.QCheckBox(self.groupBox)
+        self.check_spatial_filtering.setGeometry(QtCore.QRect(10,120,191,24))
+        self.check_spatial_filtering.setObjectName("check_spatial_filtering")
+        self.check_create_mask = QtGui.QCheckBox(self.groupBox)
+        self.check_create_mask.setGeometry(QtCore.QRect(10,160,191,24))
+        self.check_create_mask.setObjectName("check_create_mask")
+        self.check_slicetime = QtGui.QCheckBox(self.groupBox)
+        self.check_slicetime.setGeometry(QtCore.QRect(10,40,231,24))
+        self.check_slicetime.setChecked(False)
+        self.check_slicetime.setObjectName("check_slicetime")
+        self.check_show_reg_resuts = QtGui.QCheckBox(self.groupBox)
+        self.check_show_reg_resuts.setGeometry(QtCore.QRect(30,100,291,24))
+        self.check_show_reg_resuts.setObjectName("check_show_reg_resuts")
+        self.check_show_mask = QtGui.QCheckBox(self.groupBox)
+        self.check_show_mask.setGeometry(QtCore.QRect(30,180,271,24))
+        self.check_show_mask.setObjectName("check_show_mask")
+        self.groupBox_2 = QtGui.QGroupBox(self.tab)
+        self.groupBox_2.setGeometry(QtCore.QRect(20,340,311,161))
+        self.groupBox_2.setObjectName("groupBox_2")
+        self.check_save_steps = QtGui.QCheckBox(self.groupBox_2)
+        self.check_save_steps.setGeometry(QtCore.QRect(10,120,221,24))
+        self.check_save_steps.setObjectName("check_save_steps")
+        self.text_output_prefix = QtGui.QLineEdit(self.groupBox_2)
+        self.text_output_prefix.setGeometry(QtCore.QRect(10,90,271,25))
+        self.text_output_prefix.setObjectName("text_output_prefix")
+        self.label_4 = QtGui.QLabel(self.groupBox_2)
+        self.label_4.setGeometry(QtCore.QRect(10,20,141,19))
+        self.label_4.setObjectName("label_4")
+        self.text_output_dir = QtGui.QLineEdit(self.groupBox_2)
+        self.text_output_dir.setGeometry(QtCore.QRect(10,40,271,25))
+        self.text_output_dir.setObjectName("text_output_dir")
+        self.b_output_dir = QtGui.QPushButton(self.groupBox_2)
+        self.b_output_dir.setGeometry(QtCore.QRect(280,40,21,25))
+        self.b_output_dir.setObjectName("b_output_dir")
+        self.label_5 = QtGui.QLabel(self.groupBox_2)
+        self.label_5.setGeometry(QtCore.QRect(10,70,59,19))
+        self.label_5.setObjectName("label_5")
+        self.groupBox_6 = QtGui.QGroupBox(self.tab)
+        self.groupBox_6.setGeometry(QtCore.QRect(350,240,311,91))
+        self.groupBox_6.setObjectName("groupBox_6")
+        self.check_highpass = QtGui.QCheckBox(self.groupBox_6)
+        self.check_highpass.setGeometry(QtCore.QRect(10,17,241,24))
+        self.check_highpass.setChecked(True)
+        self.check_highpass.setObjectName("check_highpass")
+        self.label_19 = QtGui.QLabel(self.groupBox_6)
+        self.label_19.setGeometry(QtCore.QRect(10,50,61,19))
+        self.label_19.setObjectName("label_19")
+        self.text_highpass = QtGui.QSpinBox(self.groupBox_6)
+        self.text_highpass.setGeometry(QtCore.QRect(60,46,54,25))
+        self.text_highpass.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_highpass.setMaximum(500)
+        self.text_highpass.setProperty("value",QtCore.QVariant(90))
+        self.text_highpass.setObjectName("text_highpass")
+        self.label_20 = QtGui.QLabel(self.groupBox_6)
+        self.label_20.setGeometry(QtCore.QRect(120,50,59,19))
+        self.label_20.setObjectName("label_20")
+        self.check_lowpass = QtGui.QCheckBox(self.groupBox_6)
+        self.check_lowpass.setGeometry(QtCore.QRect(160,17,131,24))
+        self.check_lowpass.setObjectName("check_lowpass")
+        self.text_lowpass = QtGui.QSpinBox(self.groupBox_6)
+        self.text_lowpass.setGeometry(QtCore.QRect(220,47,54,25))
+        self.text_lowpass.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_lowpass.setMaximum(500)
+        self.text_lowpass.setProperty("value",QtCore.QVariant(3))
+        self.text_lowpass.setObjectName("text_lowpass")
+        self.label_21 = QtGui.QLabel(self.groupBox_6)
+        self.label_21.setGeometry(QtCore.QRect(160,50,51,19))
+        self.label_21.setObjectName("label_21")
+        self.label_22 = QtGui.QLabel(self.groupBox_6)
+        self.label_22.setGeometry(QtCore.QRect(280,50,16,19))
+        self.label_22.setObjectName("label_22")
+        self.groupBox_3 = QtGui.QGroupBox(self.tab)
+        self.groupBox_3.setGeometry(QtCore.QRect(520,340,141,71))
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.check_write_logfile = QtGui.QCheckBox(self.groupBox_3)
+        self.check_write_logfile.setGeometry(QtCore.QRect(10,40,181,24))
+        self.check_write_logfile.setObjectName("check_write_logfile")
+        self.check_debug_output = QtGui.QCheckBox(self.groupBox_3)
+        self.check_debug_output.setEnabled(True)
+        self.check_debug_output.setGeometry(QtCore.QRect(10,20,191,24))
+        self.check_debug_output.setObjectName("check_debug_output")
+        self.groupBox_5 = QtGui.QGroupBox(self.tab)
+        self.groupBox_5.setGeometry(QtCore.QRect(350,340,161,71))
+        self.groupBox_5.setObjectName("groupBox_5")
+        self.label_17 = QtGui.QLabel(self.groupBox_5)
+        self.label_17.setGeometry(QtCore.QRect(10,33,59,19))
+        self.label_17.setObjectName("label_17")
+        self.text_fwhm = QtGui.QSpinBox(self.groupBox_5)
+        self.text_fwhm.setGeometry(QtCore.QRect(60,30,54,25))
+        self.text_fwhm.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_fwhm.setMaximum(50)
+        self.text_fwhm.setProperty("value",QtCore.QVariant(6))
+        self.text_fwhm.setObjectName("text_fwhm")
+        self.label_18 = QtGui.QLabel(self.groupBox_5)
+        self.label_18.setGeometry(QtCore.QRect(120,33,59,19))
+        self.label_18.setObjectName("label_18")
+        self.groupBox_7 = QtGui.QGroupBox(self.tab)
+        self.groupBox_7.setGeometry(QtCore.QRect(350,420,311,101))
+        self.groupBox_7.setObjectName("groupBox_7")
+        self.check_mask_average = QtGui.QRadioButton(self.groupBox_7)
+        self.check_mask_average.setGeometry(QtCore.QRect(10,20,241,25))
+        self.check_mask_average.setChecked(True)
+        self.check_mask_average.setObjectName("check_mask_average")
+        self.check_mask_every = QtGui.QRadioButton(self.groupBox_7)
+        self.check_mask_every.setGeometry(QtCore.QRect(10,40,241,25))
+        self.check_mask_every.setObjectName("check_mask_every")
+        self.text_max_voxel_mask = QtGui.QSpinBox(self.groupBox_7)
+        self.text_max_voxel_mask.setGeometry(QtCore.QRect(190,69,111,25))
+        self.text_max_voxel_mask.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_max_voxel_mask.setMaximum(100000)
+        self.text_max_voxel_mask.setSingleStep(1000)
+        self.text_max_voxel_mask.setProperty("value",QtCore.QVariant(50000))
+        self.text_max_voxel_mask.setObjectName("text_max_voxel_mask")
+        self.label_23 = QtGui.QLabel(self.groupBox_7)
+        self.label_23.setGeometry(QtCore.QRect(10,72,181,19))
+        self.label_23.setObjectName("label_23")
+        self.tabWidget.addTab(self.tab,"")
+        self.tab_2 = QtGui.QWidget()
+        self.tab_2.setObjectName("tab_2")
+        self.groupBox_4 = QtGui.QGroupBox(self.tab_2)
+        self.groupBox_4.setGeometry(QtCore.QRect(10,10,651,491))
+        self.groupBox_4.setObjectName("groupBox_4")
+        self.label_2 = QtGui.QLabel(self.groupBox_4)
+        self.label_2.setGeometry(QtCore.QRect(10,20,111,19))
+        self.label_2.setObjectName("label_2")
+        self.template_box = QtGui.QComboBox(self.groupBox_4)
+        self.template_box.setGeometry(QtCore.QRect(10,40,251,23))
+        self.template_box.setObjectName("template_box")
+        self.b_add_anatomical_image = QtGui.QPushButton(self.groupBox_4)
+        self.b_add_anatomical_image.setGeometry(QtCore.QRect(10,222,181,29))
+        self.b_add_anatomical_image.setObjectName("b_add_anatomical_image")
+        self.listWidget_2 = QtGui.QListWidget(self.groupBox_4)
+        self.listWidget_2.setGeometry(QtCore.QRect(10,91,631,121))
+        self.listWidget_2.setObjectName("listWidget_2")
+        self.label_3 = QtGui.QLabel(self.groupBox_4)
+        self.label_3.setGeometry(QtCore.QRect(10,70,321,19))
+        self.label_3.setObjectName("label_3")
+        self.b_view_template = QtGui.QPushButton(self.groupBox_4)
+        self.b_view_template.setGeometry(QtCore.QRect(270,37,61,31))
+        self.b_view_template.setObjectName("b_view_template")
+        self.frame = QtGui.QFrame(self.groupBox_4)
+        self.frame.setGeometry(QtCore.QRect(440,300,201,141))
+        self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtGui.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.check_deformable_reg = QtGui.QCheckBox(self.frame)
+        self.check_deformable_reg.setGeometry(QtCore.QRect(10,6,191,24))
+        self.check_deformable_reg.setChecked(True)
+        self.check_deformable_reg.setTristate(False)
+        self.check_deformable_reg.setObjectName("check_deformable_reg")
+        self.label_10 = QtGui.QLabel(self.frame)
+        self.label_10.setGeometry(QtCore.QRect(170,100,31,20))
+        self.label_10.setObjectName("label_10")
+        self.label_11 = QtGui.QLabel(self.frame)
+        self.label_11.setGeometry(QtCore.QRect(10,30,161,19))
+        self.label_11.setObjectName("label_11")
+        self.text_iter_deformable = QtGui.QSpinBox(self.frame)
+        self.text_iter_deformable.setGeometry(QtCore.QRect(10,50,151,25))
+        self.text_iter_deformable.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_iter_deformable.setMaximum(500)
+        self.text_iter_deformable.setProperty("value",QtCore.QVariant(20))
+        self.text_iter_deformable.setObjectName("text_iter_deformable")
+        self.label_9 = QtGui.QLabel(self.frame)
+        self.label_9.setGeometry(QtCore.QRect(10,80,151,20))
+        self.label_9.setObjectName("label_9")
+        self.text_bound = QtGui.QSpinBox(self.frame)
+        self.text_bound.setGeometry(QtCore.QRect(10,100,151,25))
+        self.text_bound.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_bound.setProperty("value",QtCore.QVariant(10))
+        self.text_bound.setObjectName("text_bound")
+        self.frame_2 = QtGui.QFrame(self.groupBox_4)
+        self.frame_2.setEnabled(True)
+        self.frame_2.setGeometry(QtCore.QRect(230,300,171,141))
+        self.frame_2.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtGui.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.check_affine = QtGui.QCheckBox(self.frame_2)
+        self.check_affine.setGeometry(QtCore.QRect(10,6,191,24))
+        self.check_affine.setChecked(False)
+        self.check_affine.setTristate(False)
+        self.check_affine.setObjectName("check_affine")
+        self.label_14 = QtGui.QLabel(self.frame_2)
+        self.label_14.setGeometry(QtCore.QRect(10,30,161,19))
+        self.label_14.setObjectName("label_14")
+        self.text_iter_affine = QtGui.QSpinBox(self.frame_2)
+        self.text_iter_affine.setGeometry(QtCore.QRect(10,50,151,25))
+        self.text_iter_affine.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_iter_affine.setMaximum(5000)
+        self.text_iter_affine.setProperty("value",QtCore.QVariant(20))
+        self.text_iter_affine.setObjectName("text_iter_affine")
+        self.frame_3 = QtGui.QFrame(self.groupBox_4)
+        self.frame_3.setGeometry(QtCore.QRect(13,300,171,141))
+        self.frame_3.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QtGui.QFrame.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.check_rigid = QtGui.QCheckBox(self.frame_3)
+        self.check_rigid.setGeometry(QtCore.QRect(10,6,191,24))
+        self.check_rigid.setChecked(True)
+        self.check_rigid.setTristate(False)
+        self.check_rigid.setObjectName("check_rigid")
+        self.label_15 = QtGui.QLabel(self.frame_3)
+        self.label_15.setGeometry(QtCore.QRect(10,30,161,19))
+        self.label_15.setObjectName("label_15")
+        self.text_iter_rigid = QtGui.QSpinBox(self.frame_3)
+        self.text_iter_rigid.setGeometry(QtCore.QRect(10,50,151,25))
+        self.text_iter_rigid.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.text_iter_rigid.setMaximum(10000)
+        self.text_iter_rigid.setProperty("value",QtCore.QVariant(500))
+        self.text_iter_rigid.setObjectName("text_iter_rigid")
+        self.check_prealign = QtGui.QCheckBox(self.frame_3)
+        self.check_prealign.setGeometry(QtCore.QRect(10,90,151,24))
+        self.check_prealign.setChecked(True)
+        self.check_prealign.setObjectName("check_prealign")
+        self.label_12 = QtGui.QLabel(self.groupBox_4)
+        self.label_12.setGeometry(QtCore.QRect(200,340,31,51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setWeight(75)
+        font.setBold(True)
+        self.label_12.setFont(font)
+        self.label_12.setObjectName("label_12")
+        self.label_13 = QtGui.QLabel(self.groupBox_4)
+        self.label_13.setGeometry(QtCore.QRect(410,340,31,51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setWeight(75)
+        font.setBold(True)
+        self.label_13.setFont(font)
+        self.label_13.setObjectName("label_13")
+        self.interpolator_box = QtGui.QComboBox(self.groupBox_4)
+        self.interpolator_box.setGeometry(QtCore.QRect(150,453,171,23))
+        self.interpolator_box.setObjectName("interpolator_box")
+        self.label_6 = QtGui.QLabel(self.groupBox_4)
+        self.label_6.setGeometry(QtCore.QRect(10,456,161,19))
+        self.label_6.setObjectName("label_6")
+        self.text_resolution = QtGui.QLineEdit(self.groupBox_4)
+        self.text_resolution.setGeometry(QtCore.QRect(570,451,71,25))
+        self.text_resolution.setAlignment(QtCore.Qt.AlignCenter)
+        self.text_resolution.setObjectName("text_resolution")
+        self.label_8 = QtGui.QLabel(self.groupBox_4)
+        self.label_8.setGeometry(QtCore.QRect(430,456,121,19))
+        self.label_8.setObjectName("label_8")
+        self.label_16 = QtGui.QLabel(self.groupBox_4)
+        self.label_16.setGeometry(QtCore.QRect(10,270,211,19))
+        self.label_16.setObjectName("label_16")
+        self.b_remove_anatomical_image = QtGui.QPushButton(self.groupBox_4)
+        self.b_remove_anatomical_image.setGeometry(QtCore.QRect(460,222,181,29))
+        self.b_remove_anatomical_image.setObjectName("b_remove_anatomical_image")
+        self.tabWidget.addTab(self.tab_2,"")
+        self.tab_3 = QtGui.QWidget()
+        self.tab_3.setObjectName("tab_3")
+        self.help_view = QtWebKit.QWebView(self.tab_3)
+        self.help_view.setGeometry(QtCore.QRect(10,40,651,451))
+        self.help_view.setUrl(QtCore.QUrl("about:blank"))
+        self.help_view.setObjectName("help_view")
+        self.help_Box = QtGui.QComboBox(self.tab_3)
+        self.help_Box.setGeometry(QtCore.QRect(10,10,241,23))
+        self.help_Box.setObjectName("help_Box")
+        self.tabWidget.addTab(self.tab_3,"")
+        self.b_start = QtGui.QPushButton(Form)
+        self.b_start.setEnabled(True)
+        self.b_start.setGeometry(QtCore.QRect(10,580,331,29))
+        self.b_start.setCheckable(False)
+        self.b_start.setObjectName("b_start")
+        self.b_exit_program = QtGui.QPushButton(Form)
+        self.b_exit_program.setGeometry(QtCore.QRect(10,620,331,29))
+        self.b_exit_program.setObjectName("b_exit_program")
+        self.progressBar = QtGui.QProgressBar(Form)
+        self.progressBar.setGeometry(QtCore.QRect(10,660,681,23))
+        self.progressBar.setMaximum(100)
+        self.progressBar.setProperty("value",QtCore.QVariant(-1))
+        self.progressBar.setTextVisible(True)
+        self.progressBar.setObjectName("progressBar")
+        self.b_load_settings = QtGui.QPushButton(Form)
+        self.b_load_settings.setGeometry(QtCore.QRect(360,620,331,29))
+        self.b_load_settings.setObjectName("b_load_settings")
+        self.b_save_settings = QtGui.QPushButton(Form)
+        self.b_save_settings.setGeometry(QtCore.QRect(360,580,331,29))
+        self.b_save_settings.setObjectName("b_save_settings")
+
+        self.retranslateUi(Form)
+        self.tabWidget.setCurrentIndex(0)
+        QtCore.QObject.connect(self.b_exit_program,QtCore.SIGNAL("clicked()"),Form.close)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Lipsia Preprocessing", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("Form", "Input files:", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_add_data.setToolTip(QtGui.QApplication.translate("Form", "Add images of type nifti/vista.", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_add_data.setText(QtGui.QApplication.translate("Form", "Add images", None, QtGui.QApplication.UnicodeUTF8))
+        self.listWidget.setToolTip(QtGui.QApplication.translate("Form", "List of all images which will be preprocessed.", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_add_data_dir.setToolTip(QtGui.QApplication.translate("Form", "Add a directory containing valid dicom files.", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_add_data_dir.setText(QtGui.QApplication.translate("Form", "Add dicom dir", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_remove_from_list.setToolTip(QtGui.QApplication.translate("Form", "Remove an image/directory from the list.", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_remove_from_list.setText(QtGui.QApplication.translate("Form", "Remove", None, QtGui.QApplication.UnicodeUTF8))
+        self.text_tr.setToolTip(QtGui.QApplication.translate("Form", "If the repetition time is not stored in the input file(s) it can be set manually", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_set_tr.setToolTip(QtGui.QApplication.translate("Form", "If the repetition time is not stored in the input file(s) it can be set manually", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_set_tr.setText(QtGui.QApplication.translate("Form", "Set repetition time:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("Form", "s", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setTitle(QtGui.QApplication.translate("Form", "Processing steps", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_temporal_filtering.setText(QtGui.QApplication.translate("Form", "Temporal filtering", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_movement.setText(QtGui.QApplication.translate("Form", "Movement correction", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_atlas_registration.setText(QtGui.QApplication.translate("Form", "Atlas registration", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_field.setText(QtGui.QApplication.translate("Form", "Fieldmap correction", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_spatial_filtering.setText(QtGui.QApplication.translate("Form", "Spatial filtering", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_create_mask.setText(QtGui.QApplication.translate("Form", "Create a mask", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_slicetime.setText(QtGui.QApplication.translate("Form", "Slicetime correction", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_show_reg_resuts.setText(QtGui.QApplication.translate("Form", "Show registration results (interruption)", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_show_mask.setText(QtGui.QApplication.translate("Form", "Show mask (interruption)", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("Form", "Output", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_save_steps.setToolTip(QtGui.QApplication.translate("Form", "Save the images of all processing steps specified by the user. The images will contain  prefixes referring to its applied processing steps.", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_save_steps.setText(QtGui.QApplication.translate("Form", "Save images of all steps", None, QtGui.QApplication.UnicodeUTF8))
+        self.text_output_prefix.setToolTip(QtGui.QApplication.translate("Form", "Set the prefix for the preprocessed image file.", None, QtGui.QApplication.UnicodeUTF8))
+        self.text_output_prefix.setText(QtGui.QApplication.translate("Form", "preproc_", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setToolTip(QtGui.QApplication.translate("Form", "This is where all files are saved", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("Form", "Directory:", None, QtGui.QApplication.UnicodeUTF8))
+        self.text_output_dir.setToolTip(QtGui.QApplication.translate("Form", "This is where all files are saved", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_output_dir.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setToolTip(QtGui.QApplication.translate("Form", "Set the prefix for the preprocessed image file.", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("Form", "Prefix:", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_6.setTitle(QtGui.QApplication.translate("Form", "Temporal filtering", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_highpass.setText(QtGui.QApplication.translate("Form", "High pass filter", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_19.setText(QtGui.QApplication.translate("Form", "Cutoff:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_20.setText(QtGui.QApplication.translate("Form", "s", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_lowpass.setText(QtGui.QApplication.translate("Form", "Low pass", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_21.setText(QtGui.QApplication.translate("Form", "Cutoff:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_22.setText(QtGui.QApplication.translate("Form", "s", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_3.setTitle(QtGui.QApplication.translate("Form", "Miscellaneous", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_write_logfile.setText(QtGui.QApplication.translate("Form", "Write logfile", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_debug_output.setText(QtGui.QApplication.translate("Form", "Debug Output", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_5.setTitle(QtGui.QApplication.translate("Form", "Spatial filtering", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_17.setText(QtGui.QApplication.translate("Form", "FWHM:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_18.setText(QtGui.QApplication.translate("Form", "mm", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_7.setTitle(QtGui.QApplication.translate("Form", "Mask options", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_mask_average.setText(QtGui.QApplication.translate("Form", "Create an average mask", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_mask_every.setText(QtGui.QApplication.translate("Form", "Create a mask for every subject", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_23.setText(QtGui.QApplication.translate("Form", "Maximum number of voxel:", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("Form", "General", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_4.setTitle(QtGui.QApplication.translate("Form", "Atlas registration", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setToolTip(QtGui.QApplication.translate("Form", "This is the template image on which you want to register your input image or, if specified, your anatomical image. \n"
+"If you have not specified any anatomical image it is recommended to select one of the EPI templates. \n"
+"If you have specified anatomical images you should choose one of the T1 templates.", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("Form", "Template:", None, QtGui.QApplication.UnicodeUTF8))
+        self.template_box.setToolTip(QtGui.QApplication.translate("Form", "This is the template image on which you want to register your input image or, if specified, your anatomical image. \n"
+"If you have not specified any anatomical image it is recommended to select one of the EPI templates. \n"
+"If you have specified anatomical images you should choose one of the T1 templates.", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_add_anatomical_image.setText(QtGui.QApplication.translate("Form", "Add anatomical image", None, QtGui.QApplication.UnicodeUTF8))
+        self.listWidget_2.setToolTip(QtGui.QApplication.translate("Form", "For better image registration results you can specify an anatomical image to every input image. ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setToolTip(QtGui.QApplication.translate("Form", "For better image registration results you can specify an anatomical image to every input image. ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("Form", "Functional image -> Anatomical image", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_view_template.setText(QtGui.QApplication.translate("Form", "View", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_deformable_reg.setText(QtGui.QApplication.translate("Form", "Deformable registration", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_10.setText(QtGui.QApplication.translate("Form", "mm", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_11.setText(QtGui.QApplication.translate("Form", "Maximum Iterations:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_9.setText(QtGui.QApplication.translate("Form", "Maximum deformation:", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_affine.setText(QtGui.QApplication.translate("Form", "Affine Registration", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_14.setText(QtGui.QApplication.translate("Form", "Maximum Iterations:", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_rigid.setText(QtGui.QApplication.translate("Form", "Rigid Registration", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_15.setText(QtGui.QApplication.translate("Form", "Maximum Iterations:", None, QtGui.QApplication.UnicodeUTF8))
+        self.check_prealign.setText(QtGui.QApplication.translate("Form", "Prealing images", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_12.setText(QtGui.QApplication.translate("Form", ">", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_13.setText(QtGui.QApplication.translate("Form", ">", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("Form", "Interpolator function:", None, QtGui.QApplication.UnicodeUTF8))
+        self.text_resolution.setText(QtGui.QApplication.translate("Form", "3,3,3", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_8.setText(QtGui.QApplication.translate("Form", "Output resolution:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_16.setText(QtGui.QApplication.translate("Form", "Registration pipeline:", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_remove_anatomical_image.setText(QtGui.QApplication.translate("Form", "Remove anatomical image", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("Form", "Registration settings", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtGui.QApplication.translate("Form", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_start.setText(QtGui.QApplication.translate("Form", "Start preprocessing", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_exit_program.setText(QtGui.QApplication.translate("Form", "Exit", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_load_settings.setToolTip(QtGui.QApplication.translate("Form", "Load all settings from a file.", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_load_settings.setText(QtGui.QApplication.translate("Form", "Load Settings", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_save_settings.setToolTip(QtGui.QApplication.translate("Form", "Save all settings to a file.", None, QtGui.QApplication.UnicodeUTF8))
+        self.b_save_settings.setText(QtGui.QApplication.translate("Form", "Save Settings", None, QtGui.QApplication.UnicodeUTF8))
+
+class MyForm(QtGui.QMainWindow):
+    def __init__(self, app, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        self.app = app
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
+        self.homePath = QtCore.QDir.currentPath()
+        self.myFileList = []
+        self.currentImageIndex = 0
+        self.removeList = []
+        self.removeListEver = []
+        self.anatomicalImageDict = {}
+        self.myProcessList = []
+        self.showDebugOutput = False
+        self.ui.text_output_dir.setText(self.homePath)
+        self.output_dir=self.homePath
+        self.statusBar().showMessage("Welcome!")
+        self.templateDict = {"T1 SPM 1mm fullbrain": "/usr/share/lipsia/templates/T1_spm.v",
+                             "T1 FSL 1mm fullbrain": "/usr/share/lipsia/templates/T1_fsl.v",
+                             "T1 FSL 1mm peeled brain": "/usr/share/lipsia/templates/T1_fsl_peeled.v",
+                             "EPI SPM": "/usr/share/lipsia/templates/epi_spm.v",
+                             "EPI FSL":"/usr/share/lipsia/templates/epi_fsl.v",         
+                             "EPI 2mm":"/usr/share/lipsia/templates/epi_template_2mm.v",
+                             "EPI 3mm":"/usr/share/lipsia/templates/epi_template_3mm.v",
+                             "T1 MNI":"/usr/share/lipsia/templates/mni.v"
+                            }
+        for template, path in self.templateDict.iteritems():
+            if(os.path.isfile(path)):
+                self.ui.template_box.addItem(template)
+        self.ui.template_box.setCurrentIndex(2) 
+        self.helpDict = {"Lipsia help": "/usr/share/doc/lipsia-doc/html/index.html", 
+                         "Lipsia sandbox help":"/usr/share/doc/lipsia-sandbox/html/index.html" }
+        for help, path in self.helpDict.iteritems():
+            if(os.path.isfile(path)):
+                self.ui.help_Box.addItem(help)
+        self.show_help()
+        self.interpolators = ["Linear", "BSpline", "NearestNeighbor"]
+        for inter in self.interpolators:
+            self.ui.interpolator_box.addItem(inter)
+      
+        #list connections
+        QtCore.QObject.connect(self.ui.b_add_data, QtCore.SIGNAL("clicked()"), self.add_data_to_list )
+        QtCore.QObject.connect(self.ui.b_add_data_dir, QtCore.SIGNAL("clicked()"), self.add_dir_to_list )
+        QtCore.QObject.connect(self.ui.b_remove_from_list, QtCore.SIGNAL("clicked()"), self.remove_from_list )
+        QtCore.QObject.connect(self.ui.b_exit_program, QtCore.SIGNAL("clicked()"), self.exit_program )
+        QtCore.QObject.connect(self.ui.b_start, QtCore.SIGNAL("clicked()"), self.start_processing )
+        QtCore.QObject.connect(self.ui.b_output_dir, QtCore.SIGNAL("clicked()"), self.open_output_dir )
+        QtCore.QObject.connect(self.ui.b_add_anatomical_image, QtCore.SIGNAL("clicked()"), self.add_anatomical_image )
+        QtCore.QObject.connect(self.ui.b_view_template, QtCore.SIGNAL("clicked()"), self.view_template_image )
+        QtCore.QObject.connect(self.ui.b_remove_anatomical_image, QtCore.SIGNAL("clicked()"), self.remove_anatomical_image )
+        QtCore.QObject.connect(self.ui.b_save_settings, QtCore.SIGNAL("clicked()"), self.save_settings_to_file )
+        QtCore.QObject.connect(self.ui.b_load_settings, QtCore.SIGNAL("clicked()"), self.load_settings )
+        
+        QtCore.QObject.connect(self.ui.help_Box, QtCore.SIGNAL("currentIndexChanged(int)"), self.show_help )
+        QtCore.QObject.connect(self.ui.check_set_tr, QtCore.SIGNAL("stateChanged(int)"), self.change_tr )
+        QtCore.QObject.connect(self.ui.check_atlas_registration, QtCore.SIGNAL("stateChanged(int)"), self.change_atlas_reg)
+    def show_help(self):
+        self.ui.help_view.setUrl(QtCore.QUrl(self.helpDict[str(self.ui.help_Box.currentText())]))
+        
+    def view_template_image(self):
+        imageToShow = self.templateDict[str(self.ui.template_box.currentText())]
+        os.system("vlv -in " +  imageToShow + " 2> tmpOut")
+        os.remove("tmpOut")
+    
+    def remove_from_list(self):
+        numberSelect = self.ui.listWidget.currentRow()
+        self.myFileList.remove(self.ui.listWidget.item(numberSelect).text())
+        try:
+            del self.anatomicalImageDict[str(self.ui.listWidget.item(numberSelect).text())]
+        except:
+            pass
+        self.ui.listWidget.takeItem(numberSelect)
+        self.ui.listWidget_2.takeItem(numberSelect)
+        
+        
+    def change_tr(self):
+        if(self.ui.check_set_tr.isChecked()):
+            self.ui.text_tr.setEnabled(True)
+        else:
+            self.ui.text_tr.setEnabled(False)
+            
+    def change_atlas_reg(self):
+        if(self.ui.check_atlas_registration.isChecked()):
+            if(not self.ui.template_box.count()):
+                self.throwError("No template image was found. Please make sure you have installed the lipsia-sandbox package!")
+                self.ui.check_atlas_registration.setChecked(False)
+       
+    
+    def save_settings_to_file(self):
+        outputFileName=QtGui.QFileDialog.getSaveFileName(self, "Save settings to file", self.homePath, ("*.lpp"))
+        if(len(outputFileName)):
+            if(string.find(str(outputFileName), ".lpp") == -1):
+                outputFileName += ".lpp"
+            fout = open(outputFileName, "w")
+            fout.write("-myFileList:")
+            for file in self.myFileList:
+                fout.write(file + ";")
+            fout.write("\n-anatomicalImageDict:")
+            for func, ana in self.anatomicalImageDict.iteritems():
+                fout.write(func + "->" + ana + ";")
+            fout.write("\n-options:\n")
+            if(self.ui.check_set_tr.isChecked()):
+                fout.write("repetition_time:" + self.ui.text_tr.text() + "\n")
+            else:
+                fout.write("repetition_time:-1\n")
+            if(self.ui.check_field.isChecked()):
+                fout.write("fieldmapcorrection:True\n")
+            else:
+                fout.write("fieldmapcorrection:False\n")
+            if(self.ui.check_slicetime.isChecked()):
+                fout.write("slicetimecorrection:True\n")
+            else:
+                fout.write("slicetimecorrection:False\n")
+            if(self.ui.check_movement.isChecked()):
+                fout.write("movementcorrection:True\n")
+            else:
+                fout.write("movementcorrection:False\n")
+            if(self.ui.check_atlas_registration.isChecked()):
+                fout.write("registration:True\n")
+            else:
+                fout.write("registration:False\n")
+            if(self.ui.check_show_reg_resuts.isChecked()):
+                fout.write("regresults:True\n")
+            else:
+                fout.write("regresults:False\n")
+            if(self.ui.check_spatial_filtering.isChecked()):
+                fout.write("spatialfiltering:True\n")
+            else:
+                fout.write("spatialfiltering:False\n")
+            if(self.ui.check_temporal_filtering.isChecked()):
+                fout.write("temporalfiltering:True\n")
+            else:
+                fout.write("temporalfiltering:False\n")
+            if(self.ui.check_create_mask.isChecked()):
+                fout.write("maskcreation:True\n")
+            else:
+                fout.write("maskcreation:False\n")
+            fout.write("outputdir:" + self.ui.text_output_dir.text() + "\n")
+            fout.write("prefix:" + self.ui.text_output_prefix.text() + "\n")
+            if(self.ui.check_save_steps.isChecked()):
+                fout.write("saveallsteps:True\n")
+            else:
+                fout.write("saveallsteps:False\n")
+            fout.write("templaterow:" + str(self.ui.template_box.currentIndex()) + "\n")
+            if(self.ui.check_rigid.isChecked()):
+                fout.write("rigidreg:True\n")
+            else:
+                fout.write("rigidreg:False\n")
+            if(self.ui.check_affine.isChecked()):
+                fout.write("affinereg:True\n")
+            else:
+                fout.write("affinereg:False\n")
+            if(self.ui.check_deformable_reg.isChecked()):
+                fout.write("bsplinereg:True\n")
+            else:
+                fout.write("bsplinereg:False\n")
+            if(self.ui.check_show_mask.isChecked()):
+                fout.write("showmask:True\n")
+            else:
+                fout.write("showmask:False\n")    
+            if(self.ui.check_mask_average.isChecked()):
+                fout.write("maskaverage:True\n")
+            else:
+                fout.write("maskaverage:False\n")
+            fout.write("maskmaxvoxel:" + str(self.ui.text_max_voxel_mask.text()) + "\n")
+            fout.write("textiterrigid:" + str(self.ui.text_iter_rigid.text()) + "\n")
+            fout.write("textiteraffine:" + str(self.ui.text_iter_affine.text()) + "\n")
+            fout.write("textiterbspline:" + str(self.ui.text_iter_deformable.text()) + "\n")
+            fout.write("maxdef:" + str(self.ui.text_bound.text()) + "\n")
+            if(self.ui.check_prealign.isChecked()):
+                fout.write("prealign_m:True\n")
+            else:
+                fout.write("prealign_m:False\n")
+            fout.write("interpolator:" + str(self.ui.interpolator_box.currentIndex()) + "\n" )
+            fout.write("resolution:" + self.ui.text_resolution.text() + "\n" )
+            fout.write("fwhm:" + self.ui.text_fwhm.text() + "\n" )
+            fout.write("cutoff_lowpass:" + self.ui.text_lowpass.text() + "\n" )
+            fout.write("cutoff_highpass:" + self.ui.text_highpass.text() + "\n" )
+            if(self.ui.check_highpass.isChecked()):
+                fout.write("highpass:True\n")
+            else:
+                fout.write("highpass:False\n")
+            if(self.ui.check_lowpass.isChecked()):
+                fout.write("lowpass:True\n")
+            else:
+                fout.write("lowpass:False\n")
+            if(self.ui.check_debug_output.isChecked()):
+                fout.write("debugoutput:True\n")
+            else:
+                fout.write("debugoutput:False\n")
+            if(self.ui.check_write_logfile.isChecked()):
+                fout.write("logfile:True\n")
+            else:
+                fout.write("logfile:False\n")
+            fout.close()
+            
+    def load_settings(self):
+        file=QtGui.QFileDialog.getOpenFileName(self, "Load settings from file", self.homePath, ("*.lpp"))
+        if(len(file)):
+            fin = open(file, "r")
+            #clear 
+            del self.myFileList[:]
+            self.anatomicalImageDict.clear()
+            self.ui.listWidget.clear()
+            self.ui.listWidget_2.clear()
+            optionDict = {}
+            for line in fin.readlines():
+                first = str(line.split(":")[0])
+                second = str(line.split(":")[1].replace("\n", ""))
+                try:
+                    optionDict[ first ] = second
+                except:
+                    pass
+            fileList=optionDict["-myFileList"].split(";")
+            fileList.remove("")
+            for file in fileList:
+                self.ui.listWidget.addItem(file)
+                self.myFileList.append(file)
+                anaListString=""
+                for ana in optionDict["-anatomicalImageDict"].split(";"):
+                    if (ana.split("->")[0] == file):
+                        try:
+                            anaListString=file + " -> " + ana.split("->")[1]
+                            break
+                        except:
+                            pass
+                    else:
+                        anaListString=file + " -> "
+                self.ui.listWidget_2.addItem(anaListString)
+                try:
+                    if(len(anaListString.split(" -> ")[1])):
+                        self.anatomicalImageDict[ anaListString.split(" -> ")[0] ] = anaListString.split(" -> ")[1]
+                except:
+                    pass
+            #set options
+            if(optionDict["repetition_time"] == "-1"):
+                self.ui.text_tr.setValue(0)
+                self.ui.check_set_tr.setChecked(False)
+            else:
+                self.ui.text_tr.setValue(float(optionDict["repetition_time"]))
+                self.ui.check_set_tr.setChecked(True)
+            if(optionDict["fieldmapcorrection"] == "True"):
+                self.ui.check_field.setChecked(True)
+            else:
+                self.ui.check_field.setChecked(False)
+            if(optionDict["slicetimecorrection"] == "True"):
+                self.ui.check_slicetime.setChecked(True)
+            else:
+                self.ui.check_slicetime.setChecked(False)
+            if(optionDict["movementcorrection"] == "True"):
+                self.ui.check_movement.setChecked(True)
+            else:
+                self.ui.check_movement.setChecked(False)
+            if(optionDict["registration"] == "True"):
+                self.ui.check_atlas_registration.setChecked(True)
+            else:
+                self.ui.check_atlas_registration.setChecked(False)
+            if(optionDict["regresults"] == "True"):
+                self.ui.check_show_reg_resuts.setChecked(True)
+            else:
+                self.ui.check_show_reg_resuts.setChecked(False)
+            if(optionDict["spatialfiltering"] == "True"):
+                self.ui.check_spatial_filtering.setChecked(True)
+            else:
+                self.ui.check_spatial_filtering.setChecked(False)
+            if(optionDict["temporalfiltering"] == "True"):
+                self.ui.check_temporal_filtering.setChecked(True)
+            else:
+                self.ui.check_temporal_filtering.setChecked(False)
+            if(optionDict["maskcreation"] == "True"):
+                self.ui.check_create_mask.setChecked(True)
+            else:
+                self.ui.check_create_mask.setChecked(False)
+            if(optionDict["saveallsteps"] == "True"):
+                self.ui.check_save_steps.setChecked(True)
+            else:
+                self.ui.check_save_steps.setChecked(False)
+            if(optionDict["rigidreg"] == "True"):
+                self.ui.check_rigid.setChecked(True)
+            else:
+                self.ui.check_rigid.setChecked(False)
+            if(optionDict["affinereg"] == "True"):
+                self.ui.check_affine.setChecked(True)
+            else:
+                self.ui.check_affine.setChecked(False)
+            if(optionDict["bsplinereg"] == "True"):
+                self.ui.check_deformable_reg.setChecked(True)
+            else:
+                self.ui.check_deformable_reg.setChecked(False)
+            if(optionDict["prealign_m"] == "True"):
+                self.ui.check_prealign.setChecked(True)
+            else:
+                self.ui.check_prealign.setChecked(False)
+            if(optionDict["highpass"] == "True"):
+                self.ui.check_highpass.setChecked(True)
+            else:
+                self.ui.check_highpass.setChecked(False)
+            if(optionDict["lowpass"] == "True"):
+                self.ui.check_lowpass.setChecked(True)
+            else:
+                self.ui.check_lowpass.setChecked(False)
+            if(optionDict["debugoutput"] == "True"):
+                self.ui.check_debug_output.setChecked(True)
+            else:
+                self.ui.check_debug_output.setChecked(False)
+            if(optionDict["logfile"] == "True"):
+                self.ui.check_write_logfile.setChecked(True)
+            else:
+                self.ui.check_write_logfile.setChecked(False)
+            if(optionDict["showmask"] == "True"):
+                self.ui.check_show_mask.setChecked(True)
+            else:
+                self.ui.check_show_mask.setChecked(False)
+            if(optionDict["maskaverage"] == "True"):
+                self.ui.check_mask_average.setChecked(True)
+                self.ui.check_mask_every.setChecked(False)
+            else:
+                self.ui.check_mask_average.setChecked(False)
+                self.ui.check_mask_every.setChecked(True)
+            self.ui.text_output_dir.setText(optionDict["outputdir"])
+            self.output_dir = optionDict["outputdir"]
+            self.ui.text_max_voxel_mask.setValue(int(optionDict["maskmaxvoxel"]))
+            self.ui.template_box.setCurrentIndex(int(optionDict["templaterow"]))
+            self.ui.text_output_prefix.setText(optionDict["prefix"])
+            self.ui.text_iter_rigid.setValue(int(optionDict["textiterrigid"]))
+            self.ui.text_iter_affine.setValue(int(optionDict["textiteraffine"]))
+            self.ui.text_iter_deformable.setValue(int(optionDict["textiterbspline"]))
+            self.ui.text_bound.setValue(int(optionDict["maxdef"]))
+            self.ui.interpolator_box.setCurrentIndex(int(optionDict["interpolator"]))
+            self.ui.text_resolution.setText(optionDict["resolution"])
+            self.ui.text_fwhm.setValue(int(optionDict["fwhm"]))
+            self.ui.text_highpass.setValue(int(optionDict["cutoff_highpass"]))
+            self.ui.text_lowpass.setValue(int(optionDict["cutoff_lowpass"]))
+    
+    def open_output_dir(self):
+        self.output_dir=QtGui.QFileDialog.getExistingDirectory(self, "Ouput directory", self.homePath)
+        self.ui.text_output_dir.setText(self.output_dir)
+        
+    def add_anatomical_image(self):
+        row = self.ui.listWidget_2.currentRow()
+        if (not row == -1):
+            anaImage=QtGui.QFileDialog.getOpenFileName(self, "Select anatomical image", self.homePath, ("Image (*.nii *.v)"))
+            if(len(anaImage)):
+                funcFile = (str(self.ui.listWidget_2.item(row).text()).split(" -> "))[0]
+                self.anatomicalImageDict[funcFile] = anaImage    
+                listString = funcFile + " -> " + anaImage
+                self.ui.listWidget_2.takeItem(row)
+                self.ui.listWidget_2.insertItem(row, listString)
+                self.ui.template_box.setCurrentIndex(0)
+                
+    def remove_anatomical_image(self):
+        row = self.ui.listWidget_2.currentRow()
+        if (not row == -1):
+            listString = str(self.ui.listWidget_2.item(row).text())
+            funcImage = listString.split(" -> ")[0] + " -> "
+            self.ui.listWidget_2.takeItem(row)
+            self.ui.listWidget_2.insertItem(row, funcImage)
+            del self.anatomicalImageDict[funcImage.rstrip(" -> ")]
+            if(not len(self.anatomicalImageDict) ):
+                self.ui.template_box.setCurrentIndex(3)
+        
+    def add_data_to_list(self):
+        dataList=QtGui.QFileDialog.getOpenFileNames(self, "Select images", self.homePath, ("Images (*.nii *.v)"))
+        if(len(dataList)):
+            for fileName in dataList:
+                self.ui.listWidget.addItem(fileName)
+                self.ui.listWidget_2.addItem(fileName + " -> ")
+                self.myFileList.append(fileName)
+    
+    def add_dir_to_list(self):
+        dataDir=QtGui.QFileDialog.getExistingDirectory(self, "Data directory", self.homePath)
+        if(len(dataDir)):
+            self.ui.listWidget.addItem(dataDir)
+            self.ui.listWidget_2.addItem(dataDir + " -> ")
+            self.myFileList.append(dataDir)
+
+#############################################################################            
+    
+            
+            
+    def convertAndCheck(self, myFile):
+        myFile = self.convertFiles(myFile)
+        if(self.checkAll(myFile)):
+            self.myProcessList.append(myFile)
+            return True
+        else:
+            return False
+        
+
+    def convertFiles(self, myFile):
+        self.progress()
+        readFormat=""
+        if( string.find(myFile, ".v") == -1 and string.find(myFile, ".nii") == -1 and string.find(myFile, ".ima") == -1 and string.find(myFile, ".dcm") == -1 ):
+            readFormat = "-rf .ima"
+        if( string.find(myFile, ".v") == -1 or self.ui.check_set_tr.isChecked() ):
+            self.debugOutput("Converting " + myFile + " to vista...", True)
+            outFile = myFile.rstrip("/")
+            outFile = outFile.rstrip(".nii")
+            outFile = outFile.rstrip(".v")
+            outFile = outFile.split("/")[len(outFile.split("/"))-1]
+            #outFile = "conv_" + outFile
+            if(self.ui.check_set_tr.isChecked()):
+                tr = self.ui.text_tr.text()
+                self.applyCommand("vvinidi -in " + myFile + " -out " + str(self.output_dir).rstrip("/") + "/" + outFile + ".v -tr " + str(tr) + " " + readFormat)
+            else:
+                self.applyCommand("vvinidi -in " + myFile + " -out " + str(self.output_dir).rstrip("/") + "/" + outFile + ".v " + readFormat)
+            self.removeList.append(str(self.output_dir).rstrip("/") + "/" + outFile + ".v")
+            return str(self.output_dir).rstrip("/") + "/" + outFile + ".v"
+        else:
+            return myFile
+        
+            
+    def checkAll(self, myFile):
+        #check for TR
+        self.progress()
+        if((self.ui.check_temporal_filtering.isChecked() or self.ui.check_movement.isChecked()) and not self.ui.check_set_tr.isChecked()):
+            if( not self.checkHeaderFor(myFile, "repetition_time") ):
+                self.throwError("The repetition time in " + myFile + " is missing. Please set it manually.")
+                return False
+        #check for slicetime
+        if( self.ui.check_slicetime.isChecked()):
+            if( not self.checkHeaderFor(myFile, "slice_time") ):
+                self.throwError("The slicetime information in " + myFile + " is missing. Please deselect slicetime correction.")
+                return False
+            
+        return True
+        
+    def start_processing(self):
+        if(len(self.myFileList)):
+            self.calculateProgressBar()
+            self.ui.progressBar.setValue(0)
+            self.ui.b_start.setEnabled(False)
+            for myFile in self.myFileList:
+                if (self.convertAndCheck(str(myFile))):
+                    checked = True
+                else:
+                    checked = False
+                    break
+            if (checked):
+                finalList=[]
+                for file in self.myProcessList:
+                    origName = file
+                    if(self.ui.check_slicetime.isChecked()):
+                        file = self.doSliceTimeCorrection(file)
+                    if(self.ui.check_movement.isChecked()):
+                        file = self.doMovementCorrection(file)
+                    if(self.ui.check_atlas_registration.isChecked()):
+                        file = self.doRegistration(file)
+                    if(self.ui.check_spatial_filtering.isChecked()):
+                        file = self.doSpatialFiltering(file)
+                    if(self.ui.check_temporal_filtering.isChecked()):
+                        file = self.doTemporalFiltering(file)
+                    if(self.ui.check_create_mask.isChecked() and self.ui.check_mask_every.isChecked()):
+                        self.doCreateMaskFromFile(file, origName)
+                    finalList.append(file)
+                    outFile = str(self.output_dir).rstrip("/") + "/" + self.ui.text_output_prefix.text() + origName.split("/")[len(origName.split("/"))-1]
+                    self.applyCommand("cp " + file + " " + outFile)
+                if(self.ui.check_create_mask.isChecked() and self.ui.check_mask_average.isChecked()):
+                    self.doCreateMaskAverage(finalList)
+                        
+                self.currentImageIndex += 1
+            else:
+                print "Processing stopped!"
+    #        self.ui.progressBar.setValue(0)
+            self.progress()
+            self.currentImageIndex = 0
+            self.debugOutput("Done!", True)
+            self.ui.b_start.setEnabled(True)
+        
+#################################################################################
+
+
+    def doSliceTimeCorrection(self,file):
+        self.progress()
+        self.debugOutput("Applying slicetime correction to " + file + "...", True)
+        outFile = str(self.output_dir).rstrip("/") + "/slicetime_" + file.split("/")[len(file.split("/"))-1]
+        self.applyCommand("vslicetime -in " + str(file) + " -out " + str(outFile))
+        self.removeList.append(outFile)
+        return outFile
+
+    def doMovementCorrection(self,file):
+        self.progress()
+        self.debugOutput("Applying movement correction to " + file + "...", True)
+        outFile = str(self.output_dir).rstrip("/") + "/movcorr_" + file.split("/")[len(file.split("/"))-1]
+        self.applyCommand("vmovcorrection -in " + str(file) + " -out " + str(outFile))
+        self.removeList.append(outFile)
+        return outFile
+    
+    def doRegistration(self, file):
+        self.progress()
+        outFile = str(self.output_dir).rstrip("/") + "/reg_" + file.split("/")[len(file.split("/"))-1]
+        #registration
+        prealign = ""
+        if(self.ui.check_prealign.isChecked()):
+            prealign = " -prealign_mass"
+        bound = self.ui.text_bound.text()
+        iter_bspline = self.ui.text_iter_deformable.text()
+        iter_affine = self.ui.text_iter_affine.text()
+        iter_rigid = self.ui.text_iter_rigid.text()
+        transform = "0"
+        optimizer = "0"
+        resolution = str(self.ui.text_resolution.text()).replace(",", " ", 3)
+        max_iterations = iter_rigid
+        if(self.ui.check_affine.isChecked()):
+            optimizer += " 0"
+            transform += " 1"
+            max_iterations += " " + iter_affine
+        if(self.ui.check_deformable_reg.isChecked()):
+            optimizer += " 2"
+            transform += " 2"
+            max_iterations += " " + iter_bspline
+        interpolator = self.ui.interpolator_box.currentText()
+        #check if an anatomical image was specified
+        origFile = str(self.myFileList[self.currentImageIndex])
+        movingFile = file
+        try:
+            movingFile = self.anatomicalImageDict[str(origFile)]
+        except:
+            pass
+        self.debugOutput("Registration of " + movingFile + " on " + str(self.ui.template_box.currentText()) + "..." , True)
+        self.applyCommand("valign3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + movingFile + " -trans trans.nii -transform " + transform + " -optimizer " + optimizer + " -bound " + str(bound) + " " + prealign + " -iter " + str(max_iterations) + " -v")
+        #resampling
+        if(self.ui.check_show_reg_resuts.isChecked()):
+            self.progress()
+            self.debugOutput("Resampling the image to check the registration result...", True)
+            self.applyCommand("vdotrans3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + movingFile + " -trans trans.nii -out regResult.v")
+            self.debugOutput("Opening viewer to show the registration results. Close it to continue!", True)
+            self.applyCommand("vlv -in " + self.templateDict[str(self.ui.template_box.currentText())] + " regResult.v")
+        self.debugOutput("Resampling the image " + outFile + "...", True)
+        self.progress() 
+        self.applyCommand("vdotrans3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + file + " -trans trans.nii -res " + resolution + " -fmri -out " + outFile + " -interpolator " + str(interpolator))
+        self.removeList.append(outFile)
+        self.removeListEver.append("trans.nii")
+        self.removeListEver.append("regResult.v")
+        return outFile
+
+
+    def doSpatialFiltering(self,file):
+        self.progress()
+        outFile = str(self.output_dir).rstrip("/") + "/sfilter_" + file.split("/")[len(file.split("/"))-1]
+        self.debugOutput("Applying spatial filter to " + file + "...", True)
+        self.applyCommand("vpreprocess -in " + file + " -out " + outFile + " -fwhm " + self.ui.text_fwhm.text())
+        self.removeList.append(outFile)
+        return outFile
+        
+    def doTemporalFiltering(self,file):
+        self.progress()
+        outFile = str(self.output_dir).rstrip("/") + "/tfilter_" + file.split("/")[len(file.split("/"))-1]
+        self.debugOutput("Applying temporal filter to " + file + "...", True)
+        highString=lowString=""
+        if(self.ui.check_highpass.isChecked()):
+            highString=" -high " + str(self.ui.text_highpass.value())
+        if(self.ui.check_lowpass.isChecked()):
+            lowString=" -low " + str(self.ui.text_lowpass.value())
+        self.applyCommand("vpreprocess -in " + file + "  -out " + outFile + highString + lowString)
+        self.removeList.append(outFile)
+        return outFile
+
+    def doCreateMaskFromFile(self,file,origName):
+        self.progress()
+        maskFile = str(self.output_dir).rstrip("/") + "/mask_" + origName.split("/")[len(origName.split("/"))-1]
+        self.debugOutput("Creating mask for image " + origName + "...", True)
+        self.applyCommand("vtimestep -in " + file + " -out tmpTimeStep.v")
+        self.createMask("tmpTimeStep.v", maskFile)
+        
+    def doCreateMaskAverage(self,imageList):
+        self.progress()
+        imageString = ""
+        index=0
+        timestepList = []
+        for file in imageList:
+            self.applyCommand("vtimestep -in " + file + " -out " + str(index) + ".v")
+            timestepList.append(str(index) + ".v")
+            self.removeListEver.append(str(index) + ".v")
+            imageString += str(index) + ".v "
+            index+=1
+        self.applyCommand("vave -in " + imageString + " -out tmpAverage.v")
+        self.removeTmpFiles()
+        self.createMask("tmpAverage.v", str(self.output_dir).rstrip("/") + "/" + "mask.v")
+        self.removeListEver.append("tmpAverage.v")
+        
+    def createMask(self,input,output):
+        self.debugOutput("Creating mask...", True)
+        threshold = 70
+        maxvoxel = int(self.ui.text_max_voxel_mask.text())
+        voxelcount = maxvoxel + 1
+        self.removeListEver.append("tmpMask.v")
+        self.removeListEver.append("tmpMaskSmoothed.v")
+        self.removeListEver.append("tmpMaskFloat.v")
+        self.removeListEver.append("volumeinfo.tmp")
+        while(voxelcount > maxvoxel):
+            self.applyCommand("vbinarize -in " + input + " -out tmpMask.v -min "+ str(threshold))
+            self.applyCommand("vsmooth3d -in tmpMask.v -out tmpMaskSmoothed.v -iter 1000")
+            self.applyCommand("vconvert -in tmpMaskSmoothed.v -out tmpMaskFloat.v -repn float")
+            os.system("volumeinfo -in tmpMaskSmoothed.v 2> volumeinfo.tmp")
+            volumefile = open("volumeinfo.tmp")
+            lines = volumefile.readlines()
+            for line in lines:
+                if(string.find(line, "0:") != -1):
+                    voxelcount =  float((line.split(":")[1].split(",")[1]).rstrip("\n"))
+            threshold+=1
+            if(threshold == 255):
+                self.throwError("Creating of mask failed!")
+                return False
+        if(self.ui.check_show_mask.isChecked()):
+            self.applyCommand("vlv -in " + input + " -z tmpMaskFloat.v")
+        self.applyCommand("mv tmpMaskSmoothed.v " + output)
+            
+        
+        
+        
+#################################################################################
+
+
+    def calculateProgressBar(self):
+        maxProgress=0
+        self.ui.progressBar.setMaximum(maxProgress)
+        #converting + check:
+        maxProgress+=len(self.myFileList)*2
+        if(self.ui.check_slicetime.isChecked()):
+            maxProgress+=len(self.myFileList)
+        if(self.ui.check_movement.isChecked()):
+            maxProgress+=len(self.myFileList)
+        if(self.ui.check_atlas_registration.isChecked()):
+            maxProgress+=len(self.myFileList)*2
+        if(self.ui.check_show_reg_resuts.isChecked()):
+            maxProgress+=len(self.myFileList)
+        if(self.ui.check_spatial_filtering.isChecked()):
+            maxProgress+=len(self.myFileList)
+        if(self.ui.check_temporal_filtering.isChecked()):
+            maxProgress+=len(self.myFileList)
+        if(self.ui.check_create_mask.isChecked() and self.ui.check_mask_every.isChecked()):
+            maxProgress+=len(self.myFileList)
+        if(self.ui.check_create_mask.isChecked() and self.ui.check_mask_average.isChecked()):
+            maxProgress+=1
+        self.ui.progressBar.setMaximum(maxProgress)
+        
+
+    def checkHeaderFor(self, file, attribute):
+        self.debugOutput("Checking " + file + " for attribute " + attribute, True)
+        os.system("less " + str(file) + " > check")
+        checkFile = open("check")
+        for line in checkFile.readlines():
+            if(string.find(line, attribute) != -1):
+                checkFile.close()
+                os.remove("check")
+                return True
+        return False
+        
+    def progress(self, size=1):
+        value = self.ui.progressBar.value() + size
+        self.ui.progressBar.setValue(value)
+        self.app.processEvents()
+        
+    def throwError(self, msg):
+        QtGui.QMessageBox.critical(self, "Error", msg)
+        
+    def debugOutput(self, outString, statusBar):
+        if(self.ui.check_debug_output.isChecked()):
+            print outString
+        if(statusBar):
+            self.statusBar().showMessage(outString)
+            self.app.processEvents()
+            
+    def applyCommand(self, command):
+        if (self.ui.check_debug_output.isChecked()):
+            print "-> " + command
+            os.system(str(command))
+        else:
+            os.system(str(command) + " > tmpOut 2> tmpOut")
+            
+    def removeTmpFiles(self):
+        for fileToRemove in self.removeListEver:
+            try:
+                os.remove(fileToRemove)
+            except:
+                pass
+            
+    def exit_program(self):
+        self.removeTmpFiles()
+        self.debugOutput("Removing temporary files. Please standby...", True)
+        if(not self.ui.check_save_steps.isChecked()):
+            for fileToRemove in self.removeList:
+                try:
+                    os.remove(fileToRemove)
+                except:
+                    pass           
+        try:
+            os.remove("tmpOut")
+        except:
+            pass
+        print "Good bye!"
+
+
+
+def main():
+    app = QtGui.QApplication(sys.argv)
+    myapp = MyForm(app)
+    myapp.show()
+    
+    sys.exit(app.exec_())
+
+
+
+#main
+if __name__ == '__main__':
+    main()

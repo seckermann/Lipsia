@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Data conversion with vvinidi</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA sandbox 0.2.0&nbsp;&nbsp;&nbsp; Data conversion with vvinidi</div>
+
+<p>
+
+<div class="subtitle"><b>Data conversion </b></div>
+<div class="content">
+For converting data within the file formats dicom, nifti and vista you can use the tool <b>vvinidi</b> included in the lipsia-sandbox package. The only exception is writing of file format dicom. That is not possible at this time.<br>
+
+</div>
+<p>
+<div class="subtitle"><b>Usage of vvinidi</b></div>
+<div class="content">
+The usage of vvinidi is just as straightforward as you can imagine. For simple conversion you only have to type the input image file and the output image file.<br>
+For instance, the conversion from type nifti into type vista looks just like:
+
+<br><br>
+> <tt> vvinidi -in input.nii -out output.v </tt>
+<br><br>
+
+</div>
+
+<div class="subtitle"><b>Special cases you have to consider</b></div>
+<div class="content">
+
+<b> Using FSL </b><br><br>
+If you are using FSL and want to convert an image of any type into format nifti, you have to attach the parameter 
+<b>-wdialect fsl</b>.
+
+<br><br>
+> <tt> vvinidi -in #image of any type# -out output.nii -wdialect fsl</tt>
+<br><br>
+The parameter -wdialect denotes the dialect used for writing the image. Equally there is a parameter <b>-rdialect</b> which refers to the dialect used to read an image.<br><br>
+
+<b> Reading functional vista data </b><br><br>
+
+Normally vvinidi tries to detect whether the image contains functional data or anatomical data. But unfortunately, there are some cases which do not fit in the pattern of detection, particularly when reading functional vista images. <br>
+So if the automatic detection of the functional vista image is not successful you can attach the parameter <b>-rdialect functional</b>.
+
+<br><br>
+> <tt> vvinidi -in functional.v -out output.nii -rdialect functional</tt>
+<br><br>
+
+<b> Specify repetition time </b><br><br>
+
+vvinidi gives you the chance to set the repetition time (in seconds) of your output image by attaching the parameter <b>-tr</b>.
+
+<br><br>
+> <tt> vvinidi -in input.nii -out output.v -tr 3.5</tt>
+<br><br>
+
+</div>
+</div>
+
+<div class="subtitle"><b>Using vvinidi as a data type conversion tool</b></div>
+<div class="content">
+
+Consider you just want to convert the data type of an image. That is, changing the pixel representation (e.g. from short into float) but retaining the image format. This can be achieved by adding the parameter <b>-repn </b> <i>representation</i>.
+ 
+<br><br>
+> <tt> vvinidi -in input.nii -out output.nii -repn float</tt>
+<br><br>
+
+Of course you can convert the pixel representation <b>and</b> the image format in one step.
+<br><br>
+> <tt> vvinidi -in input.nii -out output.v -repn float</tt>
+<br><br>
+
+</div>
+<div class="subtitle"><b>Reporting bugs</b></div>
+<div class="content">
+
+Because image conversion is sort of a life task it is almost impossilbe to provide for all contingencies. So if you take notice of something odd regarding the tool vvinidi and its output do not hesitate to report this either to <b>tuerke@cbs.mpg.de</b> or <b>reimer@cbs.mpg.de</b>. But please be sure your input image data is not corrupted prior to blame the data conversion itself. Thanks!
+
+</div>
+<br><br>
+
+<a name="vecm"></a>
+<div class="headtitle"><b>Parameters of 'vvinidi'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-rdialect<DD> 
+        Dialect for reading. The available dialects depend on the capabilities of IO plugins.
+    <DT>-wdialect<DD> 
+	Dialect for writing. The available dialects depend on the capabilities of IO plugins.
+    <DT>-repn<DD> 
+	Representation in which the data shall be written. <br>
+	Options are: {boolean,color<u16bit>,color<u8bit>,double,dvector4,float,fvector4,ivector4,s16bit,s32bit,s64bit,s8bit,u16bit,u32bit,u64bit,u8bit}
+    <DT>-tr<DD> 
+	Repetition time in s.
+    <DT>-rf<DD> 
+	Override automatic detection of file suffix for reading with given value.
+    <DT>-wf<DD> 
+	Override automatic detection of file suffix for writing with given value.
+</DL>
+
+</div>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

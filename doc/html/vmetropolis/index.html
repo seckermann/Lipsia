@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Generate a randomized experimental design</div>
+
+<div class="headtitle">vmetropolis</div>
+
+<div class="content">
+The program 'vmetropolis' generates an experimental design. The design 
+will be randomized according to a user-supplied specification.
+'vmetropolis' tries to find a randomized order of trials and events such
+that user-specified transition probabilities are met.
+
+<br><p>
+
+Here is an  example:<br><p>
+
+<tt><b><a href="#vmetropolis">
+<u>vmetropolis</u></a> -in spec.txt -ntypes 3 -seed 17 -report liste.txt
+</b></tt>
+
+<br><p>
+The input file contains a specification of the desired design.
+The first few lines list the number of trials per event type.
+E.g. if the experiment contains 3 experimental events, then
+the first 3 lines must contain the number of trials per event.
+Example:<br><br>
+7<br>
+9<br>
+8<br>
+<br>
+In this case, the first event has 7 trials, the second has 9 trials,
+and so forth.
+The number of event types must be specified with the parameter
+"-ntypes".
+<br><p>
+The following lines of the input file specify the
+transition probabilities. Example:
+<br><p>
+    0.143    0.571    0.286<br>
+    0.333    0.444    0.222<br>
+    0.286    0.143    0.571<br>
+<br>
+The first row of the matrix specifies the transition probabilities
+of type 0 trials, the second row specifies the transition probabilities
+if type 1 trials and so forth.
+Here, it is specified that
+trials of event type 0 preceed trials of the same type  with probability 0.143.
+Type 0 trials preceed trials of type 1 with probability 0.571,
+and they preceed type 2 trials in 0.286 percent of the cases.
+The second row says that type 1 trials preceed trial 0 trials with
+probability 0.333, and so forth.
+<br><p>
+More formally, the transition matrix gives the transition probabilities for
+the following pairs of event types:
+<br><p>
+(0,0) (0,1) (0,2)<br>
+(1,0) (1,1) (1,2)<br>
+(2,0) (2,1) (2,2)<br>
+<p>
+The transition probabilities may also be negative numbers.
+In this case, the transition is considered irrelevant
+and will be ignored by the algorithm.
+<br><p>
+Commentary lines in the input file must begin with the symbol '#'.
+<br><p>
+The program 'vmetropolis' tries to obey these requirements as
+best as possible, even in cases  where the specification is
+inconsistent.
+The program uses the Metropolis-algorithm and simulated annealing.
+<br><p>
+The program first outputs  a randomized initial permutation sequence
+which contains the correct number of trials per event type but does
+not reflect the transition probabilities. In the above example, the first
+output might be:
+<br><p>
+initial random permutation:<br>
+2 1 1 2 2 0 0 1 2 1 0 2 1 1 1 2 0 0 1 0 2 1 0 2
+<br><p>
+After some computation, the algorithm will then output the resulting
+trial sequence that obeys the transition probabilities as best as possible.
+In this case:
+<br><p>
+resulting sequence:<br>
+0 1 2 2 0 2 1 1 0 1 0 0 1 1 0 2 2 2 0 1 1 1 2 2
+<br><p>
+Sometimes, it may be useful to produce another sequence with the
+same specification. In this case, the program should be started again with
+a different seed for the random number generator, e.g. '-seed 890'.
+</div>
+
+<a name="vmetropolis"></a>
+<div class="headtitle">Parameters of 'vmetropolis':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-report<DD>
+        File containing output report. Required.
+    <DT>-ntypes<DD>
+        Number of event types. Default: (none)
+    <DT>-seed<DD> 
+        Seed for random number generator. Default: 42
+    <DT>-iter<DD> 
+        Maximum number of iterations. Default:-1 (representing
+9999999 iterations)
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

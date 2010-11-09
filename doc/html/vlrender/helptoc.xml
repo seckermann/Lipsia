@@ -1,0 +1,10 @@
+<toc>
+	<entry title="About VLRender" file="about.html" />
+	<entry title="Using VLRender" file="using.html" >
+		<entry title="Clipping" file="clipping.html" />
+		<entry title="Adjusting the image"  file="adjusting.html"/>
+		<entry title="Projection" file="projection.html" />
+		<entry title="Saving" file="saving.html" />
+	</entry>
+	<entry title="Shortcuts" file="shortcuts.html" />
+</toc>

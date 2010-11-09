@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Using VLRender</title>
+<link href="style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h1>Adjusting the image</h1>
+
+<div class="content">
+<p>
+The adjust the image, you can use the <i>Adjust Dialog</i>. To open it either press the
+<img src="images/adjust.png" alt="Adjust Button" /> button or select <i>Adjust Rendering</i> in
+the <i>Options</i> menu.
+</p>
+<img src="images/adjustdlg.png" alt="Adjust Dialog" />
+<p>
+As you can see the dialog has 3 states:
+<h2>Rotation</h2>
+<p>
+In the rotation mode, you can rotate the rendered object. Each of the sliders in the second half of the dialog represents
+one axis of the coordinate system. By moving a slider you rotate the rendered object.   
+</p>
+<h2>z-Values</h2>
+<p>
+If you activated the z-mapping, you only see values in two thresholds. With the two sliders, you can change these.
+</p>
+<p>
+If you are in the projection mode, it will automaticly deactivated and a recalculation of the projection
+is needed. You should also be aware, that the greater the thresholds, the more time it will take to
+calculate the projection.
+</p>
+<h3>Opacity</h3>
+<p>
+'vlrender' clips voxel if there value is lower than a value. This value is called the lower Opacity.
+</p>
+<p>
+Using the sliders for opacity it is possible to gain a better looking images than the image created by the default values.
+So feel free to play with the sliders.</p>
+<p>Only the anatomy data is effected by this values. The zmap remains the same.</p>
+
+</div>
+</body>
+</html>

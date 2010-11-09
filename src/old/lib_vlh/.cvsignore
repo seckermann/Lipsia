@@ -1,0 +1,5 @@
+*.lo
+moc_*
+libvlh.la
+Makefile.in
+Makefile

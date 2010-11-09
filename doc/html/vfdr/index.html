@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; False Discovery Rate</div>
+
+<div class="headtitle">vfdr</div>
+<div class="content">
+The program 'vfdr' provides one approach to the correction of results from
+statistical significance tests for multiple comparisons.</div>
+<div class="subtitle">Background</div>
+<div class="content">
+<p>The Benjamini & Hochberg (1995) False Discovery Rate (FDR) procedure
+finds a threshold such that the expected FDR is at most alpha (e.g. 0.05).
+'vfdr' returns this critical threshold and applies that threshold to a
+map of z-values.</p>
+
+
+<p><u>Reference:</u><br>
+Benjamini and Hochberg (1995). Controlling the False Discovery Rate: A
+Practical and Powerful Approach to Multiple Testing. <i>J Royal Stat Soc,
+Ser B.</i> <b>57</b>:289-300.<br><p>
+
+In the fMRI context, the FDR can be found in
+
+<p><u>Reference:</u><br>
+Christopher R. Genovese, Nicole A. Lazar, Thomas E. Nichols (2002). 
+Thresholding of statistical maps in functional neuroimaging
+using the false discovery rate. <i>NeuroImage</i> <b>15</b>:870-878.<br><p>
+
+</div>
+
+<div class="subtitle">FDR procedure</div>
+
+<div class="content">
+<p>For a given threshold on a statistic image, the False Discovery Rate
+is the proportion of supra-threshold voxels which are false positives.
+Recall that the thresholding of each voxel consists of a hypothesis
+test, where the null hypothesis is rejected if the statistic is larger
+than the threshold.  In this terminology, the FDR is the proportion of
+rejected tests where the null hypothesis is actually true.</p>
+
+<p>A FDR procedure produces a threshold that controls the expected 
+FDR at or below alpha (implemented in 'vfdr').  
+The FDR-adjusted p-value for a voxel is the smallest alpha
+for which the voxel is supra-threshold.</p>
+
+<p>The Benjamini and Hochberg procedure is the following:
+<UL style> 
+<li>Select desired limit alpha (mostly alpha=0.05) on E(FDR)
+<li>Order the p-values p(1)<= p(2)<= ...<= p(V)
+<li>Let r be the largest i such that p(i)<= alpha x i / V
+<li>Reject all hypotheses corresponding to p(1),...,p(r)
+</UL></p>
+
+</div>
+
+<br>
+
+<div class="subtitle">Computing the critical height threshold</div>
+<div class="content">
+<p>The False Discovery critical height threshold can be computed for zmaps.</p>
+
+<tt><b><a href="#vfdr"><u>vfdr</u></a> 
+-in zmap.v</b></tt><br><p>
+
+this call yields the following output:<br><p>
+
+<pre>
+> vfdr -in zmap.v -out map.v
+   significant:  2317 of 10759
+ FDR threshold:  p= 0.01085,  z= 2.29554
+ p0= 0.010851
+ areas with less than 3 voxels deleted.
+ significant voxels: 2316
+vfdr: done.
+</pre>
+
+<p>Note that p is set to 1 for all voxels with negative z-values. If
+negative z-scores are to be analyzed, 'vfdr' can be called with the option '-sign neg' in the following way:</p>
+
+<tt><b><a href="#vfdr"><u>vfdr</u></a> 
+-in zmap.v -sign neg</b></tt><br><p>
+
+<p>The z threshold can be applied to the input z-map using vfdr with the option '-out'. Overmore,
+a minimum area size in mm^3 can be specified:</p>
+
+<tt><b><a href="#vfdr"><u>vfdr</u></a> 
+-in zmap.v -minsize 81 -out map.v</b></tt><br><p>
+
+</div>
+
+
+<a name="vfdr"></a>
+<div class="headtitle">Parameters of 'vfdr':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Thresholded output file. Default: (none)	
+    <DT>-sign [ pos | neg ]<DD> 
+        Whether pto analyze ositive or negative values. <br> 
+	Default: pos
+    <DT>-alpha<DD> 
+        Threshold. Default: 0.05
+    <DT>-minsize<DD> 
+        Minimum area size in mm^3. Default: 81
+
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

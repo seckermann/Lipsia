@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Rotation into Talairach space - brain peeling </div>
+
+<div class="headtitle">vtal</div>
+
+<div class="content">
+The program 'vtal' rotates a high-resolution T1-weighted MR image into the stereotactic coordinate
+system. The origin of the cordinate system is located at CA.
+Our coordinate differs from the standard Talairach system in that the data sets are not scaled
+to a standard size. To scale images into a standard size, use the program <a href="../vnormalize/index.html">'vnormalize'</a>.<br><p>
+
+In addition, 'vtal' optionally also
+performs a "brain peeling", i.e. it removes non-brain matter from the image.
+</div>
+
+<div class="subtitle">Usage</div>
+
+<div class="content">
+Here is an example:<br><p>
+
+<tt><b><a href="#vtal"><u>vtal</u></a> -in infile.v -out outfile.v -type 0 -ca 100 120 103
+-cp 100 130 105 -angle 5
+</b></tt>
+
+<br><p>
+The input into 'vtal' is an MR-image with isotropic voxels. The voxel coordinates
+of CA and CP must be known beforehand. They can be obtained either manually
+or automatically by calling the program 'vcacp'.<br><p>
+
+
+The parameter '-type' specifies the type of operation to be performed. If type=0, then
+both brain peeling and the coordinate transformation are performed.
+<br><p>
+If type=1, then the coordinate transformation but no brain peeling
+is performed. However, 'vtal' internally performs a brain segmentation in order to 
+obtain the brain size and adds the attribute 'extent' to the file header. The output image
+is not segmented. The brain size
+is needed in many applications to compute Talairach coordinates and perform linear
+scaling operations. 
+
+<br><p>
+If type=2, then only the coordinate transformation but no brain peeling is performed. 
+This option is useful in cases where a reliable brain segmentation is impossible.
+Note that in this case, the brain size (attribute 'extent') is NOT computed.
+Thus, it is not possible to obtain Talairach coordinates for such images.
+However, the parameter 'extent' may be added manually using the program 'vattredit'.
+
+<br><p>
+Brain peeling is performed by using a sequence of morphological operations.
+These operations can optionally be influenced by the parameters '-d1', '-d2'.
+
+<br><p>
+The parameter '-size' controls the size of the output image matrix.
+The default size ('-size small') is 160x200x160 (160 slices with 160 columes and 200 rows per slice).
+In this case, the inter-hemispheric cleft resides at column 80.
+If '-size' is set to 'big', the output image matrix is set to 180x230x190.
+An even larger matrix size can be obtained using '-size xxl'.
+
+<br><p>
+The parameter '-system' controls the type of coordinate system to be used.
+If '-system' is set to 'neurological' then the coordinate system follows the neurological
+convention (lower border of CA and upper border of CP).
+If '-system' is set to 'atlas', then the coordinate system follows the Talairach atlas
+convention (upper border of CA and lower border of CP).
+</div>
+
+<a name="vtal"></a>
+<div class="headtitle">Parameters of 'vtal':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-d1<DD>
+        Erosion (peeling parameter). Default: 1.3
+    <DT>-d2<DD>
+        Dilation (peeling parameter). Default: 5.2
+    <DT>-t<DD> 
+        Segmentation threshold (peeling parameter). Default: 120
+    <DT>-ca<DD>
+        CA position. Required.
+    <DT>-cp<DD> 
+        CP position. Required.
+    <DT>-p<DD> 
+        3rd Point position. Default: 0 0 0
+    <DT>-angle<DD>
+        Rotation angle. Required.
+    <DT>-type [ 0 | 1 | 2 ]<DD> 
+        Type of operation: 0=peel+extent, 1=no_peel+extent, 2=no_peel+no_extent. Default: 0
+    <DT>-system [ 0 | 1 ]<DD>
+        Type of talairach convention: 0=atlas, 1=neurological. Default: atlas
+    <DT>-extent<DD>
+        extent parameter (if peeling impossible). Default: 0 0 0
+    <DT>-size [ small | big | xxl | huge]<DD>
+        Size of output image matrix, small=160x200x160, big=180x230x190, xxl=210x240x200, huge. Default: small
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

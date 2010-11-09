@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Spectral analysis of fMRI time series </div>
+
+<div class="headtitle">vspectral</div>
+
+<div class="content">
+With this program, the temporal dynamics of fMRI time series can be 
+investigated for <u>periodic designs</u> on the basis of spectral
+analysis.</div>
+
+
+<div class="subtitle">The difference between correlation and coherence</div>
+
+<div class="content">
+
+<p>The similarity between fMRI time series can be investigated using
+temporal correlation (see <a href="../vgetcovariates/index.html">'vlcorr', 'vgetcovariates'</a>).
+However, this measure is strongly affected by temporal shifts 
+between the fMRI time series. For example, the <b>correlation coefficient</b> between two
+<b>identical</b> sine curves is <b>zero</b>, if these curves have a temporal
+displacement of pi/2.</p>
+<center>
+<table>
+<tr>
+<td><center><img src="lines_cor.gif" border=0></center></td>
+<td><center><img src="lines_coh.gif" border=0></center></td>
+</tr>
+<tr>
+<td><center>Identical sine curves with displacement 0</center></td>
+<td><center>Identical sine curves with displacement Pi/2</center></td>
+</tr>
+<tr>
+<td><center>Correlation: 1</center></td>
+<td><center><b>Correlation: 0</b></center></td>
+</tr>
+<tr>
+<td><center>Coherence: 1</center></td>
+<td><center>Coherence: 1</center></td>
+</tr>
+</table>
+</center>
+
+<p>Hemodynamic responses show temporal
+shifts in the range of seconds which dramatically influence the correlation 
+coefficient between
+them. Thus, the correlation coefficient obtained in the temporal domain
+might only partly reflect the linear dependence between fMRI time series.</p>
+
+<p>Using the measure of <i><u>spectral coherence</u></i>, derived from the spectral 
+representation of the cross-covariance function, 
+the relationship between fMRI time series can be evaluated 
+taking different temporal displacements of the fMRI signal into account. 
+The spectral coherence is a reliable measure for the degree of
+the linear dependence between fMRI time series, even 
+if there are large phase shifts between these time series. Moreover, these phase shifts
+can further be investigated using spectral methods.</p>
+
+The following figure shows differences between correlation and coherence maps
+(caused by the different temporal shifts of the BOLD signal between brain regions).
+In our example, frontal regions (see red arrow) show an earlier BOLD response 
+then occipital regions (see also curves in the middle). Therefore, these frontal regions
+do not show a correlation with the reference region (see black cross in figure). 
+
+<center>
+<table>
+<tr>
+<td><center><img src="cor.gif" border=0></center></td>
+<td><center><img src="bild.gif" border=0></center></td>
+<td><center><img src="coh.gif" border=0></center></td>
+</tr>
+<tr>
+<td><center>Correlation</center></td>
+<td></td>
+<td><center>Coherence</center></td>
+</tr>
+</table>
+</center>
+
+<p><u>References:</u><br>
+M&uuml;ller K, Lohmann G, Bosch V, von Cramon DY.
+On multivariate spectral analysis of fMRI time series.
+<i>NeuroImage</i> 2001:14:347--356.<br>
+M&uuml;ller K, Mildner T, Lohmann G, von Cramon DY.
+Investigating the stimulus-dependent temporal dynamics
+of the BOLD signal using spectral methods.
+<i>Journal of Magnetic Resonance Imaging</i> 17:2003:375--382.</p>
+
+</div>
+
+<div class="headtitle">Limitations of 'vspectral'</div>
+
+<div class="content">
+<p><i>1.</i> For using 'vspectral', the fMRI experiment must be designed using 
+a <b><u>periodic stimulation</u></b>, e.g., presenting the same stimulus every 20 seconds.
+The cycle length is the time between 2 stimuli. This cycle length must be specified 
+using the required command line option '-freq'. The cycle length has to be specified in
+timesteps, e.g. if the stimulus is presented every
+20 seconds and TR=0.5 s, then 'vspectral' must be called using '-freq 40'.</p>
+
+<p><i>2.</i> The number of timesteps between two presentations of the stimulus (specified by '-freq')
+should be larger than 10. The following configurations should be possible:
+['-freq 40', tr=0.5s (cycle=20s)] or ['-freq 13', tr=2s (cycle=26s)]. The configuration 
+<font color=red>['-freq 7', tr=2s (cycle=14s)] <u>is not possible</u></font> because there
+are only 7 timesteps between 2 stimuli (which is less than 10).</p>
+
+<p><i>3.</i> A reasonable number of stimuli must be presented during the experimental 
+session. We suggest to present the stimulus more than 10 times, i.e., the
+periodic stimulus presentation should have more than 10 complete cycles.</p>
+</div>
+
+<div class="headtitle">Using 'vspectral'</div>
+
+<div class="content">
+
+<p>Per default, 'vspectral' computes coherence and phase with a sine function of 
+the frequency specified with the option '-freq'. In our example, we will have
+a cycle length of 10.5s and TR=0.5s. Therefore 'vspectral' must be called using '-freq 21':</p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21
+</b></tt><br><p>
+
+<p>The output vista file contains 4 images: coherence, confidence
+intervals for coherence, phase, and confidence intervals for
+phase. Each image can be selected and saved to a single vista file
+using the command 'vselect' (see via-help).
+
+<p>There are further possibilities for choosing the reference function 
+using the option '-choice'. Beside the sine function
+(see example above), the user can specify a halfsine function, 
+the timecourse of a selected voxel, or a reference function given in a textfile. To get coherence
+and phase with a halfsine function, call</p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21 -choice halfsine
+</b></tt><br><p>
+
+<p>If a reference timecourse is given in a textfile called 'ref.txt', 
+the program 'vspectral' must be called in the following way:</p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21 -choice file -file ref.txt
+</b></tt><br><p>
+
+<p>Often, the timecourse of a voxel is used as reference in order to specify an appropriate 
+reference region (see figure above). then, the voxel coordinates have to be specified
+when calling 'vspectral'. The voxel coordinates can be obtained using the programs
+<a href="../vlview/index.html">'vlview'</a> or <a href="../vlv/index.html">'vlv'</a>.
+
+<p><img src="coordsel.jpg" border=0></p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21 -choice voxel -addr 21 36 30
+</b></tt><br><p>
+
+<p>Instead of using a single reference voxel, the average timecourse of a group of voxels can
+be used in 'vspectral' by giving a zmap and an appropriate threshold. In the following example,
+the average timecourse will be computed using all voxels of the 'blob' located in CGL using a zmap
+from a visual experiment.</p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21 -choice voxel -addr 21 36 30 -zmap zmap.v -pos 4.14
+</b></tt><br><p>
+
+<p>The reference timecourse can be saved into a txt-file using the option '-report'. This
+textfile can be visualized with gnuplot.</p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21 -choice voxel -addr 21 36 30 -zmap zmap.v -pos 4.14
+-report repfile.txt
+</b></tt><br><p>
+
+<p>The output file contains coherence and phase, and also confidence intervals for both measures. All
+images are saved in the output vista file which can be visualized using <a href="../vlview/index.html">'vlview'</a> 
+or <a href="../vlv/index.html">'vlv'</a>. The phase is the 3rd object in the output vista file that can be grabbed
+using the program 'vselect'.
+Per default, 'vspectral' saves phase lags in milliseconds. However, phase values can be also saved 
+with values that correspond to locations on the unit circle using '-time false'. The range of phase values
+can be switched between (-&pi;,&pi;) and (0,2&pi;) using the option '-posphase'. Positive phase 
+values on the unit circle between (0,2&pi;) can be obtained using</p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21 -time false -posphase true
+</b></tt><br><p>
+
+<p>If the option '-time true -posphase true' is chosen, 'vspectral' gives only positive phase values in milliseconds.</p>
+
+<p>In the program 'vspectral', the user can also set the size of the spectral window (using the option '-sw') and 
+the type of the lag window generator (smoothing function). As default, the size of the spectral window is 1/5 of
+the whole timecourse which is an appropriate value. The default lag window generator is the Parzen function
+that will work in most cases. Only experts should use the options '-sw' and '-lag'.</p>
+
+<p>To reduce computation time, the user can restrict the analysis to a number of slices and/or to a hemisphere.
+If the spectral analysis should be only computed between slice 3 and 4 and for the left hemisphere, 'vspectral'
+can be called as follows:</p>
+
+<tt><b><a href="#vspectral">
+<u>vspectral</u></a> -in data.v -out spectral.v -freq 21 -first 3 -last 4 -hemi left
+</b></tt><br><p>
+
+</div>
+
+<a name="vspectral"></a>
+<div class="headtitle">Parameters of 'vspectral':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-choice [ voxel | sine | halfsine | file ] <DD> 
+        Choice of reference function.  Default: sine
+    <DT>-addr<DD> 
+        Voxel coordinates. Default: 0 0 0   
+    <DT>-file<DD> 
+        File containing reference timecourse. Default: 0
+    <DT>-zmap<DD> 
+        File containing zmap for reference timecourse. Default: 0
+    <DT>-pos<DD> 
+        positive threshold for zmap. Default: 3.09
+    <DT>-sw<DD>
+        Size of spectral window. Default: 1/5 of timeline. Default: -1
+    <DT>-freq<DD>
+        Length of a full cycle in timesteps. Required.
+    <DT>-lag [ Parzen | Naeve | Tukey | Jones ]<DD>
+        Type of lag window generator. Default: Parzen
+    <DT>-p<DD>
+        p-value for confidence interval. Default: 0.05
+    <DT>-time [ true | false ]<DD>
+        Phase lag in milliseconds.  Default: true
+    <DT>-posphase [ true | false ]<DD>
+        Positive phase lag only.
+        Default: false
+    <DT>-first<DD>
+        First selected slice. Default: 0
+    <DT>-last<DD>
+        Last selected slice. Default: 1000
+    <DT>-hemi [ both | left | righ ]<DD>
+        Selected hemisphere. Default: both
+    <DT>-report<DD>
+        report file with reference timecourse. Default: 0
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

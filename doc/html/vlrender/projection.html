@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Projection</title>
+<link href="style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h1>Projecting a zmap</h1>
+<p>
+Zmap are volumes, like the anatomy data, but sometime it is desirable to have the
+functional data only on the anatomy border. This is possible using the projection button
+<img src="images/proj_button.gif" alt="Projection button" /> or simply press 'T'.
+</p>
+<p>
+Be aware the projection may take some time. It also projects only the zmap-values inside
+the zmap thresholds. If you change these thresholds, you have to recalculate the projection.
+The greater the thresholds the longer the duration of the calculation.
+</p>
+<img src="images/projection.jpg" alt="Example for Projection" />
+<p>
+After the calculation is finished the projection will rendered instead of the zmap. 
+By clicking on the projection button, you can change the zmap render mode. If the 
+thresholds of the zmap stay constant, no recalculation is needed and a cached projection
+is used, so after the initial calculation the duaration of toggling the zmap mode depends on
+the rendering time.
+</p>  
+</body>
+</html>

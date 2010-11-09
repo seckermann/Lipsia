@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Geometric distortion correction using a field-map scan</div>
+
+
+<div class="headtitle">vdistortionCorrection</div>
+
+<div class="content">
+This program performs a distortion correction using a field-map scan. The following command can be used 
+for the application of the fieldmap 'fieldmap.v' to the functional dataset 'data.v':
+<br><p>
+
+<tt><b><a href="#vdistortionCorrection">
+<u>vdistortionCorrection</u></a> -in data.v -out dc_data.v -shift fieldmap.v
+</b></tt><br><P>
+
+<p>The fieldmap is given by the parameter 'shift'. Two other options are available 
+with names 'sigma' and 'edist'. Both are applied only for the preprocessing of the acquired fieldmap. 
+Sigma defines the degree of smoothing of the fieldmap whereas edist deals with the bones and 
+muscles at the border to the brain.</p>
+
+</div>
+
+<a name="vdistortionCorrection"></a>
+<div class="headtitle">Parameters of 'vdistortionCorrection':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input files. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-sigma<DD>
+        sigma for Gauss filter. Default: 0.7
+    <DT>-edist<DD>
+        edist. Default: 3
+    <DT>-shift<DD>
+        Shift image. Required.
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

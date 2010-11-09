@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Power spectrum analysis</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Power spectrum analysis</div>
+
+<div class="headtitle">vpowerspectrum</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vpowerspectrum' calculates the power spectrum of fMRI data,
+and produces a map showing several characteristics of the power spectrum at each
+voxel.
+</div>
+<br><br>
+
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+The program 'vpowerspectrum' calculates various characteristics of the power spectrum
+which can be select using the parameter '-type'. If '-type range' is selected, the relative
+power within a given frequency range is computed. The range is given by the parameters
+'-low' and '-high' which give the wavelengths of the range in seconds. For example,
+the following call computes the power between 1/10 Hz and 1/30 Hz and
+relates it to the overall power.
+<br><br>
+
+<tt><b><a href="#vpowerspectrum"><u>vpowerspectrum</u></a> 
+-in data.v -out result.v -type range -low 10 -high 30</b></tt><br><p>
+<br><br>
+
+Alternatively, the spectral centroid can be computed by
+specifying '-type centroid'.
+The spectral centroid indicates where the "center of mass" of the spectrum is. 
+It is calculated as the weighted mean of the frequencies present in the signal
+with their magnitudes as the weights. The parameters '-low' and '-high' may be used to
+determine a range in which the centroid is calculated. If left to the default value of -1, 
+the entire spectral range is used. 
+Analogously, the spectral median may be calculated using '-type median'.
+Example:
+
+<br><br>
+
+<tt><b><a href="#vpowerspectrum"><u>vpowerspectrum</u></a> 
+-in data.v -out result.v -type centroid</b></tt><br><p>
+<br><br>
+
+</div>
+<a name="vpowerspectrum"></a>
+<div class="headtitle"><b>Parameters of 'vpowerspectrum'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-tr<DD> 
+        Repetition time in seconds. Default: -1<br>
+        If tr=-1, the repetition time specified in the image header is used.
+    <DT>-type [range | median | centroid | overall]<DD>
+        Type of output. Default: range
+    <DT>-low<DD> 
+        Lower bound of frequency range in seconds.<br>
+        Default: -1
+    <DT>-high<DD> 
+        Upper bound of frequency range in seconds.<br>
+        Default: -1
+    <DT>-minval<DD> 
+        Signal threshold to exclude non-brain voxels. Default: 0
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

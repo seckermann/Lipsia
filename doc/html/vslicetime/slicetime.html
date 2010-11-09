@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Slicetime correction </div>
+
+<div class="headtitle">vslicetime</div>
+
+<div class="content">
+Slices in an fMRI time sequence are not acquired
+simultaneously. A typical example is shown here:<br><p>
+
+<TABLE><TR><TD>
+ <table border>
+ <tr>
+   <th>slice</th>
+   <th>time (ms)</th>
+ </tr>
+ <tr>
+   <td align=right>0   </td>
+   <td align=center>5.93</td>
+ </tr>
+ <tr>
+   <td align=right>1   </td>
+   <td align=center>259.81</td>
+ </tr>
+ <tr>
+   <td align=right>2   </td>
+   <td align=center>386.75</td>
+ </tr>
+ <tr>
+   <td align=right>3   </td>
+   <td align=center>640.62</td>
+ </tr>
+ <tr>
+   <td align=right>4   </td>
+   <td align=center>767.56</td>
+ </tr>
+ <tr>
+   <td align=right>5   </td>
+   <td align=center>1021.44</td>
+ </tr>
+ <tr>
+   <td align=right>6   </td>
+   <td align=center>1148.38</td>
+ </tr>
+ <tr>
+   <td align=right>7   </td>
+   <td align=center>1402.26</td>
+ </tr>
+ <tr>
+   <td align=right>8   </td>
+   <td align=center>1783.07</td>
+ </tr>
+ <tr>
+   <td align=right>9  </td>
+   <td align=center>1910.02</td>
+ </tr>
+  </table>
+</TD></TR></TABLE>
+
+<p>
+In this experiment, the second slice was acquired 259.81 milliseconds
+and the last slice was acquired 1910.02 milliseconds after the start of each time step.
+In other words, the last slice is closer in time to
+the subsequent time step (assuming a repetition time of 2000 milliseconds)
+than to the time step to which it belongs.<br><p>
+
+This may cause significant problems in the statistical
+evaluation of the data.  The last slices are particularly
+effected by this problem. The order of slice acquisition is usually
+from ventral to dorsal, i.e. the dorsal slices are most
+strongly effected.<br><p>
+
+The program 'vslicetime' corrects for this problem by using cubic-spline-interpolation. 
+The time courses in each voxel of each slice are virtually
+moved backwards in time as if all slices had been acquired
+simultaneously at the start of the time step.<br><p>
+
+'vslicetime' should be called after movement correction
+(<a href="../vmovcorrection/index.html">'vmovcorrection'</a>) and before any 
+other type of processing takes place.
+The program is typically called as follows:<br><p>
+
+<tt><b><a href="#vslicetime">vslicetime</a> -in AC1T.v -out sAC1T.v
+-del 5</b></tt><br><p>
+
+Note that the first few time steps of the time courses usually have 
+extremely high values due to saturation effects. This can be corrected for
+by replacing the first time steps of the time course by mean values. 
+The correction should be done early in the processing sequence and 
+is therefore part of 'vslicetime'. The parameter '-del' determines the
+number of the first few seconds that are replaced by a mean value.  
+<br><p>
+In some cases, it can be useful to apply the program 'vslicetime' only
+for correcting the first few time steps (parameter '-del') without
+performing a slicetime correction. This is
+particularly the case if the interscan intervals are very large (> 5 seconds).
+In this case, the parameter '-correction' should be set to 'false'.
+<br><p>
+If the interscan intervals (repetition times) are not constant,
+then an ASCII text file must be supplied. Each line in this file must
+contain the scan time in seconds for each scan. The parameter
+'-scanfile' is used to specify this file.
+
+
+<p>
+</div>
+
+<a name="vslicetime"></a>
+<div class="headtitle">Parameters of 'vslicetime'</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in <DD> 
+        Input image. Default: (none)
+    <DT>-out <DD>
+        Corrected output image. Default: (none)
+    <DT>-minval <DD>
+        Signal threshold. Default: 0
+    <DT>-correction [ true | false ]<DD>
+        Whether to perform slicetime correction. Default: true
+    <DT>-slicetime <DD>
+        ASCII file containing slice times in milliseconds. Default:
+    <DT>-scanfile<DD>
+        ASCII file containing scan times in seconds. Default: (none)
+    <DT>-del <DD>
+        First few seconds to be ignored. Default: 5
+</DL>
+</div>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+</BODY></HTML>

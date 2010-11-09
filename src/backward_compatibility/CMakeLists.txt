@@ -1,0 +1,7 @@
+add_subdirectory(vdeform)
+add_subdirectory(vdemon)
+add_subdirectory(vdotrans)
+add_subdirectory(vfunctrans)
+add_subdirectory(vnormalize)
+add_subdirectory(vreg3d)
+add_subdirectory(vzmapborder)

@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Design file format</div>
+
+<div class="content">
+<p>Statistical evaluations require a specification of the experimental design which must
+be supplied by the user as a text file. There are two fundamentally different types of
+designs: first level designs and higher-level designs.</p>
+
+<p>First level designs describe the experimental setup within one session.
+They specify onset times and duration of the various experimental events.
+To perform a statistical evaluation, a convolution with a hemodynamic modelling
+function is done.</p>
+
+<p>The programs <a href="../vcolorglm/index.html">'vcolorglm'</a> and <a href="../vwhiteglm/index.html">'vwhiteglm'</a> 
+require a design matrix that is convolved with a 
+hemodynamic modelling function. The programs <a href="../vgendesign/index.html">'vgendesign'</a>, 
+<a href="../vcatdesign/index.html">'vcatdesign'</a>, <a
+href="../vgendesign/index.html">'vaddcovariates'</a>, and
+<a href="../vgetcovariates/index.html">'vgetcovariates'</a> can be used to obtain such design files from a text file
+as specified below.</p>
+</div>
+
+
+
+<div class="headtitle">First level design files</div>
+
+<div class="content">
+The design specification of first level designs must be given as a text file in the following format.
+Each line of the file corresponds to one trial. Each line must have 4 entries:
+1. event type specified by an integer, 2. onset time in seconds, 3. trial duration in seconds, 4. amplitude.
+Comment lines begin with the character '%'. Here are some <b>examples:</b>
+<br><p>
+
+<pre>
+% 
+% first level design file, example 1
+%
+  1       18.00        3.00        1.00
+  1      150.00        3.00        1.00
+  1      168.00        2.00        1.00
+
+  2       24.00        1.00        1.00
+  2       90.00        1.00        1.00
+</pre>
+
+This design file describes two event types where event 1 occurs at 18,150 and 168 sec., and event 2 occurs
+at 24 and 90 sec. The trial lengths of event '1' are 2 or 3 seconds. Trials of event '2' have a duration of
+only one second. Both events have a standard amplitude of 1. 
+
+<br><p>
+
+<pre>
+% 
+% first level design file, example 2
+%
+  1       18.00        3.00        1.00
+  1      150.00        3.00        1.00
+  1      168.00        2.00        1.00
+
+  2       24.00        1.00        1.00
+  2       90.00        1.00        1.00
+
+  3       24.00        1.00        5.80
+  3       90.00        1.00        7.26
+</pre>
+This is essentially the same design as in example 1. However, event 2
+has an additional <b>parametric</b> component which is specified as event '3'.
+Note that the event therefore occurs twice, once without and once with
+the additional parameter.</div>
+
+<div class="headtitle">Higher level design files</div>
+
+<div class="content">
+Higher-level designs are used to compute higher-level statistics such as two-sample or paired t-tests
+so that groups of data sets can be statistically assessed. For a higher level analysis,
+a design file has to be created that can be used in <a href="../v2ndlevel/index.html">'v2ndlevel'</a>.
+<br><p>
+
+<b>Note:</b> For all higher level design files, the <b>number of rows must coincide
+with the number of input files</b> in <a href="../v2ndlevel/index.html">'v2ndlevel'</a>.
+</div>
+
+<div class="subtitle">One-sample t-test</div>
+
+<div class="content">
+
+<pre>
+% 
+% second level design file, one-sample t-test
+%
+1
+1
+1
+1
+1
+1
+1
+1
+</pre>
+This example design can be used to perform a one-sample t-test for 8 contrast images.
+Each row in this file corresponds to one contrast map. 
+The contrast vector in this case is '1'.<p>
+
+<b>Note:</b> A one-sample t-test can also be performed using the program 
+<a href="../vonesample_ttest/index.html">'vonesample_ttest'</a> which
+does not require a second level design file.<p>
+</div>
+
+<div class="subtitle">Two-sample t-test</div>
+
+<div class="content">
+
+<pre>
+% 
+% second level design file, two-sample t-test
+%
+1 0 1
+1 0 1 
+1 0 1
+1 0 1
+1 0 1
+1 0 1
+1 0 1
+0 1 1
+0 1 1
+0 1 1
+0 1 1
+0 1 1
+0 1 1
+0 1 1
+</pre>
+This example design can be used to perform a two-sample t-test
+for comparing two groups of 7 subjects each (e.g. left handed
+vs. right handed). The contrast vector comparing the two groups should
+be '1 -1 0'. <b>Caution:</b> Make sure to use  the correct order 
+of input files
+when calling <a href="../v2ndlevel/index.html">'v2ndlevel'</a>.
+ <b>Avoid wildcards!</b> <p>
+
+<b>Note:</b> A two-sample t-test can also be performed using the program 
+<a href="../vtwosample_ttest/index.html">'vtwosample_ttest'</a> which
+does not require a second level design file.<br><p>
+</div>
+
+<div class="subtitle">Paired t-test</div>
+
+<div class="content">
+<pre>
+% 
+% second level design file, paired t-test
+%
+1 0 1 0 0 0 0 0 0 0 1
+0 1 1 0 0 0 0 0 0 0 1
+1 0 0 1 0 0 0 0 0 0 1
+0 1 0 1 0 0 0 0 0 0 1
+1 0 0 0 1 0 0 0 0 0 1
+0 1 0 0 1 0 0 0 0 0 1
+1 0 0 0 0 1 0 0 0 0 1
+0 1 0 0 0 1 0 0 0 0 1
+1 0 0 0 0 0 1 0 0 0 1
+0 1 0 0 0 0 1 0 0 0 1
+1 0 0 0 0 0 0 1 0 0 1
+0 1 0 0 0 0 0 1 0 0 1
+1 0 0 0 0 0 0 0 1 0 1
+0 1 0 0 0 0 0 0 1 0 1
+1 0 0 0 0 0 0 0 0 1 1
+0 1 0 0 0 0 0 0 0 1 1
+</pre>
+This example design can be used to perform a paired t-test. It is used
+for 8 subjects which have been scanned twice (e.g. in the morning and in the afternoon).
+If you are interested in differences within the pairs (e.g. morning vs. afternoon), 
+the contrast vector is '1 -1 0 0 0 0 0 0 0 0 0'.  <b>Caution:</b> Make sure to use  the correct order of input files
+when calling <a href="../v2ndlevel/index.html">'v2ndlevel'</a>.
+ <b>Avoid wildcards!</b><p>
+
+<b>Note:</b> A paired t-test can also be performed using the program 
+<a href="../vpaired_ttest/index.html">'vpaired_ttest'</a> which
+does not require a second level design file.<br><p>
+
+
+
+</div>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+
+</BODY></HTML>

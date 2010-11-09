@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Selection of timesteps</div>
+
+<div class="headtitle">vseltimesteps</div>
+
+<div class="content">
+The program 'vseltimesteps' is used to select timesteps from fMRI data.
+'vseltimesteps' is similar to the program 'vselbands' (see 'via-help'
+for detailed information). However, 'vselbands' does not distinguish
+between anatomical data and functional data. Thus, 'vselbands' selects slices not only from the functional
+data but also from the anatomical data. 'vseltimesteps' ignores the anatomical data.<br><p>
+
+Here is an example:<br><p>
+
+<tt><b><a href="#vseltimesteps"><u>vseltimesteps</u></a> -in infile.v -out outfile.v -step 0 to 234</b></tt><br><p>
+
+This call selects all timesteps from 0 to 234 and writes them into the output file.
+It leaves the anatomical data unchanged.
+</div>
+
+<a name="vseltimesteps"></a>
+<div class="headtitle">Parameters of 'vseltimesteps':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-step<DD>
+        Timesteps to be selected (counting begins at 0). Default: (none)
+	
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

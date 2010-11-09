@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Geometric processing</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Extract one time step from an fMRT time series</div>
+
+<div class="headtitle">vtimestep</div>
+
+<div class="content">
+The program 'vtimestep' extracts one time step from an fMRT data set and prepares it for visualization.
+It can be used to diagnose geometric distortions of registration errors.<br><p>
+
+Here is an example:<br><p>
+
+<tt><b><a href="#vtimestep"><u>vtimestep</u></a> -in infile.v -out outfile.v -step 0
+</b></tt><br><p>
+
+The input into 'vtimestep' is an fMRT data set. It can either be a raw data set or
+a processed data set (i.e. processed by <a href="../vpreprocess/index.html">'vpreprocess' </a>or <a href="../vdotrans/index.html">'vfunctrans'</a>).
+The output is a single time step represented as a 3D data set. It can be 
+visualized using <a href="../vlview/index.html">'vlview' </a>.
+<br><p>
+The parameter '-step' specifies the time step to be selected. Indexing starts
+at '0'.
+<br><p>
+The parameter '-repn' denotes the output representation type.
+If set to 'ubyte' then it can be easily visualized using  <a href="../vlview/index.html">'vlview'</a> or ' <a href="../vlv/index.html">'vlv'</a>.
+</div>
+
+<a name="vtimestep"></a>
+<div class="headtitle">Parameters of 'vtimestep':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-step<DD>
+        Time step to be extracted. Default: 0
+    <DT>-repn [ ubyte | short | float]<DD> 
+        Output representation type. Default: ubyte
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

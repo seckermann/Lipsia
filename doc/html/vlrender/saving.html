@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Saving</title>
+<link href="style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h1>Saving in vlrender</h1>
+<p>'vlrender' can save the current view, export to an image and save
+the zmap projection as zmap.</p>
+
+<h2>Saving rendered image to file</h2>
+
+<p>'vlrender' supports the export of the rendered image in three
+common file-formats: Windows OS/2 Bitmap Graphics (*.bmp), Portable
+(Public) Network Graphic (*.png) and Portable Pixelmap Graphic (*.ppm).</p>
+<p>The rendered image can be saved to a file by selecting 'Export to
+image' from the 'File'-Menu, selecting the disc icon at the toolbar or
+by pressing 'E' at the keyboard and choosing the filename and folder.</p>
+<p>Saving the image to disk might take some time, because it is
+rendered in the highest possible quality. Also it is rendered without
+the yellow lines which usually visualize the clipping object.</p>
+
+<h2>Saving and restoring 'vlrender' views</h2>
+
+<p>Having the current volume configured in rotation, size, position,
+lighting and clipping, the configuration can be saved to a file, so that
+it can be restored later or applied to other volumes with nearly the
+same dimensions.</p>
+<p>The current view can be saved/loaded by selecting 'Save/Load
+View' from the 'File'-Menu.</p>
+<p>Using an existing view configuration file, 'vlrender' can be
+started from command-line with this given view. In combination with the
+-out parameter the volume is immediateley rendered to an image file with
+the given view without showing the vlrender-gui. This is the proposed
+way for batch-mode processing.</p>
+
+<h2>Saving the zmap projection</h2>
+
+<p>If an zmap projection was created, it can be saved as a zmap by
+selecting 'Export ZMap Projection' from the 'File'-Menu.</p>
+<p>Be aware, that only the values in the thresholds are saved,
+because they were used in the projection algorithms. If you want a full
+projection, set the thresholds to the maximum value and create a new
+projection using the projection button. This will definitly take a
+while.</p>
+</body>
+</html>

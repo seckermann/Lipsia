@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Data visualization</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head><BODY BGCOLOR="#ffffff" LINK="#479088" VLINK="#2e90b4" ALINK="#ff0033">
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Display list of coordinates</div>
+
+<div class="headtitle">vshowpts</div>
+
+<div class="content">
+The program 'vshowpts' helps to visualize locations given as a list of coordinates.
+The coordinates are presented as spheres with a user-specified radius, and output
+in the format of a 'zmap'.
+It can be visualized using 'vlview','vlv','vlrender'.<br>
+Example:
+
+<br><p>
+<tt><b><a href="#vshowpts"><u>vshowpts</u></a> -in pts.txt -system talairach -out pmap.v</b></tt>
+<br><p>
+<tt><b><a href="#vlview"><u>vlview</u></a> -in mr024_t1_pl.v -zmap pmap.v</b></tt>
+<br><p>
+
+
+The coordinates may be given as mm coordinates, Talairach or MNI coordinates.
+Each line specifies one point and has the following format:
+<br><p>
+<tt><b>x y z id radius</tt></b><br><p>
+Example:<br><p>
+<tt><b>  10 20 35  1  2</tt></b><br>
+<tt><b>  10 23 24  1  2</tt></b><br>
+<tt><b>  18 33 17  2  3</tt></b><br>
+<p>
+This line produces two spheres of radius 2 and id '1', and one of radius 3 with id '2'.
+The 'id' can be used to attribute different colors to the points.
+Point with identical id's will have the same color.
+Thus, if visualized using 'vlv','vlview','vlrender', the first two spheres will have the same color,
+the third will have a different color depending on the color map.
+The color map can be chosen interactively using 'vlview','vlv','vlrender'.
+<br><p>
+The dimension of the output image (its matrix size) can be specified using
+the parameters '-nslices', '-nrows', '-ncolumns'. If set to '0', a default value
+is used.
+
+
+</div>
+      
+<a name="vshowpts"></a>
+<div class="headtitle">Parameters of 'vshowpts':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+         ASCII file containing list of coordinates. Required.
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-system [ mm | talairach | mni ]<DD>
+        Type of coordinate system. Default: talairach.
+    <DT>-resolution<DD>
+        voxel size in mm. Default: 1
+    <DT>-nslices<DD>
+        number of slices in output image. Default: 0
+    <DT>-nrows<DD>
+        number of rows in output image. Default: 0
+    <DT>-ncolumns<DD>
+        number of columns in output image. Default: 0
+	
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

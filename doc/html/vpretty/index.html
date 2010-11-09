@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Thresholding a statistical map</div>
+
+<div class="headtitle">vpretty</div>
+
+<div class="content">
+The program 'vpretty' thresholds a statistical map and removes small areas.
+<br><p>
+
+Example:<br><p>
+
+<tt><b><a href="#vpretty">
+<u>vpretty</u></a> -in zmap.v -pos 3.1 -neg -3.1 -out result.v -minsize 81
+</b></tt>
+
+<br><p>
+The output image displays all activation areas larger than 'minsize'.
+The parameter '-minsize' is given in units of mm^3.
+Example: if the spatial resolution is 3x3x3mm then a minsize of 81 corresponds to
+three voxels (81 = 3 x 27 = 3 x (3x3x3)).
+</div>
+
+<a name="vpretty"></a>
+<div class="headtitle">Parameters of 'vpretty':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-pos<DD>
+        Positive threshold on zmap. Default: 3.09
+    <DT>-neg<DD>
+        Negative threshold on zmap. Default: -3.09
+    <DT>-minsize<DD>
+        Minimal size in mm^3 of activation areas. Default: 81 ( = 3x27 = 3 x (3x3x3)).
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

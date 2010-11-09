@@ -1,0 +1,11 @@
+PROJECT(vsendserv)
+
+ADD_EXECUTABLE(vsendserv vsendserv.C)
+TARGET_LINK_LIBRARIES(vsendserv lipsia ${VIA_LIBRARY})
+
+SET_TARGET_PROPERTIES(vsendserv PROPERTIES
+    LINK_FLAGS -Wl)
+
+INSTALL(TARGETS vsendserv
+        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        COMPONENT RuntimeLibraries)

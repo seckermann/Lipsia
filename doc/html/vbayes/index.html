@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Bayesian second-level analysis</div>
+
+<div class="headtitle">vbayes, vbayesgroup</div>
+
+<div class="content">
+<p>The program 
+'vbayes' conducts a second-level analysis of groups of
+subjects based on Bayesian statistics. The program takes as input 
+parameter estimates for single subjects for a contrast
+of interest and its variance (output of
+<a href="../vcolorglm/index.html">'vcolorglm'</a>/<a href="../vgetcontrast/index.html">'vgetcontrast'</a> 
+or <a href="../vwhiteglm/index.html">
+'vwhiteglm'</a>) and provides as output a probability map showing the
+probability for the contrast to be larger than zero.</p>
+
+<p>
+The method is described in detail in Neumann and Lohmann (2003) (see
+below) and should be viewed as a possible alternative to 
+<a href="../vaverage/index.html">
+'vonesample_ttest'</a>. However, it provides probabilities of activation for the
+contrast of interest rather than z- or t-values.</p>
+
+
+<p> The Bayesian analysis is very robust against outliers, which in 
+the traditional fixed- and random-effects models (!) have a large 
+influence on the statistical significance of the results (see Figure
+1). It is therefore particularly effective in the detection of
+cortical activation caused by small experimental contrasts. </p>
+
+
+<p><br>
+
+<img src="difference1.gif" WIDTH=580></a><br><br>Figure 1: The influence
+		  of a single outlier in a group of subjects on both
+		  traditional z-values
+and Bayesian probabilities of activation.
+
+</p> 	      
+
+<br>
+<p>The program 'vbayesgroup' conducts a Bayesian comparison of two 
+groups of subjects. It takes as input the results of 
+<a href="../vbayes/index.html"> 'vbayes'</a>
+for the two groups. 
+Output is a probability map showing the
+probability for the contrast to be larger in group2 than in group1:</p>
+<p>P(contrast group1 < contrast group2).</p>
+<p><b>Caution:</b> When using  'vbayesgroup', the program <a
+href="../vbayes/index.html"> 'vbayes'</a> <u>must</u> be called
+beforehand with the
+parameter '-level true'.
+</div>
+
+
+<div class="subtitle">Practical use</div>
+
+<div class="content">
+<p>
+Inputs to 'vbayes' are contrast images of all individual subjects, i.e. outputs of  <a href="../vgetcontrast/index.html">'vgetcontrast'</a> or <a href="../vwhiteglm/index.html">
+'vwhiteglm'</a>). The programs can be called as follows:</P>
+
+<p>
+<tt><b><a href="#vbayes">
+<u>vbayes</u></a> -in conimg_subj1.v conimg_subj2.v conimg_subj3.v -out group_bayes.v
+</b></tt><br></P>
+
+<P>or</P> 
+
+</P><tt><b><a href="#vbayes">
+<u>vbayes</u></a> -in conimg_subj1.v conimg_subj2.v conimg_subj3.v -out group_bayes.v -level true
+</b></tt><br></P>
+
+<P>The first call produces a Bayesian probability map, the second call
+with '-level true' produces a map which serves as input to
+'vbayesgroup'. 'vbayesgroup' is called as follows:
+
+</P>
+
+</P><tt><b><a href="#vbayesgroup">
+<u>vbayesgroup</u></a> -group1 group_bayes1.v -group2
+		group_bayes2.v -out group_bayes.v 
+</b></tt><br></P>
+
+<P>
+<b>Note:</b>
+The output of 'vbayes' and 'vbayesgroup' looks like a zmap, but it contains probabilities
+instead of z-values. Within the Bayesian
+framework there exist <b> no thresholds</b> indicating the significance of a
+result. Typically, very large values of over 99% indicate a high
+probability of activation (see Figure 2). <b> However, this is only a rule of
+thumb!</b></P>
+
+<P>Note further that, like for zmaps, negative (blue) values indicate the
+ probability for the reversed contrast to be larger than zero or, in
+case of 'vbayesgroup', that the contrast is larger in group1 than in group2.</P>
+
+<p><br>
+<img src="comparison.gif" WIDTH=500></a><br><br>Figure 2: A comparison
+of the outputs from <a href="../vonesample_ttest/index.html">
+'vonesample_ttest'</a> (left) and <a href="../vbayes/index.html">
+'vbayes'</a> (right).
+</div>
+
+<a name="vbayes"></a>
+<div class="headtitle">Parameters of 'vbayes':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input files (Contrast images, e.g. output of vgetcontrast or vwhiteglm).
+    <DT>-out<DD> 
+        Output file. Default: (none) 
+    <DT>-level [ true | false ]<DD>
+         Whether to produce output to be used for 3rd level analysis. Default: false
+
+</DL>
+</div>
+
+<a name="vbayesgroup"></a>
+<div class="headtitle">Parameters of 'vbayesgroup':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-group1<DD> 
+        Input files from first group (Output of vbayes).
+    <DT>-group2<DD> 
+        Input files from second group (Output of vbayes).
+    <DT>-out<DD> 
+        Output file. Default: (none) 
+
+</DL>
+</div>
+
+
+<div class="headtitle">Literature:</div>
+
+<div class="content">
+<p>J. Neumann and G. Lohmann. "Bayesian second-level analysis of
+functional magnetic resonance images." <i>NeuroImage</i>,
+20(2), 1346-1355, 2003.			      
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

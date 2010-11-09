@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Exploratory analysis</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Resting state analysis</div>
+
+<div class="headtitle">vsimmat</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vsimmat' computes a similarity matrix based on correlations between time series.
+The time course in every voxel is correlated with the time course of every other voxel.
+Only voxels inside the user-defined mask are used.
+This matrix can subsequently be analyzed using other programs, e.g. vspectralcluster.
+
+
+<p>
+<i>Reference: <br>
+Lohmann et al.(2009). ISMRM.</i>
+<br><br>
+</div>
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+Here is a typical calling sequence which will produce a clustering of fMRI data
+within a specified region of interest with 3 clusters. The region of interest can be
+defined using 'vledit' or some other means.</p>
+
+<br><br>
+
+<tt><b><a href="#vsimmat"><u>vsimmat</u></a> 
+-in data.v -out mat.v -mask roi.v -fisher true</b></tt><br><p>
+<tt><b><a href="#vspectralcluster"><u>vspectralcluster</u></a> 
+-in mat.v -out result.v -n 3</b></tt><br><p>
+<br>
+
+</div>
+
+<a name="vsimmat"></a>
+<div class="headtitle"><b>Parameters of 'vsimmat'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)    
+    <DT>-mask<DD>
+        Mask defining a region of interest. Required.
+    <DT>-minval<DD>
+        Signal threshold. Default: 0    
+    <DT>-fisher<DD>
+        Whether to do Fisher r-to-z transform. Default: false
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

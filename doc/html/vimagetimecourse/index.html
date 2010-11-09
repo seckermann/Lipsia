@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Parameters of average time courses</div>								
+
+<div class="headtitle">vimagetimecourse, vdifftimecourse, vextractparam</div>
+
+<div class="content">
+<p>The program  <a href="#vimagetimecourse">
+'vimagetimecourse'</a> caluclates an average time course for each
+voxel. Inputs are preprocessed raw data. Length and resolution of the
+time course can be predefined. Output files contain time
+courses for each voxel inside the brain. Output files can be handled
+like raw data. In particular, visualization is possible using the
+option <b> -raw </b> within <a href="../vlview/index.html">
+'vlview'</a>:
+
+<p><b> Example output:</b>
+<br>
+<p><a href="output.gif"><img src="output.gif" border=0></a>
+<br></p> 	      
+
+<p><br>
+Average time courses can be subtracted from each other using 
+<a href="#vdifftimecourse">
+'vdifftimecourse'</a>. In this program, the second average
+timecourse (parameter  ' -second') is subtracted from the first
+(parameter '-first'). This is useful, in particular,
+for subtracting null events from another condition.<br></p> 
+
+<p>Average time courses as produced by  <a href="#vimagetimecourse">
+'vimagetimecourse'</a> and <a href="#vdifftimecourse">
+'vdifftimecourse'</a> can be further processed using the program
+<a href="#vextractparam">
+'vextractparam'</a>. This program caluclates characteristic
+parameters of average time courses. They include  <b>'amplitude',
+'slope', 'dispersion', </b> and <b> four time points </b> depicted in the
+figure below:
+
+<p><br>
+<p><a href="example.gif"><img src="example.gif" border=0></a>
+</p> 	      
+
+Output of <a href="#vextractparam">
+'vextractparam'</a> is a file that can be handled like a z-map,
+		    but contains the values of the extracted parameter
+		    in every voxel.  Visualization is possible using the
+option '-zmap' within <a href="../vlview/index.html">
+'vlview'</a> or  <a href="../vlv/index.html">
+'vlv'</a>.
+
+
+<br><P>
+<b> Important!  </b> Extracted parameters can only be meaningfully
+interpreted, if the underlying BOLD signal resembles (roughly) that of an
+activation as depicted above. The result images of  
+<a href="#vextractparam"> 'vextractparam'</a>
+should therefore be masked by a z-map or contrast image including only
+significantly activated voxels. This can be done with the program <a
+href="../vimagemask/index.html"> 'vimagemask'.</a>
+</p> 	      
+</div>
+
+
+
+<a name="vimagetimecourse"></a>
+<div class="headtitle">Parameters of 'vimagetimecourse':</div>
+
+<div class="content">
+<DL>
+   <DT> -help<DD>
+        Prints usage information.
+   <DT> -in <DD>
+        Input file (raw data). Default: (none)
+   <DT> -out <DD>
+        Output file (raw data). Default: (none)
+   <DT> -length <DD>
+        Length of average time course (in sec). Default: 15
+   <DT> -cond <DD>
+        Condition. Required.
+   <DT> -reso <DD>
+        Temporal resolution (in sec). Default: 0.2
+   <DT> -tr <DD>
+        TR (in sec). Default: 0
+   <DT> -minval <DD>
+        Signal threshold. Required.
+   <DT> -des <DD>
+        Design file. Required.
+   <DT> -report <DD>
+        Report file. Default: report.txt
+</DL>
+</div>
+
+<a name="vdifftimecourse"></a>
+<div class="headtitle">Parameters of 'vdifftimecourse':</div>
+
+<div class="content">
+<DL>
+     <DT>-help<DD>
+        Prints usage information.
+     <DT>-out <DD>
+        Output file. Default: (none)
+     <DT>-first <DD> 
+        first input file. Required.
+     <DT>-second  <DD>
+        second input file. Required.
+
+</DL>
+</div>
+
+<a name="vextractparam"></a>
+<div class="headtitle">Parameters of 'vextractparam':</div>
+
+<div class="content">
+<DL>
+     <DT>-help<DD>
+        Prints usage information.
+     <DT>-in <DD>
+        Input file. Default: (none)
+     <DT>-out <DD>
+        Output file. Default: (none)
+     <DT>-param [maxtime | mintime | peaktime | onsettime | slope |
+			  amp | disp ]<DD>
+        Parameter to be extracted. Required.
+     <DT>-reso <DD>
+        temporal resolution of time course (in sec). Default: 0.2
+     <DT>-onstart <DD>
+        first possible time for onset (in sec). Default: 0
+     <DT>-onend <DD>
+        last possible time for onset (in sec). Default: 5
+     <DT>-offstart <DD>
+        first possible time for peak (in sec). Default: 5
+     <DT>-offend <DD>
+        last possible time for peak (in sec). Default: 15
+     <DT>-minval <DD>
+        minval of first timestep. Required.
+     <DT>-psc [ true | false ] <DD>
+        Whether to report percent signal change. Default: true
+     <DT>-report <string><DD>
+        report file. Default: report.txt
+
+</DL>
+</div>
+
+<div class="headtitle">Literature:</div>
+
+<div class="content">
+<p>J. Neumann, G. Lohmann, S. Zysset, D.Y. von Cramon. <em> Within-subject
+	  variability of BOLD response dynamics. </em> NeuroImage
+19(3), 784-796, 2003. 			     
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

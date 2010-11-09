@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Applying a transformation matrix</div>
+
+<div class="headtitle">Transformation of 2D single slices: vdotrans</div>
+
+<div class="content">
+Once a transformation matrix has been computed by <a
+href="../vreg3d/index.html">'vreg3d'</a>, it can be
+applied to the 2D anatomical slices acquired during the fMRI experiment (or to a 2D zmap). 
+</div>
+
+<div class="content">
+The program 'vdotrans' rotates and translates the input data according to the information
+contained in the transformation matrix that is specified by '-trans'.
+The input image must be either one of the following two types:
+<ul>
+<li><tt><b>2D anatomical slices</b></tt>: the 2D anatomical slices that are acquired during the fMRT session.
+<li><tt><b>2D zmap</b></tt>: a 2D zmap generated from the 2D fMRT data.
+</ul>
+
+Example:<br><p>
+
+<tt><b><a href="#vdotrans"><u>vdotrans</u></a> -in file2D.v -out file3D.v
+-trans transmatrix.v</b></tt><br><p>
+
+<b>The registration accuracy can be checked by 
+applying the transformation to 2D anatomical slices, and comparing the resulting image with the reference image.
+Now click onto several easily identifiable landmarks and check whether they
+match in the two images.</b>
+
+<p> Example:<br><p>
+
+<tt><b><a href="../vlview/index.html">
+<u>vlview</u></a> -in /home/newbdb/024/mr024_t1_pl.v file3D.v</b></tt><br><p> 
+If the result is not satisfactory, then redo  <a
+href="../vreg3d/index.html">'vreg3d'</a> using different parameters.
+
+<br><p>
+<img src="images/check_reg.gif" width=700>
+<br><p>
+</div>
+
+<a name="vdotrans"></a>
+<div class="headtitle">Parameters of 'vdotrans':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-trans <DD>
+        File containing transformation matrix. Required.
+    <DT>-resolution<DD>
+        Output voxel resolution in mm. Default: 1
+    <DT>-type [ trilinear | NN ]<DD> 
+        Type of interpolation, trilinear or nearest neighbor. Default: trilinear
+    <DT>-object [ anat | zmap | epi_t1 | all ]<DD>
+        Select object(s) to be transformed. Default: all
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

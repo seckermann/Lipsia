@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Getting started</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Getting started: exploratory analysis</div>
+
+<div class="subtitle">Exploratory analysis</div>
+<div class="content">
+
+
+<p>After the data have been preprocessed, further analysis steps can be performed.
+In the following, we describe some exploratory analysis procedures. They may be particularly
+useful for so-called "resting-state" experiments, but also for other types of experiments.
+</div>
+
+<div class="subtitle">Defining masks</div>
+<div class="content">
+
+Some of the procedures described below require a region of interest (mask) to which the
+analysis is restricted. A whole brain mask at 3x3x3 mm resolution is located in
+<tt>/usr/share/lipsia/mask_3x3x3.v</tt>. It fits to the EPI-template to which data
+are registered in our proposed standard preprocessing pipeline. To check if this mask
+is okay for your data, do the following. First change to the directory where your preprocessed
+data reside:<p>
+
+<tt> > cd /scr/experiment_1/prep</tt><p>
+
+and select timepoints from several data sets, e.g.:<p>
+
+<tt> > vtimestep -in data_sub001.v -out a_sub001.v</tt><p>
+<tt> > vtimestep -in data_sub002.v -out a_sub002.v</tt><p>
+
+and average them<p>
+<tt> > vave -in a_sub*.v -out mean.v</tt><p>
+
+Now convert the mask to make it suitable for viewing:<p>
+
+<tt> > vconvert -in /usr/share/lipsia/mask_3x3x3.v -out z.v -repn float</tt><p>
+
+and view it overlaid onto the mean of the functional data:<p>
+
+<tt> > vlv -in mean -z z.v</tt><p>
+
+If the the functional data and the mask match well, then you may use it.
+If there is a mismatch, then edit it using <a href="../vledit/vledit.html"><u>vledit</u></a>.
+
+
+</div>
+<div class="subtitle">Eigenvector centrality mapping (ECM)</div>
+<div class="content">
+
+To perform eigenvector centrality mapping, define a mask as described above, and
+perform the preprocessing steps described in the previous section using an isotropic resolution
+of 3x3x3 mm. The preprocessed data are in the file called "data.v". Then type on the command line:
+
+<p><tt><b><a href="../vecm/vecm.html"><u>vecm</u></a> -in data.v -mask mask.v -out ecm_subj001.v</b></tt><br></p>
+
+and view the result:
+
+<p><tt><b><a href="../vlv/vlv.html"><u>vlv</u></a> -in /usr/share/lipsia/mni.v -z ecm_subj001.v& </b></tt><br></p>
+
+If more than one data set needs to be processed, it is more convenient to use shell scripts (see section
+"shell scripts").
+After all data sets have been processed, statistical analysis can begin. For instance, assume that
+a group of 16 subjects has been scanned in two different conditions, and the resulting
+maps are called "ecm1_subj*.v" and "ecm2_subj*.v". The '*' is a wildcard representing all 16 data sets.
+To obtain a map showing differences between the two conditions, type
+
+<p><tt><b><a href="../vpaired_ttest/vpaired_ttest.html"><u>vpaired_ttest</u></a> -in1 ecm1_subj*.v
+-in2 ecm2_subj*.v -out zmap.v -gauss true</b></tt><br></p>
+
+and view the result:
+
+<p><tt><b><a href="../vlv/vlv.html"><u>vlv</u></a> -in /usr/share/lipsia/mni.v -z zmap.v& </b></tt><br></p>
+
+The file 'zmap.v' contains uncorrected z-values showing the difference between the two conditions.
+Using a standard colour map, the red values show voxels where condition 1 had higher centrality than
+condition 2, and blue shows the reverse.
+
+</div>
+<div class="subtitle">Powerspectrum analysis</div>
+<div class="content">
+
+Performing a powerspectrum analysis is done analogously to an ECM analysis. First do a preprocessing
+as described before. Note that for powerspecteal analysis the spatial resolution may now be different from
+3x3x3 mm. The preprocessed data are in the file called "data.v". Then type on the command line:
+
+<p><tt><b><a href="../vpowerspectrum/vpowerspectrum.html"><u>vpowerspectrum</u></a> -in data.v 
+-out pow_subj001.v -type range -low 20 -high 90</b></tt><br></p>
+
+and view the result:
+
+<p><tt><b><a href="../vlv/vlv.html"><u>vlv</u></a> -in /usr/share/lipsia/mni.v -z pow_subj001.v& </b></tt><br></p>
+
+The result shows the fractional power within the range 1/20 Hz to 1/90 Hz.
+If more than one data set needs to be processed, it is more convenient to use shell scripts (see section
+"shell scripts").
+After all data sets have been processed, statistical analysis can begin. For instance, assume that
+a group of 16 subjects has been scanned in two different conditions, and the resulting
+maps are called "pow1_subj*.v" and "pow2_subj*.v". The '*' is a wildcard representing all 16 data sets.
+To obtain a map showing differences between the two conditions, type
+
+<p><tt><b><a href="../vpaired_ttest/vpaired_ttest.html"><u>vpaired_ttest</u></a> -in1 pow_subj*.v
+-in2 pow_subj*.v -out zmap.v -gauss true</b></tt><br></p>
+
+and view the result:
+
+<p><tt><b><a href="../vlv/vlv.html"><u>vlv</u></a> -in /usr/share/lipsia/mni.v -z zmap.v& </b></tt><br></p>
+
+The file 'zmap.v' contains uncorrected z-values showing the difference between the two conditions.
+Using a standard colour map, the red values show voxels where condition 1 had more power than
+condition 2, and blue shows the reverse.
+
+</div>
+
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Generate a design matrix</div>
+
+<div class="headtitle">vgendesign, vaddcovariates</div>
+
+<div class="content">
+The program 'vgendesign' generates a first level design matrix from a
+design specification (text file)
+by convolution with a hemodynamic modelling function.
+
+The output of this program is used by <a href="../vcolorglm/index.html">'vcolorglm'</a> and <a href="../vwhiteglm/index.html">'vwhiteglm'</a> for a general linear regression.
+The program 'vaddcovariates' can be used to add covariates to the design matrix.
+The hemodynamic modelling uses the gamma function and optionally its first and second
+derivative. The definition of the gamma function follows Glover (1999).
+The user must specify the repetition time in seconds,
+and the number of time steps. These two specifications must agree with the
+experimental setup. The design matrix can be viewed using the program
+<a href="../vcheckdesign/index.html">'vcheckdesign'</a>.
+
+<br><p>
+
+The design specification of first level designs must be given as a text file 
+as specified in <a href="../designformat/index.html">'designformat'</a>.
+
+<br><p>
+<b>Example:</b><br><p>
+<tt><b><a href="#vgendesign"><u>vgendesign</u></a> -in design.txt -out design.v -tr 2 -ntimesteps 648 -deriv 2</b></tt><br><p>
+
+This program call generates a design matrix 'design.v' from the specification file 'design.txt'.
+The TR is 2 seconds, and there are 648 timesteps.
+The hemodynamic modelling is done using a gamma function and its first and second derivative ('-deriv 2').
+The parameters (a1,a2,c) of the gamma function can be modified using the parameters '-delay', '-undershoot', '-understrength'.
+<br><p>
+If the interscan intervals (repetition times) are not constant,
+then an ASCII text file must be supplied. Each line in this file must
+contain the scan time in seconds for each scan. The parameter
+'-scanfile' is used to specify this file.
+
+<br><p>
+Normally, the gamma function as introduced by Glover (1997) is used for hemodynamic modelling.
+However, for block designs, a Gaussian or modified Gamma function are
+often better
+suited. The parameter '-block' can be used to switch from specifies
+blocks of stimuli. This parameter has to be given in seconds. Every
+event type with a mean duration exceeding this value will be treated as
+'block'. Event event type with mean duration below this time is
+modelled as 'event'.
+
+<br><p>
+<b>Example:</b><br><p>
+<tt><b><a href="#vgendesign"><u>vgendesign</u></a> -in design.txt -out
+design.v -tr 2 -ntimesteps 648 -deriv 2 -block 10</b></tt><br><p>
+
+This call is almost identical to the example above, except that event
+types with a mean duration longer than 10 seconds will be modelled as
+blocks and convolved with a Gaussian.
+<br><p>
+
+</div>
+<div class="subtitle">Fixed effects analysis by concatenating design files</div>
+
+<div class="content">
+<tt><b><a href="#vgendesign"><u>vgendesign</u></a> -in design1.txt -out design1.v -tr 2 -ntimesteps 648 -deriv 1</b></tt><br><p>
+<tt><b><a href="#vgendesign"><u>vgendesign</u></a> -in design2.txt -out design2.v -tr 2 -ntimesteps 648 -deriv 1</b></tt><br><p>
+<tt><b><a href="../vcatdesign/index.html"><u>vcatdesign</u></a> -in design1.v design2.v -out design.v</b></tt><br><p>
+
+
+This sequence of program calls first generates two design matrices from two  text files containing
+design specifications of two sessions. These two design matrices are then concatenated by <a href="../vcatdesign/index.html">'vcatdesign'</a>
+to allow for a fixed-effects analysis across sessions.
+<br><p>
+</div>
+
+</div>
+<div class="subtitle">Adding covariates to the design</div>
+
+<div class="content">
+<tt><b><a href="#vaddcovariates"><u>vaddcovariates</u></a> -in design.v -out design_add.v -file covariate.txt</b></tt><br><p>
+
+The call generates a new design matrix 'design_add.v' with additional columns specified by the text file 'covariate.txt'.
+This text file contains one or more columns whose length must correspond to the number of timesteps in the design.
+
+</div>
+<br><p>
+
+<div class="headtitle">Parameters of 'vgendesign ':</div>
+<a name="vgendesign"></a>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        A design specification as a text file. Default: (none)
+    <DT>-out<DD>
+        Output design file. Default: (none)
+    <DT>-tr <DD>
+        Repetition time in seconds. Default: 0
+    <DT>-ntimesteps<DD> 
+        Number of timesteps. Default: 0
+    <DT>-scanfile<DD> 
+        ASCII file containing scan times in seconds. Default:(none)
+    <DT>-block<DD> 
+        Threshold for block in seconds. Default: 10
+    <DT>-bkernel [ 0 | 1 ]<DD>
+        Type of kernel for block events (0=gauss, 1=gamma). Default: 0
+    <DT>-deriv [ 0 | 1 | 2 ]<DD>
+        Number of derivatives of the gamma function to be used for the hemodynamic modelling. Default: 1
+    <DT>-delay <DD>
+        Response delay (parameter a1). Default: 6
+    <DT>-undershoot<DD> 
+        Time of undershoot (parameter a2). Default: 12
+    <DT>-understrength<DD> 
+        Strength of undershoot (parameter c). Default: 0.35
+    <DT>-zeromean [ true | false ]<DD> 
+        Whether to set mean of parametric covariates to zero. Default: true
+	
+</DL>
+</div>
+
+<a name="vaddcovariates"></a>
+<div class="headtitle">Parameters of 'vaddcovariates ':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        A design matrix generated by 'vgendesign'. Default: (none)
+    <DT>-out<DD>
+        Output design file. Default: (none)
+    <DT>-file <DD>
+         A text file containing one or more covariates as columns. Default: (none)
+</DL>
+</div>
+
+<div class="headtitle">Literature</div>
+<div class="content">
+
+G.H. Glover (1999). "Deconvolution of impulse response in event-related 
+BOLD fMRI." <em>NeuroImage</em> 9:416-429.<br>
+</div>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

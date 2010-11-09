@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Linear normalization</div>
+
+<div class="headtitle">vnormalize</div>
+
+<div class="content">
+In order to perform group statistics, 
+the fMRI data should be normalized to a standard size.
+The <B>standard size (talairach) is 13.5 x 17.5 x 12.0 cm</B>.
+The normalization amounts to a linear scaling in 
+the x,y, and z-direction. <br><p>
+
+The parameter '-system' specifies the coordinate system.
+If the system is 'talairach' then the brain extent in x,y,z is
+set to (120 mm,175 mm,135 mm).
+If '-system' is set to 'mni' then the extent is
+(128 mm,177 mm,141 mm).
+
+</div>
+
+<div class="subtitle">Normalization of a transformation matrix:</div>
+
+<div class="content">
+The program that performs the normalization is called 'vnormalize'.
+The normalization can be applied to the transformation matrix obtained
+from 'vreg3d'. In this case, the transformation matrix is multiplied
+by linear scaling factors. If the normalized  transformation matrix
+is then applied using either <a href="../vdotrans/index.html">'vdotrans'</a> or <a href="../vdotrans/index.html">'vfunctrans'</a>, the resulting
+3D images will not only be registered to the 3D reference data set,
+but also linearly scaled to a standard size.
+To do this, use the following processing chain:<br><p>
+vreg3d -> vnormalize -> vdotrans/vfunctrans. <br><p>
+
+Example:<br><p>
+
+<tt><b><a href="#vnormalize"><u>vnormalize</u></a> -in AC1T_trans.v -out AC1T_ntrans.v</b></tt><br><p>
+</div>
+
+<div class="subtitle">Normalization of a 3D image:</div>
+
+<div class="content">
+The normalization can also be applied to a 3D image such as a registered zmap
+or an anatomical 3D image of the image data base. Note that the reference images
+in the image data base '/home/newbdb/' are not normalized. 
+Example:<br><p>
+
+<tt><b><a href="#vnormalize"><u>vnormalize</u></a> -in infile.v -out outfile.v</b></tt><br><p>
+
+
+</div>
+
+
+<a name="vnormalize"></a>
+<div class="headtitle">Parameters of 'vnormalize':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-system [ talairach | mni ]<DD>
+        Coordinate system. Default: talairach
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Getting started</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Getting started: shell scripts</div>
+
+<div class="subtitle">Shell scripts: preprocessing</div>
+<div class="content">
+
+
+<p>
+The processing steps described in the previous sections are generally
+repeated for many subjects. To avoid having to type in the commands on the command line
+for every data set, we recommend to use shell scripts.
+Below, we show the standard preprocessing pipeline as a shell script.
+We assume that data of three subjects exist located in three directories
+named <tt>"/scr/dicom/subj001/2", "/scr/dicom/subj002/2", "/scr/dicom/subj003/2"</tt><p>
+The following script is contained in a file which we call "do.sh".
+"do.sh" should be located in a directory separate from the directory where the
+dicom data are, for example in a directory named <tt>"/scr/experiment1/prep"</tt>.
+So change to this directory:<p>
+
+<tt> > cd /scr/experiment1/prep</tt><p>
+
+and execute the script:<p>
+
+<tt> > ./do.sh</tt><p>
+
+The execution of this script may take some minutes. Once it is finished,
+three preprocessed data sets named "prep_subj001.v", "prep_subj002.v", "prep_subj003.v" 
+will reside in <tt>/scr/experiment1/prep</tt>. Here is the content of "do.sh":<p>
+
+
+<tt>
+proc ()<br>
+{<br> 
+  vvinidi -in /scr/dicom/$1/2 -out tmp0.v -rf dcm<br>
+  vnormvals -in tmp0.v -scale 10 -out tmp1.v<br>
+  vslicetime -in tmp1.v -out tmp2.v<br>
+  vmovcorrection -in tmp2.v -out tmp3.v -report list_$1.txt<br>
+  valign3d -in tmp3.v -ref $REF -trans trans.nii -transform 0 2 \<br>
+     -optimizer 0 2 -bound 10 -prealign_m -smooth 2 -iter 1000 1000<br>
+  vdotrans3d -in tmp3.v -ref $REF -trans trans.nii -out tmp4.v -res 3 -fmri<br>
+  vpreprocess -in tmp4.v -out prep_$1.v -fwhm 6 -low 10 -high 90<br>
+}<br>
+
+proc subj001<br>
+proc subj002<br>
+proc subj003<br>
+</tt><br>
+</div>
+
+
+
+<div class="subtitle">Shell scripts: exploratory analysis</div>
+<div class="content">
+Analogously, shell scripts can be used to perform other processing steps.
+For example, the following script performs eigenvector centrality mapping
+for three subjects. Here, we assume that the preprocessed data are in a 
+directory called "<tt>/scr/experiment1/prep/</tt>" and the present shell script 
+is in another directory, for instance called "<tt>/scr/experiment1/ecm</tt>".
+Its content should look like this:<p>
+
+<tt>
+proc ()<br>
+{<br> 
+  vecm -in /scr/experiment1/prep/prep_$1.v -out ecm_$1.v -mask mask.v<br>
+}<br>
+
+proc subj001<br>
+proc subj002<br>
+proc subj003<br>
+</tt>
+</div>
+
+<p>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Anonymous file headers </div>
+
+<div class="headtitle">vanonym</div>
+
+<div class="content">
+The program 'vanonym' removes all entries from the file header that contain
+information about the test subject. Thus, the program ensures that the resulting
+file conforms to regulations concerning data confidentiality.<br><p>
+
+Here is an example:<br><p>
+
+<tt><b><a href="#vanonym"><u>vanonym</u></a> -in infile.v -out outfile.v -id "024"</b></tt>
+
+<br><p>
+This call produces an output file in which all references to the test subject are removed.
+The parameter '-id' may optionally be used to allow some form of anonymous identification
+of test subjects. In the above example, the output file will contain a header entry of the 
+form "subject: 024". The default value of '-id' is "XXX".
+</div>
+
+<a name="vanonym"></a>
+<div class="headtitle">Parameters of 'vanonym':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-id<DD>
+        Optional subject identification. Default: "XXX"
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

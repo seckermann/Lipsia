@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Clipping Objects</title>
+<link href="style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h1>Clipping objects (planes or boxes)</h1>
+<p>To resect parts of the current volume, either a clipping box or a
+clipping plane can be used.</p>
+<p>To e.g. enable the clipping box, select the 'Clip-Box' entry from
+the 'Options'-Menu, click on the box icon at the toolbar or simply type
+'B' on the keyboard.</p>
+
+<p>The clipping box and an additional dialog to control clipping
+properties are displayed. The clipping box can be moved in x- and
+z-direction by keeping pressed the middle mouse-button and in
+y-direction by keeping pressed the right mouse-button while moving the
+mouse.</p>
+<img src="images/clipscreen.jpg" alt="clip screenshot" />
+
+<p>The behaviour and use of the clipping plane is similar to that of
+the clipping box described above, except that it can only be moved along
+the direction orthogonal to its orientation using the middle
+mouse-button.</p>
+
+<p><b>Keep in mind:</b> Either the clipping object or the volume is
+active for modification. To toggle the active object, simply press the
+space bar at the keyboard or select the icon showing a lock at the
+toolbar. The type of the currently active object is always shown at the
+lower right corner of the main window. To disable the current clipping
+object, click at the appropriate menu- or toolbar-item again.</p>
+
+<h2>Control the clipping object</h2>
+<p>The most convenient way to locate important regions within the
+volume is to control the clipping object by connecting 'vlrender' to
+'vlview'.</p>
+<p>After selecting 'Run vlview' from the 'Options' menu or clicking
+the vlview icon at the toolbar, 'vlview' is opened with the current data
+set.</p>
+<img src="images/vlview.jpg" alt="vlview" />
+<p>The most convenient way to locate important regions within the
+volume is to control the clipping object by connecting 'vlrender' to
+'vlview'. After selecting 'Run vlview' from the 'Options' menu or
+clicking the vlview icon at the toolbar, 'vlview' is opened with the
+current data set. Just by navigating through 'vlview', the 'vlrender'
+clipping object will follow vlview's current cursor position as long as
+both programs are connected. The connection is indicated by the potted
+connector icon at the toolbar of 'vlrender' and 'vlview'. (See
+'Synchronize with Lipsia-Server' in the 'Options' menu or the connector
+icon at the toolbar.)</p>
+<p>In addition, changing the zmap-thresholds in 'vlview' will cause
+'vlrender' to do the same if both programs are connected.</p>
+
+</body>
+</html>

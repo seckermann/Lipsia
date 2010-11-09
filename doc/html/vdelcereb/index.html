@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Remove cerebellum from a white matter segmentation</div>
+
+<div class="headtitle">vdelcereb</div>
+
+<div class="content">
+The program 'vdelcereb' is used to remove the cerebellum from a white matter segmentation.
+The input into 'vdelcereb' must be a white matter segmentation obtained by <a href="../vwhitematter/index.html">'vwhitematter'</a>.:<br><p>
+
+Here is an example:<br><p>
+
+<tt><b><a href="../vwhitematter/index.html"><u>vwhitematter</u></a> -in infile.v -out wmfile.v</b></tt><br><p>
+
+<tt><b><a href="#vdelcereb"><u>vdelcereb</u></a> -in wmfile.v -out outfile.v</b></tt><br><p>
+
+
+The input file to the program <a href="../vwhitematter/index.html">'vwhitematter'</a> should be a T1-weighted, high-resolution
+image (e.g. from the MPI inhouse data base /home/newbdb/024/mr024_t1_pl.v).
+The output of  <a href="../vwhitematter/index.html">'vwhitematter'</a> is a white matter segmentation. It may be used as input into
+'vdelcereb'. 'vdelcereb' deletes the cerebellum from the white matter segmentation
+as shown below.
+
+<br><p>
+
+<img src=wmc024.gif><br><p>
+
+<br>
+</div>
+
+<a name="vdelcereb"></a>
+<div class="headtitle">Parameters of 'vdelcereb':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-verbose <DD>
+        Show program messages. Default: 0
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

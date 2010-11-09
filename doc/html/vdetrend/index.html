@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Detrending</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Detrending</div>
+
+<div class="headtitle">vdetrend</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+The program 'vdetrend' removes baseline drifts from functional
+MRI data by subtracting a moving average.
+
+<br><br>
+
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+In the following example, a moving average of length 60 seconds is
+subtracted from the data.
+<br><br>
+
+<tt><b><a href="#vdetrend"><u>vdetrend</u></a> 
+-in data.v -out data_detrended.v -window 60</b></tt><br><p>
+
+<br><br>
+
+<a name="vdetrend"></a>
+<div class="headtitle"><b>Parameters of 'vdetrend'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-window<DD> 
+        Size of moving average window in seconds. Default: 60
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

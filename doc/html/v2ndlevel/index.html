@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; General linear regression for 2nd and
+higher level inference</div>
+
+<div class="headtitle">v2ndlevel</div>
+
+<div class="content">
+The program 'v2ndlevel' performs a general linear regression
+for second and higher level inference.
+As input, it requires contrast images resulting from a first level regression.
+In addition, it requires a design matrix as a text file as described in
+<a href="../designformat/index.html#designformat">'designformat'</a>.
+
+<br><p>
+The program yields a beta-file as output.
+To obtain a statistical parametric map, the program <a href="../vgetcontrast/index.html">'vgetcontrast'</a> must be applied to this beta-file.
+
+<br><p>
+
+<b>Example:</b><br><p>
+Let the text file 'design.txt' describe a 2-sample t-test:
+<pre>
+%
+% design file 'design.txt', two-sample t-test
+%
+1 0 1
+1 0 1
+1 0 1
+1 0 1
+. . .
+0 1 1
+0 1 1
+0 1 1
+0 1 1
+. . .
+</pre>
+
+The following sequence of program calls first
+computes a beta-map, and then it computes a zmap that contrasts
+the two groups contained in the files conimage1_*.v and conimage2_*.v.
+
+<br><p>
+<tt><b><a href="#v2ndlevel"><u>v2ndlevel</u></a> -in conimage1_*.v
+conimage2_*.v -out beta.v -design design.txt
+ </b></tt><br><p>
+
+<tt><b><a href="../vgetcontrast/index.html"><u>vgetcontrast</u></a>
+-in beta.v -out zmap.v -con '1 -1'  -type zmap </b></tt><br><p>
+
+<br><p>
+</div>
+
+<a name="v2ndlevel"></a>
+<div class="headtitle">Parameters of 'v2ndlevel ':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        One or more fMRT data file(s). Default: (none)
+    <DT>-out<DD>
+        Output beta file. Default: (none)
+    <DT>-design <DD>
+        File containing design matrix. Required.
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

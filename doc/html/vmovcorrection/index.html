@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Movement correction</div>
+
+<div class="headtitle">vmovcorrection</div>
+
+<div class="content">
+The aim of motion correction is to realign the images acquired in an
+fMRI time series such that they are geometrically compatible.
+Misalignments occur when subjects move during the course of the experiment.
+As experiments may sometimes last for more than 40 minutes, some form
+of motion is usually inevitable.
+In motion correction, each scan of an fMRI time series is
+geometrically rotated and shifted until it matches a reference scan.
+The reference scan must be specified by the user. 
+<BR><p>
+The program 'vmovcorrection' performs a 3D motion correction
+using 6 degrees of freedom (3 translational and 3 rotational).
+
+</p>
+
+<tt><b><u><a href="#vmovcorrection">vmovcorrection</a></u> 
+-in EA1T.v -out mEA1T.v -tref 50 -report list.txt
+</b></tt>
+<br>
+</div>
+
+<div class="subtitle">Format of the report file</div>
+
+<div class="content">
+You can use the parameter '-report' to obtain a report file in ASCII. 
+<br><p>
+
+<pre>
+  scan             shift              pitch    jaw    roll
+  -------------------------------------------------------------
+    0     -0.974   1.255   3.001     -0.285  -0.423  -0.154
+    1     -0.645   1.051   2.806     -0.452  -0.320  -0.364
+    2     -0.613   0.781   3.174     -0.447  -0.284  -0.263
+    3     -0.683   1.031   3.188     -0.403  -0.302  -0.202
+    4     -0.653   1.011   2.910     -0.324  -0.297  -0.214
+
+</pre>
+
+<p>
+The report file shows the 3 translational parameters (x,y,z) ('shift')
+in millimeters, and the 3 rotational parameters in degrees.
+</div>
+
+<div class="subtitle">Visualization with gnuplot</div>
+
+<div class="content">
+To visualisize the values in the report file you can use <b>gnuplot</b>. 
+For instance, to view the
+translational motion in x,y,z-direction between the reference time step and 
+all other time steps you have to type<br>
+
+<p><tt>
+gnuplot &lt;enter&gt;<br>
+<br>
+gnuplot&gt; plot "list.txt" title 'x' with lines,"" using 1:3 title 'y' w l, "" using 1:4 title 'z' w l<br>
+</tt><br><p>
+
+<a href="images/gplot.png"><img src="images/gplot.png" alt="gnuplot example (44kb)"></a>
+<br><p>
+<br><p>
+</div>
+
+<a name="vmovcorrection"></a>
+<div class="headtitle">Parameters of 'vmovcorrection':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-tref<DD>
+        reference time step. Default: 50
+    <DT>-report<DD>
+        report file. Default:
+    <DT>-iterations<DD>
+        Max number of iterations. Default: 100
+    <DT>-minval<DD>
+        Signal threshold. Default: 0
+
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

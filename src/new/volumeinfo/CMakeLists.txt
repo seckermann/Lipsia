@@ -1,0 +1,11 @@
+PROJECT(volumeinfo)
+
+ADD_EXECUTABLE(volumeinfo volumeinfo.c)
+TARGET_LINK_LIBRARIES(volumeinfo ${VIA_LIBRARY} ${LIPSIA_LIBRARY})
+
+SET_TARGET_PROPERTIES(volumeinfo PROPERTIES
+    LINK_FLAGS -Wl)
+
+INSTALL(TARGETS volumeinfo
+        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        COMPONENT RuntimeLibraries)

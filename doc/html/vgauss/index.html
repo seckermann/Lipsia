@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Convolution with a Gaussian filter or its derivative</div>
+
+<div class="headtitle">vgauss</div>
+
+<div class="content">
+
+
+</PRE>
+       'vgauss' convolves an image with a Gaussian filter or a filter
+that  is  the  partial derivative of a Gaussian. Each
+       input image is filtered to produce a corresponding  output
+       image.<BR><P>
+
+<tt><b>
+<a href="#vgauss"><u>vgauss</u></a> -in image.v -out filtered.v -sigma 2
+</b></tt><br><P>
+
+Three types of filtering operations are supported:<BR><P>
+
+<B>smooth</B>    This convolves the input image with a 1D 
+Gaussian filter in both the x and y directions<BR><P>
+
+<B>xgrad</B>     This convolves the input image with a 1D 
+Gaussian filter in  the  y  direction,  and  a  1D
+          derivative-of-Gaussian  filter in the x direction.<BR><P>
+
+<B>ygrad</B>     This convolves the input image with a 1D 
+Gaussian  filter  in  the  x  direction,  and a 1D
+          derivative-of-Gaussian filter in the y  direction.<BR><P>
+
+       Note  that  the x direction is the direction of increasing
+       column index, and the y  direction  is  the  direction  of
+       decreasing  row index. When computing pixel values near an
+       image border, the region outside of  the  input  image  is
+       padded with border pixel values.<BR><P>
+
+       The  input  images  can  have pixel values of any type. In
+       general, the output images are created with  pixel  values
+       of  the  same  type  as  the input images.  However, if an
+       input image has unsigned pixels (i.e., <B>bit</B> or
+<B>ubyte</B>)  
+and  convolution  with  the  partial derivation of a
+       Gaussian is required, then the input image  will  be  
+converted  to an image with <B>sbyte</B>
+       pixels before convolution, and the output image will  also
+       have <B>sbyte</B> pixels.
+</div>
+
+<a name="vgauss"></a>
+<div class="headtitle">Parameters of 'vgauss':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD>
+        Input files. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-sigma<DD>
+        Standard deviation of Gaussian filter. Default: 1
+    <DT>-size<DD> 
+        Filter size (pixels). Default: 0
+    <DT>-verbose<DD>
+        Show program messages. Default: 0
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

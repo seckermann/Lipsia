@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Random effects analysis - statistical significance of an effect</div>
+
+
+<div class="headtitle">vonesample_ttest</div>
+
+<div class="content">
+This program performs a one-sample t-test on a group of contrast images.
+The ouput is a tmap or a zmap that gives the voxel-wise statistical significance of 
+an effect.
+
+<br><p>
+
+<tt><b><a href="#vonesample_ttest">
+<u>vonesample_ttest</u></a> -in cgtbsm_*.v -out zmap.v
+</b></tt><br><P>
+
+
+<b>Caution:</b>
+The program 'vonesample_ttest' should only be used on registered data,
+i.e. on data that are geometrically aligned and normalized.
+
+</div>
+
+<a name="vaverage"></a>
+<div class="headtitle">Parameters of 'vonesample_ttest':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input files. Default: (none)
+    <DT>-type [ tmap | zmap ]<DD>
+        Type of output. Default: zmap
+    <DT>-out<DD>
+        Output file. Default: (none)
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

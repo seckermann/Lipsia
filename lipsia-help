@@ -1,0 +1,26 @@
+#!/bin/sh
+
+LHELP="/usr/share/doc/lipsia-doc/html/index.html"
+DNULL="/dev/null"
+
+if [ ! -f $LHELP ]; then
+  echo "The documentation is not available, please install the lipssia \
+  documentation package."
+  exit 1
+fi
+
+if [ $BROWSER ]; then
+  $BROWSER $LHELP 2>&1 $DNULL
+else
+  sensible-browser $LHELP 2>&1 $DNULL
+  exit $?
+  BROWSER=`which konqueror 2> $DNULL`
+  BROWSER2=`which firefox 2> $DNULL`
+  if  [ $BROWSER ]; then
+     $BROWSER $LHELP 2>&1 $DNULL
+  elif  [ $BROWSER2 ]; then
+     $BROWSER2 $LHELP 2>&1 $DNULL
+  else
+     echo Specify default browser using the environment variable BROWSER
+  fi
+fi

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+  <head>
+    <title>Lipsia - Creating masks</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Title -->
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Interactive tool for 
+creating masks</div>
+
+<!-- general description -->
+<div class="headtitle">vledit</div>
+
+<div class="content">
+With 'vledit' the user can easily create volumetric masks which can be used 
+in different Lipsia programs (e.g. <a href="../vimagemask/index.html">
+'vimagemask'</a>). The mask's resolution can be set to match the anatomical or 
+functional data. Often the resolution of the functional data is lower than the resolution of the anatomical data.
+In 'vledit' masks are created using different segments.
+'vledit' adds a color attribute to every user defined segment and calculates the volume.
+</div>
+
+<!-- user interface -->
+<div class="subtitle">Interactive user-interface</div>
+
+<div class="content">
+'vledit' can be started in two editing modes, which are selected with the command line parameter '-mode': 
+<ul>
+<li>In <a href="#anatomie"><b><u>anatomie mode</u></b></a> the user can't create or load 
+any segments. He can only browse through orthogonal cross sections and remove 
+parts of the anatomical structure.</li>
+<li>In <a href="#segment"><b><u>segment mode</u></b></a> all features are enabled and 
+the user can create, load and save segments (masks). It's the default editing mode.</li>
+</ul>
+
+</div>
+
+<!-- navigation anchor -->
+<a name="segment"></a>
+<!-- segment mode -->
+<div class="subtitle">Segment mode</div>
+<div class="content">
+The segment mode is the default mode in vledit and enables all tools for mask
+managing. It can be easily started via
+<p><tt><b><a href="#vledit"><u>vledit</u></a> -in anatomie.v -mode seg
+</b></tt></p>
+or by omitting the parameter '-mode':
+<p><tt><b><a href="#vledit"><u>vledit</u></a> -in anatomie.v</b></tt></p>
+
+<div align="center">
+<table>
+<tr><td><img src="images/seg_mode.png"/></td></tr>
+<tr><td align="center"><b>The main and segment window with three masks and segment mode enabled.</b></td></tr>
+</table>
+</div>
+
+<p>
+The currently selected mode can be found at the bottom right corner of the main 
+window.<br/> 
+</p>
+
+</div>
+
+<!-- Mainwindow -->
+<div class="subtitle">The main window</div>
+
+<div class="content">
+
+<div align="center">
+<table>
+<tr><td><img src="images/main_window.png"/></td></tr>
+<tr><td align="center"><b>The main window</b></td></tr>
+</table></div>
+
+<p>
+The main window gives a coronal, sagittal and axial view of the anatomie.
+With the given tools, voxels of the current mask can be easily selected or 
+removed in different ways. All important features of vledit can be easily
+accessed with the toolbar buttons:
+</p>
+
+<div align="center">
+<table>
+<tr>
+<td width="100"><img src="images/editcut.png"/></td>
+<td>Sets the cursor to <b>delete mode</b>. Every voxel under the cursor will be removed 
+from the current mask.
+</td></tr>
+<tr>
+<td><img src="images/signature.png"/></td>
+<td>Sets the cursor to <b>select mode.</b> The voxel under the mouse pointer will be 
+added to the current mask.</td></tr>
+<tr><td><img src="images/xeyes.png"/></td>
+<td>Sets the cursor to <b>view mode.</b> The user can move the crossfade and
+scroll the current view across the brain plane.</td></tr>
+<tr><td><img src="images/viewmag+.png"/>/ <img src="images/viewmag-.png"/>/ 
+<img src="images/viewmag1.png"/></td>
+<td>With this buttons, the user can <b>zoom-in</b>, <b>zoom-out</b> and 
+<b>zoom to 100%.</b></td></tr>
+<tr><td><img src="images/connect1.png"/></td>
+<td><b>Connect</b>/<b>Disconnect</b> vledit to the vlserv application.<br>While connected to the server, the program can receive crosshair coordinates from other lipsia applications like <a href="../vlv/index.html"><u>vlv</u></a> or <a href="../vlview/index.html"><u>vlview</u></a>.
+<tr><td><img src="images/filter.png"/></td>
+<td>Selects the active view filter. Available algorithms are <i>Nearest Neighbor</i>
+(<b>NN</b>) and <i>Bilinear </i>(<b>Bilin</b>) filtering. </td>
+</tr>
+</table>
+</div>
+
+<p>
+The remaining tools control the behavior of the selection and removing algorithms.
+Every editing operation (select/remove) on the mask will affect a spheric volume
+of voxels within a given <b>radius</b> (default: 2). Furthermore, the user 
+can choose to apply a threshold value (<b>delta</b>) to the editing operations.
+The specification of a delta value and enabling the <b>use delta</b> box has the following effect: all those voxels of the sphere will be ignored that have a higher value than the given threshold.
+</p>
+
+</div>
+
+<!-- Segmentwindow -->
+<div class="subtitle">The segment window</div>
+<div class="content">
+<div align="center">
+<table width=100%><tr>
+<td align="center"><img src="images/sw_volume.png"/></td>
+<td align="center"><img src="images/sw_color.png"/></td>
+</tr>
+<tr>
+<td align="center"><b>the volume tab</b></td>
+<td align="center"><b>the color tab</b></td>
+</tr></table>
+</div>
+
+<p>
+The segment window contains a list of all available segments and some tools to
+manage them. The segment list comes in two variants:<br/>
+</p>
+<p>
+<b>the volume tab</b>: An entry consists of the following parts: 
+the <b>name</b> of the segment together with his current <b>color</b>, the voxel 
+<b>resolution</b> and the <b>volume</b>. The volume value is adjusted in real-time when the user adds/removes voxels to/from the mask. In the end, the last column contains a switch <img src="images/stock-eye-20.png"/> to turn the <b>visibility</b> on and off.
+</p>
+
+<p>
+<b>the color tab</b>: The color table is similar to the volume tab except the second column contains the currently configured mask <b>color</b>. After a click on the colored button a dialog appears and allow the user to change the color of the mask.<br/></p>
+<p>
+The buttons in the toolbar allows the user to manipulate the list of segments in different ways:
+<div align="center">
+<table>
+<tr><td width="100"><img src="images/filesavevis.png"/></td><td>This option saves only the segments which are marked as <b>visible</b>. All other segments will be ignored.</td></tr>
+<tr><td width="100"><img src="images/filesaveall.png"/></td><td>In this case <b>all</b> segments will be saved, visible or not, execpt empty ones. Segment masks with a voxel volume of 0 will be ignored by vlEdit.</td></tr>
+<tr><td width="100"><img src="images/editcut.png"/></td><td>This button will <b>delete</b> the currently selected segment.</td></tr>
+<tr><td width="100"><img src="images/up.png"/><img src="images/down.png"/></td><td>These two buttons will move the currently selected segment one step <b>up</b> or <b>down</b> within the list.</td></tr>
+</table>
+</div>
+</p>
+
+</div>
+
+<!-- navigation anchor -->
+<a name="anatomie"></a>
+<!-- anatomie mode -->
+<div class="subtitle">Anatomie mode</div>
+
+<div class="content">
+The anatomie mode is intended to be used for anatomie editing only. And so the segment
+window won't be available as well as the selection tool <img src="images/signature.png"/>.<br>
+Be aware that the removal tool <img src="images/editcut.png"/> will get a new functional mapping: instead of deleting voxel data from the segmentation mask, it will remove voxels from the anatomy image. So be careful! If you accidently removed an anatomical voxel then the only way to get it back is to reload the whole image.<br>
+To start 'vledit' in <b>anatomie mode</b> you should use the following command:
+
+<p>
+<tt>
+<b><a href="#vledit"><u>vledit</u></a> -in anatomie.v -mode ana</b>
+</tt>
+</p>
+
+</div>
+
+<!-- voxel resolution -->
+<div class="subtitle">Voxel resolution</div>
+<div class="content">
+The voxel resolution parameter describes the resolution of the mask's voxels. In 
+default case the resolution of the given anatomie and the masks is the same. But
+you can start 'vledit' in an other resolution mode. This is done per 
+command-line parameter:
+
+<p>
+<tt>
+<b><a href="#vledit"><u>vledit</u></a> -in anatomie.v -res N</b>
+</tt>
+</p>
+
+where <b>N</b> is a float number describing the desired mask resolution. Be aware
+that 'vledit' will only accept values greater or equal the anatomie resolution.
+E.g. the user want's to create a mask in 3mm resolution with a 1mm anatomie he 
+has to start 'vledit' as follows:
+
+<p>
+<tt>
+<b><a href="#vledit"><u>vledit</u></a> -in anatomie.v -res 3</b>
+</tt>
+</p>
+
+</div>
+
+<div class="subtitle">Output type</div>
+<div class="content">
+vlEdit is able to save the segment masks in two different voxel representations: <b>ubyte</b> and <b>bit</b>. The difference between these two ways of saving a segment mask is how the data is organized. In ubyte representation, every segment gets a unique ubyte id which is saved as voxel value in the vista image.<br>
+In bit representation the output will be a multi image file which contains a vista image block in bit representation for every single mask.<br>
+The default output type is ubyte.
+
+<p>The output type can be selected with the parameter '-type'. The following example saves the output to a vista bit image.
+
+<p>
+<tt>
+<b><a href="#vledit"><u>vledit</u></a> -in anatomie.v -res 3 -type bit</b>
+</tt>
+</p>
+
+</div>
+
+<!-- navigation anchor -->
+<a name="vledit"></a>
+<div class="headtitle">Parameters of 'vledit':</div>
+
+<div class="content">
+<dl>
+
+	<dt>-help</dt>
+	
+	<dd>Prints usage information.</dd>
+	
+	<dt>-in </dt>
+	
+	<dd>Input file (anatomical data).</dd>
+	
+	<dt>-mode [ seg | ana ] </dt>
+
+	<dd>The editing mode. Default: seg</dd>
+
+    <dt>-type [ ubyte | bit ] </dt>
+
+    <dd>Selects segment's output type, can be "ubyte" or "bit". Default: ubyte</dd>
+	
+	<dt>-resolution </dt>
+	
+	<dd>Mask resolution. Default: 0 <br/>
+	If set to 0, the anatomie resolution is used. </dd>
+	
+</dl>
+</div>
+
+<br/>
+<hr class="hr" />
+
+<a href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"/></a>
+
+
+<font style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<a href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</a>
+<br/>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br/><br/>
+
+</body></html>

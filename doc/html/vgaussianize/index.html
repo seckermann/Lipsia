@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Gaussianize</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Gaussianize</div>
+
+<div class="headtitle">vgaussianize</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vgaussianize' takes a set of images and transforms
+them voxelwise such that their voxelwise distribution becomes normal.
+It is typically applied to results from some analysis
+procedure that was applied to data from a group of subjects where
+the results cannot be assumed to be normally distributed.
+A transformation step may be necessary so that subsequent t-tests may be performed.
+<p>
+In programs 'vpaired_ttest' and 'vtwosample_ttest' this step is included as 
+an option so that it can be applied in a single call to thse programs.
+It is however not included in 'v2ndlevel'.
+<p>
+Since the t-tests are done across data sets from all
+subjects, the transformation must be done using all
+data sets collectively. For example, if there
+are 20 data sets from 20 subjects then the transformation is
+applied voxelwise (assuming geometric correspondence between
+data sets) such that at each voxel location 20 measurement
+values exist. These 20 values should be approximately
+normally distributed. This can be achieved by first assessing
+their empirical distribution function (EDF), and then rescaling
+them to mean + sigma*GaussInv(EDF). The exact form of this
+transformation is described by Albada et al (2007).
+
+<p>
+<i>Reference: <br>
+van Albada and Robinson (2007). Transformation of arbitrary distributions to the normal distribution
+with application to EEG test-retest reliability. J Neurosci Methods, 161(2):205-211.
+</i><br>
+
+<br><br>
+</div>
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+The program 'vgaussianize' is applied to a set of images which may be specified 
+using wildcards. It generates output images whose filenames are derived from
+the input filename by adding a prefix 'gauss_' to all input filenames.
+The the example below, the output filenames will be called 'gauss_functional_*.v'
+and will reside in the same directory as the inputs.
+
+<br><br>
+
+<tt><b><a href="#vgaussianize"><u>vgaussianize</u></a> 
+-in functional_*.v </b></tt><br><p>
+<br>
+
+</div>
+<br><br>
+
+<a name="vgaussianize"></a>
+<div class="headtitle"><b>Parameters of 'vgaussianize'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in ...<DD> 
+        Input files. Default: (none)
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

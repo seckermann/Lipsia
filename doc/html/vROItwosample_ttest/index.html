@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Region of Interest Analysis</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Two-sample t-test in ROIs</div>
+
+
+<div class="headtitle">vROItwosample_ttest</div>
+
+<div class="content">
+This program performs a two-sample t-test on regions of interest (ROIs) across
+two groups of contrast images.
+The ROIs are specified in a mask file. It can be constructed either interactively
+using the progam 'vledit', or offline using 'vmaskedit'.
+<br><p>
+For each ROI within the mask, the program first computes the average 
+across the contrast values within each data set separately. It thus obtains two lists
+of averaged contrast values, where the number of elements in each list corresponds
+to the number of contrast images in the two gropus.
+<br><p>
+It then performs a two-sample t-test between these two lists
+against the null hypothesis of "no difference" between the groups. Example:
+<br><p>
+
+<tt><b><a href="#vROIonesample_ttest">
+<u>vROItwosample_ttest</u></a> -in1 cgroup1_*.v -in2 cgroup2_*.v mask mask.v -report liste.txt
+</b></tt><br><P>
+
+This call prints the statistical analysis to the terminal and to an ASCII-file. 
+A typical output may for instance look like this:
+
+
+<TABLE><TD>
+<TR>
+<TH ALIGN = "center">   &nbsp  ROI  &nbsp  </TH>
+<TH  colspan="3" ALIGN = "center">  &nbsp addr &nbsp</TH>
+<TH ALIGN = "center">  mm^3  &nbsp</TH>
+<TH ALIGN = "center">  t </TH>
+<TH ALIGN = "center">  z </TH>
+<TH ALIGN = "center">  p </TH>
+</TR>
+<TR>
+
+<TD ALIGN = "right">   1  &nbsp &nbsp </TD> <TD ALIGN = "right">   0.11 &nbsp &nbsp </TD> <TD ALIGN = "right">   0.41  &nbsp &nbsp </TD> <TD ALIGN = "right"> 44.50  &nbsp &nbsp </TD> <TD ALIGN = "right">     70   &nbsp &nbsp </TD> <TD ALIGN = "right"> -2.176  &nbsp &nbsp </TD> <TD ALIGN = "right"> -1.941 &nbsp &nbsp </TD> <TD ALIGN = "right">  0.0261</TD> </TR>
+
+<TD ALIGN = "right">   2 &nbsp &nbsp </TD> <TD ALIGN = "right">    0.08 &nbsp &nbsp </TD> <TD ALIGN = "right">   0.44  &nbsp &nbsp </TD> <TD ALIGN = "right"> 30.50  &nbsp &nbsp </TD> <TD ALIGN = "right">    494 &nbsp &nbsp </TD> <TD ALIGN = "right">   -1.031 &nbsp &nbsp </TD> <TD ALIGN = "right">  -0.985 &nbsp &nbsp </TD> <TD ALIGN = "right">  0.1623</TD> </TR>
+
+<TD ALIGN = "right">   3 &nbsp &nbsp </TD> <TD ALIGN = "right">   -0.05 &nbsp &nbsp </TD> <TD ALIGN = "right">   0.26  &nbsp &nbsp </TD> <TD ALIGN = "right"> 30.50 &nbsp &nbsp </TD> <TD ALIGN = "right">     494  &nbsp &nbsp </TD> <TD ALIGN = "right">  -0.629 &nbsp &nbsp </TD> <TD ALIGN = "right">  -0.609 &nbsp &nbsp </TD> <TD ALIGN = "right">  0.2712</TD> </TR>
+
+<TD ALIGN = "right">   4 &nbsp &nbsp </TD> <TD ALIGN = "right">   0.22 &nbsp &nbsp </TD> <TD ALIGN = "right">   0.66  &nbsp &nbsp </TD> <TD ALIGN = "right"> 27.00 &nbsp &nbsp </TD> <TD ALIGN = "right">      76  &nbsp &nbsp </TD> <TD ALIGN = "right">  -0.578 &nbsp &nbsp </TD> <TD ALIGN = "right">  -0.561 &nbsp &nbsp </TD> <TD ALIGN = "right">  0.2874</TD> </TR>
+
+<TD ALIGN = "right">   5 &nbsp &nbsp </TD> <TD ALIGN = "right">   0.67 &nbsp &nbsp </TD> <TD ALIGN = "right">    1.04  &nbsp &nbsp </TD> <TD ALIGN = "right"> 13.00  &nbsp &nbsp </TD> <TD ALIGN = "right">     61 &nbsp &nbsp </TD> <TD ALIGN = "right">    0.553  &nbsp &nbsp </TD> <TD ALIGN = "right">  0.537 &nbsp &nbsp </TD> <TD ALIGN = "right">  0.2957</TD> </TR>
+</TABLE>
+</TD></TR></TABLE>
+<p>
+
+
+
+
+In this example, five ROIs were present. Only the first ROI shows a significant
+effect (p < 0.05). The ROI-size is given in mm^3. The address refers to the center of
+gravity of the ROI. It is given in Talairach coordinates.
+
+
+
+</div>
+
+<a name="vROItwosample_ttest"></a>
+<div class="headtitle">Parameters of 'vROItwosample_ttest':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in1<DD> 
+        Input files of group 1. Default: (none)
+    <DT>-in2<DD> 
+        Input files of group 2. Default: (none)
+    <DT>-mask<DD>
+        File containing ROIs. Default: (none)
+    <DT>-report<DD>
+        ASCII-File containing output report. Default: (none)
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+
+<div class="headtitle">Literature:</div>
+
+<div class="content">
+Bosch, V. (2000). "Statistical
+Analysis of Multi-Subject fMRI Data: Assessment of Focal Activations."
+<i>Journal of Magnetic Resonance Imaging, 11(1),</i> 61-64.</a>
+</div>
+
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Denoising</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Denoising</div>
+
+<div class="headtitle">vsrad</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vsrad' removes noise from MRI images.
+It is used in conjuncton with 'vdenoise'.
+'vsrad' is a speckle reducing filter. It used here to reduce
+artefacts which may result from a prior call to 'vdenoise'.
+'vdenoise' is a wavelet filter and may produce Gibbs ringing
+artefacts.
+Denoising using 'vdenoise' and 'vsrad' has been tested on structural images 
+(T1-weighted,Flash) and diffusion weighted images.
+In principle, it should also be usable on fMRI data, but it has not yet been
+tested in this context.
+
+<p>
+<i>References: <br>
+Lohmann et al (2010, in press). Magn Res Med.</i><br>
+<i>Yu and Acton (2002). IEEE Trans Image Proc, 11(11):1260-1270.</i><p>
+
+<br><br>
+</div>
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+The program 'vsrad' should be called <i>after</i> 'vdenoise'.
+The number of iterations in 'vsrad' controls the filter strength.
+Fewer iterations produce a lesser effect.
+Here is a typical calling sequence.</p>
+
+<br><br>
+
+<tt><b><a href="#vdenoise"><u>vdenoise</u></a> 
+-in data.v -out tmp.v -level 0.5</b></tt><br><p>
+<tt><b><a href="#vsrad"><u>vsrad</u></a> 
+-in tmp.v -out result.v -iter 5</b></tt><br><p>
+<br>
+
+
+<br><br>
+</div>
+<a name="vsrad"></a>
+<div class="headtitle"><b>Parameters of 'vsrad'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-iter<DD> 
+        Number of iterations. Default: 5
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

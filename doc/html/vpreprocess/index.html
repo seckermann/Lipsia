@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Baseline correction</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Spatial and temporal filtering</div>
+
+<div class="headtitle">vpreprocess</div>
+
+<div class="content">
+<p>Spatial and temporal filtering can be applied to fMRI data using the program 'vpreprocess'.
+<u>Spatial</u> filtering is often used to improve the signal-to-noise-ratio (SNR), and to reduce 
+the inter-subject variability. <u>Temporal</u> filtering is used to remove low frequency drifts in an fMRI time
+series. Temporal filtering is implemented in 'vpreprocess' computing the Fast Fourier Transform (FFT).
+Specified frequencies are removed in the frequency domain. Finally, an
+inverse FFT transforms the image back into the original space.</p></div>
+
+<div class="subtitle">Spatial filtering</div>
+
+<div class="content">
+'vpreprocess' can be used to perform spatial smoothing
+using a Gaussian filter. For example:<br><p> 
+
+<tt><b><u><a href="#vpreprocess">vpreprocess</a></u>  
+-in AC1T.v -out bAC1T.v -fwhm 7
+</b></tt><br><p> 
+
+<p>This call performs a spatial Gaussian smoothing using a filter size of 7 mm FWHM.
+Gaussian smoothing should especially be used for
+multi-subject studies. Per default, spatial smooting is disabled.
+You have to specify a standard deviation (with parameter fwhm)
+to enable it.</p> 
+
+<p><b>Remark:</b> If the input file contains 3D functional images (e.g., obtained
+by <a href="../vdotrans/index.html">'vfunctrans'</a>), spatial filtering is applied in 3D space
+using a 3D Gaussian kernel. Otherwise, 2D spatial filtering is performed for each slice separately.</p>
+
+</div>
+
+<div class="subtitle">Temporal filtering: High pass filter</div>
+
+<div class="content">
+<p>If '-high' is set to a positive number, 'vpreprocess' performs a high pass filter.
+Note that the cutoff is specified in <u>seconds</u> and <u>not in Hertz</u>.
+In the example below, a full cycle of stimulation lasts 48 seconds. Therefore,
+a cutoff of 60 seconds (60 > 48) can be used as follows:</p>
+
+<tt><b><u><a href="#vpreprocess">
+vpreprocess</a></u>  -in AC1T.v -out bAC1T.v -high 60
+</b></tt><br><p>
+
+<p>The following figure shows the effect of a high pass filtering:</p>
+
+<img src=images/baseline.gif width=600 height=300><br><p>
+</div>
+
+
+<div class="subtitle">Temporal filtering: Low pass and band pass filtering</div>
+
+<div class="content">
+For longer block designs, it is sometimes useful to additionally perform a low pass
+filter to remove high frequencies that might be due to noise.
+A rule of thumb is to use a cutoff of less than 3 seconds (half the
+length of the delay of the hemodynamic response).
+The low pass filter is specified by the command line option
+'-low'. In our example, we use a low pass filter of 3 seconds.
+Frequencies higher than 1/3 Hz are suppressed.
+<br><p>
+                                                                                        
+<tt><b><u><a href="#vpreprocess">vpreprocess</a></u>  -in AC1T.v -out bAC1T.v -low 3
+</b></tt><br><p> 
+
+Band pass filtering can be performed using both options '-high' and '-low'.
+Frequencies <u>outside</u> the interval '-high' and '-low' are suppressed.<br><p>
+
+<tt><b><u><a href="#vpreprocess">vpreprocess</a></u>  -in AC1T.v -out bAC1T.v -high 60 -low 3
+</b></tt><br><p> 
+
+
+<b>Caution:</b> Low pass filtering should only be used if the experiment
+consists of <u>very long</u> trials.<BR><p>
+
+Instead of a band pass filter, a band stop filter can be applied using the option '-stop'.
+Using that option, frequencies <u>between</u> '-high' and '-low' are suppressed.
+This can be used for removing all frequencies within a special frequency window. 
+The following command-line option can be used to remove all frequencies between 1/10 Hz and 1/8 Hz:<br><p>
+
+<tt><b><u><a href="#vpreprocess">vpreprocess</a></u>  -in AC1T.v -out
+bAC1T.v -high 10 -low 8 -stop true
+</b></tt><br>
+
+<p>'vpreprocess' can be called using a signal threshold with the option '-minval'. 
+As long as there are no negative values in the images, it is safe to use the default value
+'-minval 0'. Computation effort can be reduced choosing an appropriate 'minval' that
+depends on the scanner. Time series showing an average less than 'minval' are excluded from
+the analysis. 
+</div>
+
+<a name="vpreprocess"></a>
+<div class="headtitle">Parameters of 'vpreprocess'</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-fwhm<DD> 
+        Spatial filter: FWHM in mm.
+	Default: 0
+    <DT>-high<DD> 
+        Temporal Filter: Cutoff for high pass/stop in seconds. 
+	Default: 0
+    <DT>-low<DD> 
+    	Temporal Filter: Cutoff for low pass/stop in seconds. 
+	Default: 0
+    <DT>-stop<DD> 
+        Temporal Filter: Stop instead of pass filter.
+	Default: false
+    <DT>-minval<DD> 
+        Signal threshold. Default: 0
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

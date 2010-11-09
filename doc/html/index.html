@@ -1,0 +1,208 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Lipsia User Manual</title>
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div class="toptitle">LIPSIA &nbsp; 1.5 &nbsp;&nbsp;&nbsp; U S E R &nbsp; M A N U A L</div>
+
+<div class="headtitlegreen">How to get started</div>
+<div class="contentgreen">
+      <LI><A HREF="START/index_dataset.html">Example data sets</a>
+      <LI><A HREF="START/index_prep.html">The standard preprocessing pipeline</a>
+      <LI><A HREF="START/index_exploratory.html">Example: exploratory analysis</a>
+      <LI><A HREF="START/index_glm.html">Example: applying the general linear model (GLM)</a>
+      <LI><A HREF="START/index_shell.html">Using shell scripts</a>
+</div>
+
+
+<div class="headtitle">Data Conversion</div>
+<div class="content">
+      <LI><A HREF="START/index_format.html">The data format</a>
+      <LI>Data conversion (dicom,nifti,analyze,vista) (<A HREF="vvinidi/index.html">vvinidi</A>)
+      <LI>Data conversion (bruker to vista) (<A HREF="brutov/index.html">brutov2</A>)
+</div>
+
+
+<div class="headtitle">Visualization</div>
+<div class="content">
+      <LI>View structural data overlaid by activation maps of several data sets (<A HREF="vlv/index.html">vlv</A>)
+      <LI>View structural data overlaid by activation maps, plus time courses, fitted response, and sulci (<A HREF="vlview/index.html">vlview</A>)
+      <LI>A simple viewer for anatomical and functional data (<A HREF="vsview/index.html">vsview</A>)
+      <LI>Display functional data using orthogonal cross sections (<A HREF="vqview/index.html">vqview</A>)
+      <LI>Interactive 3D Renderings (<A HREF="vlrender/index.html">vlrender</A>)
+</div>
+
+<div class="headtitle">Preprocessing</div>
+
+<div class="content">
+      <LI>Distortion correction (fieldmap) (<A HREF="vdistortionCorrection/index.html">vdistortionCorrection</A>)
+      <LI>Slicetime correction (<A HREF="vslicetime/slicetime.html">vslicetime</A>)
+      <LI>Motion correction (<A HREF="vmovcorrection/index.html">vmovcorrection</A>)
+      <LI>Image registration (<A HREF="valign3d/index.html">valign3d,vdotrans3d</A>)
+      <LI>Temporal and spatial filtering (<A HREF="vpreprocess/index.html">vpreprocess</A>)
+      <LI>Generating design files, e.g. for regressing out nuisance variables
+          (<A HREF="vcovariates/index.html">vcovariates</A>)
+      <LI>Residuals of the general linear model (<A HREF="vresiduals/index.html">vresiduals</A>)
+      <LI>Regressing out global mean (<A HREF="vrmglobal/index.html">vrmglobal</A>)
+</div>
+
+
+<div class="headtitle">Regions of interest and masks</div>
+<div class="content">
+     <LI>Defining a mask by thresholding fMRI data (<A HREF="vcreatemask/index.html">vcreatemask</A>)
+     <LI>Interactive segmentation and drawing of ROIs (<A HREF="vledit/index.html">vledit</A>)
+     <LI>Offline definition of ROIs (<A HREF="vmaskedit/index.html">vmaskedit</A>)
+     <LI>Checking size of mask (<A HREF="volumeinfo/index.html">volumeinfo</A>)
+</div>
+
+<div class="headtitle">Exploratory analysis</div>
+<div class="content">
+      <LI>Seed-based correlation (<A HREF="vcorr/index.html">vcorr</A>)
+      <LI>Eigenvector centrality mapping (ECM) (<A HREF="vecm/index.html">vecm</A>)
+      <LI>Eigenvector centrality mapping using spectral coherence(<A HREF="vspectralecm/index.html">vspectralecm</A>)
+      <LI>Powerspectrum analysis(aLFF, etc.) (<A HREF="vpowerspectrum/index.html">vpowerspectrum</A>)
+      <LI>Regional Homogeneity (<A HREF="vReHo/index.html">vReHo</A>)
+      <LI>Getting similarity matrices using correlation (<A HREF="vsimmat/index.html">vsimmat</A>)
+      <LI>Getting similarity matrices using connectivity (<A HREF="veta2/index.html">veta2</A>)
+      <LI>Spectral clustering (<A HREF="vspectralcluster/index.html">vspectralclustering</A>)
+</div>
+
+
+<div class="headtitle">General Linear Model (GLM)</div><br>
+
+<div class="subtitle">Design files</div>
+<div class="content">
+      <LI>Design file format (<A HREF="designformat/index.html">design format</A>)
+      <LI>Generating design files representing experimental stimuli(<A HREF="vgendesign/index.html">vgendesign,vaddcovariates</A>)
+      <LI>Generating design files using other types of information (e.g. retroicor) 
+             (<A HREF="vcovariates/index.html">vcovariates</A>)
+      <LI>Concatenating design files for fixed effects analysis(<A HREF="vcatdesign/index.html">vcatdesign</A>)
+      <LI>Checking the design matrix (<A HREF="vcheckdesign/index.html">vcheckdesign</A>)
+      <LI>Generate randomized designs (<A HREF="vmetropolis/index.html">vmetropolis</A>)
+      <LI>Convert onset vectors to lipsia format (<A HREF="vspm2lipsia/index.html">vspm2lipsia</A>)
+</div>
+
+<div class="subtitle">GLM</div>
+<div class="content">
+      <LI>General linear model using precoloring (<A HREF="vcolorglm/index.html">vcolorglm</A>, <A HREF="vgetcontrast/index.html">vgetcontrast</A>)
+      <LI>General linear model using whitening (<A HREF="vwhiteglm/index.html">vwhiteglm</A>)
+      <LI>Residuals of the general linear model (<A HREF="vresiduals/index.html">vresiduals</A>)
+      <LI>Trial averages of fMRI time courses (<A HREF="vtrialaverage/index.html">vtrialaverage</A>)
+</div>
+
+
+
+<div class="headtitle">Statistical tests</div><br>
+
+<div class="subtitle">Statistical tests</div>
+<div class="content">
+      <LI>Regression for higher level inference(<A HREF="v2ndlevel/index.html">v2ndlevel</A>)
+      <LI>One-sample t-tests (<A HREF="vonesample_ttest/index.html">vonesample_ttest</A>)
+      <LI>Two-sample t-tests (<A HREF="vtwosample_ttest/index.html">vtwosample_ttest</A>)
+      <LI>Paired t-tests (<A HREF="vpaired_ttest/index.html">vpaired_ttest</A>)
+      <LI>Bayesian second/third-level analysis (<A HREF="vbayes/index.html">vbayes,vbayesgroup</A>)
+      <LI>Wilcoxon test (<A HREF="vwilcoxon/index.html">vwilcoxon</A>)    
+      <LI>Conjunction analysis (<A HREF="vnumave/index.html">vnumave</A>)
+      <LI>Group average (<A HREF="vave/index.html">vave</A>)
+      <LI>Gaussianize (<A HREF="vgaussianize/index.html">vgaussianize</A>)
+      <LI>Correlation and PPI analysis (<A HREF="vgetcovariates/index.html">vlcorr,vgetcovariates</A>)
+</div>
+
+<div class="subtitle">Multiple comparison correction</div>
+<div class="content">
+      <LI>Computing the false discovery critical height threshold (<A HREF="vfdr/index.html">vfdr</A>)
+      <LI>Multiple comparison correction using single thresholding (<A HREF="valphasim/index.html">valphasim</A>)
+      <LI>Multiple comparison correction using double thresholding (<A HREF="vmulticomp/index.html">vmulticomp</A>)
+</div>
+
+<div class="subtitle">Reporting results</div>
+<div class="content">
+      <LI>List of activations areas (<A HREF="vblobsize/index.html">vblobsize</A>)
+      <LI>Thresholding statistical maps (<A HREF="vpretty/index.html">vpretty</A>)
+      <LI>Local activation maxima (<A HREF="vzmax/index.html">vzmax</A>)
+      <LI>Display list of coordinates (<A HREF="vshowpts/index.html">vshowpts</A>)
+</div>
+
+
+<div class="subtitle">Statistics within small ROIs</div>
+<div class="content">
+     <LI>One-sample t-tests in ROIs (<A HREF="vROIonesample_ttest/index.html">vROIonesample_ttest</A>)
+     <LI>Two-sample t-tests in ROIs (<A HREF="vROItwosample_ttest/index.html">vROItwosample_ttest</A>)
+     <LI>Paired t-tests in ROIs (<A HREF="vROIpaired_ttest/index.html">vROIpaired_ttest</A>)
+     <LI>Wilcoxon test for matched pairs in ROIs (<A HREF="vROIpaired_wilcoxtest/index.html">vROIpaired_wilcoxtest</A>)
+     <LI>Report ROI-based average contrast values (<A HREF="vmaskave/index.html">vmaskave</A>)
+</div>
+
+
+<div class="headtitle">Utilities</div>
+<div class="content">
+      <LI>Checking fMRI data (<A HREF="vcheckdata/index.html">vcheckdata</A>)
+      <LI>Masking images (<A HREF="vimagemask/index.html">vimagemask</A>)
+      <LI>Scaling to a new voxel resolution (<A HREF="vmapscale/index.html">vmapscale</A>)
+      <LI>Changing header entries (<A HREF="vattredit/index.html">vattredit</A>)
+      <LI>Copying header entries from one image to another (<A HREF="vattrcopy/index.html">vattrcopy</A>)	
+      <LI>Removing header entries to make data set anonymous (<A HREF="vanonym/index.html">vanonym</A>)
+      <LI>Apply a brain mask to an activation map (<A HREF="vbrainmask/index.html">vbrainmask</A>)
+      <LI>Select a single timestep from an fMRT time series file (<A HREF="vtimestep/index.html">vtimestep</A>)
+      <LI>Selection of a range of timesteps from an fMRT time series file (<A HREF="vseltimesteps/index.html">vseltimesteps</A>)
+      <LI>Average and PCA of fMRI time courses within ROIs(<A HREF="vtc/index.html">vtc</A>)
+      <LI>Spectral analysis of fMRI time series (<A HREF="vspectral/index.html">vspectral</A>)
+      <LI>Parameters of average time courses (<A HREF="vimagetimecourse/index.html">
+          vimagetimecourse,vdifftimecourse,vextractparam</A>)
+      <LI>Denoising using a wavelet-based filter(<A HREF="vdenoise/index.html">vdenoise</A>)
+      <LI>Speckle reducing filter (<A HREF="vsrad/index.html">vsrad</A>)
+</div>
+
+
+<div class="headtitle">Anatomical Tools</div>
+<div class="content">
+      <LI>Identification of AC and PC (<A HREF="vcacp/index.html">vcacp</A>)
+      <LI>Transformation into Talairach space and Brain peeling (<A HREF="vtal/index.html">vtal</A>)
+      <LI>Transpose and resample a structural dataset (<A HREF="visotrop/index.html">visotrop</A>)
+      <LI>Brain peeling (<A HREF="vbrainpeel/index.html">vbrainpeel</A>)
+      <LI>White matter segmentation (<A HREF="vwhitematter/index.html">vwhitematter</A>)
+      <LI>Extracting the cerebellum in a white matter segmentation (<A HREF="vdelcereb/index.html">vdelcereb</A>)
+      <LI>Sulcal lines (<A HREF="vsulcogram/index.html">vsulcogram</A>)
+      <LI>Convolution with a Gaussian filter or its derivative (<A HREF="vgauss/index.html">vgauss</A>))
+</div>
+
+
+
+<div class="headtitle">For backward compatibity</div>
+<div class="content">
+      <LI>Obtaining the transformation matrix (<A HREF="vreg3d/index.html">vreg3d</A>)
+      <LI>Checking the registration by applying the transformation matrix (<A HREF="vdotrans/index.html">vdotrans</A>)
+      <LI>Spatial linear normalization (<A HREF="vnormalize/index.html">vnormalize</A>)
+      <LI>Spatial non-linear normalization (<A HREF="vdemon/index.html">vdemon,vdeform</A>)
+      <LI>Display outlines of activation areas of several zmaps (<A HREF="vzmapborder/index.html">vzmapborder</A>)
+</div>
+
+
+<div class="headtitle">Literature</div>
+<div class="content">
+<LI>Lohmann G, Mueller K, Bosch V, Mentzel H, Hessler S, Chen L, Zysset S, von Cramon DY.
+	2001. Lipsia - A new software system for the evaluation of functional magnetic resonance 
+	images of the human brain. <i>Computerized Medical Imaging and Graphics</i> <b>25</b>(6):
+	449-457.
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2008 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

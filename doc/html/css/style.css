@@ -1,0 +1,93 @@
+body {
+        color: Black;
+        background-color: White;
+        font-family: Arial, Helvetica;
+        font-size: small;
+        margin: 5px;
+}
+
+A {
+        color: #0000CD;
+        text-decoration: none;
+}
+
+A:hover {
+        color: #440000;
+        text-decoration: underline;
+}
+
+.menu
+{
+        font-size: 120%;
+        border: 1px solid #000000;
+        background-color: #DCDCDC;
+        text-align: right;
+        width: 120px;
+        padding: 5px;
+        color: #0000CD;
+}
+
+A.home 
+{
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-size: 80%;
+	color: #000000;
+	border: solid 1px #000000;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.toptitle /*farblich hinterlegter Kasten ohne margin-left*/
+{
+        background-color: #DCDCDC;
+        border: 1px solid #000000;
+        font-size: 120%;
+        font-weight: bold;
+        padding: 8px;
+	margin-bottom: 40px;
+}
+.headtitle /*für die farblich hinterlegten abschnitte*/
+{
+        background-color: #DCDCDC;
+        border: 1px solid #000000;
+        font-size: 120%;
+        font-weight: bold;
+        padding: 8px;
+	margin-left:133px;
+}
+.headtitlegreen /*für die farblich hinterlegten abschnitte*/
+{
+        background-color: #A6D6AB;
+        border: 1px solid #000000;
+        font-size: 120%;
+        font-weight: bold;
+        padding: 8px;
+	margin-left:133px;
+}
+.subtitle /*für die untertitel in index.html*/
+{
+        background-color: #FFFFFF;
+        border: 1px solid #000000;
+        font-size: 100%;
+        font-weight: bold;
+        padding: 8px;    
+	margin-left: 133px;
+}
+.content /*für die auflistung des inhaltes in index.html*/
+{
+	margin-left: 150px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+.contentgreen /*für die auflistung des inhaltes in index.html*/
+{
+	margin-left: 150px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+.year
+{
+   color: #77166F;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Defining your mask with vcreatemask</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA sandbox 0.2.0&nbsp;&nbsp;&nbsp; Defining your mask with vcreatemask</div>
+
+<div class="headtitle">vcreatemask</div>
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+<p>
+<b>vcreatemask</b> is a tiny script which creates a mask using a set of vista functional images as input.
+The script is actually considered to be applied on your preprocessed data (e.g. coming from <A HREF="../vpreproc/index.html">vpreproc</A>). The created mask then can be used with various 
+lipsia programms which need a mask for defining a certain ROI (e.g. <A HREF="../vecm/index.html">vecm</A>).
+
+The standard call looks like this:
+<br><br>
+> <tt> vcreatemask --in directory --out mask.v --maxvoxel 60000</tt>
+<br><br>
+where 'directory' denotes the directory containing all your functional vista images. The parameter 'maxvoxel' denotes the maximal amount of voxel of the mask. If you omit this parameter it will be set to the default value of 50000.<br><br>
+</div>
+<div class="subtitle"><b>Checking and modifying the mask</b></div>
+<div class="content">
+<p>
+After the mask is created a window will pop up presenting you the result. If the mask does not meet your requirements you can edit it by using 'vledit'. To do so type:
+<br><br>
+> <tt> vledit -in mask_reference.v</tt>
+<br><br>
+In the window 'segments' use 'open segments' and load the even created mask.
+If the mask looks ok to you the file mask_reference.v can be deleted.
+
+
+</div>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

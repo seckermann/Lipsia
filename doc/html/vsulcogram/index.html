@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Medial lines of sulci</div>
+
+<div class="headtitle">vsulcogram</div>
+
+<div class="content">
+
+
+
+</PRE>
+
+       'vsulcogram' extracts medial lines of sulci from a  white  matter
+       segmented image.
+
+       This  program  uses a chain of processing modules 
+(morphological filters, distance transforms, etc.) to extract the
+       medial  lines  of sulci of an MR image of the human brain.
+       The input image must be a white matter  segmentation.  The
+       output  will  be  a graph representing medial lines of the
+       medial lines of sulci at a specified depth.
+
+       The input image must be a binary image of type  VBit.  The
+       output image will be of type VGraph.<BR><P>
+       
+<tt><b><a href="#vsulcogram"><u>vsulcogram</u></a> -in whitematter.v -out
+sulci.v -depth 6 -rmcleft false </tt></b>
+
+       <BR><P>
+       Literature:<BR>
+       G.Lohmann, "Extracting line representations of sulcal and gyral patterns  in MR images of the human brain",
+       IEEE Transactions on Medical Imaging, Vol. 17., No. 6, 1998, pp.140-148.
+
+</div>
+
+<a name="vsulcogram"></a>
+<div class="headtitle">Parameters of 'vsulcogram':</div>
+
+<div class="content">
+<DL>
+<DT>-help<DD>    Prints a message describing options.
+
+<DT>-in<DD>     Specifies  the  Vista  data file containing
+               the input image.
+
+<DT>-out<DD>    Specifies where to write the  output  image
+               as a Vista data file.
+
+<DT>-depth<DD>   Specifies  the  depth  level  at  which  to
+               extract the sulcal medial  lines  (in  mm).
+               Default: 5
+<DT>-median [ true | false ]<DD>   Specifies whether to remove lines 
+               from the medial walls.
+               Default: true
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

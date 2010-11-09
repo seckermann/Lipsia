@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Image registration</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; 3d image registration</div>
+<div class="headtitle">3d image registration</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+
+The programs <b>valign3d</b> and <b>vdotrans3d</b> forming an ensemble for image registration. The registration algorithms are based on the <a href="http://www.itk.org"><u>Insight Segmentation and Registration Toolkit (ITK)</u></a>. <br><br>
+Registration is the process of finding a spatial transform mapping voxels of a moving image onto corresponding voxels of a reference image. Keep in mind that image registration is done in physical space (scanner space).<br>
+There are several ways to describe such a spatial transform. A rigid transform only contains translation and rotation of objects. If you want to add scaling and shearing of the object you can use an affine transform. Non-linear deformation of an object can be achieved by using a deformable transform (e.g. bspline transform).<br>
+During the registration process the parameters of the transform (i.e. the position and geometrical form of the moving image) are manipulated in a way that it best fits the reference image.
+
+<p>
+
+</div>
+<div class="subtitle"><b>Approach of image registration with valign3d and vdotrans3d</b></div>
+<div class="content">
+
+The image registration is divided into two steps. <br>
+The first step contains the actual finding of the transform mapping the moving image onto the reference image and is achieved by using the program valign3d. This transform can either be saved as a simple text file or a vector deformation field stored in an image of type nifti.<br>
+The second step contains the application of the transform to an arbitrary image. This can be done by using the program vdotrans3d.<br><br>
+The approach of realizing these two steps with different programs faciliates you to apply a transform to an arbitrary amount of images and furthermore, let you choose an expensive interpolation function without affecting the effort of finding the transform itself.
+
+</div>
+<div class="subtitle"><b>Finding a transform with valign3d</b></div>
+<div class="content">
+
+The simplest way of finding a rigid transform which maps a moving image onto a reference image is to use the following call:
+<br>
+<br>
+> <tt><b><a href="#valign3d"><u>valign3d</u></a> -ref reference_image.v -in moving_image.v -itktrans transform.tra </tt></b>
+<br><br>
+for getting a transform saved as a text file or
+<br><br>
+> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref reference_image.v -in moving_image.v -trans transform.nii </tt></b>
+<br><br>
+for getting a transform saved as an nifti-image containing a vector deformation field. <br>
+<br>
+<b>Warning: </b>You have to keep in mind that the registration is applied in physical space (scanner space). So the orientation information (i.e. index origin, orientation transform) in both, reference and moving image, should be valid!
+<br>
+If the indexOrigin is not valid you can either use the parameter <tt>-prealign_mass</tt> to align the center of mass of both images or <tt>-prealign_center</tt> to align the geometrical center of both images.<br>
+If, however, the orientation transform is not valid you might get a sampling error and then you have to correct it prior using valign3d.<br>
+
+</div>
+<div class="subtitle"><b>Choosing between different registration components</b></div>
+<div class="content">
+
+The program valign3d allows you to choose between a set of components affecting the result of registration. <br>
+For example you can decide between several transform types, metric types, optimizer types and interpolation types. All you have to do is adding the respective parameter with a value referring to the desired type. However, if you omitting these parameters the default types of components are used.<br><br>
+> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref reference_image.v -in moving_image.v -trans transform.nii -transform Affine -optimizer LBFGSB -metric NormalizedCorrelation -interpolator BSpline </tt></b>
+<br><br>
+or <br><br>
+> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref reference_image.v -in moving_image.v -trans transform.nii -transform 1 -optimizer 2 -metric 2 -interpolator 1 </tt></b>
+<br><br>
+
+Both calls are doing the same. However, you can replace the name of the type of component with a number referring to it. 
+The possible types of components are listed bellow.<br><br>
+
+<PRE>
+<b>Transform:</b> <tt> VersorRigid:0 (default) | Affine:1 | BSplineDeformable:2 | Translation:3 | Scale:4 | CenteredAffine:5</tt>
+<b>Metric:</b>  <tt> MattesMutualInformation:0 (default) | MutualInformationHistogram:1 | NormalizedCorrelation:2 | MeanSquare:3 </tt>
+<b>Optimizer:</b> <tt> VersorRigid:0 (default) | RegularStepGradientDescent:1 | LBFGSB:2 | Amoeba:3 | Powell:4 </tt> 
+<b>Interpolator:</b> <tt> Linear:0 (default) | BSpline:1 | NearestNeighbor:2 </tt><br>
+</PRE>
+Keep in mind that not all combinations of components lead to reasonable results.
+
+</div>
+<div class="subtitle"><b>Creating a chain of sequenced registration steps</b></div>
+<div class="content">
+
+The program valign3d offers the facility to create a chain of sequenced regestration steps allowing you to apply an arbitrary number of registration steps but only one final interpolation step. This avoids data loss due to several interpolation steps.<br>
+The following example shows such a chain composed of 3 different registration steps.<br><br>
+
+> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref reference_image.v -in moving_image.v -trans transform.nii -transform 0 1 2 -optimizer 0 1 2 -iter 500 500 100</tt></b><br><br>
+<b>Step 1:</b> vesor rigid transform, versor rigid optimizer, standard metric and interpolator, maximium number of iterations: 500<br>
+<b>Step 2:</b> affine transform, regular step gradient optimizer, standard metric and interpolator, maximium number of iterations: 500<br>
+<b>Step 3:</b> bspline transform, lbfgsb optimizer, standard metric and interpolator, maximium number of iterations: 100<br><br>
+
+This is a standard approach for finding a deformable registration. <br>
+One constraint you have to keep in mind is the order of registration steps from simple to complex (i.e. enqueue a bspline transform prior to a versor rigid transform). <br><br>
+
+<b>Warning: </b> When assembling a set of registration steps containing the bspline transform you have to save the transform as a nifti file containg the vector deformation field. <br><br>
+
+</div>
+<div class="subtitle"><b>Applying the transform to an image with vdotrans3d</b></div>
+<div class="content">
+
+The transform obtained with valign3d can be applied to an image with vdotrans3d with the call:<br><br>
+> <tt> <b><a href="#vdotrans3d"><u>vdotrans3d</u></a> -ref reference_image.v -in moving_image.v -trans transform.nii -out registered_image.v</tt></b><br><br>
+or<br><br>
+> <tt> <b><a href="#vdotrans3d"><u>vdotrans3d</u></a> -ref reference_image.v -in moving_image.v -itktrans transform.tra -out registered_image.v</tt></b><br><br>
+
+If the -ref parameter is missing, vdotrans3d uses the image attributes of the moving image (and if specified, the parameter -reso) to create the output file.<br><br>
+</div>
+
+<div class="subtitle"><b>Registration on the MNI-Atlas</b></div>
+<div class="content">
+If you want to perform a registration on the MNI-atlas you simply have to specify the MNI-atlas as the reference image:
+<br><br>
+> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref /usr/share/lipsia/templates/T1_fsl.v -in moving_image.v -trans transform.nii</b></tt>
+<br><br>
+This performs a rigid registration on the MNI-atlas
+
+</div>
+
+<a name="valign3d"></a>
+<div class="headtitle"><b>Parameters of 'valign3d'</b>:</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-ref<DD> 
+        Fixed image file. Default: (none)
+    <DT>-in<DD>
+        Moving image file. Default: (none)
+    <DT>-mask<DD> 
+        Image file containing region of interest mask.
+    <DT>-itktrans<DD>
+        The output transform file (text). Default: (none)
+    <DT>-trans<DD>
+        The output transform file containing the vector deformation field.<br>
+        Has to be of type nifti. Default: (none)
+    <DT>-tin<DD> 
+        Initial transform input. Default: (none)
+	Has to be a transform gained with -itktrans. 
+    <DT>-bins<DD> 
+        Number of bins used by the mattes mutual information metric to calculate the image histogram. Default: 50
+    <DT>-iter<DD> 
+        Maximum number of iterations used to find the transform. Default: 500
+    <DT>-pd<DD> 
+        Densitiy of pixels the mattes mutual information metric uses to calculate its values. Default: 0.01
+    <DT>-cf<DD> 
+        Coarse factor. Multiple of the max and min step length of the optimizer. Default: 1
+    <DT>-bound<DD> 
+     	The max/min value of the bspline deformation in each direction. Default: 100
+    <DT>-gridSize<DD> 
+         Number of grid points used for the BSplineDeformable transform to create the deformation field. Default: 5
+    <DT>-prealign_center [ true | false ]<DD> 
+        Using an initializer to align the image centers. Default: false
+    <DT>-prealign_mass [ true | false ]<DD> 
+	Using an initializer to align the center of mass. Default: false
+    <DT>-verbose<DD> 
+        Printing the optimizer values of each iteration. Default: true
+    <DT>-smooth<DD> 
+         Applying a smoothing filter with the given sigma to the reference and moving image prior to the registration. Default: 0
+    <DT>-get_inverse<DD> 
+       	 Getting the inverse of the calculated transform. Default: false
+    <DT>-metric<DD> [MattesMutualInformation | MutualInformationHistogram | NormalizedCorrelation | MeanSquare]
+        Type of the metric. Default: MattesMutualInformation
+    <DT>-transform<DD> [VersorRigid | Affine | BSplineDeformable | Translation | Scale | CenteredAffine]
+        Type of the transform. Default: VersorRigid
+    <DT>-optimizer<DD> [VersorRigid | RegularStepGradientDescent | LBFGSB | Amoeba | Powell]
+        Type of the optimizer. Default: VersorRigid
+    <DT>-interpolator<DD> [Linear | BSpline | NearestNeighbor]
+        Type of the interpolator. Default: Linear
+</DL>
+
+</div>
+
+<a name="vdotrans3d"></a>
+<div class="headtitle"><b>Parameters of 'vdotrans3d'</b>:</div>
+
+<div class="content">
+
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-ref<DD> 
+        Fixed image file. Default: (none)
+    <DT>-in<DD>
+        Moving image file. Default: (none)
+    <DT>-itktrans<DD>
+        The transform (text). Default: (none)
+    <DT>-trans<DD>
+        The transform file containing the vector deformation field. Default: (none)
+    <DT>-out<DD>
+        Output image file. Default: (none)
+    <DT>-interpolator<DD> [Linear | BSpline | NearestNeighbor]
+        The interpolator used to resample the image.
+    <DT>-reso<DD>
+        The resolution of the output image (x y z). Default: (none)
+    <DT>-fmri<DD>
+        Input and output image file are functional data. Default: false
+    <DT>-use_inverse<DD>
+        Using the inverse of the transform specified by -itktrans. Default: false
+
+
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

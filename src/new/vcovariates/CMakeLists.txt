@@ -1,0 +1,12 @@
+PROJECT(vcovariates)
+
+
+ADD_EXECUTABLE(vcovariates vcovariates.c)
+TARGET_LINK_LIBRARIES(vcovariates ${VIA_LIBRARY} ${BLAS_LIBRARY} ${LIPSIA_LIBRARY})
+
+SET_TARGET_PROPERTIES(vcovariates PROPERTIES
+    LINK_FLAGS -Wl)
+
+INSTALL(TARGETS vcovariates
+        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        COMPONENT RuntimeLibraries)

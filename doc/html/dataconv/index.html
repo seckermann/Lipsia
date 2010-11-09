@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Data conversion</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Data conversion</div>
+
+<p>
+
+<div class="subtitle"><b>fsltools</b></div>
+
+For converting data to the Lipsia file format, various steps might be necessary. Be sure to set the environment variable<br>
+
+<p> > <tt>export FSLOUTPUTTYPE=NIFTI</tt></p>
+
+<div class="subtitle"><b>Converting functional data</b></div>
+
+NIfTI or Analyze data are often stored in a 3D file format. In this case, there are files for each functional volume
+(e.g. vol0000.img/vol0000.hdr... vol0999.img/vol0999.hdr, or vol0000.nii... vol0999.nii). The 3D files can be merged using the command<br>
+
+<p> > <tt>fslmerge -t dataset *.img</tt></p> 
+
+or in case of nii-files
+
+<p> > <tt>fslmerge -t dataset *.nii</tt></p> 
+
+The output is a single file "dataset.nii" which containes all functional volumes in a 4D NIFTI file. In the next step, the range of the voxel values in "dataset.nii" must be checked. This can be done using the command<br>
+
+<p> > <tt>fslview dataset</tt></p> 
+
+The voxel values can be displayed going with the mouse over the image. Importantly, the voxel values must be multiplied by some factor in order to have the values nicely in the range between 0 and 30000. If "dataset.nii" shows voxel values between 0 and 1000, the values should be multiplied by 30<br>
+
+<p> > <tt>fslmaths dataset -mul 30 dataset_short -odt short</tt></p> 
+
+If the data set have voxel values in the range between 100 and 500, it might be a good idea to multiply the data set with 60<br>
+
+<p> > <tt>fslmaths dataset -mul 60 dataset_short -odt short</tt></p> 
+
+Note that this command is also changing the data type to "short" which is the compatible data type for functional data in the Lipsia software system. Finally, the data can be converted to the Lipsia data format using the command<br>
+
+<p> > <tt>niftov -in dataset_short.nii -out dataset_short.v -tr 3</tt></p>
+
+The repetition time (-tr) must be specified correctly. The result can be checked using<br>
+
+<p> > <tt>vqview -in dataset_short.v</tt></p>
+
+<div class="subtitle"><b>Converting anatomical data</b></div>
+
+In the Lipsia software system, anatomical data can be provided with the short (or ubyte) data type. 
+This means that the data set must have integer values in the range between 0 and 30000 (or 0 255). 
+To check the voxel values of the anatomical data set "single_subj_T1.nii" 
+(or single_subj_T1.img/single_subj_T1.hdr), fslview can be used<br>
+
+<p> > <tt>fslview single_subj_T1</tt></p> 
+
+If the values are between 0 and 10, the data should be multiplied by 3000<br>
+
+<p> > <tt>fslmaths single_subj_T1 -mul 3000 single_subj_T1_short -odt short</tt></p>
+
+Thereafter the data set can be converted to the Lipsia data format using<br>
+
+<p> > <tt>niftov -in single_subj_T1_short.nii -out single_subj_T1_short.v</tt></p>
+
+The result can be checked using the command<br>
+
+<p> > <tt>vlv -in single_subj_T1_short.v</tt></p>
+
+<div class="subtitle"><b>Converting masks</b></div>
+
+Masks should be visualized first using the command "fslview". 
+Voxel values are typically 0 for voxels outside the region of interest, and 1 inside.
+Make sure that values within the region of interest are not less than 1.
+If this is okay, then the mask can be transformed using the command<br>
+
+<p> > <tt>fslmaths mask -nan mask_ubyte -odt char</tt></p>
+
+<p> > <tt>niftov -in mask_ubyte.nii -out mask_ubyte.v</tt></p>
+
+The mask can be displayed with the functional data set using the following commands<br>
+
+<p> > <tt>vtimestep -in dataset_short.v -out dataset_short_timestep.v</tt></p>
+
+<p> > <tt>vconvert -in mask_ubyte.v -out mask_float.v -repn float -map copy</tt></p>
+
+<p> > <tt>vlv -in dataset_short_timestep.v -z mask_float.v</tt></p>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

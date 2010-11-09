@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Correlation and PPI Analysis</div>
+
+<div class="headtitle">vlcorr: Correlation analysis</div>
+
+<div class="content">
+<p>A correlation analysis of fMRI time series can be performed
+using 'vlcorr'. The anatomical and functional data set has to be specified using the 
+command line options '-in' and '-raw', respectively.
+Anatomical and raw data must match.
+'vlcorr' gives correlation values for a single subject only.
+For statistical significance and group studies, the
+correlation analysis has to be performed using <a href="../vcolorglm/index.html">'vcolorglm'</a> (see 'vgetcovariates' section below).</p>
+
+<tt><b><a href="#vgetcovariates">
+<u>vlcorr</u></a> -in ana.v -raw tbsmMK3T.v 
+</b></tt><br><P>
+
+<p>In the following example, correlation analyses was performed
+with reference voxel 23 59 29 (raw data voxel coordinates).</p>
+
+<p><img src="vlcorr.gif"><br></p>
+
+
+</div>
+
+<div class="headtitle">vgetcovariates: Correlation analysis</div>
+
+<div class="content">
+<p>A correlation analysis can also be performed using <a href="../vcolorglm/index.html">'vcolorglm'</a> or
+<a href="../vwhiteglm/index.html">'vwhiteglm'</a>.
+The appropriate design file can be created with 'vgetcovariates' using 
+preprocessed fMRI raw data. When a special region is chosen
+(by specifying the coordinates), the program 'vgetcovariates' produces 
+a simple design file with a regressor. The regressor contains
+the time course of the selected voxel (or the average time course
+of the selected voxels and neighbouring voxels, if specified).</p>
+
+<p>To select the reference voxel, the program <a href="../vlview/index.html">'vlview'</a>
+can be used. Make sure that the same type of coordinates are selected
+in  <a href="../vlview/index.html">'vlview'</a> and 'vgetcovariates' 
+(e.g. voxel coordinates). The procedure is as follows:</p>
+
+<tt><b><a href="../vlview/index.html">
+<u>vlview</u></a> -in mr413_t1_pl.v -zmap zmap.v -raw tbsmMK3T.v
+</b></tt><br><P>
+
+<p><img src="vlview_coord.gif"></p>
+
+<tt><b><a href="#vgetcovariates">
+<u>vgetcovariates</u></a> -in tbsmMK3T.v -out design.v -addr 20 35 30
+</b></tt><br><P>
+
+<tt><b><a href="../vcolorglm/index.html">
+<u>vcolorglm</u></a> -in tbsmMK3T.v -out gtbsmMK3T.v -design design.v
+</b></tt><br><P>
+
+<tt><b><a href="../vgetcontrast/index.html">
+<u>vgetcontrast</u></a> -in gtbsmMK3T.v -out cgtbsmMK3T.v -con 1 0
+</b></tt><br><P>
+
+In our example, the result is the following:
+
+<p><img src="result.gif"></p>
+
+<p>Instead of <a href="../vcolorglm/index.html">'vcolorglm'</a>, <a href="../vwhiteglm/index.html">'vwhiteglm'</a>
+can be also used to perform a correlation analysis in the following way:</p>
+
+<tt><b><a href="#vgetcovariates">
+<u>vgetcovariates</u></a> -in tbsmMK3T.v -out design.v -addr 20 35 30
+</b></tt><br><P>
+
+<tt><b><a href="../vwhiteglm/index.html">
+<u>vwhiteglm</u></a> -in tbsmMK3T.v -out ctbsmMK3T.v -design design.v -con 1 0
+</b></tt><br><P>
+</div>
+
+
+<div class="headtitle">vgetcovariates: PPI analysis</div>
+
+<div class="content">
+
+<p>In Lipsia, the PPI is realised as it was developed by Friston et al. (1997). The event-related
+PPI-approach (by Gittelman et al.) is <b>not</b> implemented in Lipsia.</p>
+
+<p>A PPI (psychophysiological) analysis can be performed by specification of an
+additional psychological variable (e.g. attention). This psycological variable
+has to be specified in a one-column text file (e.g. with 1 for attention and
+-1 for no attention). 
+The number of rows (items) must coincide with the number of
+timesteps of the experimental session. If no value is availabe for a timestep,
+the line can be filled with a capital X in the text file.</p>
+
+<p>In the columns of the text file (which specifies the psychological variable), 
+there should be always at lest 3 consecutive entries of '1' or '-1', respectively, because (in Lipsia) the PPI is working only between
+'blocks' of conditions and not for short 'events'.</p> 
+
+<tt><b><a href="#vgetcovariates">
+<u>vgetcovariates</u></a> -in tbsmMK3T.v -out design.v -addr 20 35 30 -regr psycho.txt -ppi true
+</b></tt><br><P>
+
+<p>Now either</p>
+
+<tt><b><a href="../vcolorglm/index.html">
+<u>vcolorglm</u></a> -in tbsmMK3T.v -out gtbsmMK3T.v -design design.v
+</b></tt><br>
+<tt><b><a href="../vgetcontrast/index.html">
+<u>vgetcontrast</u></a> -in gtbsmMK3T.v -out cgtbsmMK3T.v -con 0 0 1 0
+</b></tt><br><P>
+
+<p>or</p>
+
+<tt><b><a href="../vwhiteglm/index.html">
+<u>vwhiteglm</u></a> -in tbsmMK3T.v -out ctbsmMK3T.v -design design.v -con 0 0 1 0
+</b></tt><br><P>
+
+<p>'vgetcovariates' is able to generate an output as text file if '-outtype txt' is specified.
+This feature can be used if a design was already generated with <a href="../vgendesign/index.html">'vgendesign'</a>. Then
+the PPI covariates must be appended to the existing design file. In this procedure,
+conditions <b>and</b> the PPI covariates can be specified in a single design matrix:</p>
+
+<tt><b><a href="../vgendesign/index.html">
+<u>vgendesign</u></a> -in design1.txt -out design1.v -tr 2 -ntimesteps 648</b></tt><br><p>
+
+<tt><b><a href="#vgetcovariates">
+<u>vgetcovariates</u></a> -in tbsmMK3T.v -out design2.txt -outtype txt -addr 20 35 30 -regr psycho.txt -ppi true
+</b></tt><br><P>
+
+<tt><b><a href="../vgendesign/index.html"><u>vaddcovariates</u></a> -in design1.v -out design_add.v -file design2.txt</b></tt><br><p>
+
+<p>Now either</p>
+
+<tt><b><a href="../vcolorglm/index.html">
+<u>vcolorglm</u></a> -in tbsmMK3T.v -out gtbsmMK3T.v -design design_add.v
+</b></tt><br>
+<tt><b><a href="../vgetcontrast/index.html">
+<u>vgetcontrast</u></a> -in gtbsmMK3T.v -out cgtbsmMK3T.v -con 0 ... 0 1 0
+</b></tt><br><P>
+
+<p>or</p>
+
+<tt><b><a href="../vwhiteglm/index.html">
+<u>vwhiteglm</u></a> -in tbsmMK3T.v -out ctbsmMK3T.v -design design_add.v -con 0 ... 0 1 0
+</b></tt><br><br><P>
+
+<p><b>Reference for PPI analyes:</b> Friston KJ, Buechel C, Funk GR, Morris J, Rolls E, and Dolan RJ (1997).
+Psychophysiological and modulatory interactions in neuroimaging. <i>Neuroimage</i> 6, 218-229.</p>
+
+</div>
+
+<div class="subtitle">Group statistics using contrast images:</div>
+
+<div class="content">
+A group statistic can be performed on the basis of individual
+contrast images. In this case, the input images must be contrast images of individual
+subjects that are registered and normalized.
+Contrast images are obtained by applying 'vgetcontrast' or 'vwhiteglm' with the option '-type conimg'.
+
+</div>
+
+<div class="subtitle">Problems</div>
+
+<div class="content">
+<p>Correlation and PPI analysis might give useless results when the raw data of the
+selected voxel contain (A) drifts, (B) steps, or (C) spikes. Most of drifts can be removed using
+a temporal high pass filter in <a href="../vpreprocess/index.html">'vpreprocess'</a>. However, steps and spikes can not be removed.</p>
+
+<img src="useless1.gif"></div>
+
+<a name="vgetcovariates"></a>
+<div class="headtitle">Parameters of 'vgetcovariates':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> ...
+        Input file. Default: (none)
+    <DT>-out<DD> ...
+        Output file. Default: (none)
+    <DT>-outtype [ vista | txt ]<DD> 
+        Type of output. Default: vista
+    <DT>-addr <DD>
+        Address of point to be processed. Required.
+    <DT>-type [ single | 8adj | 26adj ]<DD>
+        Type of region for regressor. Default: single
+    <DT>-system [ voxel | mm | talairach ]<DD>
+        Type of coordinate system. Default: voxel
+    <DT>-norm [ true | false ]<DD>
+        Normalize all regressors. Default: true
+    <DT>-report<DD> 
+        Report file with voxel timecourse.
+    <DT>-minval<DD> 
+        Signal threshold. Required.
+    <DT>-regr<DD> 
+        Additional (psychological) regressor. Default:
+    <DT>-conv [ true | false ]<DD>
+        Convolve additional (psychological) regressor with HRF. Default: false
+        Additional (psychological) regressor. 
+    <DT>-ppi [ true | false ]<DD>
+        PPI analysis. Default: false
+    <DT>-orth [ true | false ]<DD>
+        Orthogonalize PPI interaction term. Default: true
+</DL>
+</div>
+
+<a name="vlcorr"></a>
+<div class="headtitle">Parameters of 'vlcorr':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file (anatomical data set). Default: (none)
+    <DT>-raw<DD> 
+         Raw data file. Required.
+    <DT>-des<DD> 
+        Design file. Default: (none)
+    <DT>-verbose<DD> 
+        Verbose messages. Default: 0
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

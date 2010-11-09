@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Region of Interest Analysis</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Region of Interest Analysis (ROIs)</div>
+
+<div class="headtitle">vmaskedit</div>
+
+<div class="content">
+In some cases, the resulting contrast images need to be subjected
+to further post hoc analyses.
+Specifically, one may want to test whether 
+the activation strength in 'regions of interest' (ROIs)
+differs between hemispheres and/or conditions or is influenced
+by some other factors.<br> <p>
+
+
+The following steps must be performed:
+<ul>
+
+<LI>Selection of regions of interest (ROI):<br>
+As a first step, locations for the regions of interest
+must be defined. 
+ROIs are defined as spheres whose centers and radii must
+be supplied by the user. In general, the same ROIs
+should be used for all subjects and conditions.
+The centers of the ROIs may for instance be obtained
+by using local maxima of a zmap.
+<br><p>
+
+<LI>Creation of a ROI-mask<br>
+</ul>
+
+A ROI-mask is created using 'vmaskedit' or <a href="../vledit/index.html">'vledit'</a>. 
+<a href="../vledit/index.html">'vledit'</a> is an interactive drawing program.<br><p>
+
+In 'vmaskedit', the ROIs are defined as spheres that are given
+in an ASCII file containing a list of points (sphere centers).
+The format of this file is the same as that for the program 'vshowpts'.
+<br><p>
+Each line specifies one point and has the following format:
+<br><p>
+<tt><b>x y z id radius</tt></b><br><p>
+Example:<br><p>
+<tt><b>  10 20 35  1  2</tt></b><br>
+<tt><b>  10 23 24  1  2</tt></b><br>
+<tt><b>  18 33 17  2  3</tt></b><br>
+<p>
+This line produces two spheres of a two voxel radius and id '1', and one of a three voxel radius with id '2'.
+Spheres with identical id's are treated as one entity in subsequent analyses steps.
+If the radius is set to '0' then a single voxel is set in the mask.
+The radius is given in voxels (not millimeters).
+<br><p>
+The dimension of the output image (its matrix size) can be specified using
+the parameters '-nslices', '-nrows', '-ncolumns'. If set to '0', a default value
+is used.<br><p>
+Example:
+
+<br><p>
+<tt><b><a href="#vmaskedit"><u>vmaskedit</u></a> -in pts.txt -system talairach -resolution 3 -out roi.v</b></tt>
+<br><p>
+
+
+The output 'roi.v' is a file containing all ROIs specified in 'pts.txt'. 
+The parameter '-resolution' defines the voxel-size in mm. In this example,
+voxels in the output-file are of size 3x3x3mm.
+<br><p>
+
+<b> Hint: </b>
+The resulting file 'roi.v' can be visualized as follows:<br><p>
+
+<tt><b>vconvert -in roi.v -repn float -map linear -out roi_1.v</b></tt><br>
+
+<tt><b><a href="../vlview/index.html"><u>vlview</u></a> -in normbrain.v -zmap roi_1.v</b></tt><br>
+
+<p>
+For details of <b>vconvert</b> see <b>via-help</b>.
+</div>
+
+<a name="vmaskedit"></a>
+<div class="headtitle">Parameters of 'vmaskedit':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+         ASCII file containing list of coordinates. Required.
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-system [ mm | talairach | mni ]<DD>
+        Type of coordinate system. Default: talairach.
+    <DT>-resolution<DD>
+        voxel size in mm. Default: 1
+    <DT>-nslices<DD>
+        number of slices in output image. Default: 0
+    <DT>-nrows<DD>
+        number of rows in output image. Default: 0
+    <DT>-ncolumns<DD>
+        number of columns in output image. Default: 0
+</DL>
+</div>
+
+<div class="headtitle">Literature:</div>
+
+<div class="content">
+Bosch, V. (2000). "Statistical
+Analysis of Multi-Subject fMRI Data: Assessment of Focal Activations." 
+<i>Journal of Magnetic Resonance Imaging, 11(1),</i> 61-64.</a>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

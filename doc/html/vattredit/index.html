@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA  &nbsp;&nbsp;&nbsp;   Edit file headers </div>
+
+<div class="headtitle">vattredit</div>
+
+<div class="content">
+The program 'vattredit' is used to manually edit entries in file headers.<br><p>
+
+Here is an example:<br><p>
+
+<tt><b><a href="#vattredit"><u>vattredit</u></a> -in infile.v -out outfile.v
+-name "subject" -value "Wilhelm Wundt"
+</b></tt><br><p>
+
+This call changes the attribute subject name to "Wilhelm Wundt". If no attribute 'subject' was present
+prior to the call, a new attribute 'subject' is created.<br><p>
+
+Another example:<br><p>
+
+<tt><b><a href="#vattredit"><u>vattredit</u></a> -in infile.v -out outfile.v
+-name "voxel" -value "1 1 1"
+</b></tt><br><p>
+
+This call changes the information about the spatial resolution (the voxel size) to 1x1x1 mm voxels.
+<b> Note that only the header information is changed, not the image content.</b> In the above example,
+the information about the spatial resolution may be false.
+The information that is entered by 'vattredit' is not checked for its correctness.
+<br><p>
+
+The list of attributes can be visualized by using the Unix command:<br><p>
+
+<tt> <b>more file.v</b></tt>
+
+<br><p>
+To quit from the 'more'-command, press the terminal key 'q'.
+<br><p>
+Note that a file may contain more than one objects. The parameter '-object' allows to specify the
+object whose header entries are to be updated. If '-object' is set to '-1' then the headers of all objects
+are updated.
+
+</div>
+
+<a name="vattredit"></a>
+<div class="headtitle">Parameters of 'vattredit':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-name<DD>
+        Attribute name. Default: (none)
+    <DT>-value<DD>
+        Value to be set. Default: (none)
+    <DT>-object<DD>
+        Object identification. Default: -1
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

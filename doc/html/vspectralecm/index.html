@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Eigenvector centrality mapping</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Eigenvector centrality mapping</div>
+
+<div class="headtitle">vspectralecm</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vspectralecm' computes eigenvector centrality maps (ECM).
+The difference between this program and 'vecm' is that 'vspectralecm' uses
+spectral coherence instead of linear correlation. It is used very much like
+'vecm'. The only difference is that a wavelength for coherence
+measurements must be specified.
+<p>
+ECM attributes a value to each voxel in the brain 
+such that a voxel receives a large value if it is strongly correlated with many 
+other nodes that are themselves central within the network. 
+Google's PageRank algorithm is a variant of eigenvector centrality.
+ECM produces a map in which each voxel has a value that indicates
+its centrality. These maps can be used for subsequent statistical tests much like
+contrast images in standard GLM analyses.<br>
+<i>Reference: Lohmann et al (2010). PLoS ONE, 5(4):e10232.</i><p><br>
+</div>
+<div class="subtitle"><b>Preparing input data</b></div>
+<div class="content">
+Preprocessed functional data serve as input to 'vspectralecm'.
+The preprocessing should normally include motion correction,
+slicetime correction, spatial smoothing
+and registration to some template (e.g. MNI or Talairach) resampled
+to 3x3x3 mm^3 resolution. Higher resolutions (e.g. 2x2x2 mm^3) are 
+generally not computable on standard hardware. 
+<p>
+It is important that baseline drifts are removed. This can e.g. be achieved using
+the program 'vpreprocess' using the following call:
+<br><br>
+> <tt> vpreprocess -in input.v -fwhm 6 -low 0 -high 90 -out functional.v </tt>
+<br><br>
+
+This call applies a highpass filter that removes low frequent drifts
+below 1/90 Hz. The parameter '-fwhm' additionally applies a spatial
+Gaussian filter of width 6 mm. Spatial filtering can
+be omitted by using '-fwhm 0'.
+<br><br>
+
+Different experimental conditions may be contrasted provided the data are acquired
+in separate runs. The length
+of a run needed to produce reliable results depends on the specifics of the 
+experimental design. Typically, a run lasts for several minutes. 
+<br><br>
+</div>
+<div class="subtitle"><b>Defining a mask</b></div>
+<div class="content">
+A region of interest (ROI) must be specified beforehand using the option '-mask'. 
+Some standard masks for 3x3x3 mm^3 functional data are available 
+in the directory /usr/share/lipsia/. These are:
+
+<DL>
+    <DT>/usr/share/lipsia/mask1_lipsia.v<DD> 
+      Applicable for data aligned with the Talairach template as defined
+      in MPI-CBS and used in lipsia. It does not include the cerebellum.<br>
+      Main memory requirement: 4 GByte.
+    <DT>/usr/share/lipsia/mask2_lipsia.v<DD> 
+      Applicable for data aligned with the Talairach template as defined
+      in MPI-CBS and used in lipsia. It includes the cerebellum.<br>
+      Main memory requirement: 4 GByte.
+    <DT>/usr/share/lipsia/mask_spm.v<DD>
+      Applicable for data aligned with the MNI template as defined
+      in SPM. It includes the cerebellum.<br>
+      Main memory requirement: 6 GByte.
+    <DT>/usr/share/lipsia/mask1_fsl.v<DD> 
+      Applicable for data aligned with the MNI template as defined
+      in FSL. It does not include the cerebellum.<br>
+      Main memory requirement: 4 GByte.
+    <DT>/usr/share/lipsia/mask2_fsl.v<DD> 
+      Applicable for data aligned with the MNI template as defined
+      in FSL. It includes the cerebellum.<br>
+      Main memory requirement: 6 GByte.
+</DL>
+
+To restrict the analysis to one hemisphere, one of the standard masks may be used
+and cut in half using the call:
+
+<br><br>
+> <tt>vhemi -in mask.v -out mask_small.v -hemi right (left) </tt>
+<br><br>
+
+Alternatively, a costumized mask may be defined using the program 'vledit'.
+The program 'vledit' can also be used to refine an existing mask.
+Note that 'vledit' only works on isotropic voxel grids.
+
+
+<br><br>
+It is essential that the mask is geometrically compatible with the
+functional data and covers the desired portions of the brain. In particular,
+the mask must have the same spatial resolution, the same image matrix size and
+orientation as the functional data.
+To check if the mask is correct, the following calls should be used:
+<br><br>
+
+> <tt> vtimestep -in functional.v -out tmp.v </tt> <br>
+> <tt> vconvert -in mask.v -out zmask.v -repn float</tt> <br>
+> <tt> vlv -in tmp.v -z zmask.v </tt><br><br>
+
+The first call 'vtimestep' extracts the first time step (volume) from the
+functional data. The second call converts the mask so that it can be 
+visualized in the third call 'vlv'. If the mask aligns well with the
+functional data and covers the desired parts of the brain then all is well
+and the files 'tmp.v' and 'zmask.v' may be deleted. 
+Otherwise, the mask must be redefined.
+If the orientation is incorrect, use the program 'vswapdim'.
+</div>
+
+<br><br>
+
+<p>
+<div class="subtitle"><b>Hardware requirements</b></div>
+<div class="content">
+The size of computer main memory limits the size (number of voxels) that a mask can have.
+For instance, if the functional data are in MNI space and have a resolution of 3x3x3 mm^3,
+and full brain coverage including the cerebellum is desired then
+the computer should have at least 6 GByte of main memory.
+If the data are in Talairach space (which is a bit smaller) and the
+cerebellum is excluded, then a main memory of 4 GByte will suffice.
+At 2x2x2 mm^3 resolution, full brain coverage is generally not possible on standard
+computers. However, limiting the ROI to one hemisphere may help. The program
+'vhemi' can be used for this purpose. Make sure that no
+other processes are running at the same time as 'vxpectralecm' unless a lot of
+additional main memory is present.
+</p>
+<br><br>
+</div>
+
+<div class="subtitle"><b>Calling 'vspectralecm'</b></div>
+<div class="content">
+Once the functional data are preprocessed and a mask is defined, the analysis can begin.
+Below is an example in which spectral coeherence is assessed at a wavelength of 30 seconds.<br><br>
+
+<tt><b><a href="#vspectralecm"><u>vspectralecm</u></a> 
+-in functional.v -out ecm.v -wave 30 -mask /usr/share/lipsia/mask2_fsl.v</b></tt><br><p>
+</div>
+<br>
+
+<div class="subtitle"><b>Further infos</b></div>
+<div class="content">
+If the resulting ECMs are to be used in subsequent t-tests they need to be transformed
+to ensure Gaussianity.
+This can be done using the program 'vgaussianize'.
+For paired t-tests and twosample t-tests, special program options in 'vpaired-ttest'
+and 'vtwosample-ttest' exist so that 'vgaussianize' is not needed.
+It is also not needed if non-parametric tests like Wilcoxon's tests are used.
+</div>
+<br><br>
+
+<a name="vspectralecm"></a>
+<div class="headtitle"><b>Parameters of 'vspectralecm'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-mask<DD> 
+        Binary image mask. Voxels in this mask will be used for ECM.	
+    <DT>-wavelength<DD> 
+	Wavelength in seconds. Default: 10
+    <DT>-minval<DD> 
+	Signal threshold to exclude non-brain voxels. Default: 0
+    <DT>-first<DD> 
+	First time step to include. Default: 2
+    <DT>-length<DD> 
+	Length of time series to use. If set to -1 use everything from <first> to end. Default: -1
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

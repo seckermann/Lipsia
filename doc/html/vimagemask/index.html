@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Image masking</div>
+
+
+<div class="headtitle">vimagemask</div>
+
+<div class="content">
+This program allows to mask an image by using a thresholded mask.
+The mask image is thresholded using user-supplied lower and upper thresholds,
+and the other image retains its values only at those voxels where the
+mask image passes these thresholds.
+<br><p>
+This program may for instance be used as a first step in a ROI analysis.
+Here, the mask image contains the ROIs, and the images to be masked may 
+perhaps be a set of contrast images. In this case, 'vimagemask' must be called
+separately for each contrast image.
+<br><p>
+The parameter '-type' specifies, whether values between '-min' and '-max'
+or values below '-min' and exceeding '-max' should be retained.
+
+<br><p>
+Example:
+
+<br><p>
+
+<tt><b><a href="#vimagemask">
+<u>vimagemask</u></a> -in image.v -mask mask.v -out masked_image.v
+-min 0 -max 1.5 -type inside
+</b></tt><br><P>
+
+In this example, all voxels with values between 0 and 1.5 in the mask
+remain in the result image.<br><P>
+<tt><b><a href="#vimagemask">
+<u>vimagemask</u></a> -in image.v -mask mask.v -out masked_image.v
+-min -3.09 -max 3.09 -type outside
+</b></tt><br><P>
+In this example, voxels with values below -3.09 and above 3.09 in the
+mask remain part of the result image. As the default value of '-type' is
+'outside', this parameter could also be omitted in this example.
+
+<br><p>
+
+
+</div>
+
+<a name="vimagemask"></a>
+<div class="headtitle">Parameters of 'vimagemask':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. 
+    <DT>-out<DD>
+        Output file.
+    <DT>-mask<DD>
+        Mask image. Required.
+    <DT>-min<DD>
+        Minimal (lower) threshold. Required.    
+    <DT>-max<DD>
+        Maximal (upper) threshold. Required.
+    <DT>-type [ inside | outside ]<DD>
+        Outside range vs. inside range. Default: outside 
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

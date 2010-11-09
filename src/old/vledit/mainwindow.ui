@@ -1,0 +1,633 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>MainWindow</class>
+<comment>Das Hauptfenster erstellt mit dem QTDesigner.</comment>
+<author>Hannes Niederhausen</author>
+<widget class="QMainWindow">
+    <property name="name">
+        <cstring>MainWindow</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>710</width>
+            <height>451</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>7</vsizetype>
+            <horstretch>1</horstretch>
+            <verstretch>1</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>vlEdit</string>
+    </property>
+</widget>
+<menubar>
+    <property name="name">
+        <cstring>menubar</cstring>
+    </property>
+    <property name="frameShape">
+        <enum>TabWidgetPanel</enum>
+    </property>
+    <item text="&amp;File" name="fileMenu">
+        <action name="fileSaveAction"/>
+        <separator/>
+        <separator/>
+        <action name="fileExitAction"/>
+    </item>
+    <item text="&amp;View" name="View">
+        <action name="resetViewAction"/>
+        <action name="zoomInAction"/>
+        <action name="zoomOutAction"/>
+        <separator/>
+        <action name="viewSegmentWindowAction"/>
+    </item>
+    <item text="&amp;Edit" name="Edit">
+        <action name="viewAction"/>
+        <action name="markSegmentsAction"/>
+        <action name="deleteSegmentsAction"/>
+    </item>
+    <item text="&amp;Help" name="helpMenu">
+        <separator/>
+        <action name="helpAboutAction"/>
+    </item>
+</menubar>
+<toolbars>
+    <toolbar dock="2">
+        <property name="name">
+            <cstring>Toolbar</cstring>
+        </property>
+        <property name="label">
+            <string>Toolbar</string>
+        </property>
+        <action name="fileSaveAction"/>
+        <separator/>
+        <action name="deleteSegmentsAction"/>
+        <action name="markSegmentsAction"/>
+        <action name="viewAction"/>
+        <separator/>
+        <action name="zoomOutAction"/>
+        <action name="resetViewAction"/>
+        <action name="zoomInAction"/>
+        <separator/>
+        <action name="toggleSyncAction"/>
+        <separator/>
+        <widget class="QComboBox">
+            <property name="name">
+                <cstring>filterComboBox</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>60</width>
+                    <height>32767</height>
+                </size>
+            </property>
+            <property name="sizeLimit">
+                <number>2</number>
+            </property>
+            <property name="autoCompletion">
+                <bool>false</bool>
+            </property>
+            <property name="duplicatesEnabled">
+                <bool>false</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Filter that should be used when the image is zoomed.</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Select the &lt;b&gt;filter &lt;/b&gt; method that should be used for zooming operations.</string>
+            </property>
+        </widget>
+        <separator/>
+        <widget class="QComboBox">
+            <property name="name">
+                <cstring>coordComboBox</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>60</width>
+                    <height>32767</height>
+                </size>
+            </property>
+        </widget>
+        <separator/>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>radius:</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QSpinBox">
+            <property name="name">
+                <cstring>boxSize</cstring>
+            </property>
+            <property name="minValue">
+                <number>0</number>
+            </property>
+            <property name="value">
+                <number>2</number>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>maximum selection radius</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Select the &lt;b&gt;maximum radius&lt;/b&gt; for selection or deletion operations. When doing one of the mentioned operations only a voxel sphere with the given radius will be processed.</string>
+            </property>
+        </widget>
+        <separator/>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>textLabel3</cstring>
+            </property>
+            <property name="text">
+                <string>delta:</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox">
+            <property name="name">
+                <cstring>greyValBox</cstring>
+            </property>
+            <property name="maxValue">
+                <number>99999</number>
+            </property>
+            <property name="minValue">
+                <number>5</number>
+            </property>
+            <property name="value">
+                <number>60</number>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>maximum color distance</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Select the&lt;b&gt; maximum color distance &lt;/b&gt;for selection and deletion. Every voxel missing this limit will be discarded in the mentioned operations.</string>
+            </property>
+        </widget>
+        <widget class="Spacer">
+            <property name="name">
+                <cstring>spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>5</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>delSegCheckBox</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;use delta</string>
+            </property>
+            <property name="accel">
+                <string>Alt+U</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>use delta value</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>When this field is checked the given maximum color distance will be used for doing selection or deletion.</string>
+            </property>
+        </widget>
+    </toolbar>
+</toolbars>
+<actions>
+    <action>
+        <property name="name">
+            <cstring>fileSaveAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image0</iconset>
+        </property>
+        <property name="text">
+            <string>Save</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Save</string>
+        </property>
+        <property name="toolTip">
+            <string>save anatomie</string>
+        </property>
+        <property name="whatsThis">
+            <string>Save the anatomie image to disk. This tool is only enabled in anatomie mode.</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+S</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileExitAction</cstring>
+        </property>
+        <property name="enabled">
+            <bool>true</bool>
+        </property>
+        <property name="text">
+            <string>Exit</string>
+        </property>
+        <property name="menuText">
+            <string>E&amp;xit</string>
+        </property>
+        <property name="toolTip">
+            <string>exit vledit</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+Q</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpContentsAction</cstring>
+        </property>
+        <property name="text">
+            <string>&amp;Contents...</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Contents...</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpIndexAction</cstring>
+        </property>
+        <property name="text">
+            <string>Index</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Index...</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpAboutAction</cstring>
+        </property>
+        <property name="text">
+            <string>About</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;About</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>resetViewAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image1</iconset>
+        </property>
+        <property name="text">
+            <string>reset view</string>
+        </property>
+        <property name="menuText">
+            <string>reset view</string>
+        </property>
+        <property name="whatsThis">
+            <string>Reset the view to 100% an move the crosshairs to ca point.</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>zoomInAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image2</iconset>
+        </property>
+        <property name="text">
+            <string>zoom in</string>
+        </property>
+        <property name="menuText">
+            <string>zoom in</string>
+        </property>
+        <property name="whatsThis">
+            <string>Zoom into the anatomie image.</string>
+        </property>
+        <property name="accel">
+            <string>+</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>zoomOutAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image3</iconset>
+        </property>
+        <property name="text">
+            <string>zoom out</string>
+        </property>
+        <property name="menuText">
+            <string>zoom out</string>
+        </property>
+        <property name="whatsThis">
+            <string>Zoom out from the anatomie image.</string>
+        </property>
+        <property name="accel">
+            <string>-</string>
+        </property>
+    </action>
+    <actiongroup>
+        <property name="name">
+            <cstring>editGroup</cstring>
+        </property>
+        <property name="on">
+            <bool>false</bool>
+        </property>
+        <property name="text">
+            <string>ActionGroup</string>
+        </property>
+        <property name="usesDropDown">
+            <bool>false</bool>
+        </property>
+        <action>
+            <property name="name">
+                <cstring>deleteSegmentsAction</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>image4</iconset>
+            </property>
+            <property name="text">
+                <string>delete</string>
+            </property>
+            <property name="toolTip">
+                <string>delete parts of the image</string>
+            </property>
+            <property name="whatsThis">
+                <string>Remove parts of the segment or anatomie image. The configured start mode defines which image is affected.</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>markSegmentsAction</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>image5</iconset>
+            </property>
+            <property name="text">
+                <string>mark segments</string>
+            </property>
+            <property name="toolTip">
+                <string>mark segment</string>
+            </property>
+            <property name="whatsThis">
+                <string>Add voxels to the selected segment. This tool is disabled in anatomie mode.</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>viewAction</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>image6</iconset>
+            </property>
+            <property name="text">
+                <string>move view</string>
+            </property>
+            <property name="toolTip">
+                <string>move view</string>
+            </property>
+            <property name="whatsThis">
+                <string>Move the crosshairs around the image.</string>
+            </property>
+        </action>
+    </actiongroup>
+    <action>
+        <property name="name">
+            <cstring>viewSegmentWindowAction</cstring>
+        </property>
+        <property name="toggleAction">
+            <bool>true</bool>
+        </property>
+        <property name="on">
+            <bool>true</bool>
+        </property>
+        <property name="text">
+            <string>segment view</string>
+        </property>
+        <property name="menuText">
+            <string>segment view</string>
+        </property>
+        <property name="toolTip">
+            <string>open segment window</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>toggleSyncAction</cstring>
+        </property>
+        <property name="toggleAction">
+            <bool>false</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image7</iconset>
+        </property>
+        <property name="text">
+            <string>Action</string>
+        </property>
+    </action>
+</actions>
+<images>
+    <image name="image0">
+        <data format="PNG" length="1529">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af4000005c0494441545885cd97c18be4c615c67f1b14d08016a4d00715aca10b76c16a6c48f729dd60881b7c480e39786f313984e4b6908b6f21c740206cfe045f7d9bc92599dc66218ebb6fd225d133f1e06af040898c40826d5645b64039481e4fcfc663e692cd83e675bd6ee97df5d5f7de93eef57dcfebb4efbcd6ecff0f00829b81e33f6e7a1d69c40a5990215ed05e23ae44a3c99d80d7b8abb8001ae7044d46e904fc14e787ffb54e689a96b66ec88b8feebd82a0effbabcf9f4e3eedfbbeeffb7ff57dffeffeca5efc7388fd63f477b52ffefaa2ff227fd1bffbc30ffbebf9fabe3f6440c51a6b1b549850ee2cb3470a80effde409e9e488a330240c20ffcb6fef4473695ac40beb1ffd14a51ef7d61e5f317100402c2c7e90505e808ed5553c0ce183777e8cf596d5c3ec4ec901765ec8124d71b1210c0eaf3f10a1f60e5337e808a432d7001cd10496753aa7c1de1940e735852d495a3568e39b008837e838c1d5a0637d15579398f59b2bda49c53a5bdd1900be44058adce5c0ad0ca49495851b0c7cf8defb84aae3fde51a6277e7fc49abc8770538e00603871af086653ca3d81d32f0c1af6657df158a3bd94bc8f7053ad214de42a00f7e3e0030f51aa92d3a524855a2d219a6b6e85851d696d9e8f54421b5258b15521b74ac31a39776f45549ec15c59705ce69642f38a771fee30300f7aecf82a7bf3fee9ffcec31d5790731945fddb472e898af93550e1583b934e84423d6314d402e4b7434a3d8e5a8505156828e34520b2a9a52c896fc6f0e7bf9f4aa0c6fb4623d9c7dccd717573224af6464465031881552afc8ad30050a5bd2b68aed676734fb84bc2a703ea5a804e7a748558077b7578173828e356565d07186d46e6440c6f5a00db1c234c986f61ca66ceb1ce5156e2fa4d1d896a30ce776e8783ade37a373f02d55a091daa0e261a7ab6942eb2dab8743fd2f1fc634de327f634ef55c588433aabd611967340cbec5a226735a2cabc99c860abc432e0af0dd2b0c1c68e037bffea87ff2f35fb0391f9ad1e29de4f0849e03f7814b2002ea435fd6a02370e35aea121d697ef9bb3f308d35859c217f4f689a6fd080f3837a5504457d88b4693ab80fd636108119fb85a92c5d0479655011485542044555a2460df15251d802e7b95d0378838e67985ac8a26b67d540921c81051527508db3a2823456480559acc7f80ca9ca713d68a8f3424606ce11323d4879d0073a9f52d603f2c216ac5873f6cca0234d5997cc624d597f555a638916c373c1c77e781e102764684efc195334ee8d16e7a1f0398e5719380030a876cd565aa6471a2e61fd7d0d35e80733ca1ad6e90257837a902055c9faed15aeea50f192b212de8de748ed58460be47264d243e835ce6d6f9f86f80ea984d4398a2f7388213f3734c066674880edaea40d3a36e73971a0c8cf73bac091ef0ad47345610a54e3284c8eda6be45270bea37542f75f18b821c2a1ce8b361f6641052ad014bb1215a4e4bb863450e43b19e2c6918463d24053ecdde84bd25093b739fabec63977a5815bfb005e535c086ef444e022cbfaad195d58b17e2bc18596f59b8bc167312eb0acb2394d60583e0a69be6b584e16b454acd205624b00725f8c9bbc8d816e10d8d0c986b36f7621c7cf1adc45ccc9271bdc45c2c92706571d71b2ddd2d984e3ed06771973baddc065cae9f906da98d3cf36e844838723af71bebb5d03ce3bc4e668af292ba18bc08596d5db216d68869d86966516d30496e5a38c36b0acd261c78b74418b6135c968312c27196285ce3b1a2ff06d7da0f330bd3fa31c670215640f6698bd619e2e08f7304b33ccdeb04833ec1ee64a6311e62ac30690a919263064938c5d6098461ae71da1cf701e420eedf0bdc0298acf37b495657b61582f3522c3fbc0a9fff3302bbc0cebcf4f99a2393506bc4676a764684e9d109261fc33b49ff2cc9fe1ea06e7cfc00d42bf6e07b300e0f1fc699fb70578cd5164d1680c0264745e989151221ca1e9bc6116684a6f000d8c7e5c3b0630bb6a43c8f044d6bf3cbb772b80ffb5bdf677c3d70ee03fb5b2c0d2373441700000000049454e44ae426082</data>
+    </image>
+    <image name="image1">
+        <data format="PNG" length="1709">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000674494441545885bd975f6c14d715c67f185b9a51bdea4c332b7622a3eead82ca6c9bca8b1a09682b1968abcafd0324541506296e94174a2b05f18850a8525455ad4511b40f951126b289da2003c1d928a4d86e2dec280dbb6e4c77108e7cadc4625630f28ce2153315db4c1f669c35ffa2354afbbd9c397776ee7ce7bbdf3d7377050fc14c71be5bfaf656cbb03a94104dc928d8ae8dd92cc00d47d194f3b66bf76df9ee37fc87cdd10856dc3b30f4dae58e5c469c2cbb7656181695d0416802e94b842190aec4320476c54668c22f57eca33fe8dc72e83321303438732897e1c5a22f59d79647a92928868af4cb58468ed007c500db05d10ae19c47a884942bf6a850aced5fd9fcf8b2d5685abc383330744818c18b455fb271ed069c9a83925191558995c9217d09ad60bb12cb002794686b75bc668f5cc6eab0fde2c8958119ed9114e83f35d461996244d67c36afcd435545c980ac42ce005cc080b20b6633e073d7fda002155f529c2efe7ec7ae1dfb96ad80c03c29c30a1b9fc823ab12a50d2aa143ae0d9cd0833628cec938af39f1cb7d89d040ba0e6a1b04ad20d2e285de13673a9625c1a5812bddbda7faa399f27c74a3783bba7d338aa20fa218f349fc28b94ec6ff35938c7d1045d1ed288a6ec4f1c63bf3d1e5c1cb6797a580ed96b65aabf3385527319c04033ccf031d82208014c8aa03adf1782e93e41970aa1e187134d7ea941c7bdb50cfa586bdd094d5448789896508a40f3943800fbaae4300aaaac21d109a09d564bc0ac28c7333add763081bd6e49945b6374c60b62a350cb0fdd8dd653756c0f13c5013056a20fdb8e22008209ddcd7eb4a799e0769f0f1c9d4328d13c89b56bcd5927d2e3441f15a19131d24a835155c1019136a89221e98ba0e0b89224ba2d02cec9addf8128c4f8f279dae8ca2c5ee5ed796a35891045abd722f0c405d52f142ec8d458f04495e768b10860d37a426bd6652ae84082387ed83a908021fd63d21506b20569b10829e8a2b5ff4869e52eb1e09405dccab3a7ec864c3048a73f639bde621dd329601d22f13364371568202d27120b564cd1782ba3754e00e719ec4c2c42022148d133015eb7c616c10a1e5c02769bb6025bb411826dc5ab2e64b2b07688983da02ce98836815e77e7e6c77e34b70f0c8ee3e67ce9f2dbcfd3ab4c61eb00c90ae84a4d3914ed63e5557803b774f142c0414de18a638573edae8cb2169c561a8ecf3ed0a13b3457286400debfd605101fd1e05162b5f4469b4846c966c6e7f66eb7208ac0498ba3a764d33d768fecd0fd72bab5a59fdb889ac3ae85a0ae93be8ab52389e47eaf32ade4280fab9168220a0a5a505eec0f8a9710ae5619efed62ede7a77e2dac4db85f38d12b8eb3cd0b573ff918d6bad17b24f09bebf7e33848001f8401af0001d5800528003af8f0c33716d9cbddbf752f8c7387991f3fd66ef685efee18b5426fc2f1cb03ff5ebb87269327575e24d25bde69ff2fde9f553d7dfd18c55aba912a21b299c798fd4636aec85db2a2fbf3ac0c49931c6e7a6fa767de7d9f6bffcad30fb932d3fd2a6fd69e56bf254c7ad8f2eb6a7a9addfbcc1ccbefc77f7a18adc77245bc4813dbdddb26a3f6b19a223543cf2590bbb62a3843a76454e8a56316abbced1d3af1c9e3d70b0b7fdf04bcf4ffef637fd679fc938db32b509d4bc0553030455a8cca97d5ffab5fdd36511588aae1ff766436456014ebf7a78f461bfbbb22f7f96af5adbd63df73b027b00352ce14d8dc32c0cbb6adf8e630f26f199a17f8f558a2efe2c8ae6fbe343c2f5e351543c1045a7b2d18d9e6cd4bfc73a79ef332b1f34d1a3627f3efde78befcd7e6fddc7d319323aacee24f0a76979ac855af543d27eadfdc92f9bd9d7261fe009e53a91d24344bc2c2b0105d0b5fa7843b8f48b4eedf84eab14153645d1cd254abc172b31f3cb6c747c675d892600a587880b9fcc11293dd4807f2b3dcc8717ee7fc9a761cbb1829fa9b1e9577f9293c11b27e05601d63c4da068f0e446b42c6c3282ee97b6654f92544bfeebf92679baf49ff00284fb69827ac5caf5985cb8bf31c32ea27f5ba7266b7264ff739976f59bbb20dd09d383107a503a41f11a0c96d4be2680d2bba58f43f72e05ea92bbf74fde08769f2bf866c8a6837f9493de8581254ae890df88920181d2fdc91f138cfac34bab550c1e19cfffd5f62d729b0ebf5299f4de8a49a86bbac0b5285d35f136742d4fd64745efb72dcd2618e9da60b69b3fec64fcc830caf6bd14c6a4ff7f211093e8d46ce488d5acb43b4f75a1d4845f7abfb46f451435bcc3fe27f82f99a85215c85c3e8e0000000049454e44ae426082</data>
+    </image>
+    <image name="image2">
+        <data format="PNG" length="1708">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000673494441545885ad965f681cd715c67f722498a1bb74a69dc53b41a67b430c9e6d5ab48680a5b420cb6d1fdca6b6139762296025e4c5751f62fc684c0cae29a5755de3e4a595b01ca4181a23c74559d3fc91d40aaf421aefaac8dd3156d015a9f02cd1a019a2c533e085e9c3acacb55d97ddd4e7e5cc39b373ef77bef3ddb3b78d47d862717550faf61ecbb07a95104d492bd8ae8dd92ec00da7d1942bb66b8fecfad173fea3d668c6da1e4c4cfce55a6f362dce975d3b230c8b4ae8203481f425c2104857621902bb622334e1972bf6d99fecde75e2b10098185f3c914df37ad1976cefcca1d414144345fa652c234be8836280ed824840b8ec112a21e58a3d2d146bdfb7fb9e6c998d4deb0f97c6264e082378bde84b7ab675e3d41c94b48aac4aac7416e94b4880ed4a2c039c50a26dd3f1da3db269abd7f68b53d7c716b5afc4c0e885895ecb1453b2e6d3b72d075515250db20a5903700103ca2e98ed80cf7def830a547c4971a1f887fd03fb8fb4cc80c03c2fc30a3d4fe7905589d20995d021db094ee841271497651cd79c78735f223490ae83da094102444abc36347ca9b7250a3e1abb3e387461345a2caf46b78b77a23b5f4451f47914db6add7f597faee7ffb558cf7d1e45d19d288a6ec7fef627abd1b5f16b975b62c0764b7bac2d399caa53179c04033ccf031d82208024c8aa0389389f4dd7e33438550f8cd89bdb744a8ebd77e2f4474d6b61534613bd26269621903e640d013ee8ba0e01a8aa0a7741682654ebf92a08338ecd94bee143e8de9a6309d9d53480a5aad430c0f6637597dd9801c7f340ad335003e9c715074100a9fa7b7d8329cff320053e3ee95aba790039d38a8f5afd9c0b4d50bc59c64407096a4d051744da845a9d110f4c5d87b53a230d5e681676cd6ebe058585427dd29551b458dddb3bb3142b9240dba8dc0b03501b2a5e8bb5b1ae91a01e97dd228461d30369935e332957428491c5f6c15404810fdb9f16a835105b4c08414fc695af6b434faa1b1a09405d8fab3a7ec85cd3008acbf6bb7acd43ba652c03a45f266c87e2920405a4e340b2a1e76bc1863654e02e715cf7f9d97144289a07602ad695fccc3842cb824f7dec82553f0dc23061a5a1e78d950374c44eed0067c64124c4bbbf3cf752f32d387ee6a51167d95fca7ffc1e24620d58064857427dd291aaf73eb9c10077ef5f28580bc85f9da4b85c3edbece6501fc561a81cf1ed0ab34b45b286400d37e6c13a03fa030cac57be6ea5e912b25dd2d7f5e29e56003c01307f63e6a6666ed5fc2ffebd43d99c60cb9326b2eaa06b49a4efa06f4ee2781ec9afab786b01ead73a0882808e8e0eb80b850b05f2e5495ef8fe001f7c3a7b73f6e3fc956601dc771fe83f70f44ccf36ebb5ccb3821fefe8831030001f48011ea0036b401270e0bda949666f1638bcef30f97f14c889acefb77b6773f2cd6f5199f5bf71ccfe9fff8e4f3406f33766ffaaa4b6fe537eb6b063fed6279ab1790b5542742389b3ea91fca61a6be18eca5bef8c317b6986c2f2fcc8c00f0f76fdf96ff9a59feffaa9b6e02f28df95177a57be7cbf2b456d475fb79979ebefee231979e84ab66ec70e0d0dcaaa7dd032446fa878e4321676c5460975ec8a9c1309316dbbced9b72f9e5a3a767ca8ebd4c957e77efb9bd1cb2fa69dbde9da2c6ace82f931822a5496d591a77e6dbfdc128046ebffd95026446614e0ed774e4d3fea77d78fe42ef38cb577fb2bbf23b0c750c312de7c019660d25547f69ffbef201e9b8d1eb24ad1fbbf88a2d5d1f89270eb8d282a1e8ba20b99e8f6e94c347ac83affe0379b1e4c280522e5169152206a1580a8b173f8e2d41c5787616512b6be40a068f09d1e14037a12c1e0d0cbf7837818800165ed242cb4ba3d3cf727db1709b1f3cd89ca1c9fc620546b00123de8b901c433d0970906df38b001e21e80f5ca43179494001794d344cae9d698d8752eefa76becfcd51fe55c70751856f2f731a16560a7110c9edc9b390f0d22d46e1115b593282981bd22b15282704592bd7a9cf06073626db4d1bdbb35599353475f4977a9df1b80d46e581887d083d230c59b305e5247ee2d7cafd26e58ec3ec953bf3f7e6fb1f068eb0000867e606936c1d4b103a24b7f3e06112c8ca38605ca530566afea1b2d088fd2161ea54d31205c018c8ddc57d91ce0d50f6ddf22bbf3d4c5ca9cf7c118ace451b7f6836b51ba61e275f73fbc7863cfff9fcd1b6d9d89fe6eb3cb7c7e3785339328fb0e939f91fe63d9a03910bb351b3965b52b5dceb3fd2835e1973e2b1d698ba2968ffb63b5ff00069748234e0b8cb00000000049454e44ae426082</data>
+    </image>
+    <image name="image3">
+        <data format="PNG" length="1683">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af40000065a494441545885bd965f681cd715c67fb62598a1bb74a699c53b41227bd38478b67fd85569b0d31614a72daef3c78e9a12da146cc7c943d487c4983e14636208a504d7b4a6b55fe2c67290286e5df94f9d357589a556440a75bcabdaed8ec8065d9108cd520f9a215a3c035e327d98594b76adb2326ebf9733e7cece99ef7ee79bb37715cb60ba3cbf5dfaf616cbb07a95104dc92ad8ae8dd92108dd70144d392d5d39f0d8b7bfe22f57a31dacba75e1ec99777bf35971b4eada396158d44307a109a42f118640ba12cb10d8751b91127eb52e0f3ef1d4d7f6dd15026787a7f7e5b3bc5af6253d5d4594a68262a848bf8a65e4097d500cb05d102908673d4225a43a638f0acd7afa0b1bef5db11aab5b172786ceee1346f06ad9973cb26e034ed341c9aac886c4cae691be8414d8aec432c00925da3a1dafc3239fb37a6da73c7269685abb2305068f9dedb54c31229b3e1bd715a1a1a2644136206f002e6040d505b303f0b9e97e5007e93b54ecf22f7fb8ed895d2b5640601e95619d471e28221b12a50beaa143be0b9cd0832e28cfca386f3af1cb7d89d040ba0e6a17900a111de29523874ef4ae488277862e6d3f726c309aaece4773e56bd1b57f4551f45114633e899f24d7c9fa3fa793b58fa228ba1645d15c1ce7fe361fbd3374e9e48a14b0ddca16abbb88d37012c34930c0f33cd021080248836c38908ad7f3d924cf82d3f0c088a3b94ec7762b5bf7bffe6edb5e589d4b895e1313cb10481ff286001f745d8700545585eb2034131ac97a038419e766465f8c21141fdc40d89485b609cc8452c300db8fdd5d7563051ccf033551a0199b8c6c926792fbfaa2529ee74106c28e3a2234db275034adf8534bbe73a109ca53554c7490a036557041644d68268a7860ea3a2c248a2c8942b3b09b76fb2d18af8d2793ae8aa2c5eeeee9ca53ae4b026d71e75e1880ba64c70bb1375a1e0992bcea9609c35cdb0369b58e49b51e228c3cb60fa622087ce87940a03641749b10829e8e77def2869e56173d1280daca1b3a41684fb64da03c6b9fd29b1ed2ad621920fd2a610794672428201d07d24b7abe102c7a4305ae13e749fcc358099aa27d024211a74b63c3082d0f3ec9d8052bf91a8461c2d5253d5fba7380ce38a89de08c3908459c3afcc633edb7e0c7fb5f18f05c67a6f4dedb908a3d6019205d09c9a42393f43ebda800d76f2e142c0494ce5da0326b1f6cf7e5908ce2b0a1eef2ed3a133365f286400d17e7414b01fd16055a3b6fa1325a41e2b0797ddf969510580350b93c3195155d9a3b575fafac4dd17daf896c38e85a1ae93be86bd3389e47fab32ade4280fa994e8220a0b3b313aec3f8b1714a972fd0f7e8b3fcf9fdb1a989f74aa7db2570d379a0ffc5fe5fe4733dafe48a82c7d76f841030001fc8001ea0030b401a70e0ed910b543e1c67e7933fa274719ca2c8fb7e8777b0280fdd477dc2ffdc1efbbffe3bae599a5c2c5ffc53f6f35d7f9753f6faca544533d676d3204437d238f31ee97bd4d80bd754defafd101327c6a8d42f0ef43dbab3f0bbbf94669e7dec29ade6d7942fcb63bd573f395fc8d05cbf7183997bebafeeb28afcc791ac85fd3fd9bfdd76e536cbc8f7fa38147345ecba8dded4a9d6ab93c210a376bd7ef0cda30766f6ec3d52f8e96b2f4cee7f7df0e477b3ced66c7302b568c195218206d467d581fb7f66ef581181a5e87fb13f17424e010ebf717874b9df5dda553cc917adad3dcfff9cc01e420d2b7857c661062eb8eac033bfba3d89bb86c197ac4a74be3f8ae607e343c207bf8ea2f29e283a968be60ee4a2c197aca3b73eb3e67685ee14bb8b99e3e72fcf6ceaf9b49625ab43f76602bf46e73d9d341b1f93f19b852f3d64e6ce4c2e7ae2ae1278b3ec862f7fe3e1e3a5c9d94d0f676a59349dcefbb640a3819a11e89f5e41a75978d03473a57fc4246e7840192762c901f446fc2384bbdbf34a0b27be6769f6f56064f7d3a2a07ee739c86c26a80da136624f38efc3f0c70cec3d35b3e34661ed03a2b2f61a4a46605f955819417855923fb79770dbca08000c6eddacc9a61cd9fd7cb6a07e3d26416d18420f2abfa13c05c315756051810344cb155ba9022d1cf9a6a5d904237bbe2f0afa932d258651c371aa23e34c9cd3efacf0ca486cd66ce4c89e1dd982feade720d307238718fa6d09a7abefee9af07638335d0b77de9f393e3c7975933157cb92f2397fe802a9c75fe6e294efffcf1568a1a584d5a1149caffe00a529fcca87955daba268d9d6ff5ff06f09093df650ee201a0000000049454e44ae426082</data>
+    </image>
+    <image name="image4">
+        <data format="PNG" length="1824">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af4000006e7494441545885b5976d6c14d719851f2726bd932e61b6b2959dca169e0824cf0a6476056abc8546763f6544db38adda246aabc4fd104df3238d709b88a8a540510534955a13a9c4b491c0951230101bd30867716bd8458dbd8b6ae2214de23165f14c64931d6097b9940ddb1fb326361842837ba599d1dc0f9d33e73def7bef502c1699bc3e6eebee198b8cfdf3e2e8d1bfbf593cfaea9b2b814f00651fb5ae582c72c7c7462db5dd2fbfae872b445cad617eac364c677fc7bdc03dc09db7b2feb609e8aafe4b3d145495b90ade0484d0028060060546e2efab2389b1e0d4b1db26608e0f3f4075e92500692735a3f4ddaf1e5511f459396bbf3f9372266fb7d322d5d1f957c938c3e801e3ba393b778da85a40f4e955c1ba103180106003b9db57c03101f03cd0023aa66d4e1b7fb16db7aa4baf2f58431dd5e0481b2008dc05b3a0802674b800ca5c7032121dfdead8e6ad3bd55040ef8bd587eb26bb454e4ce296c12c78207d3a0502b2e359084852b934008f3ff6b4aa4bbd4f5b2cea58f8e1fcce64cf10f001509c150235011d2620180892724c0c0c8c45f5f7c46a9b7ab506b52e1a0983075c86f61d07f2c35de60bc045bf67164260664c568a289663a3793a2656a061c5d32feb11118e2d0d931df708962b6cf9d3ae7c4f5767ebe1bece41600290b342400b68e0805ea1119707685cdcf4f348831668bc3fe62b83c286eded79eb60aaf5f091ce41600cc80205980d0f644cbc00a4468791c7415faa06562e8d613936d91cacfd7d5bbea76b57eb8e23db068133f85f7f8992076e5b0143adc11df5481eb2104ba0b97e25de040854d66edf927793666b72e0f08ce0b74c606c9dd16016b8c328a7ecd3bf30fb98e2e254c624f58a245c0bcdf54d9813c304d1d8f0c2d67cfa8d786bfa44f286e0372530f29b6615d7fc9d5a2bbe1ed498a75519e0585c7c29723ef98e7cf6f3ebcdf6b175c6dd09c01212438de06624420459bb7d6bde7dc36a4d9fbc393840d9d46db8accc2fe3834f1a0d7680ce95ab5595103047f8493307b820a14bb26720bba6a94af9ee0eb77ef113bf6ac7b6b3f43c9f209e49e6d3e978ab790be0c562f17a0283cf34350403565c5fa3420e903a8c9a1012fe165269c0b8897750a21860c926e26fd7a30b8df6ee0ef4717bfdc6de8e9e12f8f88dc0672490f86158b504d6a3eb54155742120e9cc8f63aa67c4d5652f9f8a2e08f9555224048404642950057424625d12f892d83b5bfb57eba719fd35d22e0dd087c92c0340f98059e6a7950a84c4838aeb3a53bf1fc9abf38fb81f781bc582ddc967af16b0a122a74c858be8bd20eb11f44e0b849cb8ae0979a9705bfa5ab7aca75acfdf7ad37e3f8393f23916975402fe77ba8127292f643a9de12f818f06fe08c51ae9cb24c09e5d20f8b94a4ba243ca842c1820502b5417c25faacfa19516fafd61788bfbefe4ccd36e093d762cd48c0abf0e6237418f510e3bc0bb8f871bc005cb20a7c5b5fa843c6830224f6928f561b5090fe190849b0d6005ba2d40af822343644bfbffb29631330772612d33a622a904981072654e2d7ebff0057fef01de3b1c62a6f15b9141420dee5e5db0edaad29dbf4c1332e08f006d290016fc07fa7c6a2b18a9f3cb25c8d000ad71cd5a679203e0a0fd5038aa46559b49902e546b9f2963d87fb9b97782bb46a0905c181434a3ed99f6ded38e60ebeb85a0347826a40af89739adef67efbb59615d12fe88ef565960b820be19165ead73a8eb866e9a33e989180b495a3d9b4fbd9a00a7a55820d0de2ab36ee87c7ccac604f3ff98ea4ddda39e00e0267d20ec40478274d9c3443f76d3237016737eeebd937f29cf1c75045b641a955700fd100b401e7a61298168284ebfd2c71227601a72456c045ab060ae0b92abb06c47bc97ed9da39e00e502a3286aa83e3a1e4a06d28bb177fa71b03328909efcf4a2e0c131eb12a2504dc8d5fce660ec1b6bed17fb852363bb6b69613de031101162072cac8e16cf6d09e01f7c0e8843c03bc079c052ea59de1738dcb98377cda239bc305cee39b56ea28f6f0e961c2556049ef5efc1f96f21b12000a1dc79c231d380f039fc2af7d770257f02bda79fcccb8805f9c8b422a4338d9e5614da0aba20ed85b9a8f59e0732d95f81e71a343307add91fddab4289680268053c0dbc05bc0bf80774bb2bbf8995104483bde29c6014fd2a8290f352f5523c05d9bbf591335e0492ebb300e89ccb053227de5660a4c92b85cba3eb2854478a77d72f8516d8524b6c80e4811eb8c5459c7a25518b105f63c8202bb5f802d8fe2674061eafa1977c3ffb1cde97ed8f85b74895daf55e017a57271f59975217e4c1bfac62be613f8aa3af80acececf2950e83c9dfd919929654f00901202021c48bca3e53726adcdf8e9778eff830200739a978496348582cf51e9adaa0f489239811ca7b7ed84f392999126be7fce3225b4c56291ff02a623319806c142c40000000049454e44ae426082</data>
+    </image>
+    <image name="image5">
+        <data format="PNG" length="1665">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000648494441545885bd97ef4f5bd719c73f36c7ce31d8e61a30d80107430ae935b533b69014d6b295366dd454d55669e245b4ee45a4757dbfbf602ffaaaea2655953675dab477d3d457db845a69ca7ea5cdbaaac996a635c2944b620f6ec181a3706b4e9c13b317d728240b51c9d27ea5a3abab73cf3d9ff3dcef73ce735bb85dcf0119e032b0c557acdcf891f1aad5656d01bf078e03e2cb9eb4a5790d64fbb2bf9cfefef4a8721526680e898638a5ebfa31600370809b5f26c00f4f9f3efd6367c1c15d73c9a432243a1281583436688c99d6463f43831b4d90eb0f1a60f8d913cffe66323f199df9f30ca3f1519450e4e379021d019e3ef03458f40ac477544d7d9706117c8f6c3c1800c1afc78e8d7de3ccfb6710618117f4888423a8864286257a9f26dd93269d4993d99fe912421c37da9cd275dd0fac039f034f023dc095bd0304592b5d2a3d9e93398b38d8d246a1b0a58d0e69ec948d328a7c5f1e22303536452c198b8e596347d783eb2fa653e91fe5bf963fad56d4715dd77f01dcbd0134f8d434ccdfcaaafc68a83594d2ad9a586b0c8542ec1354eb553f32758f9cc85131159256925026c4c943275b927632620fd9b86b6ebbbbe4e6f03368f38b03f85a360df3b6b7e63d52908541e260f7fa2b1f4d8de2698f5c770ec738d85d364a2bf2a93ccbc165ec6eff7e6a648a8b0b17fb955211e0edbd020028d33033c5b562af14b260c286685b946acd8fc06a7d955038445557c947f32c8797f1ae79547595a1e010e56099744f9a8f663f1a33757305f8d75e0100366930e3aeb8115bd8137442be2f8fd28a5c770e5557d85d362665702fb9b537de7ca35a9085180761283e0461c8c95ce0dcfcb96334f83bf09fbd020018e04fc595e286d1e65bb42112d104aaa6b0858dd37070e61d5e7bf3b577b4d63f716aced1c183831d06c38018c04b7ae89a8e562a951cf007a0b65700f0cf8173d5b5eae286b7f144a2271129f41528d54be4bbf27cf0f10738734e9b088b5eb5a64cf1936263383c1cab26aac1fcfe3c91448472a57c4029d586ef875dcf95dd00b6755129757e756575d2448c95b012b89ecb44e7047240c6c78f8d0f47ade881d9b9d9cd739f9cbb5c5da986091199e89ec0741a9c39e788aeeb0a70fe7e0100163ccf3b3b501f38911c4ab6dbdd364ecd61e2a1094cd030959f8218b1cd6b9bedf30bf395d25ce95ad55463cf8f3fdfa2850e38f3ce31d3306781cafd02002c95ebe59e6447f2b1d5ebab844408555364c850aa95c87467480fa485088ae4fc9579539a2f5d3ebf70bec53e64b78ab088562a95117c3f7c7ebf0098ba5976169dc1f242395eba526af39417a8d42a646219544d51e82b904827981c996c2bbbe5c4e2e2e27271b678752a3b155f17ebfd6a4dc58119eef043e08b02349500b2c041e03070584a396859567fa22b111d480d60252da494148b452e5cba70557b7a29db974d2b4f7529a55e067efeff00ec541088031d400a28005f9752da322a87a65253dd0e4e60b9ba8cebba1529e54d6d7404c30bc0bb0f02e04e05f03f6902bfacb381c3084624f2116d7404a82370a5903fd55abfc503ae2d76533b7008780a78d9b2ac7f5b96b5091cd9a6fe2ad40ff4e257549dc051e02c30b7578000100642dcca20831f4a738f711160027811c10d0c3f032e6dbff05e831e06f2c0017ca3594d80167c13829f5606bf3a9a07ce001feef24e0b784546e50bdad3d3c05fff07400a99d546ff00c1610c0dfc32ab022c016bc00da0de9c34805fba479a800f0363c03f8057007db785a552a9a252ea7dadf5a9dbbb042710bc87e055e0db401fb00fdf48f1e655eeb2ba6dc5a490bf05be77d75ec1a3d96cf63af03ad0bab36b9f94f23d29e44bcd89047e989f00c68161fc9cbfd7eed9063c83e057cd71b74758f05c2a955a9551f92ef04d20b4f3cfe7bad6da0546b865aa16e021fc127ca909d4d97c3e08c49af7bdc07e200978185e0566f1fd1143f0a414f22529e5e36ed5fd2386d7810bc08d3b3d3008fc023fec6f01ef0057f137969e1d13b7e067c216be2734fe41b32e850c68a307a490b6461f91428e01610c1f6aa37f87bf0b7ed65ce45db3c002a68193f8eed740b909b2816fc0ad26440468436061b0102431c4a5909e46af038b18fed95ceda780da319edd00b6d50a0c34db603302edf869b89d8275049b1836f0d3f03360b539d1f67513ff73deb52adacb4624b895ffdbe3b676b49bcdb6a7dffaff02b645732121a543680000000049454e44ae426082</data>
+    </image>
+    <image name="image6">
+        <data format="PNG" length="1681">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000658494441545885ed965f6c5bd51dc73f491d76acb9ec1a5ccd570d932f4d45aed7b0384bb43822d3e28156b95da5b9da1fdcb155d5f640040f28a0adaaf6c0323421e834a6e401483455822258c8a43518a6a846ab66479bd6b84ae33890cab72c5e5235c1f6922cbe4b4dcf1eae9dd8a953d8337c5f7ebee79eefeff7f5f79c7b7e073ec3a71d75db077a0ff6de69d7ed3fd6dd7aaf913754cda15d1c7c6df0b789e9c4b94f9ab4f7d1debd6d8d6d8f1a6bc671dda53be257e3e3131313c3897f24ded93e7757e583bfd37fbfd7effd638ba3e5c4926dc9e5537c62fee6bc76e4cb471eb6edb5edbb3c75f93cf0dfdb150f3e18fc56e8aba15163c338d2a174dc69608836479b77cfbe3d61bbb037cc5d99fb0b206f217a3c9e7dfd4ff7a763a331999c4a4a29a5941b56884563f2fc1be7e5899f9e1805c44ec5fd9dfeaf8fbc38b2f2ca9957a4bc2ea55cb7f87241ca743c2d075e18907d87fb9eadc5dd75eae4a9b793d1a4cc66b3b216d23369193b13933d0ff69cac95407128ceb1d363b3637f1aabc99752ca6c3a2b875e1c92be56dfd12a72cf377a8e26a3494bf56d909c4acab133631f2a0ea569bb80fe27fa4f8e45762ebe29e2fdacecff45ff34f08532b76ee4d991f14ddb3f06b10b31193a1cfad5b6fabb8786870c59dbbc2aacafaccb743c2d7dadbe1f02d4bb5d6e55ec179dde16efadbe2e4261be00a9ada1aed62e749f1ea0622ff8dbfded415fd083b382671460eed694f6dd760a4a81504fe82180fab6f6b60702ed01c7f6896ffee14d26a72799b83281b16630fcd230b9b91c0808f7845b8410fbca737d1dbe6e14ebf7ab675f6566768689ab1318cb16af305fa8caed6df2e26c727e0db8bb3ed41d6ab3dbec5513865f1a46152aa6c3c4e7f6218a82604790c1d70629640a686ecda137eb5fa948d8aa6a2a83bf1b4477ea388513ddadb3c822015f80d32f9f86a5ea3f18ea0e698a4bd16cb8b81775ebc5646292c94b9318190361134489a2a1912aa630ae183cd6ff18c383c3681e6d7fe25202a021f450e8deb7cebdc5ccec0cb97c0e0d0d030300b36892ba9ce2c95f3fc9f3bf79de2ad200397277688ddafe7afd1efd2e2a1c323326894402ae8171c540ac0922b3118c7183c8b908d177a39007bfeedf53a2889c2d77374b904824303326d1ab51c49a20359b22f27684c83b118c770d2aeb783d5e8410aefac5b545b00337ac17a9a514f97c9ec47cc27a5eb676605ec9a3356bd81d7650c1c81b779472d579ddde5da9e5126f3101c52d9eea52d19b75728e5c559d9c9943d8c42e9beed6ebb861d90210680930ea19c5affb316d267aa38eb16ce0c449f472149fe6831be0757bcbc7a9c444063b8244c623f4e83de46d7974b74e6a39858a4a341125e00b580e944438f738c1465dbdb166acd3008555cb1fc5a310f687118d82506b08a10a82dd418447a0691a5abb060d3099992c1bfa110e569dcd4eba3abab037da091db078a1ee10c2230868013c1d1eb043a1508086522c62da54d40c58df27ab9632df777d68b31aaa5ba5adb98d99cc0c3e7c089be058f898b5f0f362a1bc6de297e2ffeaeaeebaafef3b7da4aea5c005479b8f52c814304d13a3d3e0d0b70f4101ec763bdcb0a2913116ebcf8e9f9d869203bb2197cbe1d5bd68ed1a4211c467e3388b4e4c87c9b11f1d2bafe1cdd1e9d1f74a026e9a73e60c80b3c3897a404575a8c467e3e48b7984db125d582d80ddca4f03187346f65ae6da07845a43adb2dcf7ca47693996bbd94af5f8c285850f80fbca3b3afc70f8fb55f376e0551ed5b1d1d85f81bb001ab2ef6763525a32b2d7ad593b4529a51c786ae075a0fc15a038942f66af67176ec72bc7f5154b5df06070ab9ff43ddef7f34d851b72ab2b56c68d4d9fa4a7c9f313b621361afbfda6c25afccaf84ff91f21c43737c98aa27c299d4ecf6f2adda8114bf784811706fe06dcb35d807e40ef9452ae97856617b6f117b61cec7dbc77848a760c40efc1de47e486fca8a613a5b54c4e25f36e97fb7bdb8b6f3af944df2fcb4b59e55cc53d23792199c6c6033513841f099f5a5f5f2fca1ab83879f1df7a93fe14f0b99d0400f6fea7fb5faec59752ca743c3d2f1ce207d4b80c9751e7eff41f1f7963e4a2dc90a65c915266e5da73cf3c37e176b98f639d631f077bf070f067e9bfa7df9359599452cae4643237f4ccd09f854d1c02eaab0aee9064af10e27e218433bf965fa5c83494dadb27c77ec5a1784dcccf9ba6f92145a680c5ff33c767f814e07faf19f8888f0708d00000000049454e44ae426082</data>
+    </image>
+    <image name="image7">
+        <data format="PNG" length="346">89504e470d0a1a0a0000000d494844520000001200000012080600000056ce8e570000012149444154388dcdd3bb8d84301485e1dfa36d820c691a801c229a7048095302255082c968c2111440483096c85cc6dd042c5886c76eb457b278d91fc760c3df4a44448c3172abf3aa1d219790ac6b35e0f7c8fbfd0e6dc1ce90c787e9a094a2effb70d339878890a629655902a8cb245dd7856f638cd9254b92e4e394d40ac1390780f79e3ccf499284d7eb45966561c0f3f94429b54bf500a4aaaacd54a228a2eb3a8661a02ccbcdb3f5f94f88711cb1d6e2bddf6100755dd3f73dde7bacb5c7d015b624b3d6328ee321a4dab605a0288a1d06608c092f9bfbeefeda9248b56d4b9665c471bcc19c734cd3047088007ccd4711119aa6619aa6103f8ee3cdf511b2400199171b5a6b80809c250975b0ec456b2d5aeb5b7b0a80930d781ff997f50dce5501a36f7ae6870000000049454e44ae426082</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>fileSaveAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>fileSave()</slot>
+    </connection>
+    <connection>
+        <sender>fileExitAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>fileExit()</slot>
+    </connection>
+    <connection>
+        <sender>helpIndexAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>helpIndex()</slot>
+    </connection>
+    <connection>
+        <sender>helpContentsAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>helpContents()</slot>
+    </connection>
+    <connection>
+        <sender>helpAboutAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>helpAbout()</slot>
+    </connection>
+    <connection>
+        <sender>boxSize</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>radiusChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>greyValBox</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>greyValChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>delSegCheckBox</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>delSegCheckedChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>fileExitAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>fileExit()</slot>
+    </connection>
+    <connection>
+        <sender>resetViewAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>reset()</slot>
+    </connection>
+    <connection>
+        <sender>deleteSegmentsAction</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>editDelete(bool)</slot>
+    </connection>
+    <connection>
+        <sender>zoomInAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>zoomIn()</slot>
+    </connection>
+    <connection>
+        <sender>zoomOutAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>zoomOut()</slot>
+    </connection>
+    <connection>
+        <sender>markSegmentsAction</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>markSegment(bool)</slot>
+    </connection>
+    <connection>
+        <sender>viewAction</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>viewActionToggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>viewSegmentWindowAction</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>viewSegmentWindow(bool)</slot>
+    </connection>
+    <connection>
+        <sender>filterComboBox</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>filterComboBoxChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>coordComboBox</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>MainWindow</receiver>
+        <slot>coordComboBox_activated(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>toggleSyncAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>toggleSyncAction_activated()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">mainwindow.ui.h</include>
+</includes>
+<slots>
+    <slot>fileNew()</slot>
+    <slot>fileSave()</slot>
+    <slot>fileSaveSegments()</slot>
+    <slot>filePrint()</slot>
+    <slot>fileExit()</slot>
+    <slot>helpIndex()</slot>
+    <slot>helpContents()</slot>
+    <slot>helpAbout()</slot>
+    <slot>editDelete( bool val )</slot>
+    <slot>greyValChanged( int )</slot>
+    <slot>delSegCheckedChanged( int )</slot>
+    <slot>reset()</slot>
+    <slot>markSegment( bool )</slot>
+    <slot>zoomIn()</slot>
+    <slot>zoomOut()</slot>
+    <slot>radiusChanged( int )</slot>
+    <slot>viewActionToggled( bool )</slot>
+    <slot>viewSegmentWindow( bool )</slot>
+    <slot>calcVolume()</slot>
+    <slot>filterComboBoxChanged( const QString &amp; )</slot>
+    <slot>coordComboBox_activated( const QString &amp; )</slot>
+    <slot>toggleSyncAction_activated()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

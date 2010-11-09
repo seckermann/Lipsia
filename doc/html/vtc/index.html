@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Region of Interest Analysis</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Average and PCA of fMRI time courses within ROIs</div>
+
+
+<div class="headtitle">vtc</div>
+
+<div class="content">
+
+This program analyses fMRI time series within regions of interest (ROI)
+specified in a mask. 
+The mask can be generated using <a href="../vledit/index.html"><u>'vledit'</u></a>
+or <a href="../vmaskedit/index.html"><u>'vmaskedit'</u></a>.
+The time series within each ROI are either averaged
+or their first principal component (PC) is computed. The resulting averages or
+PCs are written to a data file, and optionally also printed to an ASCII file.
+
+<br><p>
+The data file specified by '-out' mimicks an fMRT raw data file.
+It can be further processed using a standard sequence of statistical
+analysis using 'vcolorglm' or 'vwhiteglm' to produce a statistical
+map containing z-values for each ROI. 
+
+<br><p>
+The parameter '-type' specifies the way in which the analysis is done. If
+set to 'mean' the time courses within each ROI are averaged.
+If set to 'pca', the first principal component within each ROI is computed.
+
+<br><p>
+Instead of specifying ROIs in a mask, it is also possible to supply a voxel
+address. In this case, no averaging or PCA analysis is done. The program then
+simply outputs the values of this single time course - optionally normalized to
+N(0,1).
+
+<br><p>
+If a report file is specified (parameter '-report'), the output is printed
+to this file in ASCII.
+
+<br><p>
+
+<tt><b><a href="#vtc">
+<u>vtc</u></a> -in tbsm_xx1t.v -norm true -mask mask.v -out roi.v
+</b></tt><br><P>
+
+
+<br><p>
+
+
+</div>
+
+<a name="vtc"></a>
+<div class="headtitle">Parameters of 'vtc':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD> 
+        Output file. Default: (none)
+    <DT>-normalize [ true | false ]<DD>
+        Whether to normalize the output to mean=0,sigma=1. Default: true
+    <DT>-type [ mean | pca ]<DD>
+        Type of analysis. Default: (none)  
+    <DT>-mask<DD>
+        Mask file. Default: (none)  
+    <DT>-minval<DD>
+        Mininum value for time courses. Default: 0.
+    <DT>-report<DD>
+        Report file (ASCII). Default: (none)
+    <DT>-addr<DD>
+        Voxel address (x,y,z) (NOT Talairach coordinates). Default: 0 0 0
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

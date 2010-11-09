@@ -1,0 +1,46 @@
+Authors of Lipsia.
+See also the files THANKS and ChangeLog.
+
+-------------------------------------------------------------------
+
+* Gabriele Lohmann
+  - vreg3d, vfunctrans, vdotrans, vnormalize, vmovcorrection, vslicetime, vpreprocess, 
+    vgendesign, vaddcovariates, vcatdesign, vspm2lipsia, vmetropolis, vcolorglm, vgetcontrast, 
+    v2ndlevel, vonesample_ttest, vtwosample_ttest, vpaired_ttest, vwilcoxon, vnumave, vmaskedit, 
+    vmaskave, vROIonesample_ttest, vROItwosample_ttest, vROIpaired_ttest, vROIpaired_wilcoxtest, 
+    vfdr, valphasim, vmulticomp, vblobsize, vpretty, vzmax, vmaskave, vmaskedit, vshowpts, vtrialaverage, 
+    vtc, vzmapborder, vbrainmask, vtal, vwhitematter, vdelcereb, vsulcogram, vave, vseltimesteps, vtimestep, 
+    vimagemask, vanonym, vbayes, vbayesgroup, vcacp
+  - VIA-package
+
+* Karsten Mueller
+  - vwhiteglm, vcheckdesign, vgetcovariates, vspectral, vlcorr, vlserv, vtrialaverage, vpreprocess, 
+    niftov, anatov, mattov, dictov, vtoanalyze, vtomat, vtonifti, vlview, vlv, lib_vlh, vsview, 
+    package management, version management, documentation
+
+* Jane Neumann
+  - vimagetimecourse, vdifftimecourse, vextractparam, vbayes, vbayesgroup, documentation
+
+* Heiko Mentzel
+  - vlview, vlv, lib_vlh, vsview 
+    
+* Hannes Niederhausen
+  - vledit, vqview
+    
+* Thomas Proeger
+  - vledit, vwhiteglm, package and version management, documentation  
+
+* Thomas Arnold
+  - vdemon, vdeform, dictov
+
+* Heiko Temming
+  - vcacp
+  
+* Torsten Schlumm
+  - brutov2, dictov
+  
+* Enrico Reimer
+  - vtonifti
+
+* Felix Botner
+  - package and version management

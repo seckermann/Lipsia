@@ -1,0 +1,48 @@
+# - FindGSL.cmake
+#
+# Author: Thomas Proeger
+# 
+# Find the header files and libraries from the libgsl0-dev package 
+# 
+# GSL_INCLUDE_DIR    - the root GSL include directory.
+# GSL_GSL_LIBRARY    - the library file libgsl.so
+# GSL_CBLAS_LIBRARY  - the library file libgslcblas.so
+# GSL_FOUND          - TRUE if and only if ALL other variables have correct
+#                      values.
+#
+
+# the header files
+FIND_PATH(GSL_INCLUDE_DIR
+    NAMES gsl_cdf.h gsl_sys.h
+    PATH_SUFFIXES gsl
+    DOC "The path to the gsl header files"
+    )
+
+# the library files
+FIND_LIBRARY(GSL_GSL_LIBRARY
+    NAMES gsl
+    DOC "The library file libgsl"
+    )
+    
+# the library files
+FIND_LIBRARY(GSL_CBLAS_LIBRARY
+    NAMES gslcblas
+    DOC "The library file libgslcblas"
+    )
+
+# handle the QUIETLY and REQUIRED arguments and set PNG_FOUND to TRUE if 
+# all listed variables are TRUE
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(GSL
+    "Cannot find package GSL. Did you install 'libgsl0-dev'?"
+     GSL_INCLUDE_DIR 
+     GSL_GSL_LIBRARY
+     GSL_CBLAS_LIBRARY
+    )
+
+# these variables are only visible in 'advanced mode' 
+MARK_AS_ADVANCED(GSL_INCLUDE_DIR 
+     GSL_GSL_LIBRARY
+     GSL_CBLAS_LIBRARY
+     )
+

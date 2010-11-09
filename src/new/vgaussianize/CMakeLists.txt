@@ -1,0 +1,11 @@
+PROJECT(vgaussianize)
+
+ADD_EXECUTABLE(vgaussianize vgaussianize.c)
+TARGET_LINK_LIBRARIES(vgaussianize ${VIA_LIBRARY} ${LISPIA_LIBRARY})
+
+SET_TARGET_PROPERTIES(vgaussianize PROPERTIES
+    LINK_FLAGS -Wl)
+
+INSTALL(TARGETS vgaussianize
+        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        COMPONENT RuntimeLibraries)

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; vsview - a simple viewer for anatomical and functional data</div>
+
+<div class="headtitle">vsview</div>
+
+<div class="content">
+<p>The program <font color=blue>'vsview'</font> is a simple viewer to display anatomical and functional data in Lipsia.
+The main window shows the list of all objects in the input file on the left and the data of the
+selected object on the right. You can scroll through the bands
+of an object using the slider and read out the raw voxel coordinates and the raw value of a single voxel
+when you move the cursor over the voxel.</p>
+
+<p>When <u>anatomical</u> data are displayed with <font color=blue>'vsview'</font>, you can show the different slices by
+scrolling through the different bands using the slider in the left bottom side of the main window
+(see image below).</P>
+
+<img src="anatom.gif">
+
+<p>When <u>functional</u> data are displayed with <font color=blue>'vsview'</font>, the different slices
+appear as different objects in the list on the left side of the main window. 
+A slice can be selected by clicking to an object in this list. You can visualize the different functional scans
+(timesteps) by scrolling through the different bands using the slider in the left bottom side of the main window.
+Using this function, you can scroll through all fucntional images of a selected slice. This is e.g. useful to detect motion
+of the subject during the functional session.</p>
+
+<img src="functi.gif">
+
+<p><font color=blue>'vsview'</font> also offers a dialogue in order to adjust the brightness
+and the contrast of the display. You can open the dialogue window by pressing Ctrl+P or going via the menue
+of the main window.</p>
+
+<img src="prefs.gif">
+
+<p>You can also take a look at the textual attributes of the input file in a different window
+using Ctrl+A or going via the menue on the top.</p>
+
+<img src="full.gif">
+
+</div>
+
+<a name="vsview"></a>
+<div class="headtitle">Parameters of 'vsview':</div>
+
+<div class="content">
+<DL>
+     <DT>-help<DD>
+         Prints usage information.
+    <DT>-in<DD>
+        Anatomical image or functional volumes.
+    <DT>-black<DD>
+        Lower histogram cut-off for contrast scaling in %. Default: 0.01
+    <DT>-white<DD>
+        Upper histogram cut-off for contrast scaling in %. Default: 0.01
+    <DT>-background<DD>
+        Interval for background. Default: 0 0
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

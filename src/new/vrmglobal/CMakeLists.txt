@@ -1,0 +1,12 @@
+PROJECT(vrmglobal)
+
+
+ADD_EXECUTABLE(vrmglobal vrmglobal.c GlobalMean.c gauss.c)
+TARGET_LINK_LIBRARIES(vrmglobal ${VIA_LIBRARY} ${BLAS_LIBRARY} ${LIPSIA_LIBRARY})
+
+SET_TARGET_PROPERTIES(vrmglobal PROPERTIES
+    LINK_FLAGS -Wl)
+
+INSTALL(TARGETS vrmglobal
+        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        COMPONENT RuntimeLibraries)

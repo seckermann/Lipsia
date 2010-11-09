@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Scaling to a new voxel resolution</div>
+
+
+<div class="headtitle">vmapscale</div>
+
+<div class="content">
+This program rescales images (e.g. T1-weighted images, zmaps, contrast images, but
+not time series data) to a different voxel resolution.
+The voxel resolution of the output image is specified in millimeters
+by the parameters '-xreso,-yreso,-zreso'.
+<br><p>
+Instead of specifying the voxel resolution it is also possible to
+specify the size of the output image matrix using '-xdim,-ydim,-zdim'.
+If these parameters are set to '0' then a default size is used.
+<br><p>
+In the following example, an input image is scaled to a voxel resolution
+of 3x3x3 mm.
+<br><p>
+
+<tt><b><a href="#vmapscale">
+<u>vmapscale</u></a> -in map.v -out result.v -xreso 2.5 -yreso 2.5 -zreso 2.5
+</b></tt><br><P>
+
+
+<br><p>
+
+
+</div>
+
+<a name="vmapscale"></a>
+<div class="headtitle">Parameters of 'vmapscale':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input files. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-xreso<DD>
+        New voxel resolution in x-dir (mm). Default: 1
+    <DT>-yreso<DD>
+        New voxel resolution in y-dir (mm). Default: 1
+    <DT>-zreso<DD>
+        New voxel resolution in z-dir (mm). Default: 1
+    <DT>-xdim<DD>
+        Matrix size in x-dir. Default: 0
+    <DT>-ydim<DD>
+        Matrix size in y-dir. Default: 0
+    <DT>-zdim<DD>
+        Matrix size in z-dir. Default: 0
+    <DT>-type trilinear | NN<DD>
+        Type of interpolation: trilinear | NN (nearest neighbour). Default: trilinear	
+	
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

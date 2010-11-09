@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Display outlines of activation areas of several zmaps</div>
+
+<div class="headtitle">vzmapborder</div>
+
+<div class="content">
+In some applications, it might be interesting to compare several zmaps.
+The program 'vzmapborder' allows to merge several zmaps into one so that
+differences and similarities between zmaps can be visualized.
+An example is shown below.
+<br><p>
+
+<img src=images/zmapborder.gif><br>
+
+</div>
+
+<div class="subtitle">Usage:</div>
+
+<div class="content">
+<tt><b><a href="#vzmapborder"><u>vzmapborder</u></a> -in zmap1.v zmap2.v zmap3.v 
+-out result.v -pos 3.0</b></tt>
+<br><p>
+
+The input images are several zmaps.
+The resulting image 'result.v' displays outlines of the individual zmaps
+thresholded at the given parameters '-pos' and '-neg'. 
+Each outline of a zmap
+receives an individual code (code '1' for the first zmap, code '2' for the
+second zmap, etc.).
+
+The image 'result.v' can be visualized just like a zmap
+using standard visualization tools (e.g. <a href="../vlview/index.html"><u>'vlview'</u></a>,<a href="../vlrender/index.html"><u>'vlrender'</u></a>).
+By using an appropriate color table in <a href="../vlview/index.html"><u>'vlview'</u></a>,  the grey codes can be
+transformed into color codes.
+<br><p>
+If the parameter '-ref' is supplied, a 3D anatomical reference image
+is added to the output file.
+</div>
+      
+<a name="vzmapborder"></a>      
+<div class="headtitle">Parameters of 'vzmapborder':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-ref<DD>
+        3D anatomical reference file. Default: (none)
+    <DT>-pos<DD>
+        Positive threshold for individual zmaps. Default: 3.0
+    <DT>-neg<DD>
+        Negative threshold for individual zmaps. Default: -10000.0
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

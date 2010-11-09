@@ -1,0 +1,40 @@
+System Requirements:
+--------------------
+
+Lipsia is tested for the following operating systems (32bit):
+
+- Debian Etch Linux
+
+- SuSE 10.3
+
+- Fedora 8
+
+- In order to use Lipsia on other Linux systems, the sources must be downloaded and compiled
+
+
+The following packages must be installed
+----------------------------------------
+
+- Volumetric Image Analysis 1.5 (VIA)
+
+- DICOM Toolkit 1-3.5 (DCMTK)
+
+- Gnu Scientific Library (GSL)
+
+- Fast Fourier Transform West (FFTW3)
+
+- ATLAS library (CPU specific)
+
+
+Further system requirements:
+----------------------------
+
+- QT 3 with multithread and OpenGL support
+
+- Xorg with OpenGL support
+
+- If necessary, compatibility packages for libstdc++
+
+- If necessary, compatibility packages for qt 3
+
+

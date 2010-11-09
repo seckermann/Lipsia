@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Region of Interest Analysis</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Wilcoxon test for matched pairs in ROIs</div>
+
+
+<div class="headtitle">vROIpaired_wilcoxtest</div>
+
+<div class="content">
+This program performs a Wilcoxon test for matched pairs on regions of interest (ROIs) across
+two groups of contrast images.
+The ROIs are specified in a mask file. It can be constructed either interactively
+using the progam 'vledit', or offline using 'vmaskedit'.
+<br><p>
+For each ROI within the mask, the program first computes the average 
+across the contrast values within each data set and each ROI separately. For each ROI, 
+it thus obtains two lists
+of averaged contrast values, where the number of elements in each list corresponds
+to the number of contrast images in the two gropus.
+<br><p>
+It then performs Wilcoxon test for matched pairs between these two lists
+against the null hypothesis of "no difference" between the groups. Example:
+<br><p>
+
+<tt><b><a href="#vROIonesample_ttest">
+<u>vROIpaired_wilcoxtest</u></a> -in1 cgroup1_*.v -in2 cgroup2_*.v mask mask.v -report liste.txt
+</b></tt><br><P>
+
+This call prints the statistical analysis to the terminal and to an ASCII-file. 
+A typical output may for instance look like this:
+
+<pre>
+  ROI 	    z 	     p
+   1     -1.941	  0.0261
+   2     -0.985	  0.1623
+   3     -0.609	  0.2712
+   4     -0.561	  0.2874
+   5      0.537	  0.2957
+</pre>
+
+
+<br><p>
+It is possible to use a different mask for each pair of contrast images. In this case, 
+the number
+of pairs and masks much match, and the number of ROIs and their IDs
+should be consistent across all masks. An '*' can be used to specify multiple input files.
+The files are then processed in lexicographical order. Please make sure that the
+lexicographical
+order of filenames is consistent so that each pair of contrast images is matched to
+the correct mask.
+
+<br><p>
+
+<tt><b><a href="#vROIpaired_wilcoxtest">
+<u>vROIpaired_wilcoxtest</u></a> -in1 cgroup1_*.v -in2 cgroup2_*.v -mask mask_*.v -report liste.
+txt
+</b></tt><br><P>
+
+
+
+
+</div>
+
+<a name="vROIpaired_wilcoxtest"></a>
+<div class="headtitle">Parameters of 'vROIpaired_wilcoxtest':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in1<DD> 
+        Input files of group 1. Default: (none)
+    <DT>-in2<DD> 
+        Input files of group 2. Default: (none)
+    <DT>-mask<DD>
+        File(s) containing ROIs. Default: (none)
+    <DT>-report<DD>
+        ASCII-File containing output report. Default: (none)
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

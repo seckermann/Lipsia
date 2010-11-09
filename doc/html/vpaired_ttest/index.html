@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Statistical comparison of two groups </div>
+
+
+<div class="headtitle">vpaired_ttest</div>
+
+<div class="content">
+This program performs a paired t-test between two groups of contrast images.
+The number of images in the two groups must match. The ouput is a tmap or a zmap
+that gives the statistical significance of a pairwise 
+difference between the two groups.
+
+<br><p>
+
+<tt><b><a href="#vpaired_ttest">
+<u>vpaired_ttest</u></a> -in1 cgtbsm_group1_*.v -in2 cgtbsm_group2_*.v -out zmap.v
+</b></tt><br><P>
+
+Positive values in the output map indicate that the mean values in
+group 1 ('-in1') are larger than mean values in group 2 ('-in2'). In
+line with the LIPSIA convention when determining contrasts, negative
+values indicate that mean group 1 < mean group 2.<br><p>
+
+<b>Caution:</b>
+Make sure that the files in the two groups are listed in the correct order.
+If wildcards ("*") are used, the programs will order them alphabetically. 
+Also note that
+the program 'vpaired_ttest' should only be used on registered data,
+i.e. on data that are geometrically aligned and normalized.
+
+</div>
+
+<a name="vaverage"></a>
+<div class="headtitle">Parameters of 'vpaired_ttest':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in1<DD> 
+        Input files of 1st group. Default: (none)
+    <DT>-in2<DD> 
+        Input files of 2nd group. Default: (none)
+    <DT>-type [ tmap | zmap ]<DD>
+        Type of output. Default: zmap
+    <DT>-out<DD>
+        Output file. Default: (none)
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

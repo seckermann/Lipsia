@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Geometric processing</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Registration of 2D slices to a 3D anatomical data set </div>
+
+<div class="headtitle">vreg3d</div>
+
+<div class="content">
+Registration rotates and shifts functional data into a standard coordinate frame,
+typically a Talairach-based stereotactic frame. This is done by aligning the functional
+data with a reference data set. The reference data set may be a high-resolution T1-weighted data set
+of the individual subject, or it can be an average data set obtained from averaging
+across a population of subjects. The functional data consist of a time sequence of
+2D slices. For registration, the slices of one timepoint may be selected from this sequence
+and aligned with the reference data set. Alternatively, any other 2D slices that are
+in geometric alignment with the functional data slices may be used for registration.
+For instance, T1-high resolution slices are often obtained along with the functional
+scans. If these T1-slices are in geometric alignment (i.e. have the same orientation in space)
+then they may be used for registration instead of the functional slices.
+
+The rotational and translational parameters obtained
+from this operation are copied into a transformation matrix. In a subsequent step,
+this transformation matrix is then used to transform the remaining time steps or 
+the zmap. 
+
+
+The registration is done in three steps:<br><p>
+
+<b>1.</b> In the first step, we select a time step from the fMRT timecourse
+using <a href="../vtimestep/index.html">'vtimestep'</a>. 
+<b>Note:</b> This step is not needed, 
+if T1-weighted 2D anatomical slices are used that are geometrically aligned with the
+functional data.<br><p>
+
+<b>2.</b> In the second step, we compute a transformation matrix that registers the 
+2D slices with the 3D data set using  'vreg3d'. This matrix describes a rigid, affine linear
+transformation using 3 translational and 3 rotational parameters.<br><p>
+
+<b>3.</b> In a third step, this transformation 
+matrix is applied to the zmap, the anatomical slices, or the
+raw functional data. This is done by the program <a
+href="../vdotrans/index.html">'vdotrans'</a>, Optionally, you can also 
+<a href="../vdotrans/index.html#Reg3">check the registration accuracy</a> by applying
+the transformation to the 2D slices only, and comparing the result to
+the reference image in the data base.
+<br><P>
+
+Here are these steps in detail:<br><p>
+
+</div>
+
+<div class="subtitle">Identifying the reference image in the data base:</div>
+
+<div class="content">
+  <b>Caution:</b> The instructions in the green box only hold on the intranet
+  of the Max Planck Institute for Human Cognitiv and Brain Sciences in
+  Leipzig. All other users may have a look in the WWW or any other
+  resources to get an appropriate high resolution reference image.
+</div>
+<div class="headtitlegreen" style="font-weight:normal;font-size:100%">
+You must first identify the high resolution reference image in the image data base to
+which your present image should be registered. The images in the data base
+have identification numbers. In order to obtain the data base id-number (the number) that belongs
+to your test subject, check the webpage <a href="https://newbdb"><u>https://newbdb</u></a>.<br> <p>
+
+<UL>
+ <LI> With standard search the number and ID can be retrieved,<br> 
+ <LI> with extended search more details about the subjects can be obtained. <br> <p>
+</UL> 
+
+Note that some test subjects have more than one reference image in the data base.
+In this case, you can choose either one. <br> <p>
+
+</div>
+<div class="content"></div>
+
+<div class="subtitle">Doing the registration:</div>
+
+<div class="content">
+The registration matrix describes a rigid, affine linear
+transformation between the 2D slices and the 3D reference image.
+The 2D slices must be in parallel and must have a fixed inter-slice distance.
+The matrix contains 3 translational and 3 rotational parameters.
+This matrix is computed using the program 'vreg3d'.
+It uses the 2D slices and optionally also 2D EPI-T1 slices to
+compute the transformation. Here is an example:<br><p>
+
+
+<tt><b><a href="#vtimestep"><u>vtimestep</u></a> -in functional_data.v -out tmp.v -step 0
+</b></tt><br><p>
+
+<tt><b><a href="#vreg3d"><u>vreg3d</u></a> -in tmp.v -out transmatrix.v
+-ref reference_image.v -type MI</b></tt><br><p>
+
+
+<tt><b><a href="#vdotrans"><u>vdotrans</u></a> -in tmp.v -out image.v -trans transmatrix.v
+-object all</b></tt><br><p>
+
+<tt><b><a href="#vlv"><u>vlv</u></a> -in image.v reference_image.v </b></tt><br><p>
+
+The first call selects a time step from the fMRT time course. In this example,
+the first step was selected. The subsequent call to 'vreg3d' uses this data for alignment
+with the reference image and places the transformation parameters into
+the matrix called 'transmatrix.v'. The parameter '-type' specifies the goal function
+to be used for alignment. If functional data are used (as in the above example) then
+mutual information (MI) is the best choice. If 2D anatomical slices are used
+then linear correlation is sufficient.
+The third call applies this matrix to the data and produces a rotated image of the
+functional data. The last call visualizes the results so that the registration accuracy
+can be checked.
+ 
+<br><p>
+The parameter '-pitch' can be used to specify an initial pitch angle.
+This angle is used as a starting point for the matching procedure.
+This can sometimes help to get better registration results, especially if
+the data set is not aligned with the CA/CP-axis.
+For example, if the data set is aligned with the Sylvian fissure,
+then use '-pitch -20', as the Sylvian fissure is usually tilted
+by an angle of approximately -20 degrees.
+
+</div>
+
+<div class="subtitle">Refining the registration:</div>
+
+<div class="content">
+If there is an EPI-T1 scan available in addition to the
+MDEFT 2D slices, then this scan can be additionally
+used for registration in a refinement step.
+During refinement, new correlation values are computed, this time between the
+EPI-T1 slices and the reference data set. These correlation values are
+generally lower than the correlation values computed in the first 
+step, however, this does not mean that the registration is less accurate. 
+<br><p>
+
+<b> In general:</b><br>
+The correlation values do not necessarily provide an indication for whether the
+registration was successful or not. The only way to be sure is to check
+the registration manually by applying the registration matrix to the 2D
+anatomical slices.<br><p>
+
+The EPI-T1 refinement can be enabled by setting '-refine true'.
+By default, EPI-T1 refinement is disabled. 
+</div>
+
+<a name="vreg3d"></a>
+<div class="headtitle">Parameters of 'vreg3d':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-ref<DD> 
+        File containing 3D reference image. Required.
+    <DT>-band1<DD> 
+        first band to be used for registration. Default: 0
+    <DT>-band2<DD>
+        last band to be used for registration. If not set or set to -1 all bands
+        are used. Default: -1 (all bands).
+    <DT>-range [ 0 | 1 ]<DD>
+        Search range for shift and rotation parameters. (0=small, 1=big). Default: 0
+    <DT>-type [ corr | MI ]<DD>
+        Type of goal function. Possible values: linear correlation or mutual information). Default: corr
+    <DT>-angle<DD>
+        Inital pitch angle. Default: 0
+    <DT>-refine [ true | false ]<DD>
+       Whether to use additional data (e.g. EPI-T1) for refining the registration. Default: false
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

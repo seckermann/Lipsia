@@ -1,0 +1,11 @@
+PROJECT(vmapscale)
+
+ADD_EXECUTABLE(vmapscale vmapscale.c)
+TARGET_LINK_LIBRARIES(vmapscale lipsia ${VIA_LIBRARY})
+
+SET_TARGET_PROPERTIES(vmapscale PROPERTIES
+    LINK_FLAGS -Wl)
+
+INSTALL(TARGETS vmapscale
+        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        COMPONENT RuntimeLibraries)

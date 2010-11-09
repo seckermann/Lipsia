@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Viewing orthogonal cross sections and time courses</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Viewing orthogonal cross sections and time courses</div>
+
+<div class="headtitle">vlview</div>
+
+<div class="content">
+<p>Orthogonal cross sections and time courses can be visualized using
+the program 'vlview'. 'vlview' only accepts <u>one</u> anatomical data set and additionally <u>one</u> map 
+(zmap, tmap, Fmap, or contrast image).
+Use the program <a href=../vlv/index.html>'vlv'</a> to visualize more than one data sets.</p>
+
+<p>The anatomical data and the map can be called in the following form:</p>
+
+<tt><b><u><a href="#vlview">vlview</a></u> -in norm_brain.v -zmap cgtbsGV1T.v</b></tt><br><p>
+
+<p><a href="im/grundfenst.gif"><img src="im/grundfenst_k.gif" border=0></a></p>
+
+<p>If a sulcus line representation is available, it can be specified
+using the command line option '-graph'. The map can also be visualized in
+the sulcus line representation. Example:</p>
+
+<tt><b><u><a href="#vlview">vlview</a></u> -in cgtbsGV1T.v -graph GV1Tsulci.v</b></tt><br><p>
+
+<p><a href="im/sulci.gif"><img src="im/sulci_k.gif" border=0></a></p>
+
+<p>If a raw data file is specified, then the 'raw data button' appears as 
+an icon <img src="im/rawicon.gif" border=0> in the menu of the main window. 
+If you press this button, a raw data window opens where you can switch between
+the timecourse <img src="im/time.gif" border=0> and the power 
+spectrum <img src="im/power.gif" border=0> of the selected voxel.</p>
+
+<tt><b><u><a href="#vlview">vlview</a></u> -in cgtbsGV1T.v -raw tbsGV1T.v</b></tt><br><p>
+
+<p><a href="im/timec.gif"><img src="im/timec_k.gif" border=0></a></p>
+
+<p>If a text design file is additionally specified (i.e. the input of 
+<a href="../vgendesign/index.html">'vgendesign'</a>), the design can be visualized in the raw data window. Furthermore, 
+a trial average button <img src="im/ta.gif" border=0> appears, 
+and trial averages can be computed for each condition. In our example,
+we selected only one condition. If the design contains more than one condition,
+you can select one or more conditions in the menu of the raw data window.</p>
+
+<tt><b><u><a href="#vlview">vlview</a></u> -in cgtbsGV1T.v -raw tbsGV1T.v -des GV1T.des</b></tt><br><p>
+
+<p><a href="im/rfenster.gif"><img src="im/rfenster_k.gif" border=0></a></p>
+
+<p>This figure shows the raw data window containing (a) the fMRI timecourse,
+(b) the trial average for one condition plus standard error, and (c) the power
+spectrum for the timecourse. You can switch between these three cases using
+the appropriate icons in the top of the raw data window (see figure). For the
+trial average, the length of the trial and the temporal resolution can be
+specified in the preferences of vlview.</p>
+
+<p><a href="im/taprefs.gif"><img src="im/taprefs_k.gif" border=0></a></p>
+
+<p>The timecourse, the trial averages for each condition, and the power spectrum
+of the timecourse is visualized for the raw fMRI data that are specified with
+the command line option '-raw'. Note that these can also
+be computed and visualized for the model function, i.e., for the fitted response.
+If a so-called beta-file (output of <a href="../vcolorglm/index.html">'vcolorglm'</a>)
+is specified, then the fitted response, trial averages of the fitted response,
+and the power spectrum of the fitted response can be visialized.</p>
+
+<tt><b><u><a href="#vlview">vlview</a></u> -in cgtbsGV1T.v -raw tbsGV1T.v -des GV1T.des -beta gtbsGV1T.v</b></tt>
+</div>
+
+
+
+<a name="vlview"></a>
+<div class="headtitle">Parameters of 'vlview':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD>
+        Input file (containing anatomical data).
+    <DT>-zmap<DD>
+        Map file (zmap, tmap, Fmap, or conimg).
+    <DT>-thresh<DD>
+        Theshold of map. Default: 0
+    <DT>-raw<DD>
+        Raw data file. Default: (none)
+    <DT>-beta<DD>
+        Beta file (output of vcolorglm). Default: (none)
+    <DT>-des<DD>
+        Design file. Default: (none)
+    <DT>-graph<DD>
+        Graph file. Default: (none)
+    <DT>-color<DD>
+        ASCII-File with colortable for Graph. Default: (none)
+    <DT>-min<DD>
+        fixed minimum for graph colors. Default: 123456
+    <DT>-max<DD>
+        fixed maximum for graph colors. Default: 123456
+    <DT>-background<DD>
+        Interval for background. Default: 0 0
+    <DT>-verbose<DD>
+        Verbose messages. Default: 0
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

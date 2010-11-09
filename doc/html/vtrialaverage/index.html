@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<BODY BGCOLOR="#ffffff" LINK="#479088" VLINK="#2e90b4" ALINK="#ff0033">
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; trial averages of fMRI time courses</div>
+
+<div class="headtitle">vtrialaverage</div>
+
+<div class="content">
+A trial average of an fMRI time course is computed by 
+time shifting all trials or events of the same type such that the
+onset times are 0 for all trials or events, and then taking averages.<p>
+
+Trial onset times often do not coincide with data acquisition times.
+Therefore, data points used for computing trial averages must be interpolated.
+In our implementation, we use a spline interpolation. 
+
+The program 'vtrialaverage' outputs the trial average
+to an ASCII-file that can then be processed by other programs
+(such as 'gnuplot' or 'SAS').
+<p>
+<b>Example:</b><br><p>
+
+<tt><b><a href="#vtrialaverage">
+<u>vtrialaverage</u></a> -in raw.v -des design.des -addr 3 -9 10 
+ -system talairach -condition "3 4" 
+-type blob -zmap zmap.v -pos 3.09 -len 12 -reso 0.2 -report list.txt
+</b></tt><br><P>
+
+In this example, an ASCII file is produced that can be visualized using
+some plotting tool. The plot below was produced using 'gnuplot' using
+the following 'gnuplot'-commands (the vertical bars indicate standard errors):
+<pre>
+set grid
+plot "list.txt" index 0 title "cond 3" w l lw 3,"" index 0 notitle w err lt 1, \
+"" index 1 title "cond 4" w l lt 3 lw 3,"" index 1 notitle w err lt 3
+</pre>
+
+
+<br><center>
+<img src=plot.gif>
+</center>
+<br><p>
+
+The parameter '-addr' specifies the voxel address at which the
+time course is to be read. The parameter '-system' determines the coordinate
+system that is used for this address. In the above example, the address '3 -9 10'
+is given as Talairach coordinates.<br><p>
+
+The parameter '-condition' specifies the experimental conditions to be processed.
+In the above example, conditions 3 and 4 are processed. The condition IDs correspond
+to the IDs specified in the design file. Condition IDs should be larger than 0.
+
+The option '-type' determines whether the time course should be read in one
+voxel only, or whether time courses in neighbouring pixels
+should also be included in the average.
+The following options are possible:<br>
+
+<UL>
+  <LI><tt><b>single</b></tt>: the timecourse is taken in one single voxel.
+  <LI><tt><b>6adj</b></tt>: the timecourse is taken in the specified voxel plus in its 6 adjacent
+       neighbours.
+       If a zmap is given, then only voxels above the thresholds ('-pos','-neg') are used.
+       The voxel specified in '-addr' is always used regardless of its z-value.
+  <LI><tt><b>26adj</b></tt>: the timecourse is taken in the specified voxel plus in its 26 adjacent
+       neighbours.
+       If a zmap is given, then only voxels above the thresholds ('-pos','-neg') are used.
+       The voxel specified in '-addr' is always used regardless of its z-value.
+  <LI><tt><b>blob</b></tt>: the timecourse is taken in the specified voxel and in 
+	all its adjacent voxels whose z-values
+        in the zmap are either above the '-pos'-threshold or below the 
+	'-neg'-threshold. A zmap is required for this option (parameter '-zmap').
+  <LI><tt><b>blob</b></tt>: if a mask file containing ROIs is given (generated using 'vmaskedit'
+        or 'vledit') then the voxel inside the ROI that includes the given voxel address
+	is used.
+</UL>
+
+The parameter '-zmap' is optional for the types <tt><b>single</b></tt>,<tt><b>6adj</b></tt>,
+<tt><b>26adj</b></tt>. If present, it is used to exclude voxels below the given thresholds.
+The parameter '-zmap' is required for the type <tt><b>blob</b></tt>.
+The voxel specified in '-addr is used regardless of its z-value.<p>
+
+The parameter '-reso' specifies the temporal resolution of the trial average.
+It must be given in seconds. In the above example, the temporal resolution of the
+resulting trial average is 0.2 seconds.<p>
+
+The parameter '-len' determines the length of the trial average in seconds.
+In the above example, 12 seconds after trial onset are computed.
+
+The parameter '-psc' determines whether the output should be given as 'percent
+signal change'. If set to '-psc false' then absolute values are given.<p>
+
+</div>
+
+<div class="subtitle">trial averages of fitted response</div>
+
+<div class="content">
+<p>Replacing the raw data file by the associated beta-file (e.g. output
+of <a href="../vcolorglm/index.html">'vcolorglm'</a>), 
+'vtrialaverage' computes trial averages of the fitted
+response. Example:</p>
+
+<tt><b><a href="#vtrialaverage">
+<u>vtrialaverage</u></a> -in betafile.v -des design.des -addr 25 28 30 -cond "1"
+</b></tt><br><P>
+</div>
+
+<div class="subtitle">sample report file:</div>
+
+<div class="content">
+<p>A sample report file is attached below. The first column contains
+the time points at which the trial average is computed.
+The second column contains the average values, the third column
+contains the standard error.</p>
+
+<pre>
+#
+# design file: des.txt
+# number of voxels in ROI: 27
+# voxel address: 12 22 25
+#
+# number of trials in this condition: 57
+# experimental condition: 3
+#----------------------------------
+#     sec         mean      std-err
+#..................................
+    0.00000    -0.00370     0.03976
+    0.25000    -0.01287     0.03936
+    0.50000    -0.02061     0.03902
+    0.75000    -0.02738     0.03898
+    1.00000    -0.03188     0.03918
+    1.25000    -0.03256     0.03931
+    1.50000    -0.02913     0.03955
+    1.75000    -0.02158     0.03994
+           
+</pre>
+
+
+</div>
+
+<a name="vtrialaverage"></a>
+<div class="headtitle">Parameters of vtrialaverage:</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD>
+        Input file. Default: (none)
+    <DT>-design <DD>
+        Design file. Required.
+    <DT>-report<DD>
+        Report file. Default:
+    <DT>-minval <DD>
+        minval. Default: 0
+    <DT>-addr<DD>
+        voxel address. Required.
+    <DT>-type single | 6adj | 26adj | blob<DD>
+        How to average across adjacent voxels. Default: single
+    <DT>-mask <DD>
+        File containing ROI mask. Default:
+    <DT>-zmap<DD>
+        Zmap file. Default:
+    <DT>-pos<DD>
+        Positive threshold for zmap. Default: 3.09
+    <DT>-neg<DD>
+        Negative threshold for zmap. Default: -1000
+    <DT>-cond<DD>
+        Experimental conditions. Required.
+    <DT>-system voxel | talairach<DD>
+        coordinate system. Default: voxel
+    <DT>-resolution<DD>
+        temporal resolution in secs. Default: 0.25
+    <DT>-length <DD>
+        trial length in seconds. Default: 15
+    <DT>-psc [ true | false ]<DD>
+        Whether to report percent signal change. Default: true
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

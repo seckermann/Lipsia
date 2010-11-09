@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Visualization</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Apply a brain mask</div>
+
+<div class="headtitle">vbrainmask</div>
+
+<div class="content">
+The program 'vbrainmask' applies a brain mask to 
+ a zmap or some other type of activation map.
+The brain mask is obtained by thresholding fMRT raw data.
+
+
+For example:<br><p>
+
+<tt><b><a href="#vbrainmask">
+<u>vbrainmask</u></a> -in zmap.v -raw ntbsm.v -minval 2000 -out zmap_new.v
+</b></tt><br><P>
+
+This program call does the following:
+the raw data are thresholded using 2000 as threshold. The resulting
+mask is cleaned along its borders and then applied to the zmap.
+The raw data file must have the same geometrical properties as the zmap.
+In particular, it must have been transformed into AC/PC space, if the zmap
+is in AC/PC space. The image below illustrates the process.
+
+<br><p>
+<img src="image.gif"><br><p>
+
+<br><p>
+<br><p>
+
+</div>
+
+<a name="vbrainmask"></a>
+<div class="headtitle">Parameters of 'vbrainmask':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-raw<DD> 
+        Raw data. Required.
+    <DT>-minval<DD> 
+        Signal threshold. Required.
+    <DT>-radius.<DD>
+        Radius for cleaning the brain mask.  Default: 2
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

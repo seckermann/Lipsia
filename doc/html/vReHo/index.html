@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Denoising</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Resting state analysis</div>
+
+<div class="headtitle">vReHo</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vReHo' computes regional homogeneity in fMRI time series data.
+It produces a map showing regional homogeneity in the 27-neighbourhood around each
+voxel. It uses Kendall's W as a measure of homogeneity.
+
+<p>
+<i>Reference: <br>
+Zang, Y., Jiang, T., Lu, Y., He, Y., and Tian, L. (2004). 
+Regional homogeneity approach to fMRI data analysis. Neuroimage 22, 394-400. 
+<br><br>
+</div></i>
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+Here is a typical calling sequence.</p>
+
+<br><br>
+
+<tt><b><a href="#vReHo"><u>vReHo</u></a> 
+-in data.v -out result.v</b></tt><br><p>
+<br>
+</div>
+
+<a name="vReHo"></a>
+<div class="headtitle"><b>Parameters of 'vReHo'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-first<DD> 
+        First timestep to use. Default: 2
+    <DT>-length<DD> 
+        length of time series to use, '0' to use full length. Default: 0
+
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

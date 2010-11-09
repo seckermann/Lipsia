@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; List of local activation maxima</div>
+
+<div class="headtitle">vblobsize</div>
+
+<div class="content">
+The program 'vblobsize' produces a list of activation areas ("blobs") and their sizes and locations.
+It detects topologically connected components after thresholding the zmap
+and counts the number of voxels in every component.
+
+
+<br><p>
+
+Example:<br><p>
+
+<tt><b><a href="#vblobsize">
+<u>vblobsize</u></a> -in tcgbsAC1T.v -pos 3.1 -neg -3.1 -out BtcgbsAC1T.v -minsize 81
+-report AC1T_list.txt -system talairach
+</b></tt>
+
+<br><p>
+
+
+The output image 'tcgbsAC1T.v' displays all connected components. Their labels correspond
+to labels in the report file 'AC1T_list.txt'.
+<br><p>
+Only activation areas of size larger than '-minsize' are considered, where
+'-minsize' is given in units of mm^3. For
+example, if the spatial resolution is 3x3x3mm then a minsize of 81 corresponds to 
+three voxels (81 = 3 x 27 = 3 x (3x3x3)).
+
+<br><p>
+The parameter '-system' determines the coordinate-system that will be printed
+in the list. Possible values are: 
+<ul>
+<li><tt><b>mm</b></tt>: coordinates are given in millimeter (origin is at the top left border of the image),
+<li><tt><b>voxel</b></tt>: coordinates are given as voxels (origin is at the top left border of the image),
+<li><tt><b>talairach</b></tt>: the coordinate system corresponds to that of the Talairach/Tournoux Atlas,
+i.e. the x-axis passes through the upper border of CA and the lower border of CP.
+</ul>
+
+<br>
+The parameter '-median' can be used to separate the left and right hemispheres.
+If set to 'true' then in the image
+center a sagittal slice of one voxel thickness  will be cleared.<br><p>
+
+<b>Caution:</b>
+The use of 'vblobsize' only makes sense for registered 3D data
+(otherwise, Talairach coordinates are not available).
+<br><p>
+<br><p>
+
+<img src="images/vblobsize.gif" width=707 height=536>
+
+<br>
+
+</div>
+
+<a name="vblobsize"></a>
+<div class="headtitle">Parameters of 'vblobsize':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-pos<DD> 
+        Positive threshold on zmap. Default: 3
+    <DT>-neg<DD> 
+        Negative threshold on zmap. Default: -1000      
+    <DT>-system [ mm | voxel | talairach ]<DD> 
+        Coordinate system. Required.
+    <DT>-minsize<DD> 
+        Minimal size in mm^3 of activation areas. Default: 81 ( = 3 x 27 = 3 x (3x3x3)).
+    <DT>-median [ true | false ]<DD> 
+        Whether to clear the median wall. Default: false
+    <DT>-report<DD>
+        File containing output report. Default: (none= screen output)
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

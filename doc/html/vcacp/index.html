@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Identification of AC and PC</div>
+
+<div class="headtitle">vcacp</div>
+
+<div class="content">
+To rotate a high-resolution T1-weighted MR image into the stereotactic coordinate system using <a href="../vtal/index.html">'vtal'</a>, the voxel cordinates of Commissura anterior (CA) and Commissura posterior (CP) and rotation angels are necessary. They can be obtained automatically by performing 'vcacp'.
+
+<br><p>
+
+'vcacp' requires a 3-D template of each CA and CP. They depend on the MRT and must be obtained manually. For some MRT's (e.g. 3 Tesla Bruker MRT) a template is appropriated.
+</div>
+
+<div class="subtitle">CA/CP-Template</div>
+
+<div class="content">
+The 3-D CA/CP-template consists of three images - CA-template, CP-template and an averaged anatomical image - and can be generated as follows:
+
+<OL>
+<LI>Select approx. 15 high-resolution T1-weighted MR images which are already rotated into the stereotactic coordinate system by calling <a href="../vtal/index.html">'vtal'</a> with manually obtained voxel coordinates of CA and CP.
+<br><p>
+<LI>Perform an anatomical image averaging by calling <a href="../vaverage/index.html">'vaverage'</a>.
+<br><p>
+<LI>Crop an approx. 13 x 13 x 13 voxel image for each template by calling the vista program 'vcrop'. <u>The voxel coordinate of the landmark must be in the center of the template!</u>
+<br><p>
+<LI>Concatenate the CA/CP templates and the average anatomical image by performing <a href="../vcat/index.html">'vcat'</a>.
+</OL>
+
+<br>
+
+We recommend to store the 3-D CA/CP-template in '/usr/share/lipsia/<i>MRT-name</i>.v' 
+</div>
+
+<div class="subtitle">Usage</div>
+
+<div class="content">
+Here is an example:<br><p>
+
+<tt><b><a href="#vcacp"><u>vcacp</u></a> -in mr024_t1_or.v -out ctrlimg.v -template /usr/share/lipsia/bruker.v -id 024 -report ascii.txt</b></tt><br><p>
+
+The parameter '-in' is required and specifies the input image. The image must be an anatomical image (ubyte).
+
+<br><p>
+
+The parameter '-out' is optional and  specifies an control image for experts used to retrace a failing of CA/CP identification.
+
+<br><p>
+
+The parameter '-template' is optional and specifies the path of the 3-D CA/CP-template. The default path is '/usr/share/lipsia/bruker.v'. (This template is validated for the MPI CNS 3 Tesla Bruker MRT)
+
+<br><p>
+
+The parameter '-id' is optional and specifies an identification. It can be used for inhouse database coding. The default value is 001.
+
+<br><p>
+
+The parameter '-report' is optional and specifies the path of an ASCII-file which reports the voxel coordinates of CA/CP and the rotation angles. The data output is appended to the existing file and has the following representation:
+<br><p>
+-ca <i>ca.x ca.y ca.z</i>   -cp <i>cp.x cp.y cp.z</i>   -angle <i>roll yaw pitch</i>
+</div>
+
+<a name="vcacp"></a>
+<div class="headtitle">Parameters of 'vcacp':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Image to be processed. Required.
+    <DT>-out<DD>
+        Latent image for internal use. Default: (none)
+    <DT>-template<DD>
+        CA/CP template. Default: /usr/share/lipsia/vcacp/bruker.v
+    <DT>-report<DD>
+	Report file. Default: (none)
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

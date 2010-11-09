@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Getting started</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Getting started: the GLM</div>
+
+<div class="subtitle">Statistical analysis using the general linear model (GLM)</div>
+
+<div class="subtitle">Generating design file and design matrix for statistical evaluation</div>
+
+<div class="content">
+<p>Before doing the statistical evaluation, the experimental design must be written into a
+design matrix. In our example design file <a href="data/design.txt">'design.txt'</a>, 
+there is only 1 experimental condition which occurs every 80 seconds for a period of 40 seconds
+(see <a href="../designformat/index.html">section about the design format</a> for more information).
+From this text design file, the design matrix can be generated using the program 
+<a href="../vgendesign/index.html">'vgendesign'</a>.</p>
+
+<p><tt><b><a href="../vgendesign/index.html"><u>vgendesign</u></a> -in design.txt -out design.v -tr 2 -ntimesteps 120</b></tt><br></p>
+
+<p>Note that TR (repetition time) and the number of timesteps (scans) must be given when calling
+<a href="../vgendesign/index.html">'vgendesign'</a>. In our example, we have a repetition time of
+2 seconds and 120 timesteps. The output design matrix 'design.v' can be checked using the program
+<a href="../vcheckdesign/index.html">'vcheckdesign'</a>.</p>
+
+<p><tt><b><a href="../vcheckdesign/index.html"><u>vcheckdesign</u></a> -in design.v</b></tt><br></p>
+
+<img src="images/checkdesign.gif" border=0>
+</div>
+<div class="subtitle">Statistical evaluation using pre-coloring and whitening</div>
+
+<div class="content">
+<p>After generating the design matrix (stored in the vista file 'design.v'), a statistical evaluation
+can be performed using the preprocessed functional data
+'ptsm_data.v'. Note that statistical tests such as the t-test require
+independent observations as input. However, fMRI time series show a certain amount of
+autocorrelation which has to be accounted for in the statistical
+analysis. There are 2 different approaches for
+dealing with the autocorrelation: pre-coloring and whitening. We will show both approaches:</p>
+
+<p>1. Using <u>pre-coloring</u>, a statistical evaluation can be performed using the program 
+<a href="../vcolorglm/index.html">'vcolorglm'</a>:</p>
+
+<p><tt><b><a href="../vcolorglm/index.html"><u>vcolorglm</u></a> -in ptsm_data.v -out gptsm_data.v -design design.v</b></tt><br></p>
+
+<p>The output of <a href="../vcolorglm/index.html">'vcolorglm'</a> is a so-called 'beta-file' which contains 
+the parameter estimates. Contrasts can be computed using the program 
+<a href="../vgetcontrast/index.html">'vgetcontrast'</a>. In our example, we have only 1 experimental condition.
+Therefore, the contrast vector is <b>1 0</b>. The program <a href="../vgetcontrast/index.html">'vgetcontrast'</a>
+can produce Z-maps, t-maps and contrast images. In our example, we will generate a Z-map:</p>
+
+<p><tt><b><a href="../vgetcontrast/index.html"><u>vgetcontrast</u></a> -in gptsm_data.v -out zgptsm_data.v 
+-type zmap -contrast 1 0</b></tt><br></p>
+
+<p>2. Using <u>whitening</u>, a statistical evaluation can be performed using the program 
+<a href="../vwhiteglm/index.html">'vwhiteglm'</a>. The parameters (betas) and contrasts are computed in one step.
+Thus, <a href="../vwhiteglm/index.html">'vwhiteglm'</a> produces statistically parametric maps
+(Z-, t-, or F-values) or contrast images by specification of a suitable contrast vector.</p>
+
+<p><tt><b><a href="../vwhiteglm/index.html"><u>vwhiteglm</u></a> -in ptsm_data.v -out zptsm_data.v 
+-design design.v -type zmap -contrast 1 0</b></tt><br></p>
+
+</div>
+
+<div class="subtitle">Obtaining a statistical threshold</div>
+
+<div class="content">
+<p>To determine a statistical threshold, voxels outside the brain should be set to zero.
+This can be done applying the program <a href="../vbrainmask/index.html">'vbrainmask'</a>
+to the Z-map using the preprocessed raw data.</p>
+
+<p><tt><b><a href="../vbrainmask/index.html"><u>vbrainmask</u></a> -in zgptsm_data.v -out bzgptsm_data.v -raw ptsm_data.v -minval 2000</b></tt><br></p>
+
+<p>For obtaining the statistical threshold, Lipsia offers two approaches:</p>
+
+<p><u>1. Method of Benjamini and Hochberg:</u> False discovery rate <a href="../vfdr/index.html">'vfdr'</a>:</p>
+
+<p><tt><b><a href="../vfdr/index.html"><u>vfdr</u></a> -in bzgptsm_data.v -out FDR_bzgptsm_data.v</b></tt><br></p>
+
+<p>For our example data, the program <a
+href="../vfdr/index.html">'vfdr'</a> determines a corrected threshold of <i>Z=2.4</i> 
+and applies this threshold to the zmap 'bzgptsm_data.v'. The output 'FDR_bzgptsm_data.v' is a thresholded map containing the significant activations.</p>
+
+<p><u>2. Cluster-size/Cluster-maximum threshold</u> using <a href="../vmulticomp/index.html">'vmulticomp'</a> and <a
+href="../vmulticomp/index.html">'vdomulticomp'</a>:</p>
+
+<p>First do a smoothness estimation using <a href="../vcolorglm/index.html">'vcolorglm'</a> with an
+appropriate 'minval'. An appropriate 'minval' depends on the scanner used.</p>
+
+<p><tt><b><a href="../vcolorglm/index.html"><u>vcolorglm</u></a> -in ptsm_data.v -out gptsm_data.v -design design.v -minval
+2000</b></tt><br></p>
+
+<p><tt><b>grep -a smoothness gptsm_data.v</b></tt><br></p>
+
+<p>In our example, the estimated smoothness is 11.5 mm FWHM. Now we can call 
+<a href="../vmulticomp/index.html">'vmulticomp'</a> with this smoothness and an initial threshold which is used to generate
+clusers. As an initial threshold, we will use Z=3.09 (p=0.001). Note that Z=2.576 (p=0.005) is also often used.</p>
+
+<p><tt><b><a href="../vmulticomp/index.html"><u>vmulticomp</u></a> -in bzgptsm_data.v -out thresholds.0.001.v -fwhm 11.5 -z 3.09</b></tt><br></p>
+
+<p>Then, the cluster-size/cluster-maximum thresholds can be applied to the zmap
+using the program <a href="../vmulticomp/index.html">'vdomulticomp'</a>:</p>
+
+<p><tt><b><a href="../vmulticomp/index.html"><u>vdomulticomp</u></a> -in bzgptsm_data.v -out bzgptsm_data_corr.v
+-file thresholds.0.001.v -p 0.05</b></tt><br></p>
+
+<p>The output shows significant activations in the primary motor area in the left and right hemisphere, and in the SMA.</p>
+
+</div>
+
+<div class="subtitle">Visualization</div>
+
+<div class="content">
+<p>The results of the statistical evaluation can be displayed using the programs
+<a href="../vlv/index.html">'vlv'</a> and <a href="../vlview/index.html">'vlview'</a>. 
+The program <a href="../vlv/index.html">'vlv'</a> can be called with
+several parametric maps (e.g. to see both
+maps 'zgpts_data.v' and 'zpts_data.v').</p>
+
+<p><tt><b><a href="../vlv/index.html"><u>vlv</u></a> -in structural_isotal.v -zmap zgptsm_data.v zptsm_data.v</b></tt><br></p>
+
+<img src="images/vlv.jpg" border=0>
+
+<p>In contrast to <a href="../vlv/index.html">'vlv'</a>, the program <a href="../vlview/index.html">'vlview'</a>
+accepts only 1 input and 1 map file. But <a href="../vlview/index.html">'vlview'</a> is able to show the raw data
+time course for each voxel. Note that the preprocessed raw data file 'pts_data.v' should be used.</p>
+
+<p><tt><b><a href="../vlview/index.html"><u>vlview</u></a> -in structural_isotal.v -zmap zgptsm_data.v -raw ptsm_data.v</b></tt><br></p>
+
+<p>The program <a href="../vlview/index.html">'vlview'</a>
+additionally accepts the 'beta-file' (output of 
+<a href="../vcolorglm/index.html">'vcolorglm'</a>) and the (text) design file 'design.txt'.</p>
+
+<p><tt><b><a href="../vlview/index.html"><u>vlview</u></a> -in structural_isotal.v -zmap zgptsm_data.v -raw ptsm_data.v -beta gptsm_data.v -des design.txt</b></tt><br></p>
+
+<img src="images/vlview.jpg" border=0>
+</div>
+
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

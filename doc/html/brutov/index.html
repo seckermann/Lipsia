@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Conversion of Bruker data to Vista</div>
+
+
+<div class="headtitle">brutov2</div>
+
+<div class="content">
+<p>The program 'brutov2' converts Bruker data to the vista data format. Example:</p>
+
+<tt><b><a href="#brutov">
+<u>brutov2</u></a> -in brukerdirectory -out bruker.v -exp 2,4,5
+</b></tt><br><P>
+</div>
+
+<a name="brutov"></a>
+<div class="headtitle">Parameters of 'brutov2':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        source location of the Bruker data to be converted<br>
+        (the top-level directory of the dataset)
+    <DT>-out<DD>
+        target location of the converted Vista data
+    <DT>-exp<DD>
+        the Bruker experiments to be converted<br> 
+        (e.g. -exp 3, multiple experiments can be given: -exp 2,4,5)
+    <DT>-b<DD>
+        lower histogram cut-off value (percentage of the histogram area) 0.0 ... 100.0
+    <DT>-w<DD>
+        upper histogram cut-off value (percentage of the histogram area) 0.0 ... 100.0
+    <DT>-v [ debug | info | warning | error ]<DD>
+        level of output verbosity.
+    <DT>-p [ auto | original | byte | short ]<DD>
+        precision (bytes per voxel) of the created Vista data. Default: auto
+    <DT>-nrep<DD>
+        the number of repetitions to convert (0 means all repetitions)
+    <DT>-fa<DD>
+        force the program to treat the input data as anatomical
+    <DT>-ff<DD>
+        force the program to treat the input data as functional
+    <DT>-fbo [ big | little ]<DD>
+        force the program to use the given byte order
+
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

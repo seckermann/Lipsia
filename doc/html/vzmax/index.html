@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<BODY BGCOLOR="#ffffff" LINK="#479088" VLINK="#2e90b4" ALINK="#ff0033">
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; List of local activation maxima</div>
+
+<div class="headtitle">vzmax</div>
+
+<div class="content">
+The program 'vzmax' produces a list of local maxima in the zmap.
+<br><p>
+
+Example:<br><p>
+
+<tt><b><a href="#vzmax">
+<u>vzmax</u></a> -in tcgbsAC1T.v -pos 3.1 -neg -3.1 -out BtcgbsAC1T.v -radius 5 -minsize 81
+-report AC1T_list.txt -system talairach -threshold 0.3
+</b></tt>
+
+<br><p>
+The output image 'BtcgbsAC1T.v' marks the locations of the local maxima.
+The list of local activation maxima is contained in the text file 'AC1T_list.txt'.
+<br><p>
+A pixel is considered a local maximum, if its value is above the given threshold (-pos or -neg), 
+and if it is the largest value within the specified radius.
+Only activation areas of size larger than '-minsize' are considered,
+'-minsize' is given in units of mm^3. For
+example, if the spatial resolution is 3x3x3mm, then a minsize of
+81 corresponds to three voxels (81 = 3 x 27 = 3 x (3x3x3)).
+<br><p>
+The parameter '-threshold' facilitates the inclusion of adjacent voxels into the
+output image, provided they do not differ by more than the specified
+amount from the local maximum. In the example, '-threshold' is set to 0.3. If a local
+maximum has a value of 4.1, then adjacent voxels with values above 3.8 are included
+in the output file:<br><br><p>
+
+<img src="vzmax1.png" width=250 height=150>
+
+<br><p>
+The parameter '-system' determines the coordinate-system that will be printed
+in the list. Possible values are: 
+<ul>
+<li><tt><b>mm</b></tt>: coordinates are given in millimeter (origin is at the top left border of the
+image),
+<li><tt><b>voxel</b></tt>: coordinates are given as voxels (origin is at the top left border of the i
+mage),
+<li><tt><b>talairach</b></tt>: the coordinate system corresponds to that of the Talairach/Tournoux At
+las,
+i.e. the x-axis passes through the upper border of CA and the lower border of CP.
+</ul>
+
+<b>Caution:</b>
+The use of 'vzmax' only makes sense for registered 3D data
+(otherwise, Talairach coordinates are not available).
+</div>
+
+<a name="vzmax"></a>
+<div class="headtitle">Parameters of 'vzmax':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-pos<DD> 
+        Positive threshold on zmap. Default: 3
+    <DT>-neg<DD> 
+        Negative threshold on zmap. Default: -1000      
+    <DT>-threshold<DD> 
+        Height threshold for local maxima. Default: 0
+    <DT>-system [ mm | voxel | talairach ]<DD> 
+        Coordinate system. Required.
+    <DT>-radius<DD> 
+        Radius in mm for identifying local maxima. Default: 12
+    <DT>-minsize<DD> 
+        Minimal size in mm^3 of activation areas. Default: 81 ( = 3 x 27 = 3 x (3x3x3)).
+    <DT>-report<DD>
+        File containing output report. Default: (none= screen output)
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

@@ -1,0 +1,392 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>SegmentWindow</class>
+<comment>This is the segmentation window containing a list of all active segments. It's should be used as a child of vlMainWindow.</comment>
+<author>Thomas Proeger</author>
+<widget class="QMainWindow">
+    <property name="name">
+        <cstring>SegmentWindow</cstring>
+    </property>
+    <property name="enabled">
+        <bool>true</bool>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>353</width>
+            <height>489</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>1</hsizetype>
+            <vsizetype>1</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>Segments</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QTabWidget" row="0" column="0">
+            <property name="name">
+                <cstring>segmentTabs</cstring>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>volume</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Volume</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <property name="spacing">
+                        <number>0</number>
+                    </property>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>color</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Color</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <property name="spacing">
+                        <number>0</number>
+                    </property>
+                </grid>
+            </widget>
+        </widget>
+    </grid>
+</widget>
+<toolbars>
+    <toolbar dock="2">
+        <property name="name">
+            <cstring>toolBar</cstring>
+        </property>
+        <property name="acceptDrops">
+            <bool>true</bool>
+        </property>
+        <property name="frameShape">
+            <enum>ToolBarPanel</enum>
+        </property>
+        <property name="frameShadow">
+            <enum>Raised</enum>
+        </property>
+        <property name="resizeEnabled">
+            <bool>false</bool>
+        </property>
+        <property name="movingEnabled">
+            <bool>false</bool>
+        </property>
+        <property name="horizontallyStretchable">
+            <bool>false</bool>
+        </property>
+        <property name="label">
+            <string>Segment tools</string>
+        </property>
+        <action name="fileNewAction"/>
+        <action name="fileOpenAction"/>
+        <action name="fileSaveVisibleAction"/>
+        <action name="fileSaveAllAction"/>
+        <action name="editCutAction"/>
+        <action name="editCopyAction"/>
+        <action name="segmentDownAction"/>
+        <action name="segmentUpAction"/>
+    </toolbar>
+</toolbars>
+<actions>
+    <action>
+        <property name="name">
+            <cstring>fileNewAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image0</iconset>
+        </property>
+        <property name="text">
+            <string>New</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;New</string>
+        </property>
+        <property name="toolTip">
+            <string>create new segment</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+N</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileOpenAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image1</iconset>
+        </property>
+        <property name="text">
+            <string>Open</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Open...</string>
+        </property>
+        <property name="toolTip">
+            <string>open segment</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+O</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileSaveVisibleAction</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image2</iconset>
+        </property>
+        <property name="text">
+            <string>Save</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Save</string>
+        </property>
+        <property name="toolTip">
+            <string>save visible segments</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+S</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>editCutAction</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image3</iconset>
+        </property>
+        <property name="text">
+            <string>Cut</string>
+        </property>
+        <property name="menuText">
+            <string>Cu&amp;t</string>
+        </property>
+        <property name="toolTip">
+            <string>delete segment</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+X</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>editCopyAction</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image4</iconset>
+        </property>
+        <property name="text">
+            <string>Copy</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Copy</string>
+        </property>
+        <property name="toolTip">
+            <string>copy segment (inactiv)</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+C</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileSaveAllAction</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image5</iconset>
+        </property>
+        <property name="text">
+            <string>Save All</string>
+        </property>
+        <property name="menuText">
+            <string>Save &amp;All</string>
+        </property>
+        <property name="toolTip">
+            <string>save all segments</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+A</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>segmentUpAction</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image6</iconset>
+        </property>
+        <property name="text">
+            <string>Segment up</string>
+        </property>
+        <property name="toolTip">
+            <string>Move the segment up</string>
+        </property>
+        <property name="statusTip">
+            <string>Move the segment up</string>
+        </property>
+        <property name="whatsThis">
+            <string>&lt;b&gt;Moves&lt;/b&gt; the selected segment one step &lt;b&gt;up&lt;/b&gt; in the segment list.</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>segmentDownAction</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image7</iconset>
+        </property>
+        <property name="text">
+            <string>Segment down</string>
+        </property>
+        <property name="toolTip">
+            <string>Move the segment down</string>
+        </property>
+        <property name="whatsThis">
+            <string>&lt;b&gt;Moves&lt;/b&gt; the segment one step &lt;b&gt;down&lt;/b&gt; in the segment list.</string>
+        </property>
+    </action>
+</actions>
+<images>
+    <image name="image0">
+        <data format="PNG" length="173">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000007449444154388dedd5c109c0200c05d06fe936812c10b2ffdd85d25385b6a991480f053f081af0291210f828c5a9d9c4de96cd2b9ad9eb0000660e2fe0c2519839c4f70c4c446d5e6b3538cf928245e4b2f6f014acaa8fda1d4fc1a5741b22079f9d111d96ea8a912c78c10bee64e60719f57e9203ad452a04cc4e50200000000049454e44ae426082</data>
+    </image>
+    <image name="image1">
+        <data format="PNG" length="201">89504e470d0a1a0a0000000d49484452000000100000000d0806000000a0bbee24000000904944415428919d92410ac4200c457f4ab65de4429e6c6018989365e1755cf40076a18106621503f2157d21ff23e59c31ab9452b5bdaad2f3ee588155956c5933535a99603491aa12cf461cc156c4ccb55c00500008e41cc351736ed260a0a05ce2cea6724ad8b48718435ee3ea16fce3371b030b1efe7ce7e0ffd732e916f660e091c10e0cf40c803dd83558a9e81fdc37d14cdb656b27f80000000049454e44ae426082</data>
+    </image>
+    <image name="image2">
+        <data format="PNG" length="1408">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000547494441545885ed974d6c5cd515c77f63cf78ecf1d7784c123b094e17882f01416900b585a0d28f5d92464540d50d42b0a45285d48a0d123b841ab1a92a15562c416dfa410508a4560408958cd2d04405844d42ebc4f1c4ce7c78debcf7ee3de75e16eff98dc76e3c75376cb8d2d3b9dfe77fcfb9e77fee83afcb575c721b3b7e7fe25d6fad608d92cb8188222258db91dd754164bdeceeb356a92e37a85d5de5a3332f6ed2975fdf3871e23d7feffd7720e250e7d83b3501c0d94f17ba16dd7ed3de6d9df28d77ce22c6f2c273a3fe6f7f3dde05a20b8015218a2d413b46b403e0aea3cf32bda3cce06081c162817ffce5d96d0198fba28aaaf2c00f0ef2f1bf1ef4972fff2e03d10dc02aaa0e2b895c2bc3a522076edbc7c45889f278695bca2171a3aac318433edfd73596df3851d4259f68d63f50c833bdb34c79ac4479ecff0320eaa8d79b38e7bac636584050e7124bac9b38b5639ce99de32980e16d03b0a2341bab84ed08e7fcb50188282a0ed16e171cfbe137d97fcb0c23a52223c383db0650af3769af06c4c6e2fd1600ac08a29a996cad3cf3b323db560ae09ca35aadd36ab6b0225863b776815845d563c5a1eaf8ecc212ce799cf7f8543ae7f09eb4dfe1bdcfe638e7b3b6b596e52b758220c2184144303d2d90fa5e24911fcf2d76b535bda0eb65524f808b26e4b3da0c085a4187c0ac604530d66e7d07ac486a7ecdc8e85a8a740390d85882569b76d04e993061d364cfb46d7b5840520b242ed0ff7a625907268e0d716c08db11716c3b8aad20b6a37ced60d648af4ba81907a83a26274670cea1ce67d2c49628328461442157a0d89fa354e84f94585d971752a5225c58a8223671418f3b20d9e9441cdfffceadd998aaa3dd8e89639326a8644e0256d7f5e9a6f15fbdf8871458af28484fbe9188e2d8d26e4788284bd52a4e1317893a9c3aac08ce79f2fd05fafa06360159cb8e627bb9c076a8583509b1248c2c57ae2cb3b272857aa3c6c2c217d4ea2bd9ba72f93a4aa551262bbb291687e9cbe53703d0c42dff9b0bd285ad56c8ecec7f68aed6585dad7269f11c00070fdcc7eb1f2e70f2f405001e3830c06d43cad973ef93cf9729e4a7c0175155f6edab60c5a2e97dd808a02b35ad65412b4a104454abcb0c0e060c0d455c5a3cc7dedddfe0c7c71ee24f1fae70fc973f61f695a7b978f112af9f6e327b7184471efe2922753c8b8c9761c78e912c22d642714b006205514718c684418da5ea229f9fff8c331f9d627ad7f51c3a741f7bf6ece1b5939f646b16dfff357b67a679ede42794864a3cf4e023445183ab57ff4dadb6982aee84684f0b58115aad36463c5114d36c36003872e430e57239db60f7bd4f92cb25ef8a288c01f0de53a94cf2d8a34f606c8d76d4248c82eddc014d48c518c4c2ccf537303e36c1997fcef2db977ec3533fff05aacab1efdecabb6727d8ffad5789c224340f1fba994aa5c2fcfc1c7ffcf38904e4f44e720c232a3855b427006389a218134b66b2f3e723262b37d2a8af72fc85e7397af8473c76ec6eae9bfc14234a3388b9696692a3df9ee1d407eff1c1df4fa132c2e8e86ee6e72276ed2aa0a2a80aaa026c012036166b15636c9240ac3035358cea20771dfc1e8de6126fbef536711cd00f0ca55f7d1e5e9e87427e941b6fb8872080562b646c8c642fb119c1f50c43b1922e4a32d9c0401f221e11a53454e1ce3beea7541a425529160b38e768b5428220220c635aad98303488087d7db9945b14276b2ee8bf3600131a5a2b359a8b55ac08f3f373192fe81afb895b57ef64c52c796d9aab04d5cb38e79138c6fbee37e5a61f85fdfb1ff78d460b638472b9943dcdbcf7e94766c6ee76a7beb16f6969399d0faaef6cd2f975f94acb97984a3e193e31ea630000000049454e44ae426082</data>
+    </image>
+    <image name="image3">
+        <data format="PNG" length="1917">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000744494441545885b5977b5054d71dc73f77afbbc0ee028b8a8b0fb2226f30a150ac265a2da631e98cda5627d54e3a7574324dd3369d491fb493d819a72fdbb153fd23d1994c9d263193448922424d50503060a3828ec1a0822f141058c085e5eeded7dedb3fee6a41d13a91fe66cece9d3df7cef7737eaf738e609a26b74d1004be8c55561e2b743a63cbed76bbefd2a54bcb376c78be065001f341df99a689ed4b298eb23d7baad344513c525c9ce79b362d89d6d6162f9000880ff3fd2303689ab1293777b62721c185a6e90c0e0eba8158e01e77d6d49cf454561e4d1a3df7c800c092d9b36700a0eb1154551b378efbf7d7791445adb3db632a00373089db3f8f622e579c2f12310050550d55d5ef7967d7ae831e4551eb0a0bb30b0606860052809bc0c8237b4096d5a8b086a2a8e8fa58801d3bf67a1445ad2b2ece2b78ecb1149cce588024c0011310827058b90320cb2a9af65f802d5b76791445ad5bb8b0a060ce9c99005cbfde0396e785db0f8f64b2aca2281a008aa2de09c1faf5bff2288a7a78e9d2e282397366621806814090b6b62b2d408468894e0080e581db309aa6939f3f2fc1ebf5552d5952f4447afa2c344da7bf7f8883071ba4aaaab21d4008d02608401d03208a0ef7e2c5abf6949414e76564a4a26911fafb0354561e930e1cf8a0f4e8d1aa66a01f90270840415154c00ac18c1959bf5db66c813b33f331745dc7efbf454545bd545d5d56dad050dd0c7403b7007d8200acb8cbb2cad9b3ed3cf3cc02775696ef8e7879f911e9e8d18ad213276a9b812eacd52b4c540e689acef0b0c4eedd87292aca26276736baaed3d737c8debdb55263e3c1d23367eac7157f6880ba4db9258669da0401a164d3853a4665b12cab7cf8e1211e7f3c83ec6cdf1df13d7b0e494d4d874bcf9d3b7e5ff107025495e67a441bdbe293c5efa4e4c7263ae26c98aa49f3b6b9c3fd03ea6bcffea16d67ddefb39c0dfded38662d46d77524294c2824f3d147b5d2a953874adbda4e3e50fcbe00bb5fc92911ecc2bec2e7133cdebc98317333e7c7255cae1c7aa3ec97e97149ae493f4cd26dbcf0a3ef120ac96cddfa015d5d7d5253d3c3898f0bf0ee8fb34b12bde291a51be2b1c70a481743a801039b43207ef62444bb40fad37184faf42db39e8a654e6780b2b25a6459a1a7b303cddff0f7b6b693a7b1b2fd81e200c2e803c9ce17733d4e977075f5cf9d1ed106d71a552e9c0fd77cda3a52ed4b76242f9aebfe49de8a38b7e81050460c62dc5627bff0850bff399de9691a3b775dffc55fca7baaa2ab0f3f48dc34cdb11ed0745e2d5e6cf338221a2d3511aa8e0d6d7dedfdce0a601090fef1725a605ab6edcfde341b3102204168c8c4bc1266deea780257232cca895f76fc4f9e3586c9e9906c542cfb63db11ac9a1f1764cc66243acc75996911863b554e9e916ba2e2ddc075a0cb2e881d41bf0e232a8ca8483755da8e1bf8963a8975836b8ac0c2d509cf3df992677efe73ae975333623ef9e4f5eced80eb6ead710152920d1f928a1cd0e8e8d52e0301c00f040145445c3b3551034925d8abd3548f243a059c4e13c23af149e0f10a10d6f17805729e8e213ddff162d9ab999b81f8f120c6fc31253e02219588a46313c464ac7ead02c6f67539eb5353f4151e87c2705f847f1f17a5373fee2bd5351364edce085e55196c55095e5541d6c8986763e674fbcfd62d492e04e2b8eba8362607ae5d17782a4b65ba0b8ad25cab362e4f9f248ac245a7c3b6202f35fcf5f99932813e91632d2ee9ed3a7f69f9a9c1e65faff5826c6dc137cec1e72d6acda7adc1ea6fe4c77f337faee3d9d4b9e0cb86c22f5cdf7ea7de7f3ebaa8c8b800eddd62636fb7b9d09ba0b1b240a560867d2580c76590e88c702b60a7f67ca2b4abd15f7aa079b019e8b23ca02305a1e573b365f9e6f6cdc0c05ff7f7ecfff8f5ecb7267b29494e86a9f18e12e04d606834c09810f40da9bf79b7de13eced05421a3e57089f2b449cae72fab29303673cbdffacef2f3dd03cd844b4c9e8aa05d0d36172a425588eb5d375039d3707f5b77b3a4cec119d0417298013b0df3704dbebae9dfcc18259abb685a66ccc9a6a2c71c6188836b816705ce91e920f9737dff8d735bfdc05f4020380a2ebc610b296a886e1d688110086b1925616116faae108c81aae38d10bc4dcad797727d4dffbacb301f83e3019ebf82c020656471bc6aa8c20d689c6ece8b2b520eb8bdc0e489d1c57009447df47d584c50e410759a7f5aad1c2387785bbcbc28c0af5031d403b701168032e47dd1e60d4b54bd6e818f09b789d0a695327adfeded7bc858063cb9acc220cf395d4449901bfc970c8e889421b0ff2c06d082d3afea7dd1a89bc77b63de685a579c37ceb8921b72c27ee9b3b23e133778c99bbb22890e8884438db9e40dbcd702356058c39b70b137039b5ff6d6d56fd9aaf0e3e39cba3dc33e91fb1f3564352cbc6bd977f8ae5d51e2c0f4ecce514d02f74875eda773a2978a357b47a4274dce81579ffc46469efa9be2d58e537c4ffc10300f65545295fc9f2ba7e9731d55831cda5d2273968eda5a6f6fcc03b676f0c9fc7ca9f014685d6344dfe030225a9d2b025c7b40000000049454e44ae426082</data>
+    </image>
+    <image name="image4">
+        <data format="PNG" length="248">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000000bf49444154388dd593410a83301045df488ee51dbc8c3ba98bf46a9eabd385350d266362444a3f0c4266fcf3f824f06f12402b66da8c55f3de2212cf9d92cb98c0ba2d7c4544cf9a07638bbad53c4491235ecf7cc1623697a92540c11ff4fda75275015d24a9389e7d6f53df4fe4ccab323eea0f03c0c4b2a0712ce6add89b59b7661c3be095985f261679ee4ebcc22c9788551fe6a2cbc4969a894bcb6f23ee361aab62e252c57294dfbfb610bbf2c897b8a46cc6677eaa519571fa087ea83762da9abacb20235f0000000049454e44ae426082</data>
+    </image>
+    <image name="image5">
+        <data format="PNG" length="1439">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000566494441545885ed97cf6f5c5715c73f339e5f9e19dbe33a696662c76e8368d5a869d4962e5091103f0a42446d2365850a628160c79f80e80a1620a4aa12521720555d740161d14add0155690a8aaa14051c35b15da79910db75ec99f1bc37f3ee3de75e16efcdb3c7219e9a4d37bdd2d5b9bfe69def3d3fbee70e7cde3ee396d9bff0c70bef786b056b944c06441411c1da5d393c1644f6cae1356b958dcd36db5b3bfcf38357eed297db3bb970e16ffe2b5f7d0c11873ac75c7d1a802b1f36877e74fae1b943ddf2adb7af20c6f29b5f4ef8bffcf9d7432086005811fa912508234477013cf5dc8b348ed62895f2948a792ebff9e2a1002cddd84055f9fa335fe2eae279bfb6f68714c43000aba83aacc472d02ae5224f3cbac0f46499da54f950ca2176a3aac318432e971ddacbed3f28eae22e9aae17f2391af7d7a84d96a94dfe7f00441dad5607e7dcd0de3e0b08ea5c6c893d07eb47a768dc3f9500a81c1a8015a5d3dea117f671cedf1b8088a2e2101d76c1b96f3dc99947e6a9968b542ba5430368b53a843b0191b1787f00002b82a8a6261bb49ffdf4d9432b0570ceb1b1d1a2dbe96245b0c61eec02b18aaac78a43d5717d751de73cce7b7c229d73784fb2eef0dea7679cf3e9dc5acbe6272d82a08f31828860465a20f1bd482caf2edd1e9a6b12a07b653c8e818bc6e4b3d30908bac12e8159c18a60ac3d3806ac48627e4dc9e85e8a741f90c858826e4818840913c66c1a7f3399db111690c402b10bf47fde58f68089224314197a619f28b2bb8aad207657f9e062d6c8a820d49403541d33d3559c73a8f3a93491a5df37f47a7df2993cc5b10ce5fc58acc4ea9eba90281561b5b981d8d805236240d2db8938bef9f4a9744fd511861151649202159f89c1ea9e35458c25bbb24c38bb80a8e357affc2901362a0b929bef27a228b284617f48e9a0ab31642ebe4b61f93afdb3e770ed0e275e3807d92cd75f7e155b9b49aba3d8512eb0bb54ac1aa7589c46f62ec583ee9ab7b8ef173fc747119d471e23d3e920b56974620abf75075badc5003476cba77341f2f16eb7c7a54b37e38c5025777385c2cd1b048d1304478fa3aa4cfeeb32854c01ad56585dbc45beb5c95424ec4c1659b9b14dada158b168120f238370500dc3a04fbf6f999f9f42ac5078ed778cfff625c0d3fec18fd93af37d441da58fc6287ac15626999a9b219f0929076d6cfd38d585469a117a0f0b0cd546b182a8a3d78b087b7d4484562b24b87a0dfffefbe01c529964ec1f17096edea6d3e9d1f563e43e59c70701dbf90a5dcd3216ec9009ba6c654b4936eca6e8480b5811badd307d4eb5eeec30bef411852b1fd03cff436ca144e38dd7718b8bb4bf781a359e5cb0838b22b6344f7ebb455695a054a5db0e298de7922aaba32d60adc6a4620cc6588c114ecc4e3077f9afb0304ffefc39aa0f3d48b11f30d7bc4a63a648dd6ca1e50a3abf40a3e2a8879bd8ca043a3f4fbdec93c01654e27eb0058ca5df8f3091a4265b7aeb3d4ebd7b91e25a9323e7bf4befbe63f830c4bff7779af5d31cfbf712f56c8e35caac7cb8c678731d2fc2ed5e86e58f5b1c3d5942258e0155010e0010198bb51aa79d8d419c5cbac478678bf6d7becdad177e820f02e67eff32d3d71679a0f531f95216999ec19d7c90a9d919d69e39cbad6f9ca55d3bc2840e58d1a60437320dc54a92f7710c54af2de20b45a253a761f638ae1bb0f99de7693df965ba8f3e4e383dc3eaf3df4344c9a812958a8838c644f13e93b84071a2890bc6ee0dc0f40cdd3bdb746e6f6045585e5ea2fe8587081f7f8a3b271fa6bfba1273c2b159f4481d3111fa9f66521935e590c17cc01fc1c61ace79248af07ef84d79d71f8533677ee4dbed2ec608b55a397d9a79ef934e6ac6e1f9ee78ffdafafa66721e54dfbe4be7e7ed336dff0548c44f073f9e92de0000000049454e44ae426082</data>
+    </image>
+    <image name="image6">
+        <data format="PNG" length="821">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af4000002fc494441545885ed96c16b5c551487bf848373c187b9d0873ee8c0040c6620c12e1466a0590c38d88003061248178282015d14ba7023f8cfb875e1ae8b2c5c64a1606184112a4ce10953788527bcc52bdcc21938705d8c6230763a338d16213f389b0bf79c8ff37be79eb71663e4656afda556bf02b8027851808dce87b171adf54263b432c0cee117b1df1f90f46fd3d8eeac0c21ab15bf1bfb7b5dbadd7779306c124c79f5cd4e7cfaebfdb57f1de0fa7b1fc7db47477cb4bf87f804a903627d4484c61bdb71fadbc3a520960268ddfa341e0d06dc197449d384d3b2c6651e8760d6c389a3d1ba11a78f7e5e186261809dc3bbf1a0dfe7f3831ecdd45304631c8c6082cf3cce35297c1f674a63bb13a70f17b3632180d6079fc5835e8f93a33eedcd943c28a765cd3004426db8d49164294d97506b0f0c1aad77e2f4d14fcf85782ec09f9e9fec77696fa64ceac0bd2a702fd48c4a8560a81a6c7ada9927dfca30eb817334aeefc4e9e35fe642accddb86dbc75fc5fd5e9793418fc4090f42e0c75a39ab6ac6b5a2411133708e24f5b82c214d849097146723287274f81df3ec786607aedd3c8eedad364e84e13807601294dc009fcc0a03180882aaa1798924604505a688cf90ac3d773afeb1031b9dc3e8bd27f329e21c951aa580dbdac5ef6e0110d4086a60865880e62614136c524055226a980630b06a828d874c9f3cbe00710160e3e6f1ec401c22b326991906485d629fdc61d77bcc3b0a35342818b8a6c78a123bfb1e2b0b04103977d714cd47fcbd13172c78f2c337cff46be3c6ad08b0d7f488f78c436058d4685d91261965516293314fef7f7bf9efc079ed6d6538972025544119d7e0c4a02a67b1845602e8669eda20788706476e60662009b8e552ae04908aa0807782777f7c2b364b65a64be55a691d8b80016a7f1d046cde95cb0530835295bc56ca5ac1ce8da4b8a572ad64c1c46054d48c8a8aa2564c1cb86436f74b6a25802fbf3e9d8104a5d2d93b60aa10ea73be2ca818e3c2f1dadbefc7f5f5f5b9f1caeb6fc56572ce5d46ff85fedfbfe5570097a1df0184a1b428465488f10000000049454e44ae426082</data>
+    </image>
+    <image name="image7">
+        <data format="PNG" length="992">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af4000003a7494441545885ed96cd4f1c6518c07fef7ceeb2ec17bb8ba56c6d4a45698d07ab358d31b1f1e045e3413dd4bfc093c6f817b097de4ccf9eec8d6b0f78206938b436a952049a0a8240410acb2e4b97fd98ddd9dd99f7f58098980265aa8d1ef85de630f33ecf6f9ee77dde1938e698ff1811f079f56fc735826417e7df27f2f95707de4ffe36cfe6e8753a2b33478e194840b5da00dcf8e812c2d0c0f3b0351d11b289da161f5cddc06f5682840c2680bfdb81a17494bb9b25ee6f3ca6ec4ada96412a16a159ad820ad6d560026a57a02f6c703e1563aedee26eb5ccdaea265636050874013240482d90c0de220149db2213b68869e0546a48bf8d401d7d9bfe1301144805a6d088e802d3f7485a3a4ad382e67f4601a0ec76d868791410f8868966da48c34089607b209840d8fe6bd5c3aacbd4769d857a0bdfb4a9b91e422884f49ea380bf7bc9d7da149c16b56607e92944288423052a91c078e14ca0904f4c41f75b1f2b8440ef8a6259368626d8abaad368e203bf6cd7f9bdd1c2eff8c43c4955d369a323d319ccd72f63f60d2a4d083429910aa4d741b90ec2b0a8dd19f95b8ff66d981e8ea9d357bee4c2dbef722e13c33605c8dde1ea8946e8edcb706d6d9ba9f5c7583b0ed2f731064ee0adefe085752c5d11ad35481537a9363a14166771c7aee337ab4fe4d3f713505e2b279bb561a969645f7b934f2ebe426fbc9bba6632af9b7cb3586076ad44a7e363b63b08dd40b76c6422c28be74e924827705d855f77a9fc7c0be7fe6dfcd2a37d5ff6c083a8323f25665b1d6547135cce7ec6a9648cfe7888858a4b5ad7710c03afd942da21cc683766a29b786f17a98845ab58a1982f509ef90977e60edea35f0f1c8d7d2bb087dc29e68a73d3c39322c33baf9ee5c3a17e0642064d21d8f224a5b644f31524bb88f7c7793915a6b058647d7a09776a82c6e8b7f8a5b543e7f2500100d96ae4cacbb3c34b8ec2ea7f89f7063264c326be52d485e06c2cccc9d33dd8118bada52dca0b1bd4c74771c747f02bc5a71e0a4f1500504e35b7b6551ece571db26706b97022493a6452f7252215c13575768a55f233cbd4c747694fdfc22b2c1fe9443a9200003b855c7ee5e1f0841fe7e2e029865209508a1f6d9db9d51285c905da3393b8e323474efe4c98f1b47ae38babeabb7bab6abeda5197c61ea8f8b5ef55f4d3af95dedd13f45310a0027f225b8d5c3e9f1fae365d9c64961f1eacf0f8e60dbc7b37f1b6f71fb5c308f63fb0c7daac981833d5a223a954eac899db78ebf3cfafec07a1e9a612ba19b8ecc71cf3bfe20fbaae943f8820dc490000000049454e44ae426082</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>fileOpenAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>fileOpen()</slot>
+    </connection>
+    <connection>
+        <sender>fileNewAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>fileNew()</slot>
+    </connection>
+    <connection>
+        <sender>editCutAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>editCut()</slot>
+    </connection>
+    <connection>
+        <sender>editCopyAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>editCopy()</slot>
+    </connection>
+    <connection>
+        <sender>fileSaveAllAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>fileSaveAllAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>segmentDownAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>segmentDownAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>segmentUpAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>segmentUpAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>fileSaveVisibleAction</sender>
+        <signal>activated()</signal>
+        <receiver>SegmentWindow</receiver>
+        <slot>fileSaveVisibleAction_activated()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">segmentwindow.ui.h</include>
+</includes>
+<slots>
+    <slot>fileOpen()</slot>
+    <slot>fileNew()</slot>
+    <slot>editCut()</slot>
+    <slot>editCopy()</slot>
+    <slot>volumeTable_clicked( int, int, int, const QPoint &amp; )</slot>
+    <slot>colorTable_clicked( int, int, int, const QPoint &amp; )</slot>
+    <slot>colorTable_valueChanged( int, int )</slot>
+    <slot>fileSaveAllAction_activated()</slot>
+    <slot>segmentDownAction_activated()</slot>
+    <slot>segmentUpAction_activated()</slot>
+    <slot>fileSaveVisibleAction_activated()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

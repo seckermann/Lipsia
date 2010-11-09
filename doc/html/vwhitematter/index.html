@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Statistical evaluation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; White matter segmentation</div>
+
+<div class="headtitle">vwhitematter</div>
+
+<div class="content">
+The program 'vwhitematter' computes a while matter segmentation. The input into this program MUST be a peeled image.
+It takes about 5 minutes of computation time. It is called as follows:<br><p>
+
+<tt><b><u><a href="#vwhitematter">vwhitematter</a></u>
+-in /home/newbdb/134/mr134_t1_pl.v -out mr134_wm.v</b></tt><br><p>
+
+<img src=whitematter.gif><br><p>
+
+<b>Note:</b> For many data sets, white matter segmentations are
+already present in the MPI inhouse data base. They are called
+"/home/bdb/***/mr***_wm.v".<br><p>
+
+</div>
+
+<a name="vwhitematter"></a>
+<div class="headtitle">Parameters of 'vwhitematter':</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD>
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-t<DD>
+        threshold. Default: 3
+    <DT>-low<DD>
+        lower threshold. Default: 0
+    <DT>-high<DD>
+        upper threshold. Default: 0
+    <DT>-add<DD>
+        add to grey value thresholds. Default: 0
+    <DT>-auto [ true | false ]<DD>
+        Whether to use automatic threshold selection. Default: true
+    <DT>-geometry [ true | false ]<DD>
+        Whether to use geometrical constraints. Default: false
+    <DT>-iter<DD>
+        Max number of iterations. Default: 100
+    <DT>-wsize<DD>
+        Window size for local contrast enhancement (25 is a typical choice). Default: 0
+    <DT>-sigma<DD>
+        Sigma for local contrast enhancement. Default: 2
+    <DT>-topology [ true | false ]<DD>
+        Whether to enforce topological correctness . Default: false
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

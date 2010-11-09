@@ -1,0 +1,20 @@
+/* XPM */
+static const char *color01[] = {
+"    16    13        3            1",
+"a c #FFFFFF",
+"b c #000000",
+"c c #FFFFFF",
+"bbbbbbbbbbbbbbbb",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"baaaaaaaaaaaaaac",
+"bccccccccccccccc"
+};

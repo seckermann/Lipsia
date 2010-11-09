@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Correlation</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Correlation analysis</div>
+
+<div class="headtitle">vcorr</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vcorr' performs a seed-based correlation analysis.
+It computes functional correlations from a user-specified seed voxel or seed region 
+to all other voxels in the brain. The input into this program is a preprocessed
+functional data set (motion corrected, baseline drifts removed, etc).
+</div>
+<br><br>
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+The program expects a seed voxel or a seed region as input. Note that
+the seed <i>must</i> be specified in voxel coordinates (not in MNI or Talairach space).
+In voxel coordinates, the address 0 0 0 corresponds to the upper left corner
+of the first slice (NOT to the anterior commissure). The highest z-coordinate
+corresponds to the number of slices.
+Voxel coordinates can be obtained interactively using the program 'vlv'.
+<p>
+Alternatively, a seed region (ROI) can be used. In this case, the average time course
+across all voxels in the ROI is computed and used as a reference.
+The seed region can be specified using either 'vledit' or 'vmaskedit'.
+All voxels with positive values are considered to be part of the ROI.
+<p>
+Three correlation metrics are implemented (pearson, spearman and mutual information) 
+and can be selected using the parameter '-type'.
+Estimates of probability densities in mutual information are calculated using three bins.
+In addition, Kendall's tau distance is also implemented.
+The Kendall tau distance counts the number of pairwise disagreements between the 
+reference time course and all other time courses.<p>
+Note that if subsequent statistical t-tests are planned, the correlations should
+be transformed using Fisher's r-to-z transform for ensure Gaussianity.
+This can be done by setting '-type r2z'.
+Below is an example.</p>
+
+<br><br>
+
+<tt><b><a href="#vcorr"><u>vcorr</u></a> 
+-in functional.v -out result.v -seed 10 15 12 -type r2z</b></tt><br><p>
+</div>
+<br><br>
+
+<a name="vcorr"></a>
+<div class="headtitle"><b>Parameters of 'vcorr'</b>:</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-seed<DD> 
+        Coordinate of the seed voxel (x,y,z).
+    <DT>-mask<DD> 
+        Image file containing region of interest mask.
+    <DT>-start<DD>
+        First time point to be used. Default: (none)
+    <DT>-len<DD>
+        Length of the time series to be used.<br>
+        If set to -1, the entire sequence is used. Default: -1
+    <DT>-corr<DD> [pearson | spearman | MI | discord]
+        Type of correlation. Default: pearson
+    <DT>-type<DD> [corr | r2z | p | d]
+        Output type. Default: corr
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

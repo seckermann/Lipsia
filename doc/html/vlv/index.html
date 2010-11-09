@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Viewing orthogonal cross sections</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Viewing orthogonal cross sections</div>
+
+<div class="headtitle">vlv</div>
+
+<div class="content">
+<p>Orthogonal cross sections can be visualized using
+the program 'vlv'. In contrast to <a href=../vlview/index.html>'vlview'</a>, 'vlv' accepts several data sets.
+However, 'vlv' does not visualize raw data or model functions. For such
+features, you have to use <a href=../vlview/index.html>'vlview'</a> for
+individual subjects. As input, 'vlv' only accepts anatomical data and parametric maps
+(e.g. zmaps, tmaps, Fmaps, contrast images, ...).</p>
+
+<p>'vlv' can be called using anatomical data sets and zmaps (or tmaps, or contrast images) in the following way:</p>
+
+<tt><b><u><a href="#vlv">vlv</a></u> -in GV1T_t1_pl.v DD2T_t1_pl.v FF3T_t1_pl.v -zmap cgtbsGV1T.v cgtbsDD2T.v cgtbsFF3T.v</b></tt><br><p>
+
+<p><a href="im/several.gif"><img src="im/several_k.gif" border=0></a></p>
+
+<p>It is also possible to overlay several zmaps over the same anatomical data set,
+i.e., a norm brain. Then 'vlv' can be called as follows:</p>
+
+<tt><b><u><a href="#vlv">vlv</a></u> -in norm_brain.v -zmap cgtbsGV1T.v cgtbsDD2T.v cgtbsFF3T.v</b></tt><br><p>
+
+<p>However, if more than 1 anatomical data set is specified by '-in', the number of
+anatomical data sets <u>must coincide</u> with the number of maps (specified with the option '-zmap').</p>
+</div>
+
+<a name="vlv"></a>
+<div class="headtitle">Parameters of 'vlv':</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD>
+        Input file(s) containing anatomical data.
+    <DT>-zmap<DD>
+        Zmap(s), tmap(s), Fmap(s), or contrast image(s).
+    <DT>-thresh<DD>
+        Theshold of Zmap. Default: 0
+    <DT>-background<DD>
+        Interval for background. Default: 0 0
+    <DT>-verbose<DD>
+        Verbose messages. Default: 0
+
+</DL>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

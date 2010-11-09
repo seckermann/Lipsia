@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Exploratory analysis</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; clustering</div>
+
+<div class="headtitle">vspectralcluster</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vspectralcluster' produces a clustering based on a similarity matrix.
+This matrix must have been produced beforehand by some other program, e.g. 'veta2' or
+'vsimmat'. The parameter '-type' specifies which algorithm is to be used: '-type Shi' selects the
+Shi,Malik variant and '-type Ng' selects the Ng,Jordan,Weiss variant of spectral
+clustering.
+
+<p>
+<i>References: <br>
+(1) Shi,J and Malik,J (2000), Normalized cuts and image segmentation, 
+IEEE-PAMI, 22(8), pp. 888-905.<br>
+(2) Ng AY,Jordan MI, Weiss Y (2002). 
+Proc. Neural Information Processing Systems (NIPS), 14:849-856.
+</i>
+<br><br>
+</div>
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+Here is a typical calling sequence using a correlation based similarity matrix as input
+constructed by 'vsimmat':<p>
+
+<tt><b><a href="#vsimmat"><u>vsimmat</u></a>
+-in data.v -out mat.v -mask roi.v</b></tt><br><p>
+<tt><b><a href="#vspectralcluster"><u>vspectralcluster</u></a>
+-in mat.v -out result.v -n 3</b></tt><br><p>
+<br><br>
+
+Alternatively, a connectivity-based similarity matrix constructed by 'veta2' may be used:<p>
+
+<tt><b><a href="#veta2"><u>veta2</u></a>
+-in data.v -out mat.v -mask roi.v</b></tt><br><p>
+<tt><b><a href="#vspectralcluster"><u>vspectralcluster</u></a>
+-in mat.v -out result.v -n 3</b></tt><br><p>
+<br>
+</div>
+
+<a name="vspectralcluster"></a>
+<div class="headtitle"><b>Parameters of 'vspectralcluster'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-n<DD> 
+        Number of clusters. Default: 3
+    <DT>-type<DD> 
+        Type of algorithm to use. Default: Ng
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>
+

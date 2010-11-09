@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Utilities</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />    
+</head>
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; The Lipsia data format</div>
+
+
+<div class="subtitle">The Lipsia data format</div>
+
+<div class="content">
+<p>This Lipsia data format originates from 
+the <a href="http://www.cs.ubc.ca/labs/lci/vista/vista.html" target=_blank>Vista data format</a> which 
+was developed by Art Pope and David Lowe at the
+University of British Columbia.</p>
+
+<p>Lipsia employs a data file format that allows any collection of images to be stored in a single file.
+This allows, for example, to keep anatomical and functional images in one file.
+Each file is divided into two parts. The first part, which contains
+descriptions of the objects in the file, is represented entirely in
+ASCII so that it can be easily viewed and even edited using a text
+editor. For example, one can add a comment annotating an image by simply editing this part of the file. The second part of the file holds the image pixel values.</p>
+
+<p>The Lipsia (Vista) file names should always have the extension
+'.v'. Anatomical and functional data can be viewed using the program <a
+href="../vsview/index.html">'vsview'</a> which is only a simple
+viewer for Vista files, however. A more sophisticated and flexible way
+of visualizing Lipsia
+data is using the viewers <a href="../vlv/index.html">'vlv'</a>
+and <a href="../vlview/index.html">'vlview'</a>.
+
+
+</div>
+
+<div class="subtitle">Display the ASCII header</div>
+
+<div class="content">
+<p>Using our example data file 'structural.v', the ASCII header can be shown doing</p>
+</P> 
+
+<p><tt><b><u>more</u> structural.v</b></tt><br></p>
+
+<p>Then, the following ASCII header appears on the screen:</p>
+
+<pre>
+V-data 2 {
+        image: image {
+                data: 0
+                length: 7180800
+                nbands: 170
+                nframes: 170
+                nrows: 240
+                ncolumns: 176
+		bandtype: spatial
+                repn: ubyte
+                voxel: "1.000000 1.000000 1.500000"
+                convention: natural
+                orientation: axial
+        }
+</pre>
+
+<p>The ASCII header contains the attributes of all images which are stored in the file. In our example 'structural.v', the file contains only 1 image. The image attributes shown in this example (data, length, nbands, nframes, nrows, ncolumns, bandtype, repn, voxel, convention, and orientation) are <u>required</u> for all images in Lipsia.</p>
+
+<p>The attributes <font color=blue>nbands</font>, <font color=blue>nrows</font>, and <font color=blue>ncolumns</font> show the number of slices, rows, and columns of the image, respectively. The attribute <font color=blue>bandtype</font> shows if the bands contain slices (e.g. in structural images) or timesteps (e.g. in functional images). The attribute <font color=blue>repn</font> denotes the image data representation. Possible image representations are 'bit' (1-bit), 'ubyte' (8-bit integer), 'short' (16-bit integer), 'float' (32 bit floating point), and 'double' (64 bit floating point). In our example above, we have the representation 'ubyte', i.e., the image has integer values between 0 and 255.
+The attribute <font color=blue>voxel</font> denotes the voxel size in mm (row, column, slice). In our example, we have a voxel size of 1x1x1.5mm. The attribute <font color=blue>convention</font> denotes the image convention. Possible values are 'natural' (L=L and R=R) and 'radiological' (L=R and R=L). Note that for Lipsia processing, all data must be stored in natural convention. The last attribute is the slice <font color=blue>orientation</font> which can be 'axial', 'sagittal', or 'coronal'. In our example, we have a set of 170 axial slices.</p>
+</div>
+
+<div class="subtitle">Changing the ASCII header</div>
+
+<div class="content">
+<p>The ASCII header can easily be changed using a text editor.
+One can add, edit, and delete optional attributes or comments
+annotating an image by simply editing this part of the file,
+e.g. using the editor 'joe'. However,  a safer way of changing the
+image attributes is to use the Lipsia program <a href="../vattredit/index.html">'vattredit'</a>. In our example, we could do the following:</p>
+
+<tt><b><a href="../vattredit/index.html"><u>vattredit</u></a> -in structural.v -out outfile.v
+-name "patient" -value "Paul Miller"
+</b></tt><br><p>
+
+<p> With this command we edit (or add) the attribute 'patient' and
+give it the value 'Paul Miller'. Note that this is usually done for
+all objects in the input file, unless an individual object is specified by
+the option '-obj' when calling <a
+href="../vattredit/index.html">'vattredit'</a>. However, in our
+example data the input file contains only 1 image. The resulting
+header of 'outfile.v' thus looks as follows:</p>
+
+
+<pre>
+V-data 2 {
+        history: {
+                <font color=blue>vattredit: "1.3; -obj -1 -name patient -value Paul Miller"</font>
+        }
+        image: image {
+                data: 0
+                length: 7180800
+                nbands: 170
+                nframes: 170
+                nrows: 240
+                ncolumns: 176
+		bandtype: spatial
+                repn: ubyte
+                voxel: "1.000000 1.000000 1.500000"
+                convention: natural
+                orientation: axial
+                <font color=blue>patient: "Paul Miller"</font>
+        }
+</pre>
+
+<p>The changes in the header are marked in <font color=blue>blue</font>. After using Lipsia programs, the first part of the ASCII header shows the history of the processing steps. In our example,
+the file 'outfile.v' is obtained after using the program <a href="../vattredit/index.html">'vattredit'</a>. The header shows the program version and all command-line options.</p>
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

@@ -1,0 +1,44 @@
+
+Lipsia is based on Vista that is a data format and a software environment 
+for computer vision research. It is designed to support not only images, 
+but also edge sets, camera models, and more complex data structures. 
+Vista includes libraries of common computer vision and image processing 
+algorithms. It is written in ANSI C, for UNIX platforms running X Windows, 
+and it is freely available. 
+
+Further information can be found on the Vista homepage: 
+http://www.cs.ubc.ca/nest/lci/vista/vista.html
+
+Art Pope
++1-609-734-2450
+apope@sarnoff.com
+
+David Lowe
++1-604-822-3170
+lowe@cs.ubc.ca
+http://www.cs.ubc.ca/spider/lowe
+
+---
+
+The program 'vwhiteglm' performs a general linear regression with pre-whitening. 
+It fits a linear model to fMRI time series. In a first stage, autocorrelation 
+parameters are estimated from the least squares residuals using the Yule-Walker 
+equations. Then, the autocorrelation parameters are used to 'whiten' the data 
+and the design matrix. In a second stage, the linear model is re-estimated using 
+least squares on the whitened data to produce estimates of effects and their 
+standard errors.
+
+This approach was developed and implemented by Keith Worsley in the 'FMRISTAT'
+software package.
+
+Further information can be found on the FMRISTAT homepage:
+http://www.math.mcgill.ca/keith/fmristat/
+
+
+Keith Worsley
++1-514-398-3842
+keith.worsley@mcgill.ca
+http://www.math.mcgill.ca/keith/
+
+---
+
