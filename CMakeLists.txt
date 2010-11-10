@@ -74,6 +74,8 @@ FIND_PACKAGE(ZLIB REQUIRED)
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE(${ITK_USE_FILE})
 
+FIND_PACKAGE(BLAS REQUIRED)
+
 # look for boost
 FIND_PACKAGE(Boost REQUIRED COMPONENTS filesystem regex system date_time)
 
@@ -100,6 +102,11 @@ INSTALL(DIRECTORY doc/html
   PATTERN ".svn" EXCLUDE )
 
 install(PROGRAMS lipsia-help DESTINATION ${LIPSIA_INSTALL_BIN_DIR})
+
+#installing the scripts
+install(PROGRAMS src/scripts/vpreproc_gui DESTINATION ${LIPSIA_INSTALL_BIN_DIR})
+install(PROGRAMS src/scripts/vcreatemask DESTINATION ${LIPSIA_INSTALL_BIN_DIR})
+
 
 # subprojects
 ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src)

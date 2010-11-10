@@ -25,7 +25,7 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_linalg.h>
 
-#include <lipsia/gsl_utils.h>
+#include <gsl_utils.h>
 
 #define TINY 1.0e-6
 

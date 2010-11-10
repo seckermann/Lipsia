@@ -28,7 +28,7 @@ See also the files THANKS and ChangeLog.
   - vledit, vqview
     
 * Thomas Proeger
-  - vledit, vwhiteglm, package and version management, documentation  
+  - vvinidi, vledit, vwhiteglm, package and version management, documentation  
 
 * Thomas Arnold
   - vdemon, vdeform, dictov
@@ -37,10 +37,14 @@ See also the files THANKS and ChangeLog.
   - vcacp
   
 * Torsten Schlumm
-  - brutov2, dictov
+  - brutov2
   
 * Enrico Reimer
-  - vtonifti
+  - vvinidi
 
 * Felix Botner
   - package and version management
+
+* Erik Tuerke
+  - vvindi, vdotrans3d, valign3d, vswapdim, vpreproc_gui, vcreatemask
+  - package and version management, documentation

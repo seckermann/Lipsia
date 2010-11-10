@@ -1,5 +1,4 @@
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/brutov2.1.gz
-/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/isisdump.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/lipsia-help.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/v2ndlevel.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vROIonesample_ttest.1.gz
@@ -28,6 +27,7 @@
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vconvcoord.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcorr.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcovariates.1.gz
+/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcreatemask.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vdeform.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vdelcereb.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vdemon.1.gz
@@ -37,6 +37,7 @@
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vdomulticomp.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vdotrans.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vdotrans3d.1.gz
+/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vdump.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vecm.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/veta2.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vextractparam.1.gz
@@ -72,6 +73,7 @@
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpaired_ttest.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpaired_wilcoxtest.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpowerspectrum.1.gz
+/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpreproc_gui.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpreprocess.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpretty.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vqview.1.gz
