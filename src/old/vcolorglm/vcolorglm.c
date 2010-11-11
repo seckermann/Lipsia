@@ -51,7 +51,7 @@
 #include "gsl_utils.h"
 
 #define ETMP     64   /* max number of temporary images for smoothness estim */
-#define NSLICES 256   /* max number of image slices */
+#define NSLICES 2500   /* max number of image slices */
 #define MBETA    64   /* max number of covariates */
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))

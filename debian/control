@@ -12,7 +12,7 @@ XS-DM-Upload-Allowed: yes
 Package: lipsia
 Section: science
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, via-bin, python-qt4-dev, python-qt4
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-qt4-dev, python-qt4
 Recommends: lipsia-doc
 Description: analysis suite for MRI and fMRI data
  Leipzig Image Processing and Statistical Inference Algorithms (LIPSIA)

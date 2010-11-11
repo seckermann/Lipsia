@@ -14,7 +14,7 @@
 #include <viaio/VImage.h>
 #include <viaio/headerinfo.h>
 
-#define NSLICES 256 
+#define NSLICES 2500
 
 typedef struct ListStruct {  
   int ntimesteps;
@@ -101,6 +101,7 @@ GetListInfo(VString in_filename,ListInfo *linfo)
 
       id++;
       nbands++;
+      if (nbands > NSLICES) VError(" too many slices, max is %d",NSLICES);
     }
     nobject++;
   }

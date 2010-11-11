@@ -7,7 +7,11 @@ using namespace isis;
 
 int main( int argc, char **argv )
 {
-	data::IOApplication app( "isis data converter", true, true, "error" );
+    isis::util::enable_log<isis::util::DefaultMsgPrint>(isis::error);
+    isis::data::enable_log<isis::util::DefaultMsgPrint>(isis::error);
+    isis::image_io::enable_log<isis::util::DefaultMsgPrint>(isis::error);
+        
+	data::IOApplication app( "isis data converter", true, true );
 	app.parameters["tr"] = 0.;
 	app.parameters["tr"].needed() = false;
 	app.parameters["tr"].setDescription( "Repetition time in s" );

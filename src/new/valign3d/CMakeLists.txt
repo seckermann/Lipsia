@@ -1,7 +1,7 @@
 PROJECT(valign3d)
 
 ADD_EXECUTABLE(valign3d isisreg3d.cxx isisRegistrationFactory3D.hpp)
-TARGET_LINK_LIBRARIES(valign3d ITKIO ITKStatistics ITKNumerics viaio ${ISIS_DIR}/lib/libisis_core.a  ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES(valign3d ITKIO ITKStatistics ITKNumerics viaio ${ISIS_DIR}/lib/libisis_core.a  ${Boost_LIBRARIES} /usr/lib/liboil-0.3.a)
 
 SET_TARGET_PROPERTIES(valign3d PROPERTIES
     LINK_FLAGS -Wl)

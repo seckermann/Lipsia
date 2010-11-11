@@ -29,7 +29,9 @@ data::Image voxelSwapZ( const boost::shared_ptr<data::Image> src, unsigned int d
 
 int main( int argc, char **argv )
 {
-	ENABLE_LOG( data::Runtime, util::DefaultMsgPrint, error );
+    isis::util::enable_log<isis::util::DefaultMsgPrint>(isis::error);
+    isis::data::enable_log<isis::util::DefaultMsgPrint>(isis::error);
+    isis::image_io::enable_log<isis::util::DefaultMsgPrint>(isis::error);
 	const size_t getBiggestVecElem( const util::fvector4 & vec );
 	std::map<std::string, unsigned int> alongMap = boost::assign::map_list_of
 			( "x", 0 ) ( "y", 1 ) ( "z", 2 ) ( "sagittal", 3 ) ( "coronal", 4 ) ( "axial", 5 );

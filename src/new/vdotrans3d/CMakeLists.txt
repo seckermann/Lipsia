@@ -2,7 +2,7 @@ PROJECT(vdotrans3d)
 
 ADD_EXECUTABLE(vdotrans3d isisdotrans3d.cxx isisTransformMerger3D.cpp)
 
-TARGET_LINK_LIBRARIES(vdotrans3d ITKIO viaio ${Boost_LIBRARIES} ${ISIS_DIR}/lib/libisis_core.a  )
+TARGET_LINK_LIBRARIES(vdotrans3d ITKIO viaio ${Boost_LIBRARIES} ${ISIS_DIR}/lib/libisis_core.a /usr/lib/liboil-0.3.a )
 
 SET_TARGET_PROPERTIES(vdotrans3d PROPERTIES
     LINK_FLAGS -Wl)
