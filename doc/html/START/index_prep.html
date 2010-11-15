@@ -48,16 +48,30 @@ As subjects may have moved during the scanning, we now apply a correction for mo
 
 The text file "list.txt" contains information about translation and rotation parameters describing the
 motion. This file may later be used as a covariate in statistical tests. It can also be used to check for
-excessive motion leading to exclusion of the data set.
+excessive motion leading to exclusion of the data set.<br>
+The next step will be a registration of the functional data to the MNI brain. Here we distinguish between two approaches.
+<br><br>
+<b>Registration using an anatomical scan</b><br><br>
 
-The next two calls align the functional data to the MNI atlas using trilnear resamlping to an 
-isotropic voxel grid of 3x3x3 mm.
+Lets consider having the functional scan and the corresponding anatomical scan (e.g. anatomical.v). Here we can use the anatomical scan to find a transformation which aligns the anatomical data to the MNI brain and then apply this transform to our functional data.<br>
+To find the transform of the anatomical scan to the MNI brain you have to call:
+<p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in anatomical.v -ref mni.v
+-trans trans.nii -transform 0 1 2 -optimizer 0 0 2 -bound 10 -prealign_m -iter 1000 1000 100
+</b></tt><br></p>
+The next call applies the transform trans.nii to the functional data data3.v.<br>
 
-<p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in data3.v -ref epi_template.v
--trans trans.nii -transform 0 2 -optimizer 0 2 -bound 10 -prealign_m -smooth 2 -iter 1000 1000
+<p><tt><b><a href="../vdotrans3d/vdotrans3d.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
+-res 3 -fmri</b></tt><br></p>
+<br>
+<b>Registration without an anatomical scan</b><br><br>
+If you have no anatomical scan of your subject you can also use your functional data for finding the transform to the MNI brain. Therefore you have to call:
+<p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in data3.v -ref mni.v
+-trans trans.nii -transform 0 2 -optimizer 0 2 -bound 10 -smooth 2 -prealign_m -iter 1000 1000
 </b></tt><br></p>
 
-<p><tt><b><a href="../vdotrans3d/vdotrans3d.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v
+valign3d will take the first timestep of the functional scan and use it to search the transform to the MNI brain. So now all you have to do is applying this transform to your functional data:<br>
+
+<p><tt><b><a href="../vdotrans3d/vdotrans3d.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
 -res 3 -fmri</b></tt><br></p>
 
 
