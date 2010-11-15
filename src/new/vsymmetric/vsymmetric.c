@@ -25,7 +25,8 @@ VSymmetric(VImage src,VShort type)
   VImage dest=NULL;
   int nbands,nrows,ncols,b,r,c,cc,c0;
   double u,v,w;
-
+  VBoolean verbose;
+  
   nbands  = VImageNBands(src);
   nrows   = VImageNRows(src);
   ncols   = VImageNColumns(src);
@@ -33,17 +34,19 @@ VSymmetric(VImage src,VShort type)
   if (ncols%2 == 0) c0 = ncols/2;
   else c0 = ncols/2 + 1;
 
+  fprintf(stderr," ncols= %d, c0= %d\n",ncols,c0);
+  
   dest = VCopyImage(src,NULL,VAllBands);
   VFillImage(dest,VAllBands,0);
 
   /* make symmetric */
+  verbose = TRUE;
   for (b=0; b<nbands; b++) {
     for (r=0; r<nrows; r++) {
       for (c=0; c<=c0; c++) {
 
 	cc = ncols-c-1;
-	if (ncols%2 != 0) cc = ncols-c-2;
-	cc = ncols-c;
+	if (verbose) fprintf(stderr," c,cc= %4d %4d\n",c,cc);
 	
 	if (cc < 0) cc = 0;
 	if (cc >= ncols) continue;
@@ -59,6 +62,7 @@ VSymmetric(VImage src,VShort type)
 	VSetPixel(dest,b,r,c,w);
 	VSetPixel(dest,b,r,cc,w);
       }
+      verbose = FALSE;
     }
   }
   return dest;

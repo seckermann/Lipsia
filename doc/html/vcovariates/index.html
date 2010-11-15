@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Denoising</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Preprocessing</div>
+
+<div class="headtitle">vcovariates</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vcovariates' 
+can be used as the first step for regressing out nuisance covariates from fMRI data. 
+Such covariates may for instance result from RETROICOR. 
+'vcovariates' can be used as part of the preprocessing pipeline, and should be used in conjunction
+with 'vresiduals' and optionally also with 'vcheckdesign'.
+'vcovariates' converts the text
+file into the vista data format so that it can then be used in a subsequent regression step
+using the program 'vresiduals'.
+The input into 'vcovariates'
+is a text file containing one line per time step. Each line should contain the covariates
+to be regressed out. The output is a vista-file which can be visualized using 'vcheckdesign'.
+<p><p>
+</div>
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+Here is a typical calling sequence.</p>
+
+<br><br>
+
+<tt><b><a href="#vcovariates"><u>vcovariates</u></a> 
+-in nuisance.txt -out result.v -normalize true -tr 2 -out nuisance.v</tt></b><br><p>
+<tt><b><a href="#vcheckdesign"><u>vcheckdesign</u></a>
+-in  nuisance.v &</tt></b><br><p>
+<tt><b><a href="#vresiduals"><u>vresiduals</u></a> 
+-in fmri_data.v -design nuisance.v -out result.v</b></tt>
+<br><p>
+
+The first call generates a design file in vista-format. It also normalizes each covariate
+to zero mean and unit variance (optional). The resulting the design file can be visualized
+and checked using 'vckeckdesign'. The last call uses the design file to regress out the
+covariates.<p><p>
+
+</div>
+<a name="vcovariates"></a>
+<div class="headtitle"><b>Parameters of 'vcovariates'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-tr<DD> 
+        Repetition time in seconds. Required. 
+    <DT>-normalize<DD> 
+        Whether to normalize each covariate to zero mean, and unit variance. Default: false
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

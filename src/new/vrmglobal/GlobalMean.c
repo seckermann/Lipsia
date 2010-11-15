@@ -38,9 +38,10 @@ VGlobalMean(VAttrList list,VShort minval,VImage mask)
   int nslices=0,nbands=0,nrows=0,ncols=0,slice,row,col;
   VImage xsrc,src[NSLICES];
   int   i,k,m=0;
-  float x,sum=0,nx=0,mean=0;
-  float sum1,sum2,sigma,*ptr;
-  gsl_vector_float *z;
+  double x,y,sum=0,nx=0,mean=0;
+  double sum1,sum2,sigma,*ptr;
+  gsl_vector *z;
+  gsl_vector_float *mean_vec=NULL;
 
   gsl_set_error_handler_off();
 
@@ -61,7 +62,7 @@ VGlobalMean(VAttrList list,VShort minval,VImage mask)
   nslices = k;
   m = nbands;
 
-  z = gsl_vector_float_calloc (m);
+  z = gsl_vector_calloc (m);
 
   for (i=0; i<m; i++) {
 
@@ -79,7 +80,7 @@ VGlobalMean(VAttrList list,VShort minval,VImage mask)
       }
     }
     mean = sum/nx;
-    gsl_vector_float_set(z,i,mean);
+    gsl_vector_set(z,i,mean);
   }
  
 
@@ -95,13 +96,15 @@ VGlobalMean(VAttrList list,VShort minval,VImage mask)
   mean = sum1/nx;
   sigma = sqrt((double)((sum2 - nx * mean * mean) / (nx - 1.0)));
 
+  mean_vec = gsl_vector_float_calloc (m);
   ptr = z->data;
   for (i=0; i<m; i++) {
-    x = *ptr;
-    *ptr++ = (x - mean) / sigma;
+    x = (double)(*ptr++);
+    y = (x - mean) / sigma;
+    gsl_vector_float_set(mean_vec,i,(float)y);
   }
 
-  return z;
+  return mean_vec;
 }
 
 

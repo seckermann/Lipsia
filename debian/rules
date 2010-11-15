@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+comp="morse1"
+
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/cmake.mk
 
@@ -8,9 +10,9 @@ DEB_CMAKE_EXTRA_FLAGS = \
     -DBUILD_SHARED_LIBS:BOOL=ON \
     -DCMAKE_INSTALL_RPATH="/usr/lib/lipsia" \
     -DCMAKE_SKIP_RPATH:BOOL=OFF \
-	-DISIS_DIR="/scr/kastanie1/tmp/isis_for_lipsia/" \
-	-DISIS_INCLUDE_DIR="/scr/kastanie1/tmp/isis_for_lipsia/include/isis" \
-	-DITK_DIR="/scr/kastanie1/programming/build/InsightToolkit-3.20.0" 
+	-DISIS_DIR="/scr/${comp}/tmp/isis_for_lipsia/" \
+	-DISIS_INCLUDE_DIR="/scr/${comp}/tmp/isis_for_lipsia/include/isis" \
+	-DITK_DIR="/scr/${comp}/programming/static/InsightToolkit-3.20.0" 
 
 DEB_SHLIBDEPS_INCLUDE_lipsia = debian/lipsia/usr/lib/lipsia
 

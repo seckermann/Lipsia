@@ -23,13 +23,14 @@ extern int VStringToken (char *,char *,int,int);
 
 
 VImage 
-VCovariates(VString cfile,VFloat tr)
+VCovariates(VString cfile,VFloat tr,VBoolean normalize)
 {
   VImage dest=NULL;
   FILE *fp=NULL;
   char buf[LEN],token[80];
-  int i,j,ncols,nrows;
+  int i,j,nt,m,ncols,nrows;
   float x;
+  double u,sum1,sum2,nx,mean,sigma,tiny=1.0e-4;
 
 
   fp = fopen(cfile,"r");
@@ -93,9 +94,31 @@ VCovariates(VString cfile,VFloat tr)
     i++;
   }
   fclose(fp);
-
-  
   if (i != nrows) VError(" file: inconsistent number of rows: %d %d",i,nrows);
+  if (!normalize) return dest;
+
+
+  nt = VImageNRows(dest);
+  m = VImageNColumns(dest);
+
+  for (i=0; i<m; i++) {
+    sum1 = sum2 = nx = 0;
+    for (j=0; j<nt; j++) {
+      u = VPixel(dest,0,j,i,VFloat);
+      sum1 += u;
+      sum2 += u*u;
+      nx++;
+    }
+    mean = sum1/nx;
+    sigma = sqrt((sum2 - nx * mean * mean) / (nx - 1.0));
+    if (sigma < tiny) continue;
+
+    for (j=0; j<nt; j++) {
+      u = VPixel(dest,0,j,i,VFloat);
+      u = (u-mean)/sigma;
+      VPixel(dest,0,j,i,VFloat) = u;
+    }
+  }
   return dest;
 }
 
@@ -107,9 +130,11 @@ main (int argc,char *argv[])
 {
   static VString cfile = "";
   static VFloat tr = 2;
+  static VBoolean normalize=FALSE;
   static VOptionDescRec  options[] = {
     {"in",VStringRepn,1,(VPointer) &cfile,VRequiredOpt,NULL,"file"},
-    {"tr",VFloatRepn,1,(VPointer) &tr,VRequiredOpt,NULL,"TR in seconds"}
+    {"tr",VFloatRepn,1,(VPointer) &tr,VRequiredOpt,NULL,"TR in seconds"},
+    {"normalize",VBooleanRepn,1,(VPointer) &normalize,VOptionalOpt,NULL,"Whether to normalize"}
   };
   FILE *out_file=NULL;
   VAttrList list=NULL;
@@ -119,7 +144,7 @@ main (int argc,char *argv[])
   VParseFilterCmd(VNumber(options),options,argc,argv,NULL,&out_file);
   if (tr > 500) VError(" tr must be given in seconds, not milliseconds");
 
-  dest = VCovariates(cfile,tr);
+  dest = VCovariates(cfile,tr,normalize);
 
   list = VCreateAttrList();
   VAppendAttr(list,"image",NULL,VImageRepn,dest);
