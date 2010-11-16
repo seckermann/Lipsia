@@ -303,7 +303,7 @@ main (int argc,char *argv[])
   static VString  filename = "";
   static VShort   first  = 2;
   static VShort   length = 0;
-  static VShort   type = 0;
+  static VShort   type = 1;
   static VShort   minval = 0;
   static VShort   nproc = 4;
   static VOptionDescRec  options[] = {
