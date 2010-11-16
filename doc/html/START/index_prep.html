@@ -50,9 +50,10 @@ The text file "list.txt" contains information about translation and rotation par
 motion. This file may later be used as a covariate in statistical tests. It can also be used to check for
 excessive motion leading to exclusion of the data set.<br>
 The next step will be a registration of the functional data to the MNI brain. Here we distinguish between two approaches.
-<br><br>
-<b>Registration using an anatomical scan</b><br><br>
-
+<br>
+</div>
+<div class="subtitle">Registration using an anatomical scan</div> 
+<div class="content">
 Lets consider having the functional scan and the corresponding anatomical scan (e.g. anatomical.v). Here we can use the anatomical scan to find a transformation which aligns the anatomical data to the MNI brain and then apply this transform to our functional data.<br>
 To find the transform of the anatomical scan to the MNI brain you have to call:
 <p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in anatomical.v -ref mni.v
@@ -62,8 +63,9 @@ The next call applies the transform trans.nii to the functional data data3.v.<br
 
 <p><tt><b><a href="../vdotrans3d/vdotrans3d.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
 -res 3 -fmri</b></tt><br></p>
-<br>
-<b>Registration without an anatomical scan</b><br><br>
+</div>
+<div class="subtitle">Registration without an anatomical scan</div> 
+<div class="content">
 If you have no anatomical scan of your subject you can also use your functional data for finding the transform to the MNI brain. Therefore you have to call:
 <p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in data3.v -ref mni.v
 -trans trans.nii -transform 0 2 -optimizer 0 2 -bound 10 -smooth 2 -prealign_m -iter 1000 1000

@@ -15,9 +15,8 @@
 <div class="content">
 <p>The Lipsia-feeds package contains an example MRI data set to illustrate data processing
 in Lipsia. This example data set includes
-3D high-resolution anatomical data and functional data originating from
-a finger tapping experiment. Both anatomical and functional data are 
-available in the Lipsia and the Analyze data format.</p>
+3D high-resolution anatomical data and two functional data sets originating from a resting state experiment and a finger tapping experiment. Both anatomical and functional data are 
+available in the Lipsia format.</p>
 
 <p><b>For using the example MRI/fMRI data set, the Lipisa-feeds package (lipsia-feeds...rpm)
 must be installed.</b></p>
@@ -32,27 +31,46 @@ i.e. L=R and R=L.</p>
 
 <div class="content">
 <p>The example data first contains an individual 3D high-resolution anatomical data set.
-The data has a resolution of 176x240x170 voxels (170 axial slices). The voxel resolution
-is 1x1x1.5mm (i.e. non-isotropic). The data set is available in the Lipsia data format. This file has the
-extension '.v'. In order to demonstrate the data conversion, the data set is also available in the
-Analyze data format. The two corresponding Analyze files have the extensions '.img' and '.hdr'.</p>
+The data has a resolution of 256x256x192 voxels (192 sagittal slices). The voxel resolution
+is 1x1x1mm (i.e. isotropic). The data set is available in the Lipsia data format. This file has the
+extension '.v'. In order to demonstrate the data conversion.</p>
 
-<p><a href="data/structural.v.bz2">structural.v.bz2</a>: 3D anatomical data set in the Lipsia format</p>
+<p><a href="data/structural.v.gz">structural.v.gz</a>: 3D anatomical data set in the Lipsia format</p>
 
-<p><a href="data/structural.img.bz2">structural.img.bz2</a>: 3D anatomical data set in the Analyze format</p>
+<p>Before use, files with the extension '.gz' have to be uncompressed, e.g.</p>
 
-<p><a href="data/structural.hdr">structural.hdr</a>: Analyze image header file</p>
-
-<p>Before use, files with the extension '.bz2' have to be uncompressed, e.g.</p>
-
-<p><tt><b><font color=blue><u>bzip2</u></font> -d structural.v.bz2</b></tt><br></p>
+<p><tt><b><font color=blue><u>gzip2</u></font> -d structural.v.gz</b></tt><br></p>
 
 <p>The anatomical Lipsia data set can then be viewed using the command</p>
 
 <p><tt><b><a href="../vlview/index.html"><u>vlview</u></a> -in structural.v</b></tt><br></p>
 
-<img src="images/3Dorig.gif" border=0>
+<img src="images/structural.jpg" border=0>
 </div>
+
+<div class="subtitle">The example functional resting state data set</div> 
+
+<div class="content">
+<p>The first example data set contains functional MRI data from a resting state experiment (i.e. an experiment without any stimulation). The data consists of 120 volumes (scans) with a repetition time of 2.3 seconds.
+Thus, the length of this experiment was 460 seconds. The volumes consists of 34 (axial) functional slices with an in-plane 
+resolution of 3x3mm (64x64 voxel) and a slice thickness of 4 mm. The data set is available in the Lipsia data format. This file has the extension '.v'</p>
+
+
+<p><a href="data/rs_data.v.gz">rs_data.v.gz</a>: 34 functional slices in the Lipsia data format</p>
+
+<p>Before use, files with the extension '.gz' have to be uncompressed, e.g.</p>
+
+<p><tt><b><font color=blue><u>gzip</u></font> -d rs_data.v.gz</b></tt><br></p>
+
+<p>The data set can be viewed using the command</p>
+
+<p><tt><b><a href="../vqview/index.html"><u>vqview</u></a> -in rs_data.v</b></tt><br></p>
+
+<img src="images/rs_data.jpg" border=0>
+</div>
+
+
+
 
 <div class="subtitle">The example functional data set</div> 
 
@@ -63,37 +81,26 @@ the length of the experiment was 240 seconds. The experiment consists
 of three 40 seconds finger tapping blocks. Six functional slices (axial) with an
 in-plane resolution of 3x3mm (64x64 voxel) and a slice thickness of 4.5mm were measured.
 The data set is available in the Lipsia data format. This file has the
-extension '.v'. In order to demonstrate the data conversion, the functional data is
-also available in the 4D-Analyze data format. The two corresponding
-Analyze files have the extensions '.img' and '.hdr'.</p>
+extension '.v'.</p>
 
 
-<p><a href="data/data.v.bz2">data.v.bz2</a>: 6 functional slices in the Lipsia data format</p>
-
-<p><a href="data/data.img.bz2">data.img.bz2</a>: 6 functional slices in the Analyze data format</p>
-
-<p><a href="data/data.hdr">data.hdr</a>: Analyze image header file</p>
+<p><a href="data/data.v.gz">data.v.gz</a>: 6 functional slices in the Lipsia data format</p>
 
 <p><a href="data/slicetime.txt">slicetime.txt</a>: Slice timing information for Analyze data</p>
 
 <p><a href="data/design.txt">design.txt</a>: Design file (3 finger tapping blocks a 40s)</p>
 
-<p>Before use, files with the extension '.bz2' have to be uncompressed, e.g.</p>
+<p>Before use, files with the extension '.gz' have to be uncompressed, e.g.</p>
 
-<p><tt><b><font color=blue><u>bzip2</u></font> -d data.v.bz2</b></tt><br></p>
+<p><tt><b><font color=blue><u>gzip</u></font> -d data.v.gz</b></tt><br></p>
 
 <p>The data set can be viewed using the command</p>
 
-<p><tt><b><a href="../vsview/index.html"><u>vsview</u></a> -in data.v</b></tt><br></p>
+<p><tt><b><a href="../vqview/index.html"><u>vqview</u></a> -in data.v</b></tt><br></p>
 
-<img src="images/functional.gif" border=0>
+<img src="images/data.jpg" border=0>
 
-<p>Note that <a href="../vsview/index.html">'vsview'</a> is a very
-simple viewer which, however, is able to visualize an entire 4D
-functional data set. This can be useful for a first check of the data. A more
-flexible and better way of visualizing Lipsia
-data is the use of the viewers <a href="../vlv/index.html">'vlv'</a>
-and <a href="../vlview/index.html">'vlview'</a>.
+<p>Note that you either can use <a href="../vsview/index.html">'vsview'</a> in lieu of <a href="../vqview/index.html">'vqview'</a> to show functional data.
 </div>
 
 <br>
