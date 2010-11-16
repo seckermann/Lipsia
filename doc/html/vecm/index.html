@@ -22,8 +22,9 @@ other nodes that are themselves central within the network.
 Google's PageRank algorithm is a variant of eigenvector centrality.
 ECM produces a map in which each voxel has a value that indicates
 its centrality. These maps can be used for subsequent statistical tests much like
-contrast images in standard GLM analyses.<br>
+contrast images in standard GLM analyses.<p>
 <i>Reference: Lohmann et al (2010). PLoS ONE, 5(4):e10232.</i><p><br>
+
 </div>
 <div class="subtitle"><b>Preparing input data</b></div>
 <div class="content">
@@ -33,18 +34,8 @@ slicetime correction, spatial smoothing
 and registration to some template (e.g. MNI or Talairach) resampled
 to 3x3x3 mm^3 resolution. Higher resolutions (e.g. 2x2x2 mm^3) are 
 generally not computable on standard hardware. 
-<p>
-It is important that baseline drifts are removed. This can be achieved using
-the program 'vpreprocess' using the following call:
-
-<br><br>
-> <tt> vpreprocess -in input.v -fwhm 6 -low 0 -high 90 -out functional.v </tt>
-<br><br>
-
-This call applies a highpass filter that removes low frequent drifts
-below 1/90 Hz. The parameter '-fwhm' additionally applies a spatial
-Gaussian filter of width 6 mm. Spatial filtering can
-be omitted by using '-fwhm 0'.
+It is important that baseline drifts are removed. 
+See <a href="../START/index_prep.html"><u>standard preprocessing</u></a> chapter for more information on preprocessing.
 <br><br>
 
 Different experimental conditions may be contrasted provided the data are acquired
@@ -55,38 +46,16 @@ experimental design. Typically, a run lasts for several minutes.
 </div>
 <div class="subtitle"><b>Defining a mask</b></div>
 <div class="content">
-A region of interest (ROI) must be specified beforehand using the option '-mask'. 
-Some standard masks for 3x3x3 mm^3 functional data are available 
-in the directory /usr/share/lipsia/. These are:
+A region of interest (ROI) must be specified beforehand using the option '-mask'.
+The easiest way is to use the standard mask. It is located at 
+/usr/share/lipsia/mask_3mm.v
+<p>
 
-<DL>
-    <DT>/usr/share/lipsia/mask1_lipsia.v<DD> 
-      Applicable for data aligned with the Talairach template as defined
-      in MPI-CBS and used in lipsia. It does not include the cerebellum.<br>
-      Main memory requirement: 4 GByte.
-    <DT>/usr/share/lipsia/mask2_lipsia.v<DD> 
-      Applicable for data aligned with the Talairach template as defined
-      in MPI-CBS and used in lipsia. It includes the cerebellum.<br>
-      Main memory requirement: 4 GByte.
-    <DT>/usr/share/lipsia/mask_spm.v<DD>
-      Applicable for data aligned with the MNI template as defined
-      in SPM. It includes the cerebellum.<br>
-      Main memory requirement: 6 GByte.
-    <DT>/usr/share/lipsia/mask1_fsl.v<DD> 
-      Applicable for data aligned with the MNI template as defined
-      in FSL. It does not include the cerebellum.<br>
-      Main memory requirement: 4 GByte.
-    <DT>/usr/share/lipsia/mask2_fsl.v<DD> 
-      Applicable for data aligned with the MNI template as defined
-      in FSL. It includes the cerebellum.<br>
-      Main memory requirement: 6 GByte.
-</DL>
-
-To restrict the analysis to one hemisphere, one of the standard masks may be used
-and cut in half using the call:
+To restrict the analysis to one hemisphere, a predefined mask may be used
+and cut in half using the call, e.g.:
 
 <br><br>
-> <tt>vhemi -in mask.v -out mask_small.v -hemi right (left) </tt>
+> <tt>vhemi -in mask.v -out mask_right.v -hemi right </tt>
 <br><br>
 
 Alternatively, a costumized mask may be defined using the program 'vledit'.
@@ -113,24 +82,19 @@ functional data and covers the desired parts of the brain then all is well
 and the files 'tmp.v' and 'zmask.v' may be deleted. 
 Otherwise, the mask must be redefined.
 If the orientation is incorrect, use the program 'vflip3d'.
-
+</div>
 
 <br><br>
-</div>
+
 <p>
 <div class="subtitle"><b>Hardware requirements</b></div>
 <div class="content">
 The size of computer main memory limits the size (number of voxels) that a mask can have.
-For instance, if the functional data are in MNI space and have a resolution of 3x3x3 mm^3,
-and full brain coverage including the cerebellum is desired then
-the computer should have at least 6 GByte of main memory.
-If the data are in Talairach space (which is a bit smaller) and the
-cerebellum is excluded, then a main memory of 4 GByte will suffice.
+For instance, an ECM processing using the standard mask provided in /usr/share/lipsia/mask_3mm.v
+requires at least 6 GByte of main memory.
 At 2x2x2 mm^3 resolution, full brain coverage is generally not possible on standard
 computers. However, limiting the ROI to one hemisphere may help. The program
-'vhemi' can be used for this purpose. Make sure that no
-other processes are running at the same time as 'vecm' unless a lot of
-additional main memory is present.
+'vhemi' can be used for this purpose. 
 </p>
 <br><br>
 </div>
@@ -141,12 +105,12 @@ Once the functional data are preprocessed and a mask is defined, the analysis ca
 Computation times depend on computer hardware, size of the mask and length of the time series.
 A full-brain coverage mask at 3x3x3 mm^3 and 200 time steps on a 3GHz cpu
 requires about 10 minutes of computation time. 
-Here is an example call applicable for data that are aligned with the MNI template available in FSL.<br><br>
+Here is an example call using the standard mask.<br><br>
 
 <tt><b><a href="#vecm"><u>vecm</u></a> 
--in functional.v -out ecm.v -mask /usr/share/lipsia/mask2_fsl.v</b></tt><br><p>
-</div>
-<br>
+-in functional.v -out ecm.v -mask /usr/share/lipsia/mask_3mm.v</b></tt><br><p>
+
+<br></div>
 
 <div class="subtitle"><b>Further infos</b></div>
 <div class="content">
@@ -161,6 +125,7 @@ non-negative. This can be achieved in one of three ways: add +1 to all correlati
 take absolute values or set all negative correlations to zero.
 The parameter '-type' of 'vecm' allows you to select one of these options. 
 </div>
+
 <br><br>
 
 <a name="vecm"></a>
