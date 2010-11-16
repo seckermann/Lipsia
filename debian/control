@@ -13,7 +13,7 @@ Package: lipsia
 Section: science
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, python-qt4-dev, python-qt4
-Recommends: lipsia-doc
+Recommends: lipsia-doc, via-bin
 Description: analysis suite for MRI and fMRI data
  Leipzig Image Processing and Statistical Inference Algorithms (LIPSIA)
  .
