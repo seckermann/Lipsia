@@ -15,11 +15,13 @@
 <p>
 <div class="subtitle"><b>Background</b></div>
 <div class="content">
-The program 'vrmglobal' can be used a part of the preprocessing pipeline.
-It regresses out a global signal component from fMRI data.<p>
-
+The program 'vrmglobal' can be used as a part of the preprocessing pipeline.
+It regresses out a global signal component from fMRI data.
+The global signal component is computed as the mean signal value per timestep
+where the mean is computed across all voxels in a region of interest.<p>
 
 </div>
+
 <div class="subtitle"><b>Usage</b></div>
 <div class="content">
 Here is a typical calling sequence.</p>
@@ -29,8 +31,8 @@ Here is a typical calling sequence.</p>
 <tt><b><a href="#vrmglobal"><u>vrmglobal</u></a> 
 -in data.v -out result.v  -mask mask.v -minval 0</b></tt><br><p>
 <br>
-</div>
 
+</div>
 <a name="vrmglobal"></a>
 <div class="headtitle"><b>Parameters of 'vrmglobal'</b>:</div>
 

@@ -34,9 +34,12 @@ and execute the script:<p>
 The execution of this script may take some minutes. Once it is finished,
 three preprocessed data sets named "prep_subj001.v", "prep_subj002.v", "prep_subj003.v" 
 will reside in <tt>/scr/experiment1/prep</tt>. Here is the content of "do.sh":<p>
-
+<br>
+<b>Preprocessing pipeline without an anatomical scan:</b><br><br>
 
 <tt>
+REF=/usr/share/lipsia/templates/epi_template_2mm.v<br><br>
+
 proc ()<br>
 {<br> 
   vvinidi -in /scr/dicom/$1/2 -out tmp0.v -rf dcm<br>
@@ -53,8 +56,31 @@ proc subj001<br>
 proc subj002<br>
 proc subj003<br>
 </tt><br>
+<br>
+<b>Preprocessing pipeline using an anatomical scan:</b><br><br>
 
-<b>Note:</b> The shell script above just shows an example of a preprocessing pipeline. Please read the <A HREF="../START/index_prep.html">standard preprocessing pipeline</a> chapter for further informations.
+<tt>
+REF=/usr/share/lipsia/templates/mni.v<br><br>
+
+proc ()<br>
+{<br> 
+  vvinidi -in /scr/dicom/$1/2 -out tmp0.v -rf dcm<br>
+  vnormvals -in tmp0.v -scale 10 -out tmp1.v<br>
+  vslicetime -in tmp1.v -out tmp2.v<br>
+  vmovcorrection -in tmp2.v -out tmp3.v -report list_$1.txt<br>
+  valign3d -in tmp3.v -ref $REF -trans trans.nii -transform 0 1 2 \<br>
+     -optimizer 0 0 2 -bound 15 -prealign_m -iter 1000 1000 100<br>
+  vdotrans3d -in tmp3.v -ref $REF -trans trans.nii -out tmp4.v -res 3 -fmri<br>
+  vpreprocess -in tmp4.v -out prep_$1.v -fwhm 6 -low 10 -high 90<br>
+}<br>
+
+proc subj001<br>
+proc subj002<br>
+proc subj003<br>
+</tt><br>
+
+
+<b>Note:</b> The shell scripts above just shows an example of a preprocessing pipeline. Please read the <A HREF="../START/index_prep.html">standard preprocessing pipeline</a> chapter for further informations.
 </div>
 
 

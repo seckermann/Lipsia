@@ -36,7 +36,7 @@ Here is a typical calling sequence.</p>
 <br><br>
 
 <tt><b><a href="#vcovariates"><u>vcovariates</u></a> 
--in nuisance.txt -out result.v -normalize true -tr 2 -out nuisance.v</tt></b><br><p>
+-in nuisance.txt -normalize true -tr 2 -out nuisance.v</tt></b><br><p>
 <tt><b><a href="#vcheckdesign"><u>vcheckdesign</u></a>
 -in  nuisance.v &</tt></b><br><p>
 <tt><b><a href="#vresiduals"><u>vresiduals</u></a> 
@@ -47,8 +47,8 @@ The first call generates a design file in vista-format. It also normalizes each 
 to zero mean and unit variance (optional). The resulting the design file can be visualized
 and checked using 'vckeckdesign'. The last call uses the design file to regress out the
 covariates.<p><p>
-
 </div>
+
 <a name="vcovariates"></a>
 <div class="headtitle"><b>Parameters of 'vcovariates'</b>:</div>
 

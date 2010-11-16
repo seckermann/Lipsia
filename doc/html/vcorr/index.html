@@ -29,7 +29,24 @@ the seed <i>must</i> be specified in voxel coordinates (not in MNI or Talairach 
 In voxel coordinates, the address 0 0 0 corresponds to the upper left corner
 of the first slice (NOT to the anterior commissure). The highest z-coordinate
 corresponds to the number of slices.
-Voxel coordinates can be obtained interactively using the program 'vlv'.
+Voxel coordinates can be obtained interactively using the program 'vlv' as shown below.
+First display an activation map or an ECM map with the same voxel resolution and
+geometrical properties as the data you want to process:
+
+<br>
+
+<tt><b><a href="#vlv"><u>vlv</u></a> 
+-in anatomical.v -z map.v &</b></tt><br><p>
+
+<br><br>
+
+<img src="vcorr.gif" border=0>
+<br>
+
+Make sure you select "zmap" coordinates (green circle). The location of the cross hair
+is then displayed in voxel coordinates at the bottom (red circle).
+<br><br>
+
 <p>
 Alternatively, a seed region (ROI) can be used. In this case, the average time course
 across all voxels in the ROI is computed and used as a reference.
