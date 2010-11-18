@@ -23,7 +23,7 @@ useful for so-called "resting-state" experiments, but also for other types of ex
 
 Some of the procedures described below require a region of interest (mask) to which the
 analysis is restricted. A whole brain mask at 3x3x3 mm resolution is located in
-<tt>/usr/share/lipsia/mask_3x3x3.v</tt>. It fits to the EPI-template to which data
+<tt>/usr/share/lipsia/mask_3mm.v</tt>. It fits to the EPI-template to which data
 are registered in our proposed standard preprocessing pipeline. To check if this mask
 is okay for your data, do the following. First change to the directory where your preprocessed
 data reside:<p>
@@ -40,7 +40,7 @@ and average them<p>
 
 Now convert the mask to make it suitable for viewing:<p>
 
-<tt> > vconvert -in /usr/share/lipsia/mask_3x3x3.v -out z.v -repn float</tt><p>
+<tt> > vconvert -in /usr/share/lipsia/mask_3mm.v -out z.v -repn float</tt><p>
 
 and view it overlaid onto the mean of the functional data:<p>
 

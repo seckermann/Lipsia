@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Denoising</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Utilities</div>
+
+<div class="headtitle">vartefact</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vartefact' tries to remove artefacts from time series data.
+It assume that artefacts result from subject movement so that some
+time steps withn the time series are not usable.
+It detects such time steps based on signal variance. Time steps with
+large standard deviation are assumed to be  artefacts.
+'vartefacts' first identifies such time points and then replaces them
+by interpolating with adjacent time points.<p>
+
+</div>
+
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+Here is a typical calling sequence.</p>
+
+<br><br>
+
+<tt><b><a href="#vartefact"><u>vartefact</u></a> 
+-in data.v -out result.v -alpha 4</b></tt><br><p>
+<br>
+This call replaces time steps whose standard deviation is
+larger than (mean + 4*sigma) by interpolated values.
+
+</div>
+<a name="vartefact"></a>
+<div class="headtitle"><b>Parameters of 'vartefact'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-alpha<DD> 
+        Use mean+alpha*sigma as threshold. Default: 4
+    <DT>-verbose<DD> 
+        Whether to report artefacts. Default: false
+
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

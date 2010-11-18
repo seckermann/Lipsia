@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LHELP="/usr/share/doc/lipsia-doc/html/index.html"
+LHELP="/usr/share/doc/lipsia/html/index.html"
 DNULL="/dev/null"
 
 if [ ! -f $LHELP ]; then

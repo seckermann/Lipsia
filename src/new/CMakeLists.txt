@@ -28,4 +28,4 @@ add_subdirectory(vcovariates)
 add_subdirectory(vglobalmean)
 add_subdirectory(vstats)
 add_subdirectory(vsymmetric)
-
+add_subdirectory(vpaired_ttest)

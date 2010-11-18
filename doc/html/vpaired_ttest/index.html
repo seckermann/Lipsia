@@ -16,7 +16,11 @@
 This program performs a paired t-test between two groups of contrast images.
 The number of images in the two groups must match. The ouput is a tmap or a zmap
 that gives the statistical significance of a pairwise 
-difference between the two groups.
+difference between the two groups.<p>
+If the parameter '-type' is set to 'true' then the data are transformed
+such that their voxelwise distribution becomes approximately normal.
+See (<A HREF="vgaussianize/index.html">vgaussianize</A>) for more information.
+
 
 <br><p>
 
@@ -29,6 +33,7 @@ group 1 ('-in1') are larger than mean values in group 2 ('-in2'). In
 line with the LIPSIA convention when determining contrasts, negative
 values indicate that mean group 1 < mean group 2.<br><p>
 
+
 <b>Caution:</b>
 Make sure that the files in the two groups are listed in the correct order.
 If wildcards ("*") are used, the programs will order them alphabetically. 
@@ -38,7 +43,7 @@ i.e. on data that are geometrically aligned and normalized.
 
 </div>
 
-<a name="vaverage"></a>
+<a name="vpaired_ttest"></a>
 <div class="headtitle">Parameters of 'vpaired_ttest':</div>
 
 <div class="content">
@@ -49,6 +54,8 @@ i.e. on data that are geometrically aligned and normalized.
         Input files of 1st group. Default: (none)
     <DT>-in2<DD> 
         Input files of 2nd group. Default: (none)
+    <DT>-gauss<DD> 
+        Whether to gaussianize data. Default: false
     <DT>-type [ tmap | zmap ]<DD>
         Type of output. Default: zmap
     <DT>-out<DD>

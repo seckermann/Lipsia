@@ -1707,11 +1707,7 @@ int main (int argc, char *argv[])
 {
   static VString in = NULL;
   static VString out = NULL;
-#ifdef TEMPLATE_FILE
-	static VString template_file = TEMPLATE_FILE;
-#else
-	static VString template_file ="/usr/share/lipsia/templates/vcacp.v"; /* default filename */
-#endif
+  static VString template_file ="/usr/share/lipsia/vcacp.v"; /* default filename */
   static VString report_file = NULL;
   static VOptionDescRec options[] = {
     { "in", VStringRepn, 1, &in, VRequiredOpt, 0,"Image to be processed" },
