@@ -22,6 +22,7 @@
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vbrainpeel.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcacp.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcatdesign.1.gz
+/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcheckdata.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcheckdesign.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vcolorglm.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vconvcoord.1.gz
@@ -70,6 +71,7 @@
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vnumave.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/volumeinfo.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vonesample_ttest.1.gz
+/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/voverlap.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpaired_ttest.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpaired_wilcoxtest.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vpowerspectrum.1.gz
@@ -82,6 +84,7 @@
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vseltimesteps.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vsendserv.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vshowpts.1.gz
+/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vsimmat.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vslicetime.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vspectral.1.gz
 /usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/vspectralcluster.1.gz
