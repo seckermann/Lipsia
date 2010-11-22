@@ -2,7 +2,7 @@ Source: lipsia
 Section: science
 Priority: optional
 Maintainer: Erik Tuerke <tuerke@cbs.mpg.de>
-Build-Depends: libboost1.40-dev (>= 1.40.0-1) | libboost1.42-dev (>= 1.42.0-1) | libboost1.35-dev (>= 1.35.0-1), cdbs, debhelper (>= 5), cmake, fftw3-dev, libdcmtk1-dev, libgsl0-dev, libqt3-compat-headers, libqt3-mt-dev, libvia-dev (>= 1.4.1)
+Build-Depends: libboost1.40-dev (>= 1.40.0-1) | libboost1.42-dev (>= 1.42.0-1) | libboost1.35-dev (>= 1.35.0-1), cdbs, debhelper (>= 5), cmake, fftw3-dev, libdcmtk1-dev, libgsl0-dev, libqt3-compat-headers, libqt3-mt-dev, libvia-dev (>= 1.4.1), libf2c2-dev
 Standards-Version: 3.8.3.0
 Homepage: http://www.cbs.mpg.de/institute/software/lipsia
 Vcs-Browser: http://git.debian.org/?p=pkg-exppsy/lipsia.git
