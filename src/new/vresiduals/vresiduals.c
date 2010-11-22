@@ -35,7 +35,6 @@
 #define SQR(x) ((x)*(x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern int isnan(double);
 extern gsl_vector *GaussKernel(double);
 extern void GaussMatrix(double,gsl_matrix_float *);
 extern gsl_vector_float *VectorConvolve(gsl_vector_float *,gsl_vector_float *,gsl_vector *);

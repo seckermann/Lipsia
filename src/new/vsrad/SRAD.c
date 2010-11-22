@@ -16,8 +16,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-extern int isnan(double);
-extern int isinf(double);
 
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))

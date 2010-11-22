@@ -24,9 +24,6 @@
 #include <gsl/gsl_permutation.h>
 
 
-extern int isnanf(float);
-extern int isinff(float);
-
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
 /*

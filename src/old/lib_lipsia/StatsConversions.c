@@ -15,12 +15,6 @@
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-/*extern int isnan(double);
-extern int isinf(double);*/
-
-
-
-
 /* 
 ** convert t to p values 
 */

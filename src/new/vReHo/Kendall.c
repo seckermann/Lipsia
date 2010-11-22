@@ -17,8 +17,6 @@
 #include <string.h>
 
 extern void gsl_sort_vector_index (gsl_permutation *,gsl_vector *);
-extern int isnan(double);
-extern int isinf(double);
 
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))

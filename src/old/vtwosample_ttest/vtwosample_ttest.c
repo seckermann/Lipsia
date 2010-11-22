@@ -39,8 +39,6 @@
 #include <stdio.h>
 #include <string.h>
 
-extern int isnanf(float);
-extern int isinff(float);
 
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))

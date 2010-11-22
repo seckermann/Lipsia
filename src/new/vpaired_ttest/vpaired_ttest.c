@@ -42,8 +42,6 @@
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern int isnan(double);
-extern int isinf(double);
 extern double t2z(double,double);
 extern float t2z_approx(float,float);
 extern char * getLipsiaVersion();

@@ -21,8 +21,6 @@
 #define NSLICES 2000
 #define TINY 1.0e-6
 
-extern int isnan(double);
-extern int isinf(double);
 
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))

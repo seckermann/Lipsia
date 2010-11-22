@@ -17,10 +17,6 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_cdf.h>
 
-extern int isnanf(float);
-extern int isinff(float);
-extern int isnan(double);
-extern int isinf(double);
 
 extern double gsl_sf_beta_inc(double,double,double);
 
