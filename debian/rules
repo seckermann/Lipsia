@@ -10,8 +10,6 @@ DEB_CMAKE_EXTRA_FLAGS = \
     -DBUILD_SHARED_LIBS:BOOL=ON \
     -DCMAKE_INSTALL_RPATH="/usr/lib/lipsia" \
     -DCMAKE_SKIP_RPATH:BOOL=OFF \
-	-DISIS_DIR="/scr/${comp}/programming/install/isis_for_lipsia/" \
-	-DISIS_INCLUDE_DIR="/scr/${comp}/programming/install/isis_for_lipsia/include/isis" \
 	-DITK_DIR="/scr/${comp}/programming/static/InsightToolkit-3.20.0" 
 
 DEB_SHLIBDEPS_INCLUDE_lipsia = debian/lipsia/usr/lib/lipsia
@@ -24,13 +22,6 @@ install/lipsia::
 			>> debian/lipsia.links; \
 	done
 
-	 # copy plugin files to /usr/lib/lipsia
-	 for p in plugins/* ; do \
-	 	cp "$$p" "debian/tmp/usr/lib/lipsia";\
-	 done
-
-
-	
 	# copy data files to /usr/share/lipsia
 	mkdir "debian/tmp/usr/share/lipsia"; \
 	for d in data/* ; do \

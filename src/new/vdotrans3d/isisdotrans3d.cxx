@@ -44,11 +44,11 @@
 #include "DataStorage/io_factory.hpp"
 #include "DataStorage/image.hpp"
 #include "CoreUtils/application.hpp"
-#include "Adapter/itkAdapter.hpp"
+#include "itkAdapter.hpp"
 
-#include "extITK/isisTimeStepExtractionFilter.hpp"
+#include "isisTimeStepExtractionFilter.hpp"
 #include "isisTransformMerger3D.hpp"
-#include "extITK/isisIterationObserver.hpp"
+#include "isisIterationObserver.hpp"
 
 //via command parser include
 #include <viaio/option.h>

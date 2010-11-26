@@ -57,11 +57,11 @@
 #include "DataStorage/io_factory.hpp"
 #include "DataStorage/image.hpp"
 #include "CoreUtils/application.hpp"
-#include "Adapter/itkAdapter.hpp"
+#include "itkAdapter.hpp"
 
 #include "isisRegistrationFactory3D.hpp"
-#include "extITK/isisIterationObserver.hpp"
-#include "extITK/isisTimeStepExtractionFilter.hpp"
+#include "isisIterationObserver.hpp"
+#include "isisTimeStepExtractionFilter.hpp"
 
 VDictEntry TYPMetric[] = { {"MattesMutualInformation", 0}, {"MutualInformationHistogram", 1}, {"NormalizedCorrelation",
 		2

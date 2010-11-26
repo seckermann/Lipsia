@@ -40,9 +40,6 @@ SET(LIPSIA_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/lipsia")
 add_definitions(-D_ENABLE_LOG=1)
 add_definitions(-D_ENABLE_DEBUG=0)
 
-# add path for io-plugins
-file (GLOB IO_PLUGIN_FILES plugins/*.so)
-
 # add option to build shared libraries. The default is OFF.
 # Building the three local libs as private shared libs, would reduce
 # the memory footprint of LIPSIA especially on multi-user machines
@@ -67,6 +64,8 @@ FIND_PACKAGE(FFTW3 REQUIRED)
 # look for OpenGL
 FIND_PACKAGE(OpenGL REQUIRED)
 
+FIND_PACKAGE(ISIS REQUIRED)
+
 # look for ZLIB
 FIND_PACKAGE(ZLIB REQUIRED)
 
@@ -87,7 +86,9 @@ FIND_PACKAGE(Boost REQUIRED COMPONENTS filesystem regex system date_time)
 #
 
 # add include directories
-INCLUDE_DIRECTORIES(${VIA_INCLUDE_DIR}
+INCLUDE_DIRECTORIES(
+  ${ISIS_INCLUDE_DIRS}
+  ${VIA_INCLUDE_DIR}
   ${VIAIO_INCLUDE_DIR}
   ${GSL_INCLUDE_DIR}
   ${ISIS_INCLUDE_DIR}
@@ -110,3 +111,7 @@ install(PROGRAMS src/scripts/vcreatemask DESTINATION ${LIPSIA_INSTALL_BIN_DIR})
 
 # subprojects
 ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src)
+
+MESSAGE(STATUS "isis include: ${ISIS_INCLUDE_DIRS}")
+MESSAGE(STATUS "isis libs: ${ISIS_LIB}")
+MESSAGE(STATUS "isis lib depends: ${ISIS_LIB_DEPENDS}")
