@@ -21,23 +21,25 @@ time steps withn the time series are not usable.
 It detects such time steps based on signal variance. Time steps with
 large standard deviation are assumed to be  artefacts.
 'vartefacts' first identifies such time points and then replaces them
-by interpolating with adjacent time points.<p>
+by interpolating with adjacent time points.<p><br>
 
+<img src="before.gif">
+<img src="after.gif">
+<img src="superimposed.gif">
+<br><br>
 </div>
-
 <div class="subtitle"><b>Usage</b></div>
 <div class="content">
-Here is a typical calling sequence.</p>
+Here is a typical calling sequence.<p>
 
-<br><br>
 
 <tt><b><a href="#vartefact"><u>vartefact</u></a> 
 -in data.v -out result.v -alpha 4</b></tt><br><p>
-<br>
-This call replaces time steps whose standard deviation is
-larger than (mean + 4*sigma) by interpolated values.
 
+This call replaces time steps which are above (mean + 4*sigma)
+by interpolated values.<p>
 </div>
+<br>
 <a name="vartefact"></a>
 <div class="headtitle"><b>Parameters of 'vartefact'</b>:</div>
 
@@ -51,7 +53,7 @@ larger than (mean + 4*sigma) by interpolated values.
     <DT>-out<DD>
         Output file. Default: (none)
     <DT>-alpha<DD> 
-        Use mean+alpha*sigma as threshold. Default: 4
+        Use mean+alpha*sigma as threshold. Default: 3.5
     <DT>-verbose<DD> 
         Whether to report artefacts. Default: false
 
