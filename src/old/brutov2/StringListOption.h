@@ -11,11 +11,12 @@
 namespace option
 {
 
-class StringListOption : public IOption {
+class StringListOption : public IOption
+{
 public:
-	StringListOption(std::string name, std::string shortName, std::string help, std::string shortHelp);
+	StringListOption( std::string name, std::string shortName, std::string help, std::string shortHelp );
 	virtual ~StringListOption();
-	
+
 	virtual bool init();
 };
 

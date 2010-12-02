@@ -11,10 +11,10 @@ using namespace isis;
 
 int main( int argc, char **argv )
 {
-    isis::util::enable_log<isis::util::DefaultMsgPrint>(isis::error);
-    isis::data::enable_log<isis::util::DefaultMsgPrint>(isis::error);
-    isis::image_io::enable_log<isis::util::DefaultMsgPrint>(isis::error);
-        
+	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+
 	data::IOApplication app( "isis data converter", true, true );
 	app.parameters["tr"] = 0.;
 	app.parameters["tr"].needed() = false;
@@ -26,35 +26,35 @@ int main( int argc, char **argv )
 			ref->setProperty<u_int16_t>( "repetitionTime", app.parameters["tr"]->as<double>() * 1000 );
 		}
 	}
+
 	if( app.images.size() > 1 ) {
-		//we have to sort the output images by the sequenceStart so the number in the output filename represents the 
+		//we have to sort the output images by the sequenceStart so the number in the output filename represents the
 		//number in the scan protocol
 		typedef std::multimap< boost::posix_time::ptime, boost::shared_ptr<data::Image> > timeStampsType;
 		timeStampsType timeStamps;
-		BOOST_FOREACH( std::list<boost::shared_ptr<data::Image> >::const_reference image, app.images ) 
-		{
+		BOOST_FOREACH( std::list<boost::shared_ptr<data::Image> >::const_reference image, app.images ) {
 			timeStamps.insert( std::make_pair< boost::posix_time::ptime, boost::shared_ptr< data::Image > >(
-				image->getProperty< boost::posix_time::ptime >("sequenceStart"), image ) ) ;
+								   image->getProperty< boost::posix_time::ptime >( "sequenceStart" ), image ) ) ;
 		}
-		if ( timeStamps.size() != app.images.size() ) 
-		{
+
+		if ( timeStamps.size() != app.images.size() ) {
 			LOG( ImageIoLog, warning ) << "Number of images and number of different timestamps do not coincide!"
-											 << timeStamps.size() << " != " << app.images.size();
+									   << timeStamps.size() << " != " << app.images.size();
 		}
+
 		size_t count = 1;
-		BOOST_FOREACH( timeStampsType::const_reference map, timeStamps )
-		{
+		BOOST_FOREACH( timeStampsType::const_reference map, timeStamps ) {
 			boost::filesystem::path out( app.parameters["out"].toString() );
 			std::stringstream countString;
 			countString << count++ << "_" << out.leaf();
 			boost::filesystem::path newPath( out.branch_path() /  countString.str() );
 			data::ImageList tmpList;
 			tmpList.push_back( map.second );
-			data::IOFactory::write(tmpList, newPath.string(), "", "");
+			data::IOFactory::write( tmpList, newPath.string(), "", "" );
 		}
 	} else {
 		app.autowrite( app.images );
 	}
-	
+
 	return EXIT_SUCCESS;
 }

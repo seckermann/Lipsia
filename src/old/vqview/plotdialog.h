@@ -8,29 +8,30 @@
 #include "plotwidget.h"
 
 /**
-	@author Hannes Niederhausen <niederhausen@cbs.mpg.de>
+    @author Hannes Niederhausen <niederhausen@cbs.mpg.de>
 */
-class PlotDialog : public QMainWindow {
+class PlotDialog : public QMainWindow
+{
 	Q_OBJECT
 public:
-	PlotDialog(Configurator* conf, QWidget* parent = 0, const char *name="Help Window");
+	PlotDialog( Configurator *conf, QWidget *parent = 0, const char *name = "Help Window" );
 
-    ~PlotDialog();
+	~PlotDialog();
 
 public slots:
-	void drawGrid(bool);
-	void setSync(bool);	
-	
+	void drawGrid( bool );
+	void setSync( bool );
+
 private:
-	
+
 	void createWidget();
 	void createStatusBar();
 	void createToolBar();
 	void createActions();
-	
-	Configurator* m_conf;
-	
-	PlotWidget* m_plotWidget;
+
+	Configurator *m_conf;
+
+	PlotWidget *m_plotWidget;
 	QAction *m_drawGridAction;
 	QAction *m_syncAction;
 };

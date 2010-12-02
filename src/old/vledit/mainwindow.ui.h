@@ -109,7 +109,7 @@ void MainWindow::viewActionToggled( bool )
 }
 
 
-void MainWindow::viewSegmentWindow(bool)
+void MainWindow::viewSegmentWindow( bool )
 {
 
 }

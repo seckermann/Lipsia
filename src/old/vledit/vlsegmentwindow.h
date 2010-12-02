@@ -31,9 +31,9 @@
 
 //gueltige Werte fuer das Flag "event"
 //Sie sind notwendig um den currentChanged() event
-//mitzuteilen was fuer ein Ereignis der Aenderung 
+//mitzuteilen was fuer ein Ereignis der Aenderung
 //voraus ging.
-//NEW und DELETE: alle internen Aktualsierungen wurden schon 
+//NEW und DELETE: alle internen Aktualsierungen wurden schon
 //vorgenommen -> weiter
 //CLICK: die "current row" wurde mittels eines Mausklicks veraendert.
 //Diese Aenderung muﬂ intern noch beruecksichtigt werden.
@@ -42,35 +42,36 @@
 #define EVENT_DELETE 2
 #define EVENT_CLICK 4
 
-class vlSegmentWindow : public SegmentWindow {
+class vlSegmentWindow : public SegmentWindow
+{
 
 	Q_OBJECT
 
 private:
 
-    vlTable* volumeTable;
-    vlTable* colorTable;
+	vlTable *volumeTable;
+	vlTable *colorTable;
 
-    // tiny event handling mechanism
-    short event;
+	// tiny event handling mechanism
+	short event;
 
 	/** creates a new entry in the segment window tables. */
-	void newEntry(int id);
+	void newEntry( int id );
 
 protected:
-	void closeEvent(QCloseEvent*);
-    
-    // this method has to be called when the table content, and therefore the 
-    // segment order, has been changed.
-    void updateGUI();
+	void closeEvent( QCloseEvent * );
+
+	// this method has to be called when the table content, and therefore the
+	// segment order, has been changed.
+	void updateGUI();
 
 public:
 	vlSegmentWindow(
-		QWidget* parent = 0,
-		const char* name = 0);
-	
+		QWidget *parent = 0,
+		const char *name = 0 );
+
 	~vlSegmentWindow();
-	
+
 public slots:
 
 	// create a new empty segment
@@ -78,42 +79,42 @@ public slots:
 
 	// open a segment
 	virtual void fileOpen();
-	
+
 	// delete a segment
 	virtual void editCut();
 
-    // current row in volume table changed
-    void volumeTable_currentChanged(int, int);
-	
-    // current row in color table changed
-    void colorTable_currentChanged(int, int);
-	
+	// current row in volume table changed
+	void volumeTable_currentChanged( int, int );
+
+	// current row in color table changed
+	void colorTable_currentChanged( int, int );
+
 	// the mouse has been clicked in the volume table
-	virtual void volumeTable_pressed(int, int, int, const QPoint &);
+	virtual void volumeTable_pressed( int, int, int, const QPoint & );
 
 	// the mouse has been clicked in the color table
-	virtual void colorTable_pressed(int, int, int, const QPoint &);
+	virtual void colorTable_pressed( int, int, int, const QPoint & );
 
 	// the color of the segment was changed
-	virtual void colorChanged(int);
+	virtual void colorChanged( int );
 
 	// the volume of the selected segment has changed
 	void volumeChanged();
 
-    // the "Save All Segments" button was pressed.
-    void fileSaveAllAction_activated();
-    
-    // The "Save Visible Segments" button was pressed. 
-    void fileSaveVisibleAction_activated();
-    
-    // the visibility of an segment in the given row has been changed
-    void visibilityChanged(bool, int); 
-    
-    // the selected segment has been moved a step up
-    void segmentUpAction_activated();
-    
-    // the selected segment has been moved a step down
-    void segmentDownAction_activated();
+	// the "Save All Segments" button was pressed.
+	void fileSaveAllAction_activated();
+
+	// The "Save Visible Segments" button was pressed.
+	void fileSaveVisibleAction_activated();
+
+	// the visibility of an segment in the given row has been changed
+	void visibilityChanged( bool, int );
+
+	// the selected segment has been moved a step up
+	void segmentUpAction_activated();
+
+	// the selected segment has been moved a step down
+	void segmentDownAction_activated();
 
 signals:
 

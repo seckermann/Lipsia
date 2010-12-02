@@ -27,55 +27,55 @@ class QWidget;
 
 class SegmentWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    SegmentWindow( QWidget* parent = 0, const char* name = 0, WFlags fl = WType_TopLevel );
-    ~SegmentWindow();
+	SegmentWindow( QWidget *parent = 0, const char *name = 0, WFlags fl = WType_TopLevel );
+	~SegmentWindow();
 
-    QTabWidget* segmentTabs;
-    QWidget* volume;
-    QWidget* color;
-    QToolBar *toolBar;
-    QAction* fileNewAction;
-    QAction* fileOpenAction;
-    QAction* fileSaveVisibleAction;
-    QAction* editCutAction;
-    QAction* editCopyAction;
-    QAction* fileSaveAllAction;
-    QAction* segmentUpAction;
-    QAction* segmentDownAction;
+	QTabWidget *segmentTabs;
+	QWidget *volume;
+	QWidget *color;
+	QToolBar *toolBar;
+	QAction *fileNewAction;
+	QAction *fileOpenAction;
+	QAction *fileSaveVisibleAction;
+	QAction *editCutAction;
+	QAction *editCopyAction;
+	QAction *fileSaveAllAction;
+	QAction *segmentUpAction;
+	QAction *segmentDownAction;
 
 public slots:
-    virtual void fileOpen();
-    virtual void fileNew();
-    virtual void editCut();
-    virtual void editCopy();
-    virtual void volumeTable_clicked( int, int, int, const QPoint & );
-    virtual void colorTable_clicked( int, int, int, const QPoint & );
-    virtual void colorTable_valueChanged( int, int );
-    virtual void fileSaveAllAction_activated();
-    virtual void segmentDownAction_activated();
-    virtual void segmentUpAction_activated();
-    virtual void fileSaveVisibleAction_activated();
+	virtual void fileOpen();
+	virtual void fileNew();
+	virtual void editCut();
+	virtual void editCopy();
+	virtual void volumeTable_clicked( int, int, int, const QPoint & );
+	virtual void colorTable_clicked( int, int, int, const QPoint & );
+	virtual void colorTable_valueChanged( int, int );
+	virtual void fileSaveAllAction_activated();
+	virtual void segmentDownAction_activated();
+	virtual void segmentUpAction_activated();
+	virtual void fileSaveVisibleAction_activated();
 
 protected:
-    QGridLayout* SegmentWindowLayout;
-    QGridLayout* volumeLayout;
-    QGridLayout* colorLayout;
+	QGridLayout *SegmentWindowLayout;
+	QGridLayout *volumeLayout;
+	QGridLayout *colorLayout;
 
 protected slots:
-    virtual void languageChange();
+	virtual void languageChange();
 
 private:
-    QPixmap image0;
-    QPixmap image1;
-    QPixmap image2;
-    QPixmap image3;
-    QPixmap image4;
-    QPixmap image5;
-    QPixmap image6;
-    QPixmap image7;
+	QPixmap image0;
+	QPixmap image1;
+	QPixmap image2;
+	QPixmap image3;
+	QPixmap image4;
+	QPixmap image5;
+	QPixmap image6;
+	QPixmap image7;
 
 };
 

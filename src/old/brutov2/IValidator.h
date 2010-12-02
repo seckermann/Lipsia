@@ -15,20 +15,20 @@ namespace option
 class IValidator
 {
 public:
-	
+
 	virtual ~IValidator() {};
-	virtual bool validate(std::string value) = 0;
-	
-	inline void setAttribute(std::string name, std::string value) {
-		attributes.insert(attributes.end(), make_pair(name, value));
+	virtual bool validate( std::string value ) = 0;
+
+	inline void setAttribute( std::string name, std::string value ) {
+		attributes.insert( attributes.end(), make_pair( name, value ) );
 	}
 
-	inline std::string getAttribute(std::string name) {
+	inline std::string getAttribute( std::string name ) {
 		return attributes[name];
 	}
 
-	inline bool hasAttribute(std::string name) {
-		return (attributes.find(name) != attributes.end());
+	inline bool hasAttribute( std::string name ) {
+		return ( attributes.find( name ) != attributes.end() );
 	}
 
 private:

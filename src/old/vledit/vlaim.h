@@ -24,27 +24,28 @@
 Diese Klasse zeichnet das Zielkreut eines vlGLWidgets
 
 @author Hannes Niederhausen
-	Thomas Pröger
+    Thomas Pröger
 */
-class vlAim{
+class vlAim
+{
 private:
 	float m_posX;
 	float m_posY;
 
 public:
-    vlAim(float x=0, float y=0);
+	vlAim( float x = 0, float y = 0 );
 
-    ~vlAim();
+	~vlAim();
 
 	void draw();
 
-	void setPos(float x, float y);
+	void setPos( float x, float y );
 
 	float X() {return m_posX;};
 	float Y() {return m_posY;};
 
-	void setX(float x) {m_posX=x;};
-	void setY(float y) {m_posY=-y;};
+	void setX( float x ) {m_posX = x;};
+	void setY( float y ) {m_posY = -y;};
 
 };
 

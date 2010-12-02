@@ -13,16 +13,17 @@
 namespace converter
 {
 
-class BrukerPV3ToNiftiConverter : public Converter {
+class BrukerPV3ToNiftiConverter : public Converter
+{
 
 public:
-	BrukerPV3ToNiftiConverter(ConverterConfiguration* configuration);
+	BrukerPV3ToNiftiConverter( ConverterConfiguration *configuration );
 	virtual ~BrukerPV3ToNiftiConverter();
 
 	virtual void convert();
 
 private:
-	ConverterConfiguration* configuration;
+	ConverterConfiguration *configuration;
 };
 
 };

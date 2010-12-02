@@ -12,12 +12,13 @@
 namespace option
 {
 
-class RequiredValidator : public IValidator {
+class RequiredValidator : public IValidator
+{
 public:
 	RequiredValidator();
 	virtual ~RequiredValidator();
-	
-	virtual bool validate(std::string value);
+
+	virtual bool validate( std::string value );
 };
 
 };

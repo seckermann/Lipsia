@@ -27,41 +27,42 @@ Type   type of created image (MUST correspond to type U)
 
 ------------------------------------------------------------------------------*/
 
-template <class T, class U> void ConvertType (VImage Src, VImage& Dest, VRepnKind Type)
+template <class T, class U> void ConvertType ( VImage Src, VImage &Dest, VRepnKind Type )
 {
-   int Voxels;   /* number of voxels */
+	int Voxels;   /* number of voxels */
 
-   T* src;    /* source data pointer      */
-   U* dest;   /* destination data pointer */
+	T *src;    /* source data pointer      */
+	U *dest;   /* destination data pointer */
 
-   long n;   /* index */
-
-
-   /* get source image size */
-   Voxels = VImageNPixels (Src);
-
-   /* create converted image */
-   Dest = VCreateImage (VImageNBands (Src), VImageNRows (Src), VImageNColumns (Src), Type);
-   VImageAttrList (Dest) = VCopyAttrList (VImageAttrList (Src));
+	long n;   /* index */
 
 
-   /* convert image */
-   src  = (T*) VPixelPtr (Src,  0, 0, 0);
-   dest = (U*) VPixelPtr (Dest, 0, 0, 0);
-   for (n = 0; n < Voxels; n++)
-      *(dest++) = (U) *(src++);
+	/* get source image size */
+	Voxels = VImageNPixels ( Src );
+
+	/* create converted image */
+	Dest = VCreateImage ( VImageNBands ( Src ), VImageNRows ( Src ), VImageNColumns ( Src ), Type );
+	VImageAttrList ( Dest ) = VCopyAttrList ( VImageAttrList ( Src ) );
+
+
+	/* convert image */
+	src  = ( T * ) VPixelPtr ( Src,  0, 0, 0 );
+	dest = ( U * ) VPixelPtr ( Dest, 0, 0, 0 );
+
+	for ( n = 0; n < Voxels; n++ )
+		*( dest++ ) = ( U ) * ( src++ );
 
 } /* ConvertType */
 
-template <class T, class U> void ConvertType (VImage& Src, VRepnKind Type)
+template <class T, class U> void ConvertType ( VImage &Src, VRepnKind Type )
 {
-   VImage Dest;   /* destination image */
+	VImage Dest;   /* destination image */
 
 
-   /* convert image */
-   ConvertType<T,U> (Src, Dest, Type);
-   VDestroyImage (Src);
-   Src = Dest;
+	/* convert image */
+	ConvertType<T, U> ( Src, Dest, Type );
+	VDestroyImage ( Src );
+	Src = Dest;
 
 } /* ConvertType */
 

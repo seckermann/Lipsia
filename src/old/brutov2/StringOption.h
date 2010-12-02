@@ -11,13 +11,14 @@
 namespace option
 {
 
-class StringOption : public IOption {
+class StringOption : public IOption
+{
 public:
-	StringOption(std::string name, std::string shortName, std::string help, std::string shortHelp);
+	StringOption( std::string name, std::string shortName, std::string help, std::string shortHelp );
 	virtual ~StringOption();
-	
+
 	virtual bool init();
-	
+
 	friend class OptionSet;
 };
 

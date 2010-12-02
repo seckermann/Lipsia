@@ -19,18 +19,18 @@ class Parameter
 {
 public:
 	Parameter();
-	Parameter(const string& name, const string& value);
-	Parameter(const string& name, const vector<string>& value);
+	Parameter( const string &name, const string &value );
+	Parameter( const string &name, const vector<string>& value );
 	virtual ~Parameter();
-	
+
 	virtual string getName();
-	
+
 	virtual int    getValueNumber();
-	
- 	virtual string getValue();
-	
-	virtual string getValue(int index);
-	
+
+	virtual string getValue();
+
+	virtual string getValue( int index );
+
 private:
 	string         name;
 	vector<string> value;

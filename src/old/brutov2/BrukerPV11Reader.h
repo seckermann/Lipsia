@@ -27,12 +27,12 @@ typedef std::map<std::string, Parameter> parameterTable;
 class BrukerPV11Reader : public converter::IDatasetReader
 {
 public:
-	BrukerPV11Reader(converter::ConverterConfiguration* configuration);
+	BrukerPV11Reader( converter::ConverterConfiguration *configuration );
 	virtual ~BrukerPV11Reader();
-	virtual converter::IImageDataset* read();
-	
+	virtual converter::IImageDataset *read();
+
 	// our converter configuration
-	ConverterConfiguration* configuration;
+	ConverterConfiguration *configuration;
 	// the root directory of the dataset this reader deals with
 	string rootDirectory;
 	// the experiment number as string
@@ -42,7 +42,7 @@ public:
 	// the actual data file stream
 	string recoDataFileName;
 	// the actual data file stream
-	ifstream* recoDataFileStream;
+	ifstream *recoDataFileStream;
 	// 'subject' parameter table
 	parameterTable subjectParameters;
 	// 'acqp' parameter table

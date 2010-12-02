@@ -6,11 +6,11 @@
 #include <viaio/mu.h>
 #include <viaio/option.h>
 
-#include <qtoolbar.h> 
+#include <qtoolbar.h>
 #include <qlabel.h>
 #include <qpixmap.h>
-#include <qcolor.h> 
-#include <qlcdnumber.h> 
+#include <qcolor.h>
+#include <qlcdnumber.h>
 #include <qtoolbutton.h>
 #include <qmainwindow.h>
 
@@ -18,23 +18,23 @@
 
 class XView : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    XView( QWidget *parent=0, const char *name=0 );
-    ~XView();
+	XView( QWidget *parent = 0, const char *name = 0 );
+	~XView();
 
 public slots:
-   
+
 
 private:
-    CW   *center;
-    QMenuBar   *menubar;
-    QToolButton *toolb;
-    QToolBar   *Mtools;
-    
-    QFont appFont;
+	CW   *center;
+	QMenuBar   *menubar;
+	QToolButton *toolb;
+	QToolBar   *Mtools;
 
-    void selectStyleMenu( int );
+	QFont appFont;
+
+	void selectStyleMenu( int );
 };
 
 #endif // OF_H

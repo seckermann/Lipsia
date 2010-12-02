@@ -13,17 +13,18 @@
 namespace converter
 {
 
-class BrukerPV11ToVistaConverter : public Converter {
+class BrukerPV11ToVistaConverter : public Converter
+{
 
 public:
-	BrukerPV11ToVistaConverter(ConverterConfiguration* configuration);
+	BrukerPV11ToVistaConverter( ConverterConfiguration *configuration );
 	virtual ~BrukerPV11ToVistaConverter();
-	
+
 	virtual void convert();
 
 private:
-	ConverterConfiguration* configuration;
-	
+	ConverterConfiguration *configuration;
+
 };
 
 };

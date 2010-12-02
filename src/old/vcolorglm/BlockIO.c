@@ -16,104 +16,117 @@
 
 #define NSLICES 2500
 
-typedef struct ListStruct {  
-  int ntimesteps;
-  int nrows;
-  int ncols;
-  int nslices;
-  int itr;
-  VRepnKind repn;
-  int zero[NSLICES];
-  VString filename;
-  VImageInfo info[NSLICES];
+typedef struct ListStruct {
+	int ntimesteps;
+	int nrows;
+	int ncols;
+	int nslices;
+	int itr;
+	VRepnKind repn;
+	int zero[NSLICES];
+	VString filename;
+	VImageInfo info[NSLICES];
 } ListInfo;
 
 
-extern void VImageInfoIni(VImageInfo *);
-extern VBoolean ReadHeader(FILE*);
-extern VBoolean VGetImageInfo(FILE *,VAttrList,int,VImageInfo *);
-extern VAttrList ReadAttrList (FILE *);
+extern void VImageInfoIni( VImageInfo * );
+extern VBoolean ReadHeader( FILE * );
+extern VBoolean VGetImageInfo( FILE *, VAttrList, int, VImageInfo * );
+extern VAttrList ReadAttrList ( FILE * );
 
 
 VAttrList
-GetListInfo(VString in_filename,ListInfo *linfo)
+GetListInfo( VString in_filename, ListInfo *linfo )
 {
-  VAttrList list=NULL;
-  VAttrListPosn posn;
-  FILE *in_file=NULL;
-  VString str;
-  VRepnKind repn=VShortRepn;
-  int ntimesteps,nrows,ncols;
-  int id,j,itr,found,nobject,nbands;
-  VImageInfo *imageInfo=NULL;
+	VAttrList list = NULL;
+	VAttrListPosn posn;
+	FILE *in_file = NULL;
+	VString str;
+	VRepnKind repn = VShortRepn;
+	int ntimesteps, nrows, ncols;
+	int id, j, itr, found, nobject, nbands;
+	VImageInfo *imageInfo = NULL;
 
 
-  in_file = VOpenInputFile (in_filename, TRUE);
-  if (!in_file) VError("error opening file %s",in_filename);
-  if (! ReadHeader (in_file)) VError("error reading header");
-  if (! (list = ReadAttrList (in_file))) VError("error reading attr list");
+	in_file = VOpenInputFile ( in_filename, TRUE );
+
+	if ( !in_file ) VError( "error opening file %s", in_filename );
+
+	if ( ! ReadHeader ( in_file ) ) VError( "error reading header" );
+
+	if ( ! ( list = ReadAttrList ( in_file ) ) ) VError( "error reading attr list" );
 
 
-  j = 0;
-  for (VFirstAttr (list, & posn); VAttrExists (& posn); VNextAttr (& posn)) {
-    j++;
-  }
-  imageInfo = (VImageInfo *) VMalloc(sizeof(VImageInfo) * (j+1));
+	j = 0;
+
+	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
+		j++;
+	}
+
+	imageInfo = ( VImageInfo * ) VMalloc( sizeof( VImageInfo ) * ( j + 1 ) );
 
 
-  itr = ntimesteps = nrows = ncols = 0;
-  nobject = nbands = found = id = 0;
-  for (VFirstAttr (list, & posn); VAttrExists (& posn); VNextAttr (& posn)) {
+	itr = ntimesteps = nrows = ncols = 0;
+	nobject = nbands = found = id = 0;
 
-    str = VGetAttrName(&posn);
-    if (strncmp(str,"history", 7) == 0) {
-      nobject++;
-      continue;
-    }
+	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
 
-    VImageInfoIni(&imageInfo[nbands]);
-    if (! VGetImageInfo(in_file,list,nobject,&imageInfo[nbands]))
-      VError(" error reading image info");
-    
-    linfo->ntimesteps = linfo->nrows = linfo->ncols = 0;
+		str = VGetAttrName( &posn );
 
-    if (imageInfo[nbands].repn == VShortRepn) {
+		if ( strncmp( str, "history", 7 ) == 0 ) {
+			nobject++;
+			continue;
+		}
 
-      found = 1;
-      repn = imageInfo[nbands].repn;
+		VImageInfoIni( &imageInfo[nbands] );
 
-      if (imageInfo[nbands].nbands > ntimesteps)
-	ntimesteps = imageInfo[nbands].nbands;
+		if ( ! VGetImageInfo( in_file, list, nobject, &imageInfo[nbands] ) )
+			VError( " error reading image info" );
 
-      if (imageInfo[nbands].nrows > nrows)
-	nrows = imageInfo[nbands].nrows;
+		linfo->ntimesteps = linfo->nrows = linfo->ncols = 0;
 
-      if (imageInfo[nbands].ncolumns > ncols)
-	ncols = imageInfo[nbands].ncolumns;
+		if ( imageInfo[nbands].repn == VShortRepn ) {
 
-      /* check if slice contains non-zero data */
-      linfo->zero[nbands] = 1;
-      if (imageInfo[nbands].nrows < 2) linfo->zero[nbands] = 0;
+			found = 1;
+			repn = imageInfo[nbands].repn;
 
-      linfo->info[id] = imageInfo[nbands];
+			if ( imageInfo[nbands].nbands > ntimesteps )
+				ntimesteps = imageInfo[nbands].nbands;
 
-      itr = imageInfo[nbands].repetition_time;
+			if ( imageInfo[nbands].nrows > nrows )
+				nrows = imageInfo[nbands].nrows;
 
-      id++;
-      nbands++;
-      if (nbands > NSLICES) VError(" too many slices, max is %d",NSLICES);
-    }
-    nobject++;
-  }
-  fclose(in_file);
-  if(!found) VError(" couldn't find functional data");
+			if ( imageInfo[nbands].ncolumns > ncols )
+				ncols = imageInfo[nbands].ncolumns;
 
-  linfo->ntimesteps = ntimesteps;
-  linfo->nrows    = nrows;
-  linfo->ncols    = ncols;
-  linfo->nslices  = id;
-  linfo->itr      = itr;
-  linfo->repn     = repn;
-  linfo->filename = VNewString(in_filename);
-  return list;
+			/* check if slice contains non-zero data */
+			linfo->zero[nbands] = 1;
+
+			if ( imageInfo[nbands].nrows < 2 ) linfo->zero[nbands] = 0;
+
+			linfo->info[id] = imageInfo[nbands];
+
+			itr = imageInfo[nbands].repetition_time;
+
+			id++;
+			nbands++;
+
+			if ( nbands > NSLICES ) VError( " too many slices, max is %d", NSLICES );
+		}
+
+		nobject++;
+	}
+
+	fclose( in_file );
+
+	if( !found ) VError( " couldn't find functional data" );
+
+	linfo->ntimesteps = ntimesteps;
+	linfo->nrows    = nrows;
+	linfo->ncols    = ncols;
+	linfo->nslices  = id;
+	linfo->itr      = itr;
+	linfo->repn     = repn;
+	linfo->filename = VNewString( in_filename );
+	return list;
 }

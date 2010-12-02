@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by Hannes Niederhausen                             *
- *   niederhausen@cbs.mpg.de			                                   *
+ *   niederhausen@cbs.mpg.de                                               *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -16,7 +16,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
- 
+
 #include "vlmainwindow.h"
 #include "datamanager.h"
 #include "uiconfig.h"
@@ -28,67 +28,74 @@
 #include <viaio/Vlib.h>
 
 extern "C" {
-  extern char * getLipsiaVersion();
+	extern char *getLipsiaVersion();
 }
 
-int main( int argc, char ** argv ) {
-    QApplication a( argc, argv );
+int main( int argc, char **argv )
+{
+	QApplication a( argc, argv );
 
-    //<vista-zeuch>
-	FILE *in_file=NULL;
+	//<vista-zeuch>
+	FILE *in_file = NULL;
 
-    /*
+	/*
 	 *  vledit can be run in two modes
 	 *  "ana" anatomie (editing) mode
 	 *  "seg" segment (editing) mode (default)
 	 */
-    VDictEntry mode_dict[] = {
-        {"ana", 0},
-        {"seg", 1},
-        {NULL}
-    };
-    /* the segments can be saved in two data formats: ubyte and bit */
-    VDictEntry type_dict[] = {
-        { "ubyte" , 0 },
-        { "bit" , 1 },
-        { NULL } 
-    };
-
-	VLong mode = 1;
-    VLong type = 0;
-	VFloat resolution = 0.0;
-	static VOptionDescRec  options[] = {
-		{"mode", VLongRepn, 1, &mode, VOptionalOpt, mode_dict, 
-            "Selects mode, accepted values are \"ana\" and \"seg\""},
-        {"type", VLongRepn, 1, &type, VOptionalOpt, type_dict, 
-            "Selects segment's output type, can be \"ubyte\" or \"bit\""},
-		{"resolution", VFloatRepn, 1, (VPointer) &resolution, VOptionalOpt, 
-            NULL, "Selects segment resolution"}
+	VDictEntry mode_dict[] = {
+		{"ana", 0},
+		{"seg", 1},
+		{NULL}
+	};
+	/* the segments can be saved in two data formats: ubyte and bit */
+	VDictEntry type_dict[] = {
+		{ "ubyte" , 0 },
+		{ "bit" , 1 },
+		{ NULL }
 	};
 
-        char prg_name[50];	
-        sprintf(prg_name,"vledit V%s", getLipsiaVersion());
-  
-        fprintf (stderr, "%s\n", prg_name);
+	VLong mode = 1;
+	VLong type = 0;
+	VFloat resolution = 0.0;
+	static VOptionDescRec  options[] = {
+		{
+			"mode", VLongRepn, 1, &mode, VOptionalOpt, mode_dict,
+			"Selects mode, accepted values are \"ana\" and \"seg\""
+		},
+		{
+			"type", VLongRepn, 1, &type, VOptionalOpt, type_dict,
+			"Selects segment's output type, can be \"ubyte\" or \"bit\""
+		},
+		{
+			"resolution", VFloatRepn, 1, ( VPointer ) &resolution, VOptionalOpt,
+			NULL, "Selects segment resolution"
+		}
+	};
 
-	VParseFilterCmd (VNumber (options),options,argc,argv,&in_file,NULL);
-	
+	char prg_name[50];
+	sprintf( prg_name, "vledit V%s", getLipsiaVersion() );
+
+	fprintf ( stderr, "%s\n", prg_name );
+
+	VParseFilterCmd ( VNumber ( options ), options, argc, argv, &in_file, NULL );
+
 	//no check needed VParseFilterCmd stops program if no file is given
-	DATAMANAGER->loadVistaImage(in_file);
+	DATAMANAGER->loadVistaImage( in_file );
 	// set the segment resolution
-	DATAMANAGER->setSegResolution(resolution);
+	DATAMANAGER->setSegResolution( resolution );
 	// set the editing mode
-	UICONFIG->setMode(mode);
-    // set the output data format
-    DATAMANAGER->setOutputType(type);
-    
-    //</vista-zeuch>	
+	UICONFIG->setMode( mode );
+	// set the output data format
+	DATAMANAGER->setOutputType( type );
 
-    vlMainWindow *window=new vlMainWindow();
+	//</vista-zeuch>
+
+	vlMainWindow *window = new vlMainWindow();
 	window->show();
-	
+
 	//quit application if no window is open
-    a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
-    return a.exec();
+	a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
+	return a.exec();
 }
 

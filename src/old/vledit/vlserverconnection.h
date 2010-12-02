@@ -26,61 +26,62 @@
 
 
 /**
- *	Diese Klasse bearbeitet eingehende Serveranfragen und schickt veränderte Zielkoordinaten
- *	an den Server.
+ *  Diese Klasse bearbeitet eingehende Serveranfragen und schickt veränderte Zielkoordinaten
+ *  an den Server.
  * @author Hannes Niederhausen
 */
-class vlServerConnection : public QObject{
-Q_OBJECT
+class vlServerConnection : public QObject
+{
+	Q_OBJECT
 private:
 	/** Die Pipe die zum Server fuehrt*/
-	int	serverPipe;
-	
+	int serverPipe;
+
 	/** Die Pipe zum Programm*/
 	int clientPipe;
 
-	QSocketNotifier* m_notif;
+	QSocketNotifier *m_notif;
 
 	/**Pfad und Dateiname fuer die Clientpipe*/
 	char m_fifoname[200];
 
-    /** Dieses Flag signalisiert ob ein Server gefunden werden und eine 
-     * Pipe geoffnet wurde. */
+	/** Dieses Flag signalisiert ob ein Server gefunden werden und eine
+	 * Pipe geoffnet wurde. */
 	bool m_useServerInput;
 
-    // oeffne eine Pipe zu einem lokalen Server Prozess.
-	bool createServerPipe();	
+	// oeffne eine Pipe zu einem lokalen Server Prozess.
+	bool createServerPipe();
 
 public:
-    vlServerConnection();
+	vlServerConnection();
 
-    ~vlServerConnection();
+	~vlServerConnection();
 
 	/**
 	 * connects to the server and create the pipe for response
 	 */
 	void connectToServer();
-	
+
 	/**
 	 * closes the connection and deletes the pipe of the client
 	 */
 	void disconnectFromServer();
 
-   /**
-    * Returns true if a server process was found. 
-    */
-    bool serverFound() { return m_useServerInput; }
+	/**
+	 * Returns true if a server process was found.
+	 */
+	bool serverFound() { return m_useServerInput; }
 
 public slots:
 
-	void sendCoordinates(int);
-	void syncronize(int);
+	void sendCoordinates( int );
+	void syncronize( int );
 
 signals:
 
-    // Dieses Signal wird gesendet wenn die Kommunikation mit dem Server fehlgeschlagen ist.
-    // Das ist eine Reaktion auf einen gekillten Serverprozess.
-    void serverDown();
+	// Dieses Signal wird gesendet wenn die Kommunikation mit dem Server fehlgeschlagen ist.
+	// Das ist eine Reaktion auf einen gekillten Serverprozess.
+	void serverDown();
 };
 
 #endif

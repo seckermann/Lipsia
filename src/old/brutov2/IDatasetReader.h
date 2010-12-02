@@ -12,7 +12,7 @@ namespace converter
 class IDatasetReader
 {
 public:
-	virtual IImageDataset* read() = 0;
+	virtual IImageDataset *read() = 0;
 };
 
 };

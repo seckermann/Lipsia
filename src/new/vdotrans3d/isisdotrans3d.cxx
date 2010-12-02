@@ -83,17 +83,17 @@ static VOptionDescRec options[] = {
 		1, &interpolator_type, VOptionalOpt, TYPInterpolator, "The interpolator used to resample the image"
 	}, {"ref", VStringRepn, 1,
 		&template_filename, VOptionalOpt, 0, "The template image"
-	   }, {"reso", VFloatRepn, 0, ( VPointer ) &resolution,
-		   VOptionalOpt, 0, "The output resolution. One value for isotrop output"
-		  },
+	}, {"reso", VFloatRepn, 0, ( VPointer ) &resolution,
+		VOptionalOpt, 0, "The output resolution. One value for isotrop output"
+	},
 	{
 		"fmri", VBooleanRepn, 1, &fmri,
 		VOptionalOpt, 0, "Input and output image file are functional data"
 	}, {"trans", VStringRepn, 1,
 		&vtrans_filename, VOptionalOpt, 0, "Vector deformation field"
-	   }, {"use_inverse", VBooleanRepn, 1, &use_inverse,
-		   VOptionalOpt, 0, "Using the inverse of the transform"
-		  }, {"j" , VShortRepn, 1, &number_threads, VOptionalOpt, 0 , "Number of threads"}
+	}, {"use_inverse", VBooleanRepn, 1, &use_inverse,
+		VOptionalOpt, 0, "Using the inverse of the transform"
+	}, {"j" , VShortRepn, 1, &number_threads, VOptionalOpt, 0 , "Number of threads"}
 
 };
 
@@ -104,9 +104,10 @@ int main(
 {
 	// show revision information string constant
 	std::cout << "Core Version: " << isis::util::Application::getCoreVersion() << std::endl;
-	isis::util::enable_log<isis::util::DefaultMsgPrint>(isis::error);
-	isis::data::enable_log<isis::util::DefaultMsgPrint>(isis::error);
-	isis::image_io::enable_log<isis::util::DefaultMsgPrint>(isis::error);
+	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+
 	// DANGER! Kids don't try this at home! VParseCommand modifies the values of argc and argv!!!
 	if ( !VParseCommand( VNumber( options ), options, &argc, argv ) || !VIdentifyFiles( VNumber( options ), options, "in",
 			&argc, argv, 0 ) || !VIdentifyFiles( VNumber ( options ), options, "out", &argc, argv, -1 ) ) {
@@ -466,12 +467,15 @@ int main(
 		//      isis::data::ImageList inList = isis::data::IOFactory::load( in_filename, "" );
 		inputImage = movingAdapter->makeItkImageObject<InputImageType>( inList.front() );
 		FMRIOutputType::DirectionType direction4D;
-		for (size_t i = 0; i < 3; i++) {
-			for (size_t j = 0; j < 3; j++) {
+
+		for ( size_t i = 0; i < 3; i++ ) {
+			for ( size_t j = 0; j < 3; j++ ) {
 				direction4D[i][j] = fmriOutputDirection[i][j];
 			}
 		}
+
 		direction4D[3][3] = 1;
+
 		for ( unsigned int timestep = 0; timestep < numberOfTimeSteps; timestep++ ) {
 			std::cout << "Resampling timestep: " << timestep << "...\r" << std::flush;
 			timeStepExtractionFilter->SetRequestedTimeStep( timestep );
@@ -485,6 +489,7 @@ int main(
 				resampler->Update();
 				tileImage = resampler->GetOutput();
 			}
+
 			if ( vtrans_filename ) {
 				warper->SetInput( tmpImage );
 				warper->Update();

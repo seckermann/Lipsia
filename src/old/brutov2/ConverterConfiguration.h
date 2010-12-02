@@ -19,14 +19,14 @@ class ConverterConfiguration
 {
 public:
 	ConverterConfiguration();
-	ConverterConfiguration(const std::map<std::string, std::string>& configuration);
+	ConverterConfiguration( const std::map<std::string, std::string>& configuration );
 	virtual ~ConverterConfiguration();
 
-	virtual void append(const std::string& key, const std::string& value);
-	virtual void append(const std::map<std::string, std::string>& configuration);
+	virtual void append( const std::string &key, const std::string &value );
+	virtual void append( const std::map<std::string, std::string>& configuration );
 
 	virtual std::map<std::string, std::string>& getConfiguration();
-	virtual bool getConfigurationValue(const std::string& key, std::string& value);
+	virtual bool getConfigurationValue( const std::string &key, std::string &value );
 
 	// constants for the names of commonly used configuration parameters
 	const static std::string SOURCE_FORMAT_KEY;

@@ -30,79 +30,79 @@ class QCheckBox;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MainWindow( QWidget* parent = 0, const char* name = 0, WFlags fl = WType_TopLevel );
-    ~MainWindow();
+	MainWindow( QWidget *parent = 0, const char *name = 0, WFlags fl = WType_TopLevel );
+	~MainWindow();
 
-    QComboBox* filterComboBox;
-    QComboBox* coordComboBox;
-    QLabel* textLabel1;
-    QSpinBox* boxSize;
-    QLabel* textLabel3;
-    QSpinBox* greyValBox;
-    QSpacerItem* spacer1;
-    QCheckBox* delSegCheckBox;
-    QMenuBar *menubar;
-    QPopupMenu *fileMenu;
-    QPopupMenu *View;
-    QPopupMenu *Edit;
-    QPopupMenu *helpMenu;
-    QToolBar *Toolbar;
-    QAction* fileSaveAction;
-    QAction* fileExitAction;
-    QAction* helpContentsAction;
-    QAction* helpIndexAction;
-    QAction* helpAboutAction;
-    QAction* resetViewAction;
-    QAction* zoomInAction;
-    QAction* zoomOutAction;
-    QActionGroup* editGroup;
-    QAction* deleteSegmentsAction;
-    QAction* markSegmentsAction;
-    QAction* viewAction;
-    QAction* viewSegmentWindowAction;
-    QAction* toggleSyncAction;
+	QComboBox *filterComboBox;
+	QComboBox *coordComboBox;
+	QLabel *textLabel1;
+	QSpinBox *boxSize;
+	QLabel *textLabel3;
+	QSpinBox *greyValBox;
+	QSpacerItem *spacer1;
+	QCheckBox *delSegCheckBox;
+	QMenuBar *menubar;
+	QPopupMenu *fileMenu;
+	QPopupMenu *View;
+	QPopupMenu *Edit;
+	QPopupMenu *helpMenu;
+	QToolBar *Toolbar;
+	QAction *fileSaveAction;
+	QAction *fileExitAction;
+	QAction *helpContentsAction;
+	QAction *helpIndexAction;
+	QAction *helpAboutAction;
+	QAction *resetViewAction;
+	QAction *zoomInAction;
+	QAction *zoomOutAction;
+	QActionGroup *editGroup;
+	QAction *deleteSegmentsAction;
+	QAction *markSegmentsAction;
+	QAction *viewAction;
+	QAction *viewSegmentWindowAction;
+	QAction *toggleSyncAction;
 
 public slots:
-    virtual void fileNew();
-    virtual void fileSave();
-    virtual void fileSaveSegments();
-    virtual void filePrint();
-    virtual void fileExit();
-    virtual void helpIndex();
-    virtual void helpContents();
-    virtual void helpAbout();
-    virtual void editDelete( bool val );
-    virtual void greyValChanged( int );
-    virtual void delSegCheckedChanged( int );
-    virtual void reset();
-    virtual void markSegment( bool );
-    virtual void zoomIn();
-    virtual void zoomOut();
-    virtual void radiusChanged( int );
-    virtual void viewActionToggled( bool );
-    virtual void viewSegmentWindow( bool );
-    virtual void calcVolume();
-    virtual void filterComboBoxChanged( const QString & );
-    virtual void coordComboBox_activated( const QString & );
-    virtual void toggleSyncAction_activated();
+	virtual void fileNew();
+	virtual void fileSave();
+	virtual void fileSaveSegments();
+	virtual void filePrint();
+	virtual void fileExit();
+	virtual void helpIndex();
+	virtual void helpContents();
+	virtual void helpAbout();
+	virtual void editDelete( bool val );
+	virtual void greyValChanged( int );
+	virtual void delSegCheckedChanged( int );
+	virtual void reset();
+	virtual void markSegment( bool );
+	virtual void zoomIn();
+	virtual void zoomOut();
+	virtual void radiusChanged( int );
+	virtual void viewActionToggled( bool );
+	virtual void viewSegmentWindow( bool );
+	virtual void calcVolume();
+	virtual void filterComboBoxChanged( const QString & );
+	virtual void coordComboBox_activated( const QString & );
+	virtual void toggleSyncAction_activated();
 
 protected:
 
 protected slots:
-    virtual void languageChange();
+	virtual void languageChange();
 
 private:
-    QPixmap image0;
-    QPixmap image1;
-    QPixmap image2;
-    QPixmap image3;
-    QPixmap image4;
-    QPixmap image5;
-    QPixmap image6;
-    QPixmap image7;
+	QPixmap image0;
+	QPixmap image1;
+	QPixmap image2;
+	QPixmap image3;
+	QPixmap image4;
+	QPixmap image5;
+	QPixmap image6;
+	QPixmap image7;
 
 };
 

@@ -8,32 +8,33 @@
 #include <qpushbutton.h>
 #include <qpixmap.h>
 
-class vlVisibleBoxTableItem : public QObject, public QTableItem {
-    
-    Q_OBJECT
-    
+class vlVisibleBoxTableItem : public QObject, public QTableItem
+{
+
+	Q_OBJECT
+
 private:
 
-    QPushButton* m_pbutton;
-    bool m_visible;    
-    QPixmap m_eye_image;
+	QPushButton *m_pbutton;
+	bool m_visible;
+	QPixmap m_eye_image;
 
 public:
 
-    vlVisibleBoxTableItem(QTable *);
-    ~vlVisibleBoxTableItem();
-    QWidget* createEditor() const;
-    void setContentFromEditor(QWidget*);
-    void setText(const QString &);
-    
+	vlVisibleBoxTableItem( QTable * );
+	~vlVisibleBoxTableItem();
+	QWidget *createEditor() const;
+	void setContentFromEditor( QWidget * );
+	void setText( const QString & );
+
 public slots:
 
-    void buttonClicked();
-    
+	void buttonClicked();
+
 signals:
-    
-    void visibilityChanged(bool, int);
-    
+
+	void visibilityChanged( bool, int );
+
 };
 
 #endif /*VLVISIBLEBOXTABLEITEM_H_*/

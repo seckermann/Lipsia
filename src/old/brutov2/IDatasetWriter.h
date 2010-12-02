@@ -14,7 +14,7 @@ namespace converter
 class IDatasetWriter
 {
 public:
-	virtual void write(std::vector<IImageDataset*> datasets) = 0;
+	virtual void write( std::vector<IImageDataset *> datasets ) = 0;
 };
 
 };

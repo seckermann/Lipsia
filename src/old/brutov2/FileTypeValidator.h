@@ -10,13 +10,14 @@
 namespace option
 {
 
-class FileTypeValidator : public IValidator {
+class FileTypeValidator : public IValidator
+{
 
 public:
 	FileTypeValidator();
 	virtual ~FileTypeValidator();
 
-	virtual bool validate(std::string value);
+	virtual bool validate( std::string value );
 };
 
 };

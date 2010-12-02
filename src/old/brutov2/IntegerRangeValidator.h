@@ -11,12 +11,13 @@
 namespace option
 {
 
-class IntegerRangeValidator : public IValidator {
+class IntegerRangeValidator : public IValidator
+{
 public:
 	IntegerRangeValidator();
 	virtual ~IntegerRangeValidator();
 
-	virtual bool validate(std::string value);
+	virtual bool validate( std::string value );
 };
 
 };

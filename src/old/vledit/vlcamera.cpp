@@ -20,11 +20,11 @@
 #include <GL/gl.h>
 #include "vlcamera.h"
 
-vlCamera::vlCamera(float x, float y, float z)
+vlCamera::vlCamera( float x, float y, float z )
 {
-	posX=x;
-	posY=y;
-	posZ=z;
+	posX = x;
+	posY = y;
+	posZ = z;
 }
 
 
@@ -34,20 +34,21 @@ vlCamera::~vlCamera()
 
 void vlCamera::setGlTranslation()
 {
-	glTranslatef(-posX, -posY, -posZ);
+	glTranslatef( -posX, -posY, -posZ );
 }
 
 void vlCamera::setPos( float x, float y, float z )
 {
-	posX=x;
-	posY=y;
-	posZ=z;
+	posX = x;
+	posY = y;
+	posZ = z;
 }
 
-void vlCamera::getPosition(float *pos){
+void vlCamera::getPosition( float *pos )
+{
 
 	pos[0] = posX;
 	pos[1] = posY;
 	pos[2] = posZ;
-	
+
 }

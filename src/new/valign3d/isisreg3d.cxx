@@ -175,9 +175,9 @@ options[] = {
 		"Type of the transform"
 	}, {"interpolator", VShortRepn, 0, ( VPointer ) &interpolatorType, VOptionalOpt,
 		TYPInterpolator, "Type of interpolator"
-	   }, {"optimizer", VShortRepn, 0, ( VPointer ) &optimizerType,
-		   VOptionalOpt, TYPOptimizer, "Type of optimizer"
-		  }
+	}, {"optimizer", VShortRepn, 0, ( VPointer ) &optimizerType,
+		VOptionalOpt, TYPOptimizer, "Type of optimizer"
+	}
 
 
 };
@@ -268,7 +268,7 @@ int main(
 	MovingThresholdFilter::Pointer movingThresholdFilter = MovingThresholdFilter::New();
 	isis::data::ImageList refList = isis::data::IOFactory::load( ref_filename, "", "" );
 	//if no pixel density is specified it will be calculated to achive a amount of 15000 voxel considered for registration
-	float pixelDens = float(15000) / ( refList.front()->sizeToVector()[0] * refList.front()->sizeToVector()[1] * refList.front()->sizeToVector()[2] ) ;
+	float pixelDens = float( 15000 ) / ( refList.front()->sizeToVector()[0] * refList.front()->sizeToVector()[1] * refList.front()->sizeToVector()[2] ) ;
 	isis::data::ImageList inList = isis::data::IOFactory::load( in_filename, "", "" );
 	LOG_IF( refList.empty(), isis::data::Runtime, isis::error ) << "Reference image is empty!";
 	LOG_IF( inList.empty(), isis::data::Runtime, isis::error ) << "Input image is empty!";
@@ -276,7 +276,7 @@ int main(
 	MovingImageType::Pointer movingImage = movingAdapter->makeItkImageObject<MovingImageType>( inList.front() );
 
 	if ( !smooth ) {
-		
+
 		//      isis::registration::_internal::filterFrequencyDomain<FixedImageType>( fixedImage );
 		//      isis::registration::_internal::filterFrequencyDomain<MovingImageType>( movingImage );
 		//      writer->SetFileName("test.nii");
@@ -432,7 +432,7 @@ int main(
 		if ( ( counter + 1 ) <= optimizerType.number and optimizerType.number ) {
 			optimizer = ( ( VShort * ) optimizerType.vector )[counter];
 		} else if ( ( counter + 1 ) > optimizerType.number and optimizerType.number ) {
-			optimizer = ( ( VShort * ) optimizerType.vector )[optimizerType.number-1];
+			optimizer = ( ( VShort * ) optimizerType.vector )[optimizerType.number - 1];
 		} else {
 			optimizer = 0;
 		}
@@ -440,7 +440,7 @@ int main(
 		if ( ( counter + 1 ) <= metricType.number and metricType.number ) {
 			metric = ( ( VShort * ) metricType.vector )[counter];
 		} else if ( ( counter + 1 ) > metricType.number and metricType.number ) {
-			metric = ( ( VShort * ) metricType.vector )[metricType.number-1];
+			metric = ( ( VShort * ) metricType.vector )[metricType.number - 1];
 		} else {
 			metric = 0;
 		}
@@ -448,7 +448,7 @@ int main(
 		if ( ( counter + 1 ) <= interpolatorType.number and interpolatorType.number ) {
 			interpolator = ( ( VShort * ) interpolatorType.vector )[counter];
 		} else if ( ( counter + 1 ) > interpolatorType.number and interpolatorType.number ) {
-			interpolator = ( ( VShort * ) interpolatorType.vector )[interpolatorType.number-1];
+			interpolator = ( ( VShort * ) interpolatorType.vector )[interpolatorType.number - 1];
 		} else {
 			interpolator = 0;
 		}
@@ -456,7 +456,7 @@ int main(
 		if ( ( counter + 1 ) <= number_of_iterations.number and number_of_iterations.number ) {
 			niteration = ( ( VShort * ) number_of_iterations.vector )[counter];
 		} else if ( ( counter + 1 ) > number_of_iterations.number and number_of_iterations.number ) {
-			niteration = ( ( VShort * ) number_of_iterations.vector )[number_of_iterations.number-1];
+			niteration = ( ( VShort * ) number_of_iterations.vector )[number_of_iterations.number - 1];
 		} else {
 			niteration = 500;
 		}
@@ -464,7 +464,7 @@ int main(
 		if ( ( bsplineCounter + 1 ) <= grid_size.number and grid_size.number ) {
 			gridSize = ( ( VShort * ) grid_size.vector )[bsplineCounter];
 		} else if ( ( bsplineCounter + 1 ) > grid_size.number and grid_size.number ) {
-			gridSize = ( ( VShort * ) grid_size.vector )[grid_size.number-1];
+			gridSize = ( ( VShort * ) grid_size.vector )[grid_size.number - 1];
 		} else {
 			gridSize = 5;
 		}

@@ -17,17 +17,17 @@ class OptionValues
 public:
 	OptionValues();
 	virtual ~OptionValues();
-	
-	virtual std::string getOptionValue(std::string optionName);
-	
-	virtual bool containsOptionValue(std::string optionName);
 
-	inline int size() { return values.size(); } 
+	virtual std::string getOptionValue( std::string optionName );
+
+	virtual bool containsOptionValue( std::string optionName );
+
+	inline int size() { return values.size(); }
 protected:
-	virtual void setOptionValue(std::string optionName, std::string optionValue);
-	
+	virtual void setOptionValue( std::string optionName, std::string optionValue );
+
 	friend class OptionSet;
-	
+
 private:
 	std::map<std::string, std::string> values;
 };

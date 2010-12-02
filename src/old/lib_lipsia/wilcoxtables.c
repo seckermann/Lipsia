@@ -22,65 +22,66 @@
 
 
 float *
-getTable(int id)
+getTable( int id )
 {
-  float *table=NULL;
-  
-  switch (id) {
-  case 18:
-    table = table18();
-    break;
+	float *table = NULL;
 
-  case 19:
-    table = table19();
-    break;
+	switch ( id ) {
+	case 18:
+		table = table18();
+		break;
 
-  case 20:
-    table = table20();
-    break;
+	case 19:
+		table = table19();
+		break;
 
-  case 21:
-    table = table21();
-    break;
-    
-  case 22:
-    table = table22();
-    break;
-    
-  case 23:
-    table = table23();
-    break;
-    
-  case 24:
-    table = table24();
-    break;
+	case 20:
+		table = table20();
+		break;
 
-  case 25:
-    table = table25();
-    break;
+	case 21:
+		table = table21();
+		break;
 
-  case 26:
-    table = table26();
-    break;
+	case 22:
+		table = table22();
+		break;
 
-  case 27:
-    table = table27();
-    break;
-    
-  case 28:
-    table = table28();
-    break;
-    
-  case 29:
-    table = table29();
-    break;
-    
-  case 30:
-    table = table30();
-    break;
-    
-  default: 
-    VError(" not yet implemented for n >= %d images",id);
-  }
-  return table;
+	case 23:
+		table = table23();
+		break;
+
+	case 24:
+		table = table24();
+		break;
+
+	case 25:
+		table = table25();
+		break;
+
+	case 26:
+		table = table26();
+		break;
+
+	case 27:
+		table = table27();
+		break;
+
+	case 28:
+		table = table28();
+		break;
+
+	case 29:
+		table = table29();
+		break;
+
+	case 30:
+		table = table30();
+		break;
+
+	default:
+		VError( " not yet implemented for n >= %d images", id );
+	}
+
+	return table;
 }

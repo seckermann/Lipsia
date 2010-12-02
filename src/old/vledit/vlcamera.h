@@ -25,39 +25,40 @@ Diese Klasse repräsentiert die Kamera der GLWidgets. Vorerst nutzt sie lediglic
 Rotation wird (noch) nicht unterstützt.
 @author Hannes Niederhausen
 */
-class vlCamera{
+class vlCamera
+{
 
 protected:
 	/**Positionen der Kamera in Worldspace*/
 	float posX, posY, posZ;
 
 public:
-    vlCamera(float x=0, float y=0, float z=0);
+	vlCamera( float x = 0, float y = 0, float z = 0 );
 
-    ~vlCamera();
+	~vlCamera();
 
 	void setGlTranslation();
 
-	void moveX(float x) {posX+=x;};
-	
-	void moveY(float y) {posY+=y;};
-	
-	void moveZ(float z) {posZ+=z;};
+	void moveX( float x ) {posX += x;};
 
-	void move (float x, float y, float z){posX+=x;posY+=y;posZ+=z;};
-	
+	void moveY( float y ) {posY += y;};
+
+	void moveZ( float z ) {posZ += z;};
+
+	void move ( float x, float y, float z ) {posX += x; posY += y; posZ += z;};
+
 	/**
-	 * Liefert die Position der Kamera als integer array in x-y-z-Reihenfolge. 
+	 * Liefert die Position der Kamera als integer array in x-y-z-Reihenfolge.
 	 */
-	void getPosition(float pos[]);
+	void getPosition( float pos[] );
 
 	float x() {return posX;};
-	
+
 	float y() {return posY;};
-	
+
 	float z() {return posZ;};
-	
-	void setPos(float x, float y, float z);
+
+	void setPos( float x, float y, float z );
 
 };
 

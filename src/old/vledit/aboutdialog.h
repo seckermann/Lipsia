@@ -25,33 +25,33 @@ class QTextEdit;
 
 class AboutDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    AboutDialog( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
-    ~AboutDialog();
+	AboutDialog( QWidget *parent = 0, const char *name = 0, bool modal = FALSE, WFlags fl = 0 );
+	~AboutDialog();
 
-    QPushButton* closeButton;
-    QLabel* titleText;
-    QTabWidget* tabWidget;
-    QWidget* about;
-    QLabel* textLabel1;
-    QLabel* aboutText;
-    QWidget* author;
-    QTextEdit* textEdit1;
-    QWidget* license;
-    QTextEdit* textEdit2;
+	QPushButton *closeButton;
+	QLabel *titleText;
+	QTabWidget *tabWidget;
+	QWidget *about;
+	QLabel *textLabel1;
+	QLabel *aboutText;
+	QWidget *author;
+	QTextEdit *textEdit1;
+	QWidget *license;
+	QTextEdit *textEdit2;
 
 public slots:
-    virtual void closeButton_clicked();
+	virtual void closeButton_clicked();
 
 protected:
-    QGridLayout* AboutDialogLayout;
-    QGridLayout* authorLayout;
-    QGridLayout* licenseLayout;
+	QGridLayout *AboutDialogLayout;
+	QGridLayout *authorLayout;
+	QGridLayout *licenseLayout;
 
 protected slots:
-    virtual void languageChange();
+	virtual void languageChange();
 
 };
 

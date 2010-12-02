@@ -18,48 +18,48 @@
 #include <qfileinfo.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
-#include <qslider.h> 
-#include <qlcdnumber.h> 
+#include <qslider.h>
+#include <qlcdnumber.h>
 #include <qradiobutton.h>
 #include <qcolor.h>
 
 #include "bild1.h"
 #include "imagedata.h"
 
-extern ImageData* selImage;
+extern ImageData *selImage;
 
 
 class TabDialog : public QTabDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    TabDialog( QWidget *parent, const char *name );
+	TabDialog( QWidget *parent, const char *name );
 
 signals:
-    void newColtype();
+	void newColtype();
 
 public slots:
-    void ok();
-    void apply();
-    void hellreset();
-    void helligkeit( int );
-    void contrastl( int );
-    void sliderwechsel();
-    void setMinMaxValue();
+	void ok();
+	void apply();
+	void hellreset();
+	void helligkeit( int );
+	void contrastl( int );
+	void sliderwechsel();
+	void setMinMaxValue();
 
 protected:
-    QString filename;
-    QFileInfo fileinfo;
-    void setupTab5();
+	QString filename;
+	QFileInfo fileinfo;
+	void setupTab5();
 
 private:
-    Bild *bild1;
-    QCheckBox *ccont;
-    QSlider *brig, *hell; 
-    QPushButton *Reset;
-    QLineEdit *tablemin, *tablemax;
-    QLabel *lwhit, *lblac, *lbrig, *lbrigbr;
+	Bild *bild1;
+	QCheckBox *ccont;
+	QSlider *brig, *hell;
+	QPushButton *Reset;
+	QLineEdit *tablemin, *tablemax;
+	QLabel *lwhit, *lblac, *lbrig, *lbrigbr;
 };
 
 #endif

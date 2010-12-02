@@ -3,8 +3,8 @@
 
 #include <gsl/gsl_matrix.h>
 
-gsl_matrix_float* VFloat2Mat_gsl(VImage);
-gsl_matrix_float* VShort2Mat_gsl(VImage*,int);
+gsl_matrix_float *VFloat2Mat_gsl( VImage );
+gsl_matrix_float *VShort2Mat_gsl( VImage *, int );
 
 #endif
 

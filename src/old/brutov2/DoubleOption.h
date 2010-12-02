@@ -12,14 +12,15 @@
 namespace option
 {
 
-class DoubleOption : public IOption {
-	
+class DoubleOption : public IOption
+{
+
 public:
 
-	DoubleOption(std::string name, std::string shortName, std::string help, std::string shortHelp);
+	DoubleOption( std::string name, std::string shortName, std::string help, std::string shortHelp );
 	virtual ~DoubleOption();
 
-protected:	
+protected:
 	virtual bool init();
 };
 

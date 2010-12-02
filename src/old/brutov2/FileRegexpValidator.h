@@ -10,13 +10,14 @@
 namespace option
 {
 
-class FileRegexpValidator : public IValidator {
+class FileRegexpValidator : public IValidator
+{
 
 public:
 	FileRegexpValidator();
 	virtual ~FileRegexpValidator();
 
-	virtual bool validate(std::string value);
+	virtual bool validate( std::string value );
 };
 
 };

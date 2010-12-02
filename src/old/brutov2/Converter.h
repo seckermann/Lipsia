@@ -1,12 +1,14 @@
 #ifndef _CONVERTER_H_
 #define _CONVERTER_H_
 
-namespace converter {
+namespace converter
+{
 
-class Converter {
+class Converter
+{
 
 public:
-	virtual void convert() = 0; 
+	virtual void convert() = 0;
 };
 
 };

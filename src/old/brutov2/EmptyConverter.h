@@ -9,13 +9,15 @@
 #include "Converter.h"
 
 
-namespace converter {
+namespace converter
+{
 
-class EmptyConverter : public Converter {
+class EmptyConverter : public Converter
+{
 public:
 	EmptyConverter();
 	virtual ~EmptyConverter();
-	
+
 	virtual void convert();
 };
 

@@ -19,45 +19,51 @@
 
 
 void
-VSymmetry(VImage label_image,VImage zimage,int nl,double zthr,float *clustersym)
+VSymmetry( VImage label_image, VImage zimage, int nl, double zthr, float *clustersym )
 {
-  int i,j,k,m;
-  int b,r,c,c2,nbands,nrows,ncols;
-  float u,sumc=0,cog=0;
-  VShort *ptr;
+	int i, j, k, m;
+	int b, r, c, c2, nbands, nrows, ncols;
+	float u, sumc = 0, cog = 0;
+	VShort *ptr;
 
-  nbands = VImageNBands(label_image);
-  nrows = VImageNRows(label_image);
-  ncols = VImageNColumns(label_image);
+	nbands = VImageNBands( label_image );
+	nrows = VImageNRows( label_image );
+	ncols = VImageNColumns( label_image );
 
-  c2 = ncols/2;
+	c2 = ncols / 2;
 
 
-  for (k=1; k<=nl; k++) {
-    ptr = VImageData(label_image);
+	for ( k = 1; k <= nl; k++ ) {
+		ptr = VImageData( label_image );
 
-    sumc = 0;
+		sumc = 0;
 
-    i = j = 0;
-    for (b=0; b<nbands; b++) {
-      for (r=0; r<nrows; r++) {
-	for (c=0; c<ncols; c++) {
-	  m = *ptr++;
-	  if (m != k) continue;
+		i = j = 0;
 
-	  sumc += c;
+		for ( b = 0; b < nbands; b++ ) {
+			for ( r = 0; r < nrows; r++ ) {
+				for ( c = 0; c < ncols; c++ ) {
+					m = *ptr++;
 
-	  i++;
-	  if (VPixel(zimage,b,r,ABS(ncols-c),VFloat) > zthr) j++;
+					if ( m != k ) continue;
+
+					sumc += c;
+
+					i++;
+
+					if ( VPixel( zimage, b, r, ABS( ncols - c ), VFloat ) > zthr ) j++;
+				}
+			}
+		}
+
+		cog = sumc / ( float )i;
+
+		if ( ABS( cog - c2 ) < 3 ) continue; /* ignore median wall */
+
+		u = 0;
+
+		if ( i > 10 ) u = ( float )j / ( float )i;
+
+		clustersym[k] = u;
 	}
-      }
-    }
-
-    cog = sumc/(float)i;
-    if (ABS(cog - c2) < 3) continue;  /* ignore median wall */
-
-    u = 0;
-    if (i > 10) u = (float)j/(float)i;
-    clustersym[k] = u;
-  }
 }

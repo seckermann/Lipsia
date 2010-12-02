@@ -11,13 +11,14 @@
 namespace option
 {
 
-class FileOption : public IOption {
+class FileOption : public IOption
+{
 public:
-	FileOption(std::string name, std::string shortName, std::string help, std::string shortHelp);
+	FileOption( std::string name, std::string shortName, std::string help, std::string shortHelp );
 	virtual ~FileOption();
-	
+
 	virtual bool init();
-	
+
 	friend class OptionSet;
 };
 

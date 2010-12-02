@@ -23,35 +23,35 @@
 class SimpleFlow : public QLayout
 {
 public:
-    SimpleFlow( QWidget *parent, int border=0, int space=-1,
-		const char *name=0 )
-	: QLayout( parent, border, space, name ),
-	cached_width(0) {}
-    SimpleFlow( QLayout* parent, int space=-1, const char *name=0 )
-	: QLayout( parent, space, name ),
-	cached_width(0) {}
-    SimpleFlow( int space=-1, const char *name=0 )
-	: QLayout( space, name ),
-	cached_width(0) {}
+	SimpleFlow( QWidget *parent, int border = 0, int space = -1,
+				const char *name = 0 )
+		: QLayout( parent, border, space, name ),
+		  cached_width( 0 ) {}
+	SimpleFlow( QLayout *parent, int space = -1, const char *name = 0 )
+		: QLayout( parent, space, name ),
+		  cached_width( 0 ) {}
+	SimpleFlow( int space = -1, const char *name = 0 )
+		: QLayout( space, name ),
+		  cached_width( 0 ) {}
 
-    ~SimpleFlow();
+	~SimpleFlow();
 
-    void addItem( QLayoutItem *item);
-    bool hasHeightForWidth() const;
-    int heightForWidth( int ) const;
-    QSize sizeHint() const;
-    QSize minimumSize() const;
-    QLayoutIterator iterator();
-    QSizePolicy::ExpandData expanding() const;
+	void addItem( QLayoutItem *item );
+	bool hasHeightForWidth() const;
+	int heightForWidth( int ) const;
+	QSize sizeHint() const;
+	QSize minimumSize() const;
+	QLayoutIterator iterator();
+	QSizePolicy::ExpandData expanding() const;
 
 protected:
-    void setGeometry( const QRect& );
+	void setGeometry( const QRect & );
 
 private:
-    int doLayout( const QRect&, bool testonly = FALSE );
-    QPtrList<QLayoutItem> list;
-    int cached_width;
-    int cached_hfw;
+	int doLayout( const QRect &, bool testonly = FALSE );
+	QPtrList<QLayoutItem> list;
+	int cached_width;
+	int cached_hfw;
 
 };
 

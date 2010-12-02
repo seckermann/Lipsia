@@ -2,7 +2,7 @@
  *
  * Program: vmovcorrection
  *
- * Copyright (C) Max Planck Institute 
+ * Copyright (C) Max Planck Institute
  * for Human Cognitive and Brain Sciences, Leipzig
  *
  * Author Gabriele Lohmann, 2007, <lipsia@cbs.mpg.de>
@@ -36,85 +36,92 @@
 #include <math.h>
 #include <stdlib.h>
 
-extern void VSpatialFilter1(VAttrList);
-extern VImage VMotionCorrection3d(VAttrList,VLong,VLong,VLong);
-extern void VApplyMotionCorrection3d(VAttrList,VImage,VString);
-extern char * getLipsiaVersion();
+extern void VSpatialFilter1( VAttrList );
+extern VImage VMotionCorrection3d( VAttrList, VLong, VLong, VLong );
+extern void VApplyMotionCorrection3d( VAttrList, VImage, VString );
+extern char *getLipsiaVersion();
 
 
 void
-VReleaseStorage(VAttrList list)
+VReleaseStorage( VAttrList list )
 {
-  VImage src;
-  VAttrListPosn posn;
+	VImage src;
+	VAttrListPosn posn;
 
-  for (VFirstAttr (list, & posn); VAttrExists (& posn); VNextAttr (& posn)) {
-    if (VGetAttrRepn (& posn) != VImageRepn) continue;
-    VGetAttrValue (& posn, NULL,VImageRepn, & src);
-    VDestroyImage(src);
-    src = NULL;
-  }
+	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
+		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
+
+		VGetAttrValue ( & posn, NULL, VImageRepn, & src );
+		VDestroyImage( src );
+		src = NULL;
+	}
 }
 
 
 
 
 int
-main(int argc, char *argv[])
+main( int argc, char *argv[] )
 {
-  static VLong   i0      = 5;
-  static VLong   maxiter = 200;
-  static VLong   step    = 3;
-  static VString filename = "";
-  static VOptionDescRec  options[] = {
-    {"tref",VLongRepn,1,(VPointer) &i0,VOptionalOpt,NULL,"reference time step"},
-    {"report",VStringRepn,1,(VPointer) &filename,VOptionalOpt,NULL,"report file"},
-    {"step",VLongRepn,1,(VPointer) &step,VOptionalOpt,NULL,"Step size (e.g. 2 or 3)"},
-    {"iterations",VLongRepn,1,(VPointer) &maxiter,VOptionalOpt,NULL,"Max number of iterations"}
-  };
-  FILE *in_file=NULL,*out_file=NULL;
-  VImage motion=NULL;
-  VAttrList list=NULL;
-  char prg[50];	
-  sprintf(prg,"vmovcorrection V%s", getLipsiaVersion());
-  
-  fprintf (stderr, "%s\n", prg);
+	static VLong   i0      = 5;
+	static VLong   maxiter = 200;
+	static VLong   step    = 3;
+	static VString filename = "";
+	static VOptionDescRec  options[] = {
+		{"tref", VLongRepn, 1, ( VPointer ) &i0, VOptionalOpt, NULL, "reference time step"},
+		{"report", VStringRepn, 1, ( VPointer ) &filename, VOptionalOpt, NULL, "report file"},
+		{"step", VLongRepn, 1, ( VPointer ) &step, VOptionalOpt, NULL, "Step size (e.g. 2 or 3)"},
+		{"iterations", VLongRepn, 1, ( VPointer ) &maxiter, VOptionalOpt, NULL, "Max number of iterations"}
+	};
+	FILE *in_file = NULL, *out_file = NULL;
+	VImage motion = NULL;
+	VAttrList list = NULL;
+	char prg[50];
+	sprintf( prg, "vmovcorrection V%s", getLipsiaVersion() );
 
-  /* parse command line */
-  VParseFilterCmd(VNumber(options),options,argc,argv,&in_file,&out_file);
-  if (step < 1) VError(" illegal step size %d",step);
-  if (i0 < 0) VError(" illegal reference time step %d",i0);
+	fprintf ( stderr, "%s\n", prg );
 
+	/* parse command line */
+	VParseFilterCmd( VNumber( options ), options, argc, argv, &in_file, &out_file );
 
-  /* read data */
-  if (! (list = VReadFile (in_file, NULL)))  
-    VError(" error reading data, perhaps insufficient memory ?");
+	if ( step < 1 ) VError( " illegal step size %d", step );
+
+	if ( i0 < 0 ) VError( " illegal reference time step %d", i0 );
 
 
-  /* spatial smoothing */
-  VSpatialFilter1(list);
+	/* read data */
+	if ( ! ( list = VReadFile ( in_file, NULL ) ) )
+		VError( " error reading data, perhaps insufficient memory ?" );
 
 
-  /* estimate motion parameters using smoothed data */
-  motion = VMotionCorrection3d(list,i0,step,maxiter);
+	/* spatial smoothing */
+	VSpatialFilter1( list );
 
 
-  /* re-read original data from file */
-  VReleaseStorage(list);
-  list = NULL;
-  rewind(in_file);
-  if (! (list = VReadFile (in_file, NULL))) 
-    VError(" error reading data, perhaps insufficient memory ?");
-  fclose(in_file);
+	/* estimate motion parameters using smoothed data */
+	motion = VMotionCorrection3d( list, i0, step, maxiter );
 
 
-  /* apply motion correction */
-  VApplyMotionCorrection3d(list,motion,filename);
+	/* re-read original data from file */
+	VReleaseStorage( list );
+	list = NULL;
+	rewind( in_file );
+
+	if ( ! ( list = VReadFile ( in_file, NULL ) ) )
+		VError( " error reading data, perhaps insufficient memory ?" );
+
+	fclose( in_file );
 
 
-  /* write output */
-  VHistory(VNumber(options),options,prg,&list,&list);
-  if (! VWriteFile (out_file, list)) exit (1);
-  fprintf (stderr, "%s: done.\n", argv[0]);
-  exit(0);
+	/* apply motion correction */
+	VApplyMotionCorrection3d( list, motion, filename );
+
+
+	/* write output */
+	VHistory( VNumber( options ), options, prg, &list, &list );
+
+	if ( ! VWriteFile ( out_file, list ) ) exit ( 1 );
+
+	fprintf ( stderr, "%s: done.\n", argv[0] );
+	exit( 0 );
 }

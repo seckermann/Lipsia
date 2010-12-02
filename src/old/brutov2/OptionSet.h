@@ -19,19 +19,19 @@ class OptionSet
 public:
 	OptionSet();
 	virtual ~OptionSet();
-	
-	virtual bool addOption(IOption* option);
-	virtual bool parse(std::vector<std::string> optionString, OptionValues& optionValues);
-	
-	virtual IOption* findByName(std::string optionName);
-	virtual IOption* findByShortName(std::string optionShortName);
-	
+
+	virtual bool addOption( IOption *option );
+	virtual bool parse( std::vector<std::string> optionString, OptionValues &optionValues );
+
+	virtual IOption *findByName( std::string optionName );
+	virtual IOption *findByShortName( std::string optionShortName );
+
 	virtual void printHelp();
 	virtual void printExtendedHelp();
-	
+
 
 private:
-	std::list<IOption*> options;
+	std::list<IOption *> options;
 };
 
 };

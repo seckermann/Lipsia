@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by Hannes Niederhausen                             *
- *   niederhausen@cbs.mpg.de			                                   *
+ *   niederhausen@cbs.mpg.de                                               *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -34,47 +34,47 @@
  */
 class vlMainWindow : public MainWindow
 {
-Q_OBJECT
+	Q_OBJECT
 protected:
 
 	/**GL Widget f??r die Coronale Ansicht (Seitenansicht, vorderer Hirnteil
-     * ist auf der linken Seite)*/
-	vlGLWidget*	coronal;
+	 * ist auf der linken Seite)*/
+	vlGLWidget *coronal;
 
 	/**GL Widget f??r die Axiale Ansicht (Horizontaler Schnitt, vorderer
-     * Hirnteil links)*/
-	vlGLWidget*	axial;
+	 * Hirnteil links)*/
+	vlGLWidget *axial;
 
 	/**GL Widget f??r die Sagitale Ansicht (Senkrechter Schnitt)*/
-	vlGLWidget*	sagittal;
+	vlGLWidget *sagittal;
 
 	/**Der Segmentdialog (deprecated)*/
-	//vlSegmentDialog*	segDialog;
+	//vlSegmentDialog*  segDialog;
 
 	/** Das neue Segmentfenster */
-	vlSegmentWindow* segWindow;
+	vlSegmentWindow *segWindow;
 
 	/** Der ConnectionManager f??r den lipsia server*/
-	vlServerConnection* m_serverConnection;
+	vlServerConnection *m_serverConnection;
 
 	//some widgets for the status bar
-	QLCDNumber*	valMouse;
-	QLCDNumber* valAim;
-	QLabel* mouseCoords;
-	QLabel* aimCoords;
-	QLabel* scale;
-	QLabel* modeLabel;
+	QLCDNumber *valMouse;
+	QLCDNumber *valAim;
+	QLabel *mouseCoords;
+	QLabel *aimCoords;
+	QLabel *scale;
+	QLabel *modeLabel;
 
-    // the pixmaps for sync oder nosync state
-    QPixmap connect0_img;
-    QPixmap connect1_img;
+	// the pixmaps for sync oder nosync state
+	QPixmap connect0_img;
+	QPixmap connect1_img;
 
 	int m_MousePos[3];
 
 	/**
 	 *    Erstellt den zentralen Teil des Fensters, den der QTDesigner nicht
-     *    erstellen kann.Im Zentrum werden die OpenGL Ansichten gesetzt
-     *    um die 3D Ansichten der MRT Daten darzustellen.
+	 *    erstellen kann.Im Zentrum werden die OpenGL Ansichten gesetzt
+	 *    um die 3D Ansichten der MRT Daten darzustellen.
 	 */
 	void createCenterWidget();
 
@@ -85,22 +85,22 @@ protected:
 
 
 public:
-    vlMainWindow( QWidget* parent = 0, const char* name = 0, WFlags fl = WType_TopLevel );
+	vlMainWindow( QWidget *parent = 0, const char *name = 0, WFlags fl = WType_TopLevel );
 
-    ~vlMainWindow();
+	~vlMainWindow();
 
 	/**
 	 *    ueberlagert den Showoperator des QMainWindows um vor dessen
-     *    aufruf das zentrale Widget zu erstellen.
+	 *    aufruf das zentrale Widget zu erstellen.
 	 */
 	void show();
-	
-	
+
+
 
 public slots:
 	/**
 	* Diese Methode wird duch die FileExitAction aufgerufen und schließt
-    * das Hauptfenster um das Programm zu beenden.
+	* das Hauptfenster um das Programm zu beenden.
 	*/
 	virtual void fileExit();
 
@@ -108,13 +108,13 @@ public slots:
 	 *    Slot zum Setzen des Editieremodus (l??schen an/aus)
 	 * @param val
 	 */
-	virtual void editDelete(bool val);
+	virtual void editDelete( bool val );
 
 	/**
 	 *    Slot um auf die ??nderungen in der SpinBox zu reagieren.
 	 * @param val
 	 */
-	virtual void radiusChanged(int val);
+	virtual void radiusChanged( int val );
 
 
 	/**
@@ -122,28 +122,28 @@ public slots:
 	 */
 	virtual void fileSave();
 
-    /**
-     * opens the about dialog.
-     */
-     virtual void helpAbout();
+	/**
+	 * opens the about dialog.
+	 */
+	virtual void helpAbout();
 
 	/**
 	 *    Ereignis Handling f??r den Fall das die Anwendung geschlossen wird.
 	 * @param e
 	 */
-	virtual void closeEvent(QCloseEvent* e);
+	virtual void closeEvent( QCloseEvent *e );
 
 	/**
 	 *    Behandelt die Wert??nderung f??r den Grauwert.
 	 * @param
 	 */
-	virtual void greyValChanged(int);
+	virtual void greyValChanged( int );
 
 	/**
 	 *    Ereignisbehandlung f&uuml;r die Checkbox zur Segmentl&ouml;schauswahl
 	 * @param
 	 */
-	virtual void delSegCheckedChanged(int);
+	virtual void delSegCheckedChanged( int );
 
 	/**
 	 *    Updated die Mauskoordinaten in der Statusleiste
@@ -151,7 +151,7 @@ public slots:
 	 * @param row
 	 * @param column
 	 */
-	virtual void mouseMoved(int band, int row, int column);
+	virtual void mouseMoved( int band, int row, int column );
 
 	/**
 	 *    Updated Zielkreuzkoordinaten in der Statusleiste
@@ -167,41 +167,41 @@ public slots:
 
 	void resetView();
 
-    virtual void markSegment(bool);
+	virtual void markSegment( bool );
 
 	virtual void zoomIn();
-    virtual void zoomOut();
+	virtual void zoomOut();
 
-	virtual void viewActionToggled(bool);
+	virtual void viewActionToggled( bool );
 
-	virtual void viewSegmentWindow(bool);
+	virtual void viewSegmentWindow( bool );
 
-	void filterComboBoxChanged(const QString &);
+	void filterComboBoxChanged( const QString & );
 
-	void filterChanged(const QString &);
+	void filterChanged( const QString & );
 
-    void coordComboBox_activated( const QString & );
+	void coordComboBox_activated( const QString & );
 
-    void toggleSyncAction_activated();
+	void toggleSyncAction_activated();
 
-    // Kontakt zum Server verloren -> Synchronisation
-    void disableSync();
-    void leaveEvent ( QEvent *);
+	// Kontakt zum Server verloren -> Synchronisation
+	void disableSync();
+	void leaveEvent ( QEvent * );
 
 signals:
 
 	/**
 	* Dieses Signal wird gesendet wenn erfolgreich ein Segment in den
-    * Speicher geladen wurde.
+	* Speicher geladen wurde.
 	*/
-	void segmentLoaded(int);
- 
-    
+	void segmentLoaded( int );
 
-    /**
-     * Dieses Signal wird gesendet wenn das Hauptfenster geschlossen wurde.
-     */
-    void vlMainWindowClosed();
+
+
+	/**
+	 * Dieses Signal wird gesendet wenn das Hauptfenster geschlossen wurde.
+	 */
+	void vlMainWindowClosed();
 
 };
 

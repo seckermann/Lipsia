@@ -10,12 +10,13 @@
 /* Qt Include Files */
 #include <qwidget.h>
 
-class VCheck {
+class VCheck
+{
 	//    Q_OBJECT
 public:
-    VImage VReadDesignFile(VString desfile=NULL, int verbose=0); 
-    int VCheckRawDataFile(VString rawfile=NULL, int tc_minlength=200);
-    VImage VCheckBetaFile(VString betafile=NULL); 
+	VImage VReadDesignFile( VString desfile = NULL, int verbose = 0 );
+	int VCheckRawDataFile( VString rawfile = NULL, int tc_minlength = 200 );
+	VImage VCheckBetaFile( VString betafile = NULL );
 };
 
 #endif // VCHECK

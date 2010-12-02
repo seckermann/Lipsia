@@ -12,14 +12,15 @@
 namespace option
 {
 
-class IntegerOption : public IOption {
-	
+class IntegerOption : public IOption
+{
+
 public:
 
-	IntegerOption(std::string name, std::string shortName, std::string help, std::string shortHelp);
+	IntegerOption( std::string name, std::string shortName, std::string help, std::string shortHelp );
 	virtual ~IntegerOption();
 
-protected:	
+protected:
 	virtual bool init();
 };
 

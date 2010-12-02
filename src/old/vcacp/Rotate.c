@@ -32,7 +32,7 @@
 
 
 /* Later in this file: */
-static VImage RotateImage (VImage, VImage, VBand, double);
+static VImage RotateImage ( VImage, VImage, VBand, double );
 
 
 /*
@@ -45,71 +45,72 @@ static VImage RotateImage (VImage, VImage, VBand, double);
  *  by Alan Paeth, Graphics Interface '86, pp. 77-81.
  */
 
-VImage VRotateImage (VImage src, VImage dest, VBand band, double angle)
+VImage VRotateImage ( VImage src, VImage dest, VBand band, double angle )
 {
 #define Tolerance 0.01
 
-  double angle_remained;
-  VImage tmp1 = NULL, tmp2;
+	double angle_remained;
+	VImage tmp1 = NULL, tmp2;
 
-  /* Normalize angle to the range [-Pi, +Pi]: */
-  angle = fmod (angle, 2.0 * PI);
-  if (angle > PI)
-    angle -= 2.0 * PI;
+	/* Normalize angle to the range [-Pi, +Pi]: */
+	angle = fmod ( angle, 2.0 * PI );
 
-  /* 
-   * Two stage rotation:
-   * 1. Use flipping to rotate the image by a multiple of 90 degrees.
-   * 2. Use RotateImage() to rotate the remaining angle.
-   */
-  if (angle >= -0.25 * PI && angle <= 0.25 * PI) {
+	if ( angle > PI )
+		angle -= 2.0 * PI;
 
-    /* Do nothing: */
-    angle_remained = angle;
-    tmp2 = src;
+	/*
+	 * Two stage rotation:
+	 * 1. Use flipping to rotate the image by a multiple of 90 degrees.
+	 * 2. Use RotateImage() to rotate the remaining angle.
+	 */
+	if ( angle >= -0.25 * PI && angle <= 0.25 * PI ) {
 
-  } else if (angle >= 0.25 * PI && angle <= 0.75 * PI) {
+		/* Do nothing: */
+		angle_remained = angle;
+		tmp2 = src;
 
-    /* Rotate by 90 degrees: */
-    tmp1 = VTransposeImage (src, NULL, band);
-    tmp2 = VFlipImage (tmp1, NULL, VAllBands, TRUE);
-    angle_remained = angle - 0.5 * PI;
+	} else if ( angle >= 0.25 * PI && angle <= 0.75 * PI ) {
 
-  } else if (angle >= 0.75 * PI || angle <= -0.75 * PI) {
+		/* Rotate by 90 degrees: */
+		tmp1 = VTransposeImage ( src, NULL, band );
+		tmp2 = VFlipImage ( tmp1, NULL, VAllBands, TRUE );
+		angle_remained = angle - 0.5 * PI;
 
-    /* Rotate by 180 degrees: */
-    tmp1 = VFlipImage (src, NULL, band, TRUE);
-    tmp2 = VFlipImage (tmp1, NULL, VAllBands, FALSE);
-    angle_remained = angle > 0.0 ? angle - PI : angle + PI;
+	} else if ( angle >= 0.75 * PI || angle <= -0.75 * PI ) {
 
-  } else {
+		/* Rotate by 180 degrees: */
+		tmp1 = VFlipImage ( src, NULL, band, TRUE );
+		tmp2 = VFlipImage ( tmp1, NULL, VAllBands, FALSE );
+		angle_remained = angle > 0.0 ? angle - PI : angle + PI;
 
-    /* Rotate by -90 degress: */
-    tmp1 = VTransposeImage (src, NULL, band);
-    tmp2 = VFlipImage (tmp1, NULL, VAllBands, FALSE);
-    angle_remained = angle + 0.5 * PI;
-  }
+	} else {
 
-  if (VMax (angle_remained, -angle_remained) > Tolerance) {
+		/* Rotate by -90 degress: */
+		tmp1 = VTransposeImage ( src, NULL, band );
+		tmp2 = VFlipImage ( tmp1, NULL, VAllBands, FALSE );
+		angle_remained = angle + 0.5 * PI;
+	}
 
-    /* Go on to stage 2: */
-    dest = RotateImage (tmp2, dest, tmp2 == src ? band : VAllBands, 
-			angle_remained);
+	if ( VMax ( angle_remained, -angle_remained ) > Tolerance ) {
 
-  } else {
+		/* Go on to stage 2: */
+		dest = RotateImage ( tmp2, dest, tmp2 == src ? band : VAllBands,
+							 angle_remained );
 
-    /* Stage 1 only is good enough: */
-    dest = VCopyImage (tmp2, dest, tmp2 == src ? band : VAllBands);
-  }
-    
-  /* Clean up: */
-  if (tmp2 != src) {
-    VDestroyImage (tmp1);
-    VDestroyImage (tmp2);
-  }
-    
-  return dest;
-    
+	} else {
+
+		/* Stage 1 only is good enough: */
+		dest = VCopyImage ( tmp2, dest, tmp2 == src ? band : VAllBands );
+	}
+
+	/* Clean up: */
+	if ( tmp2 != src ) {
+		VDestroyImage ( tmp1 );
+		VDestroyImage ( tmp2 );
+	}
+
+	return dest;
+
 #undef Tolerance
 }
 
@@ -124,70 +125,73 @@ VImage VRotateImage (VImage src, VImage dest, VBand band, double angle)
  *  by Alan Paeth, Graphics Interface '86, pp. 77-81.
  */
 
-static VImage RotateImage (VImage src, VImage dest, VBand band, double angle)
+static VImage RotateImage ( VImage src, VImage dest, VBand band, double angle )
 {
-  double shearx, sheary;
-  int margin_nrows, margin_ncols;
-  int src_nbands; /* src_repn, src_nrows, src_ncols; */
-  VImage sx_image, sysx_image, sxsysx_image, cropped_image;
-    
-  /* Ensure that range of "angle" is valid: */
-  if (angle <= -0.5 * PI || angle >= 0.5 * PI) {
-    VWarning ("VRotateImage: Internal error in RotateImage");
-    return NULL;
-  }
+	double shearx, sheary;
+	int margin_nrows, margin_ncols;
+	int src_nbands; /* src_repn, src_nrows, src_ncols; */
+	VImage sx_image, sysx_image, sxsysx_image, cropped_image;
 
-  /* Determine "shearx" and "sheary": */
-  shearx = - tan (angle / 2.0);
-  sheary = sin (angle);
-    
-  /* Read properties of "src": */
-  /*  src_nrows  = VImageNRows (src); */
-  /*  src_ncols  = VImageNColumns (src); */
-  /*  src_repn   = VPixelRepn (src); */
-  src_nbands = VImageNBands (src);
-    
-  /* Check to ensure that "band" exists: */
-  if (band != VAllBands && (band < 0 || band >= src_nbands)) {
-    VWarning ("VRotateImage: Band %d referenced in image of %d bands",
-	      band, VImageNBands (src));
-    return NULL;
-  }
+	/* Ensure that range of "angle" is valid: */
+	if ( angle <= -0.5 * PI || angle >= 0.5 * PI ) {
+		VWarning ( "VRotateImage: Internal error in RotateImage" );
+		return NULL;
+	}
 
-  /* First shear in x direction: */
-  sx_image = VShearImageX (src, NULL, band, shearx);
-  if (sx_image == NULL)
-    return NULL;
+	/* Determine "shearx" and "sheary": */
+	shearx = - tan ( angle / 2.0 );
+	sheary = sin ( angle );
 
-  /* Then shear in y direction: */
-  sysx_image = VShearImageY (sx_image, NULL, VAllBands, sheary);
-  if (sysx_image == NULL)
-    return NULL;
+	/* Read properties of "src": */
+	/*  src_nrows  = VImageNRows (src); */
+	/*  src_ncols  = VImageNColumns (src); */
+	/*  src_repn   = VPixelRepn (src); */
+	src_nbands = VImageNBands ( src );
 
-  /* Finally, shear in x direction again: */
-  sxsysx_image = VShearImageX (sysx_image, NULL, VAllBands, shearx);
-  if (sxsysx_image == NULL)
-    return NULL;
+	/* Check to ensure that "band" exists: */
+	if ( band != VAllBands && ( band < 0 || band >= src_nbands ) ) {
+		VWarning ( "VRotateImage: Band %d referenced in image of %d bands",
+				   band, VImageNBands ( src ) );
+		return NULL;
+	}
 
-  /* Calculate margin (unwanted blank space) sizes: */
-  margin_nrows = VImageNRows (src) * fabs (shearx) * fabs (sheary);
-  margin_ncols =
-    (VImageNRows (sysx_image) - VImageNRows (src)) * fabs (shearx);
+	/* First shear in x direction: */
+	sx_image = VShearImageX ( src, NULL, band, shearx );
 
-  /* Remove margins: */
-  cropped_image = VCropImage (sxsysx_image, dest, VAllBands,
-			      margin_nrows, margin_ncols,
-			      VImageNRows (sxsysx_image) -
-			      2 * margin_nrows,
-			      VImageNColumns (sxsysx_image) -
-			      2 * margin_ncols);
+	if ( sx_image == NULL )
+		return NULL;
 
-  /* Clean up: */
-  VDestroyImage (sx_image);
-  VDestroyImage (sysx_image);
-  VDestroyImage (sxsysx_image);
+	/* Then shear in y direction: */
+	sysx_image = VShearImageY ( sx_image, NULL, VAllBands, sheary );
 
-  VCopyImageAttrs (src, cropped_image);
-    
-  return cropped_image;
+	if ( sysx_image == NULL )
+		return NULL;
+
+	/* Finally, shear in x direction again: */
+	sxsysx_image = VShearImageX ( sysx_image, NULL, VAllBands, shearx );
+
+	if ( sxsysx_image == NULL )
+		return NULL;
+
+	/* Calculate margin (unwanted blank space) sizes: */
+	margin_nrows = VImageNRows ( src ) * fabs ( shearx ) * fabs ( sheary );
+	margin_ncols =
+		( VImageNRows ( sysx_image ) - VImageNRows ( src ) ) * fabs ( shearx );
+
+	/* Remove margins: */
+	cropped_image = VCropImage ( sxsysx_image, dest, VAllBands,
+								 margin_nrows, margin_ncols,
+								 VImageNRows ( sxsysx_image ) -
+								 2 * margin_nrows,
+								 VImageNColumns ( sxsysx_image ) -
+								 2 * margin_ncols );
+
+	/* Clean up: */
+	VDestroyImage ( sx_image );
+	VDestroyImage ( sysx_image );
+	VDestroyImage ( sxsysx_image );
+
+	VCopyImageAttrs ( src, cropped_image );
+
+	return cropped_image;
 }

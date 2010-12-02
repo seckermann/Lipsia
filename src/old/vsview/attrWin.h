@@ -12,10 +12,10 @@
 
 class BildWin : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    BildWin( QWidget *parent=0, const char *name=0, QString cp=0 );
-    
+	BildWin( QWidget *parent = 0, const char *name = 0, QString cp = 0 );
+
 };
 
 #endif // ATTRWIN_H

@@ -16,12 +16,12 @@ namespace vista
 class VistaWriter : public converter::IDatasetWriter
 {
 public:
-	VistaWriter(converter::ConverterConfiguration* configuration);
+	VistaWriter( converter::ConverterConfiguration *configuration );
 	virtual ~VistaWriter();
-	virtual void write(std::vector<converter::IImageDataset*> datasets);
+	virtual void write( std::vector<converter::IImageDataset *> datasets );
 
 private:
-	virtual VImage scaleSliceIntensity(VImage image, double black, double white, int fold = 0);
+	virtual VImage scaleSliceIntensity( VImage image, double black, double white, int fold = 0 );
 };
 
 };

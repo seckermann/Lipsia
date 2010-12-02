@@ -28,12 +28,12 @@ typedef std::map<std::string, Parameter> parameterTable;
 class BrukerPV3Reader : public converter::IDatasetReader
 {
 public:
-	BrukerPV3Reader(converter::ConverterConfiguration* configuration);
+	BrukerPV3Reader( converter::ConverterConfiguration *configuration );
 	virtual ~BrukerPV3Reader();
-	virtual converter::IImageDataset* read();
-	
+	virtual converter::IImageDataset *read();
+
 	// our converter configuration
-	ConverterConfiguration* configuration;
+	ConverterConfiguration *configuration;
 	// the root directory of the dataset this reader deals with
 	string rootDirectory;
 	// the experiment number as string
@@ -43,7 +43,7 @@ public:
 	// the actual data file stream
 	string recoDataFileName;
 	// the actual data file stream
-	ifstream* recoDataFileStream;
+	ifstream *recoDataFileStream;
 	// 'subject' parameter table
 	parameterTable subjectParameters;
 	// 'method' parameter table
@@ -73,7 +73,7 @@ public:
 	const static string SOURCE_FORMAT_SIGNED_LONG;
 	const static string SOURCE_FORMAT_UNSIGNED_LONG;
 	const static string SOURCE_FORMAT_FLOAT;
-	
+
 };
 
 };

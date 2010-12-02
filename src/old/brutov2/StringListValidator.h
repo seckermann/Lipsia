@@ -11,14 +11,15 @@
 namespace option
 {
 
-class StringListValidator : public IValidator {
+class StringListValidator : public IValidator
+{
 
 public:
 	StringListValidator();
 	virtual ~StringListValidator();
 
-	virtual bool validate(std::string value);
-	
+	virtual bool validate( std::string value );
+
 };
 
 };
