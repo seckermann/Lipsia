@@ -27,6 +27,8 @@ int main( int argc, char **argv )
 		}
 	}
 	if( app.images.size() > 1 ) {
+		//we have to sort the output images by the sequenceStart so the number in the output filename represents the 
+		//number in the scan protocol
 		typedef std::multimap< boost::posix_time::ptime, boost::shared_ptr<data::Image> > timeStampsType;
 		timeStampsType timeStamps;
 		BOOST_FOREACH( std::list<boost::shared_ptr<data::Image> >::const_reference image, app.images ) 
@@ -43,11 +45,12 @@ int main( int argc, char **argv )
 		BOOST_FOREACH( timeStampsType::const_reference map, timeStamps )
 		{
 			boost::filesystem::path out( app.parameters["out"].toString() );
-			std::stringstream newFileName;
-			newFileName << out.branch_path() << "/S" << count++ << "_" << out.leaf();
+			std::stringstream countString;
+			countString << count++ << "_" << out.leaf();
+			boost::filesystem::path newPath( out.branch_path() /  countString.str() );
 			data::ImageList tmpList;
 			tmpList.push_back( map.second );
-			data::IOFactory::write(tmpList, newFileName.str(), "", "");
+			data::IOFactory::write(tmpList, newPath.string(), "", "");
 		}
 	} else {
 		app.autowrite( app.images );
