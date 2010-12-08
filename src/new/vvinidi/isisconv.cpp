@@ -50,7 +50,7 @@ int main( int argc, char **argv )
 			boost::filesystem::path newPath( out.branch_path() /  countString.str() );
 			data::ImageList tmpList;
 			tmpList.push_back( map.second );
-			data::IOFactory::write( tmpList, newPath.string(), "", "" );
+			data::IOFactory::write( tmpList, newPath.string(), app.parameters["wf"], app.parameters["wdialect"] );
 		}
 	} else {
 		app.autowrite( app.images );
