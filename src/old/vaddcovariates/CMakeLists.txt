@@ -8,5 +8,5 @@ SET_TARGET_PROPERTIES(vaddcovariates
     LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vaddcovariates
-        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)

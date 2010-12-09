@@ -7,5 +7,5 @@ SET_TARGET_PROPERTIES(vdifftimecourse PROPERTIES
     LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vdifftimecourse
-        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)

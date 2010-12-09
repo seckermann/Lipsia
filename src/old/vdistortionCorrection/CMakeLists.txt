@@ -9,5 +9,5 @@ SET_TARGET_PROPERTIES(vdistortionCorrection PROPERTIES
     LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vdistortionCorrection
-        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)

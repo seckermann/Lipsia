@@ -7,5 +7,5 @@ SET_TARGET_PROPERTIES(vgen_wilcoxtable PROPERTIES
     LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vgen_wilcoxtable
-        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)

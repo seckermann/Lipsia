@@ -1,7 +1,8 @@
 ADD_SUBDIRECTORY(lib_arfit)
 ADD_SUBDIRECTORY(lib_lipsia)
 ADD_SUBDIRECTORY(lib_vlh)
-ADD_SUBDIRECTORY(brutov2)
+# disable brutov2 due a compiler bug
+# ADD_SUBDIRECTORY(brutov2)
 ADD_SUBDIRECTORY(v2ndlevel)
 ADD_SUBDIRECTORY(vaddcovariates)
 ADD_SUBDIRECTORY(valphasim)

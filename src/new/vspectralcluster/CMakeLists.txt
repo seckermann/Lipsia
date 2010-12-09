@@ -1,11 +1,19 @@
 PROJECT(vspectralcluster)
 
+# F2C - Fortran2C output for the lapac library
+FIND_LIBRARY(F2C_LIBRARY "f2c")
+FIND_PATH(F2C_INCLUDES "f2c.h")
+INCLUDE_DIRECTORIES(${F2C_INCLUDES})
+
+# find lapack library
+FIND_LIBRARY(LAPACK_LIBRARY lapack)
+
 ADD_EXECUTABLE(vspectralcluster Eigen.c KMeans.c LaplacianMatrix.c vspectralcluster.c)
-TARGET_LINK_LIBRARIES(vspectralcluster /usr/lib/libf2c.a /usr/lib/libgsl.a /usr/lib/liblapack-3.a /usr/lib/libatlas.a ${VIA_LIBRARY} ${BLAS_LIBRARY} ${LIPSIA_LIBRARY} )
+TARGET_LINK_LIBRARIES(vspectralcluster ${F2C_LIBRARY}  ${LAPACK_LIBRARY} ${VIAIO_LIBRARY} ${GSL_CBLAS_LIBRARY} ${GSL_GSL_LIBRARY} ${LIPSIA_LIBRARY} )
 
 SET_TARGET_PROPERTIES(vspectralcluster PROPERTIES
     LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vspectralcluster
-        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)

@@ -7,5 +7,5 @@ SET_TARGET_PROPERTIES(vonesample_ttest PROPERTIES
     LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vonesample_ttest
-        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)

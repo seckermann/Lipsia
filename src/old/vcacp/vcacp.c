@@ -1836,7 +1836,7 @@ int main ( int argc, char *argv[] )
 {
 	static VString in = NULL;
 	static VString out = NULL;
-	static VString template_file = "/usr/share/lipsia/vcacp.v"; /* default filename */
+	static VString template_file = "/usr/share/lipsia/cacp.v"; /* default filename */
 	static VString report_file = NULL;
 	static VOptionDescRec options[] = {
 		{ "in", VStringRepn, 1, &in, VRequiredOpt, 0, "Image to be processed" },

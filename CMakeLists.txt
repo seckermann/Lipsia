@@ -17,6 +17,13 @@ ENDIF(NOT UNIX)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 	"${CMAKE_SOURCE_DIR}/cmake/Modules")
 
+# hidden OPTION, used to fix the lipsia include bug. With
+# an temporary VIA installation we have to provide an include path
+# that alliows #include <viaio/*.h> and #include <via/*.h> directives.
+IF(LIPSIA_INCLUDE_ROOT)
+    INCLUDE_DIRECTORIES(${LIPSIA_INCLUDE_ROOT})
+ENDIF(LIPSIA_INCLUDE_ROOT)
+
 # set the lipsia version
 SET(LIPSIA_VERSION_MAJOR "2")
 SET(LIPSIA_VERSION_MINOR "0")
@@ -26,15 +33,15 @@ SET(LIPSIA_SHARED_LIB_VERSION
 	${LIPSIA_VERSION_MAJOR}.${LIPSIA_VERSION_MINOR}.${LIPSIA_VERSION_PATCH})
 
 # configure install destinations
-SET(LIPSIA_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
+# SET(LIPSIA_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 # move private libs into separate directory (only relevant for shared libs)
-SET(LIPSIA_INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib/lipsia")
+# SET(LIPSIA_INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib/lipsia")
 # target directory of the docs
-SET(LIPSIA_INSTALL_DOC_DIR "${CMAKE_INSTALL_PREFIX}/share/doc/lipsia")
+# SET(LIPSIA_INSTALL_DOC_DIR "${CMAKE_INSTALL_PREFIX}/share/doc/lipsia")
 # the shared resource files directory
-SET(LIPSIA_INSTALL_RESOURCE_DIR "${CMAKE_INSTALL_PREFIX}/share/lipsia")
+# SET(LIPSIA_INSTALL_RESOURCE_DIR "${CMAKE_INSTALL_PREFIX}/share/lipsia")
 # target directory of the header files
-SET(LIPSIA_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/lipsia")
+# SET(LIPSIA_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/lipsia")
 
 #isis related settings
 add_definitions(-D_ENABLE_LOG=1)
@@ -78,8 +85,24 @@ FIND_PACKAGE(BLAS REQUIRED)
 # look for boost
 FIND_PACKAGE(Boost REQUIRED COMPONENTS filesystem regex system date_time)
 
-# CPack support
-# INCLUDE(CPack)
+###########################################################
+# CPack config
+###########################################################
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Aanalysis suite for MRI and fMRI data.")
+SET(CPACK_PACKAGE_VENDOR "Max Planck Institute for Human Cognitive and Brain Sciences")
+SET(CPACK_PACKAGE_CONTACT "tuerke@cbs.mpg.de")
+SET(CPACK_PACKAGE_NAME "lipsia")
+SET(CPACK_BUNDLE_NAME ${CPACK_PACKAGE_NAME})
+#SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ReadMe.txt")
+SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
+SET(CPACK_PACKAGE_VERSION_MAJOR ${${CMAKE_PROJECT_NAME}_VERSION_MAJOR})
+SET(CPACK_PACKAGE_VERSION_MINOR ${${CMAKE_PROJECT_NAME}_VERSION_MINOR})
+SET(CPACK_PACKAGE_VERSION_PATCH ${${CMAKE_PROJECT_NAME}_VERSION_PATCH})
+SET(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_BUILD_TYPE})
+#SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${${CMAKE_PROJECT_NAME}_VERSION_MAJOR}.${${CMAKE_PROJECT_NAME}_VERSION_MINOR}")
+SET(CPACK_RPM_POST_INSTALL_SCRIPT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/rpm_%post.in)
+SET(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/rpm_%post.in)
+INCLUDE(CPack)
 
 #
 # Install global pieces
@@ -99,18 +122,31 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -msse2  -fopenmp -O3 -march=amdfam10 "
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC -Wno-deprecated -msse2  -ftemplate-depth-100 -fopenmp -O3 -march=amdfam10 ")
 
 INSTALL(DIRECTORY doc/html
-  DESTINATION ${LIPSIA_INSTALL_DOC_DIR}
+  DESTINATION share/doc/lipsia
   PATTERN ".svn" EXCLUDE )
 
-install(PROGRAMS lipsia-help DESTINATION ${LIPSIA_INSTALL_BIN_DIR})
+install(PROGRAMS lipsia-help DESTINATION bin)
 
 #installing the scripts
-install(PROGRAMS src/scripts/vpreproc_gui DESTINATION ${LIPSIA_INSTALL_BIN_DIR})
-install(PROGRAMS src/scripts/vcreatemask DESTINATION ${LIPSIA_INSTALL_BIN_DIR})
+install(PROGRAMS src/scripts/vpreproc_gui DESTINATION bin)
+install(PROGRAMS src/scripts/vcreatemask DESTINATION bin)
 
+# install ressource files
+FILE(GLOB RES_FILES data/*)
+# remove '.svn' element from filelist
+FOREACH(ELEMENT ${RES_FILES})
+    STRING(REGEX MATCH "\\.svn" FOUND ${ELEMENT})
+    # add entry if it's not ".svn"
+    IF(NOT FOUND)
+        SET(FILES ${FILES} ${ELEMENT})
+    ENDIF(NOT FOUND)
+ENDFOREACH(ELEMENT ${RES_FILES})
+
+INSTALL(FILES ${FILES} DESTINATION share/lipsia)
 
 # subprojects
 ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src)
+ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/design)
 
 MESSAGE(STATUS "isis include: ${ISIS_INCLUDE_DIRS}")
 MESSAGE(STATUS "isis libs: ${ISIS_LIB}")

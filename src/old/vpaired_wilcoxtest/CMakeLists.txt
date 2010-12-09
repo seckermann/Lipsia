@@ -7,5 +7,5 @@ SET_TARGET_PROPERTIES(vpaired_wilcoxtest PROPERTIES
     LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vpaired_wilcoxtest
-        RUNTIME DESTINATION ${LIPSIA_INSTALL_BIN_DIR}
+        RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)
