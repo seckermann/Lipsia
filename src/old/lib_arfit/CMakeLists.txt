@@ -29,8 +29,8 @@ SET_TARGET_PROPERTIES(arfit_static PROPERTIES
 	)
 
 INSTALL(TARGETS arfit arfit_static
-  LIBRARY DESTINATION lib COMPONENT RuntimeLibraries
-	ARCHIVE DESTINATION lib COMPONENT Development
+  LIBRARY DESTINATION lib/lipsia COMPONENT RuntimeLibraries
+	ARCHIVE DESTINATION lib/lipsia COMPONENT Development
 	)
 
 # install header files

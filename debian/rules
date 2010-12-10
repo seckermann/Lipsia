@@ -23,6 +23,7 @@ install/lipsia::
 	done
 
 	# copy data files to /usr/share/lipsia
+	rm "debian/tmp/usr/share/lipsia" -fr; \
 	mkdir "debian/tmp/usr/share/lipsia"; \
 	for d in data/* ; do \
 		cp "$$d" "debian/tmp/usr/share/lipsia/" -r;\

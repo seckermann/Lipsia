@@ -43,8 +43,8 @@ SET_TARGET_PROPERTIES(vlh_static
 
 # install the shared and static libraries
 INSTALL(TARGETS vlh vlh_static
-  LIBRARY DESTINATION lib COMPONENT RuntimeLibraries
-	ARCHIVE DESTINATION lib COMPONENT Development
+  LIBRARY DESTINATION lib/lipsia COMPONENT RuntimeLibraries
+	ARCHIVE DESTINATION lib/lipsia COMPONENT Development
 	)
 
 # install header files
