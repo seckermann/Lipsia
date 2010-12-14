@@ -289,6 +289,13 @@ VSpectralECM( VAttrList list, VImage mask, VDouble wavelength, VShort nlags,
 	n = last - first + 1;
 	i1 = first + 1;
 
+  i = 0;
+  for (b=0; b<nslices; b++) {
+    if (VImageNRows(src[b]) < 2) continue;
+    for (r=0; r<nrows; r++) {
+      for (c=0; c<ncols; c++) {
+        if (VPixel(src[b],i1,r,c,VShort) < minval) continue;
+	if (VGetPixel(mask,b,r,c) < 1) continue;
 	if ( n < 2 ) VError( " not enough timesteps, nt= %d", n );
 
 	nx = ( double )n;
@@ -573,7 +580,19 @@ main ( int argc, char *argv[] )
 	fp = VOpenInputFile ( filename, TRUE );
 	list1 = VReadFile ( fp, NULL );
 
+<<<<<<< .mine
+  for (VFirstAttr (list1, & posn); VAttrExists (& posn); VNextAttr (& posn)) {
+    if (VGetAttrRepn (& posn) != VImageRepn) continue;
+    VGetAttrValue (& posn, NULL,VImageRepn, & mask);
+    if (VPixelRepn(mask) != VBitRepn && VPixelRepn(mask) != VUByteRepn && VPixelRepn(mask) != VShortRepn) {
+      mask = NULL;
+      continue;
+    }
+  }
+  if (mask == NULL) VError(" no mask found");
+=======
 	if ( ! list1 ) VError( "Error reading mask file" );
+>>>>>>> .r64
 
 	fclose( fp );
 
