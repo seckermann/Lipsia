@@ -19,7 +19,7 @@ John Wiley & Sons, Chichester, England.
 #include <viaio/Vlib.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <via.h>
+#include <via/via.h>
 
 extern VImage VChamferDist2d ( VImage, VImage, VBand );
 
@@ -151,6 +151,7 @@ VDTClose2d( VImage src, VImage dest, VDouble radius )
 	npixels = nbands * nrows * ncols;
 
 	tmp = VCreateImage( nbands, nrows, ncols, VBitRepn );
+  VFillImage(tmp,VAllBands,0);
 
 	for ( b = 0; b < nbands; b++ ) {
 		for ( r = border; r < nrows - border; r++ ) {
@@ -176,8 +177,11 @@ VDTClose2d( VImage src, VImage dest, VDouble radius )
 	if ( ! float_image )
 		VError( "VDTClose2d failed.\n" );
 
-	float_pp = ( VFloat * ) VPixelPtr( float_image, 0, 0, 0 );
-	bin_pp   = ( VBit * ) VPixelPtr( tmp, 0, 0, 0 );
+  dest = VSelectDestImage("VDTClose",dest,
+			  VImageNBands(src),VImageNRows(src),VImageNColumns(src),
+			  VBitRepn);
+  if (! dest) return NULL;
+  VFillImage(dest,VAllBands,0);
 
 	for ( i = 0; i < npixels; i++ )
 		*bin_pp++ = ( ( *float_pp++ > radius ) ? 1 : 0 );
