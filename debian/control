@@ -32,24 +32,6 @@ Description: analysis suite for MRI and fMRI data
  NIfTI format -- converting VISTA images into NIfTI files is also supported.
 
 
-Package: lipsia-doc
-Section: doc
-Architecture: all
-Depends: ${misc:Depends}
-Description: documentation for LIPSIA
- Leipzig Image Processing and Statistical Inference Algorithms (LIPSIA)
- .
- This is a software package for the data processing and evaluation of
- functional magnetic resonance images. The analysis of fMRI data comprises
- various aspects including filtering, spatial transformation, statistical
- evaluation as well as segmentation and visualization. All these aspects are
- covered by LIPSIA. For the statistical evaluation, a number of well established
- and peer-reviewed algorithms were implemented in LIPSIA that allow an effcient
- and user-friendly processing of fMRI data sets. As the amount of data that must
- be handled is enormous, an important aspect in the development LIPSIA was the
- efficiency of the software implementation.
- .
- This package provides the LIPSIA documentation in HTML format.
 
 Package: lipsia-dev
 Section: libdevel
