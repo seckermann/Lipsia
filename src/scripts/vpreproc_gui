@@ -456,21 +456,16 @@ class MyForm(QtGui.QMainWindow):
         self.ui.text_output_dir.setText(self.homePath)
         self.output_dir=self.homePath
         self.statusBar().showMessage("Welcome!")
-        self.templateDict = {"T1 SPM 1mm fullbrain": "/usr/share/lipsia/templates/T1_spm.v",
-                             "T1 FSL 1mm fullbrain": "/usr/share/lipsia/templates/T1_fsl.v",
-                             "T1 FSL 1mm peeled brain": "/usr/share/lipsia/templates/T1_fsl_peeled.v",
-                             "EPI SPM": "/usr/share/lipsia/templates/epi_spm.v",
-                             "EPI FSL":"/usr/share/lipsia/templates/epi_fsl.v",         
-                             "EPI 2mm":"/usr/share/lipsia/templates/epi_template_2mm.v",
-                             "EPI 3mm":"/usr/share/lipsia/templates/epi_template_3mm.v",
-                             "T1 MNI":"/usr/share/lipsia/templates/mni.v"
+        self.templateDict = {"T1 MNI 1mm fullbrain": "/usr/share/lipsia/mni.v",
+                             "EPI 2mm": "/usr/share/lipsia/epi_template_2mm.v",
+                             "EPI 3mm":"/usr/share/lipsia/epi_template_3mm.v",         
+                             "EPI 1.5mm":"/usr/share/lipsia/epi_template_1.5mm.v"
                             }
         for template, path in self.templateDict.iteritems():
             if(os.path.isfile(path)):
                 self.ui.template_box.addItem(template)
         self.ui.template_box.setCurrentIndex(2) 
-        self.helpDict = {"Lipsia help": "/usr/share/doc/lipsia-doc/html/index.html", 
-                         "Lipsia sandbox help":"/usr/share/doc/lipsia-sandbox/html/index.html" }
+        self.helpDict = {"Lipsia help": "/usr/share/doc/lipsia/html/index.html" }
         for help, path in self.helpDict.iteritems():
             if(os.path.isfile(path)):
                 self.ui.help_Box.addItem(help)
@@ -966,7 +961,9 @@ class MyForm(QtGui.QMainWindow):
             self.debugOutput("Resampling the image to check the registration result...", True)
             self.applyCommand("vdotrans3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + movingFile + " -trans trans.nii -out regResult.v")
             self.debugOutput("Opening viewer to show the registration results. Close it to continue!", True)
-            self.applyCommand("vlv -in " + self.templateDict[str(self.ui.template_box.currentText())] + " regResult.v")
+            self.applyCommand("vlv " + self.templateDict[str(self.ui.template_box.currentText())] + " & ")
+            self.applyCommand("vlv regResult.v")
+            
         self.debugOutput("Resampling the image " + outFile + "...", True)
         self.progress() 
         self.applyCommand("vdotrans3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + file + " -trans trans.nii -res " + resolution + " -fmri -out " + outFile + " -interpolator " + str(interpolator))
