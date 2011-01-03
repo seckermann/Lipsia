@@ -2,7 +2,7 @@ PROJECT(vcacp)
 
 ADD_EXECUTABLE(vcacp vcacp.c Rotate.c Shear.c)
 # GaussConv.c Kernel.c ConvolveSep.c Convolve.c
-TARGET_LINK_LIBRARIES(vcacp lipsia $ {VIA_LIBRARY})
+TARGET_LINK_LIBRARIES(vcacp lipsia ${VIA_LIBRARY})
 
 # it is very IMPORTANT to provide a directory with double quotes.
 SET_TARGET_PROPERTIES(vcacp PROPERTIES

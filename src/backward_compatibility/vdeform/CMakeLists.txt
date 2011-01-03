@@ -1,7 +1,7 @@
 PROJECT(vdeform)
 
 ADD_EXECUTABLE(vdeform vdeform.C)
-TARGET_LINK_LIBRARIES(vdeform lipsia $ {VIA_LIBRARY})
+TARGET_LINK_LIBRARIES(vdeform lipsia ${VIA_LIBRARY})
 
 SET_TARGET_PROPERTIES(vdeform PROPERTIES
                       LINK_FLAGS -Wl)

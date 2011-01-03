@@ -11,7 +11,7 @@ ADD_EXECUTABLE(brutov2
                IntegerRangeValidator.C  RequiredValidator.C  brutov2.C ConverterFactory.C
                FileTypeValidator.C JCampDXParser.C StringListOption.C)
 
-TARGET_LINK_LIBRARIES(brutov2 $ {VIAIO_LIBRARY})
+TARGET_LINK_LIBRARIES(brutov2 ${VIAIO_LIBRARY})
 
 SET_TARGET_PROPERTIES(brutov2
                       PROPERTIES COMPILE_FLAGS -ansi

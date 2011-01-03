@@ -6,22 +6,22 @@ SET(LIBARFIT_SRC
     gsl_matrix_wrapper.c)
 
 # the shared library
-ADD_LIBRARY(arfit SHARED $ {LIBARFIT_SRC})
-TARGET_LINK_LIBRARIES(arfit m $ {GSL_GSL_LIBRARY} $ {VIAIO_LIBRARY})
+ADD_LIBRARY(arfit SHARED ${LIBARFIT_SRC})
+TARGET_LINK_LIBRARIES(arfit m ${GSL_GSL_LIBRARY} ${VIAIO_LIBRARY})
 
 SET_TARGET_PROPERTIES(arfit PROPERTIES
-                      VERSION $ {LIPSIA_SHARED_LIB_VERSION}
-                      SOVERSION $ {LIPSIA_SHARED_LIB_VERSION}
+                      VERSION ${LIPSIA_SHARED_LIB_VERSION}
+                      SOVERSION ${LIPSIA_SHARED_LIB_VERSION}
                       CLEAN_DIRECT_OUTPUT 1
                       COMPILE_FLAGS -ansi
                       LINK_FLAGS -Wl
                      )
 
 # the static library
-ADD_LIBRARY(arfit_static STATIC $ {LIBARFIT_SRC})
+ADD_LIBRARY(arfit_static STATIC ${LIBARFIT_SRC})
 SET_TARGET_PROPERTIES(arfit_static PROPERTIES
-                      VERSION $ {LIPSIA_SHARED_LIB_VERSION}
-                      SOVERSION $ {LIPSIA_SHARED_LIB_VERSION}
+                      VERSION ${LIPSIA_SHARED_LIB_VERSION}
+                      SOVERSION ${LIPSIA_SHARED_LIB_VERSION}
                       CLEAN_DIRECT_OUTPUT 1
                       COMPILE_FLAGS -ansi
                       LINK_FLAGS -Wl
@@ -35,5 +35,5 @@ INSTALL(TARGETS arfit arfit_static
 
 # install header files
 FILE(GLOB ARFIT_HDR "${CMAKE_SOURCE_DIR}/src/lib_arfit/*.h")
-INSTALL(FILES $ {ARFIT_HDR}
-        DESTINATION $ {LIPSIA_INSTALL_INCLUDE_DIR} COMPONENT Development)
+INSTALL(FILES ${ARFIT_HDR}
+        DESTINATION ${LIPSIA_INSTALL_INCLUDE_DIR} COMPONENT Development)

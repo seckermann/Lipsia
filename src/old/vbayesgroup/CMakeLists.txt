@@ -1,7 +1,7 @@
 PROJECT(vbayesgroup)
 
 ADD_EXECUTABLE(vbayesgroup vbayesgroup.c)
-TARGET_LINK_LIBRARIES(vbayesgroup lipsia $ {VIA_LIBRARY})
+TARGET_LINK_LIBRARIES(vbayesgroup lipsia ${VIA_LIBRARY})
 
 SET_TARGET_PROPERTIES(vbayesgroup PROPERTIES
                       LINK_FLAGS -Wl)

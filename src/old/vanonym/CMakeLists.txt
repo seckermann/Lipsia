@@ -1,7 +1,7 @@
 PROJECT(vanonym)
 
 ADD_EXECUTABLE(vanonym vanonym.c)
-TARGET_LINK_LIBRARIES(vanonym lipsia $ {VIA_LIBRARY})
+TARGET_LINK_LIBRARIES(vanonym lipsia ${VIA_LIBRARY})
 
 SET_TARGET_PROPERTIES(vanonym PROPERTIES
 # not ansi since uses c++ comments
