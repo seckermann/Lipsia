@@ -35,72 +35,55 @@
 #include <math.h>
 #include <stdlib.h>
 
-extern VImage VMotionCorrection2d( VAttrList, VShort, VShort, VShort );
-extern void VFreqFilter( VAttrList, VFloat, VFloat, VBoolean, VFloat );
-extern void VApplyMotionCorrection2d( VAttrList, VImage, VString );
+extern VImage VMotionCorrection2d(VAttrList, VShort, VShort, VShort);
+extern void VFreqFilter(VAttrList, VFloat, VFloat, VBoolean, VFloat);
+extern void VApplyMotionCorrection2d(VAttrList, VImage, VString);
 extern char *getLipsiaVersion();
 
 int
-main( int argc, char *argv[] )
-{
-	static VShort  minval  = 0;
-	static VShort  i0      = 50;
-	static VShort  maxiter = 100;
-	static VString filename = "";
-	static VOptionDescRec  options[] = {
-		{"tref", VShortRepn, 1, ( VPointer ) &i0, VOptionalOpt, NULL, "reference time step"},
-		{"report", VStringRepn, 1, ( VPointer ) &filename, VOptionalOpt, NULL, "report file"},
-		{"iterations", VShortRepn, 1, ( VPointer ) &maxiter, VOptionalOpt, NULL, "Max number of iterations"},
-		{"minval", VShortRepn, 1, ( VPointer ) &minval, VOptionalOpt, NULL, "Signal threshold"}
-	};
-	FILE *in_file = NULL, *out_file = NULL;
-	VImage motion = NULL;
-	VAttrList list = NULL;
-	VFloat low, high;
-	char prg[50];
-	sprintf( prg, "vmovcorrection2d V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg );
-
-
-	/* parse command line */
-	VParseFilterCmd( VNumber( options ), options, argc, argv, &in_file, &out_file );
-
-
-	/* read data */
-	if ( ! ( list = VReadFile ( in_file, NULL ) ) ) exit ( 1 );
-
-
-	/* remove baseline drift */
-	high = 60;
-	low  = 0;
-	VFreqFilter( list, high, low, FALSE, 0.8f );
-
-
-	/* estimate motion parameters using smoothed data */
-	motion = VMotionCorrection2d( list, minval, i0, maxiter );
-
-
-	/* re-read original data from file */
-	VDestroyAttrList( list );
-	list = NULL;
-	rewind( in_file );
-
-	if ( ! ( list = VReadFile ( in_file, NULL ) ) ) exit ( 1 );
-
-	fclose( in_file );
-
-
-	/* apply motion correction */
-	VApplyMotionCorrection2d( list, motion, filename );
-
-
-	/* write output */
+main(int argc, char *argv[]) {
+    static VShort  minval  = 0;
+    static VShort  i0      = 50;
+    static VShort  maxiter = 100;
+    static VString filename = "";
+    static VOptionDescRec  options[] = {
+        {"tref", VShortRepn, 1, (VPointer) &i0, VOptionalOpt, NULL, "reference time step"},
+        {"report", VStringRepn, 1, (VPointer) &filename, VOptionalOpt, NULL, "report file"},
+        {"iterations", VShortRepn, 1, (VPointer) &maxiter, VOptionalOpt, NULL, "Max number of iterations"},
+        {"minval", VShortRepn, 1, (VPointer) &minval, VOptionalOpt, NULL, "Signal threshold"}
+    };
+    FILE *in_file = NULL, *out_file = NULL;
+    VImage motion = NULL;
+    VAttrList list = NULL;
+    VFloat low, high;
+    char prg[50];
+    sprintf(prg, "vmovcorrection2d V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg);
+    /* parse command line */
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+    /* read data */
+    if(!(list = VReadFile(in_file, NULL)))
+        exit(1);
+    /* remove baseline drift */
+    high = 60;
+    low  = 0;
+    VFreqFilter(list, high, low, FALSE, 0.8f);
+    /* estimate motion parameters using smoothed data */
+    motion = VMotionCorrection2d(list, minval, i0, maxiter);
+    /* re-read original data from file */
+    VDestroyAttrList(list);
+    list = NULL;
+    rewind(in_file);
+    if(!(list = VReadFile(in_file, NULL)))
+        exit(1);
+    fclose(in_file);
+    /* apply motion correction */
+    VApplyMotionCorrection2d(list, motion, filename);
+    /* write output */
 ende:
-	VHistory( VNumber( options ), options, prg, &list, &list );
-
-	if ( ! VWriteFile ( out_file, list ) ) exit ( 1 );
-
-	fprintf ( stderr, "%s: done.\n", argv[0] );
-	exit( 0 );
+    VHistory(VNumber(options), options, prg, &list, &list);
+    if(! VWriteFile(out_file, list))
+        exit(1);
+    fprintf(stderr, "%s: done.\n", argv[0]);
+    exit(0);
 }

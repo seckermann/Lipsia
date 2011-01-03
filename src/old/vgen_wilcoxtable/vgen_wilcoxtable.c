@@ -70,87 +70,71 @@ extern char *getLipsiaVersion();
 *
 ***********************************************************************/
 
-double LevelOfSignificanceWXMPSR( double Winput, long int N )
-{
-	unsigned long int W, MaximalW, NumberOfPossibilities, CountLarger;
-	unsigned long int i, RankSum, j;
-	double p;
-
-	/* Determine Wmax, i.e., work with the largest Rank Sum */
-	MaximalW = N * ( N + 1 ) / 2;
-
-	if( Winput < MaximalW / 2 )Winput = MaximalW - Winput;
-
-	W = Winput;    /* Convert to long int */
-
-	if( W != Winput )++W; /* Increase to next full integer */
-
-
-	/* The total number of possible outcomes is 2**N  */
-	NumberOfPossibilities = pow( 2, N );
-
-	/* Initialize and loop. The loop-interior will be run 2**N times. */
-	CountLarger = 0;
-
-	/* Generate all distributions of sign over ranks as bit-patterns (i). */
-	for( i = 0; i < NumberOfPossibilities; ++i ) {
-		RankSum = 0;
-
-		/*
-		   Shift "sign" bits out of i to determine the Sum of Ranks (j).
-		*/
-		for( j = 0; j < N; ++j ) {
-			if( ( i >> j ) & 1 )RankSum += j + 1;
-		};
-
-		/*
-		* Count the number of "samples" that have a Sum of Ranks larger than
-		* or equal to the one found (i.e., >= W).
-		*/
-		if( RankSum >= W )++CountLarger;
-	};
-
-	/*****************************************************************
-	* The level of significance is the number of outcomes with a
-	* sum of ranks equal to or larger than the one found (W)
-	* divided by the total number of possible outcomes.
-	* The level is doubled to get the two-tailed result.
-	******************************************************************/
-	p = 2 * ( ( double )CountLarger ) / ( ( double )NumberOfPossibilities );
-
-	return p;
+double LevelOfSignificanceWXMPSR(double Winput, long int N) {
+    unsigned long int W, MaximalW, NumberOfPossibilities, CountLarger;
+    unsigned long int i, RankSum, j;
+    double p;
+    /* Determine Wmax, i.e., work with the largest Rank Sum */
+    MaximalW = N * (N + 1) / 2;
+    if(Winput < MaximalW / 2)
+        Winput = MaximalW - Winput;
+    W = Winput;    /* Convert to long int */
+    if(W != Winput)
+        ++W;   /* Increase to next full integer */
+    /* The total number of possible outcomes is 2**N  */
+    NumberOfPossibilities = pow(2, N);
+    /* Initialize and loop. The loop-interior will be run 2**N times. */
+    CountLarger = 0;
+    /* Generate all distributions of sign over ranks as bit-patterns (i). */
+    for(i = 0; i < NumberOfPossibilities; ++i) {
+        RankSum = 0;
+        /*
+           Shift "sign" bits out of i to determine the Sum of Ranks (j).
+        */
+        for(j = 0; j < N; ++j) {
+            if((i >> j) & 1)
+                RankSum += j + 1;
+        };
+        /*
+        * Count the number of "samples" that have a Sum of Ranks larger than
+        * or equal to the one found (i.e., >= W).
+        */
+        if(RankSum >= W)
+            ++CountLarger;
+    };
+    /*****************************************************************
+    * The level of significance is the number of outcomes with a
+    * sum of ranks equal to or larger than the one found (W)
+    * divided by the total number of possible outcomes.
+    * The level is doubled to get the two-tailed result.
+    ******************************************************************/
+    p = 2 * ((double)CountLarger) / ((double)NumberOfPossibilities);
+    return p;
 }
 
 int
-main( int argc, char *argv[] )
-{
-	int i, n, m;
-	double W, p;
-	char prg_name[50];
-	sprintf( prg_name, "vgen_wilcoxtable V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg_name );
-
-	n = atoi( argv[1] );
-	m = 0;
-
-	for ( i = 1; i <= n; i++ ) m += i;
-
-	printf( "float *table%d(void)\n", n );
-	printf( "{\n" );
-	printf( "  float *table=NULL;\n" );
-	printf( "  table = (float *) malloc(%d*sizeof(float));\n", m );
-
-	for ( i = 0; i < m; i++ ) {
-		W = i;
-		p = LevelOfSignificanceWXMPSR( W, ( long int )n );
-		printf( "  table[%d]=%f;\n", i, p );
-	}
-
-	printf( "  return table;\n" );
-	printf( "}\n" );
-
-	return 0;
+main(int argc, char *argv[]) {
+    int i, n, m;
+    double W, p;
+    char prg_name[50];
+    sprintf(prg_name, "vgen_wilcoxtable V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg_name);
+    n = atoi(argv[1]);
+    m = 0;
+    for(i = 1; i <= n; i++)
+        m += i;
+    printf("float *table%d(void)\n", n);
+    printf("{\n");
+    printf("  float *table=NULL;\n");
+    printf("  table = (float *) malloc(%d*sizeof(float));\n", m);
+    for(i = 0; i < m; i++) {
+        W = i;
+        p = LevelOfSignificanceWXMPSR(W, (long int)n);
+        printf("  table[%d]=%f;\n", i, p);
+    }
+    printf("  return table;\n");
+    printf("}\n");
+    return 0;
 }
 
 

@@ -40,74 +40,62 @@
 
 extern char *getLipsiaVersion();
 
-int main ( int argc, char **argv )
-{
-	static VString id = "xxx";
-	static VOptionDescRec options[] = {
-		{
-			"id", VStringRepn, 1, ( VPointer ) &id,
-			VOptionalOpt, NULL, "Patient id code"
-		}
-	};
-	FILE *in_file, *out_file;
-	VAttrList list;
-	VAttrListPosn posn;
-	VImage src = NULL;
-	VString str = NULL;
-	int i;
-	// int day=0,month=0,year=0;
-	char prg_name[50];
-	sprintf( prg_name, "vanonym V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg_name );
-
-	/* Parse command line arguments: */
-	VParseFilterCmd ( VNumber ( options ), options, argc, argv, &in_file, &out_file );
-
-	/* Read the input file: */
-	list = VReadFile ( in_file, NULL );
-
-	if ( ! list ) exit ( 1 );
-
-	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & src );
-
-		VExtractAttr ( VImageAttrList( src ), "condition", NULL, VStringRepn, &str, FALSE );
-		VExtractAttr ( VImageAttrList( src ), "date", NULL, VStringRepn, &str, FALSE );
-		VExtractAttr ( VImageAttrList( src ), "origin", NULL, VStringRepn, &str, FALSE );
-		VExtractAttr ( VImageAttrList( src ), "location", NULL, VStringRepn, &str, FALSE );
-		VExtractAttr ( VImageAttrList( src ), "birth", NULL, VStringRepn, &str, FALSE );
-
-		VSetAttr( VImageAttrList( src ), "patient", NULL, VStringRepn, id );
-
-		/*
-		if (str1==NULL) {
-		  if (VGetAttr (VImageAttrList (src), "birth", NULL,
-		        VStringRepn, (VPointer) & str1) == VAttrFound) {
-		sscanf(str1,"%d.%d.%d",&day,&month,&year);
-		if (year < 1800 && year > 15) year += 1900;
-		VSetAttr(VImageAttrList(src),"birth",NULL,VLongRepn,(VLong)year);
-		fprintf(stderr," %s:  year of birth= %d\n",id,year);
-		  }
-		}
-		else
-		  VSetAttr(VImageAttrList(src),"birth",NULL,VLongRepn,(VLong)year);
-		*/
-
-		VSetAttrValue ( & posn, NULL, VImageRepn, src );
-	}
-
-	i = 0;
-
-	while ( VExtractAttr ( list, "history", NULL, VStringRepn, & str, FALSE ) && i < 25 ) {
-		i++;
-	}
-
-	/* Write the results to the output file: */
-	if ( ! VWriteFile ( out_file, list ) ) exit( 1 );
-
-	fprintf ( stderr, "%s: done.\n", argv[0] );
-	return 0;
+int main(int argc, char **argv) {
+    static VString id = "xxx";
+    static VOptionDescRec options[] = {
+        {
+            "id", VStringRepn, 1, (VPointer) &id,
+            VOptionalOpt, NULL, "Patient id code"
+        }
+    };
+    FILE *in_file, *out_file;
+    VAttrList list;
+    VAttrListPosn posn;
+    VImage src = NULL;
+    VString str = NULL;
+    int i;
+    // int day=0,month=0,year=0;
+    char prg_name[50];
+    sprintf(prg_name, "vanonym V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg_name);
+    /* Parse command line arguments: */
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+    /* Read the input file: */
+    list = VReadFile(in_file, NULL);
+    if(! list)
+        exit(1);
+    for(VFirstAttr(list, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & src);
+        VExtractAttr(VImageAttrList(src), "condition", NULL, VStringRepn, &str, FALSE);
+        VExtractAttr(VImageAttrList(src), "date", NULL, VStringRepn, &str, FALSE);
+        VExtractAttr(VImageAttrList(src), "origin", NULL, VStringRepn, &str, FALSE);
+        VExtractAttr(VImageAttrList(src), "location", NULL, VStringRepn, &str, FALSE);
+        VExtractAttr(VImageAttrList(src), "birth", NULL, VStringRepn, &str, FALSE);
+        VSetAttr(VImageAttrList(src), "patient", NULL, VStringRepn, id);
+        /*
+        if (str1==NULL) {
+          if (VGetAttr (VImageAttrList (src), "birth", NULL,
+                VStringRepn, (VPointer) & str1) == VAttrFound) {
+        sscanf(str1,"%d.%d.%d",&day,&month,&year);
+        if (year < 1800 && year > 15) year += 1900;
+        VSetAttr(VImageAttrList(src),"birth",NULL,VLongRepn,(VLong)year);
+        fprintf(stderr," %s:  year of birth= %d\n",id,year);
+          }
+        }
+        else
+          VSetAttr(VImageAttrList(src),"birth",NULL,VLongRepn,(VLong)year);
+        */
+        VSetAttrValue(& posn, NULL, VImageRepn, src);
+    }
+    i = 0;
+    while(VExtractAttr(list, "history", NULL, VStringRepn, & str, FALSE) && i < 25) {
+        i++;
+    }
+    /* Write the results to the output file: */
+    if(! VWriteFile(out_file, list))
+        exit(1);
+    fprintf(stderr, "%s: done.\n", argv[0]);
+    return 0;
 }

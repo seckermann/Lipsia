@@ -43,137 +43,113 @@
 extern char *getLipsiaVersion();
 
 int
-main ( int argc, char *argv[] )
-{
-	/* Command line options: */
-	static VString mat = NULL;
-	static VBoolean funconly = FALSE;
-	static VOptionDescRec  options[] = {
-		{"in", VStringRepn, 1, &mat, VRequiredOpt, 0, "Matfile"},
-	};
-	FILE *out_file;
-	VAttrList out_list;
-	VImage src = NULL;
-	VBit    *bit_pp   = NULL, *pbSRC = NULL;
-	VShort  *short_pp = NULL, *psSRC = NULL;
-	VUByte  *ubyte_pp = NULL, *puSRC = NULL;
-	VFloat  *float_pp = NULL, *pfSRC = NULL;
-	VDouble *double_pp = NULL, *pdSRC = NULL;
-	VString mode = NULL;
-	mxArray *SRC = NULL;
-	MATFile *fp;
-	int numdims = 0, *dims = NULL;
-	int bands = 0, rows = 0, cols = 0, pixels = 0;
-	const char *name = NULL;
-	char prg_name[50];
-	sprintf( prg_name, "mattov V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg_name );
-
-	/* Parse command line arguments and identify files: */
-	VParseFilterCmd ( VNumber ( options ), options, argc, argv, NULL /* &in_file */ , &out_file );
-
-	/* Creat outlist */
-	out_list = VCreateAttrList();
-
-	/* history */
-	VHistory( VNumber( options ), options, prg_name, &out_list, &out_list );
-
-	/* strings */
-	mode = ( VString )malloc( sizeof( char ) );
-	strcpy( mode, "r" );
-	fp = matOpen( mat, mode );
-
-	/* load data into mxarray */
-	name = ( const char * )malloc( sizeof( char ) * 50 );
-	SRC = matGetNextVariable( fp, &name );
-
-
-
-	/*******************************************************************
-	 *                                                                 *
-	 *                  L O O P over objects in matlab file            *
-	 *                                                                 *
-	 *******************************************************************/
-	while ( SRC != NULL ) {
-
-		numdims = mxGetNumberOfDimensions( SRC );
-		dims = ( int * )mxGetDimensions( SRC );
-
-		/* rows and columns */
-		rows = dims[1];
-		cols = dims[0];
-
-		if ( numdims > 2 ) bands = dims[2];
-		else bands = 1;
-
-		pixels = rows * cols * bands;
-
-		if ( numdims > 3 ) VError( "4-D arrays not yet supported" );
-
-		if ( mxIsComplex( SRC ) ) VError( "Complex data are not yet supported" );
-
-		/* Float ONLY */
-		if ( mxIsSingle( SRC ) ) {
-			src = VCreateImage( bands, rows, cols, VFloatRepn );
-			pfSRC    = ( VFloat * ) mxGetPr ( SRC );
-			float_pp = ( VFloat * ) VPixelPtr( src, 0, 0, 0 );
-			memcpy ( float_pp, pfSRC, sizeof ( VFloat ) * pixels );
-		}
-
-		/* Bit ONLY */
-		if ( mxIsLogical( SRC ) ) {
-			src = VCreateImage( bands, rows, cols, VBitRepn );
-			pbSRC  = ( VBit * ) mxGetPr ( SRC );
-			bit_pp = ( VBit * ) VPixelPtr( src, 0, 0, 0 );
-			memcpy ( bit_pp, pbSRC, sizeof ( VBit ) * pixels );
-		}
-
-		/* Short ONLY */
-		if ( mxIsInt16( SRC ) ) {
-			src = VCreateImage( bands, rows, cols, VShortRepn );
-			psSRC    = ( VShort * ) mxGetPr ( SRC );
-			short_pp = ( VShort * ) VPixelPtr( src, 0, 0, 0 );
-			memcpy ( short_pp, psSRC, sizeof ( VShort ) * pixels );
-		}
-
-		/* UByte ONLY */
-		if ( mxIsUint8( SRC ) ) {
-			src = VCreateImage( bands, rows, cols, VUByteRepn );
-			puSRC    = ( VUByte * ) mxGetPr ( SRC );
-			ubyte_pp = ( VUByte * ) VPixelPtr( src, 0, 0, 0 );
-			memcpy ( ubyte_pp, puSRC, sizeof ( VUByte ) * pixels );
-		}
-
-		/* Double ONLY */
-		if ( mxIsDouble( SRC ) ) {
-			src = VCreateImage( bands, rows, cols, VDoubleRepn );
-			pdSRC     = ( VDouble * ) mxGetPr ( SRC );
-			double_pp = ( VDouble * ) VPixelPtr( src, 0, 0, 0 );
-			memcpy ( double_pp, pdSRC, sizeof ( VDouble ) * pixels );
-		}
-
-
-
-		/* Append to outlist */
-		VSetAttr( VImageAttrList ( src ), "name", NULL, VStringRepn, ( VString )name );
-		VSetAttr( VImageAttrList ( src ), "modality", NULL, VStringRepn, ( VString )name );
-		VAppendAttr( out_list, "image", NULL, VImageRepn, src );
-
-		/* load next variable */
-		mxDestroyArray( SRC );
-		SRC = matGetNextVariable( fp, &name );
-	}
-
-
-	/* Terminate */
-	matClose( fp );
-
-	/* Write out the results: */
-	if ( ! VWriteFile ( out_file, out_list ) ) exit ( 1 );
-
-	fprintf( stderr, "done.\n" );
-	return 0;
+main(int argc, char *argv[]) {
+    /* Command line options: */
+    static VString mat = NULL;
+    static VBoolean funconly = FALSE;
+    static VOptionDescRec  options[] = {
+        {"in", VStringRepn, 1, &mat, VRequiredOpt, 0, "Matfile"},
+    };
+    FILE *out_file;
+    VAttrList out_list;
+    VImage src = NULL;
+    VBit    *bit_pp   = NULL, *pbSRC = NULL;
+    VShort  *short_pp = NULL, *psSRC = NULL;
+    VUByte  *ubyte_pp = NULL, *puSRC = NULL;
+    VFloat  *float_pp = NULL, *pfSRC = NULL;
+    VDouble *double_pp = NULL, *pdSRC = NULL;
+    VString mode = NULL;
+    mxArray *SRC = NULL;
+    MATFile *fp;
+    int numdims = 0, *dims = NULL;
+    int bands = 0, rows = 0, cols = 0, pixels = 0;
+    const char *name = NULL;
+    char prg_name[50];
+    sprintf(prg_name, "mattov V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg_name);
+    /* Parse command line arguments and identify files: */
+    VParseFilterCmd(VNumber(options), options, argc, argv, NULL /* &in_file */ , &out_file);
+    /* Creat outlist */
+    out_list = VCreateAttrList();
+    /* history */
+    VHistory(VNumber(options), options, prg_name, &out_list, &out_list);
+    /* strings */
+    mode = (VString)malloc(sizeof(char));
+    strcpy(mode, "r");
+    fp = matOpen(mat, mode);
+    /* load data into mxarray */
+    name = (const char *)malloc(sizeof(char) * 50);
+    SRC = matGetNextVariable(fp, &name);
+    /*******************************************************************
+     *                                                                 *
+     *                  L O O P over objects in matlab file            *
+     *                                                                 *
+     *******************************************************************/
+    while(SRC != NULL) {
+        numdims = mxGetNumberOfDimensions(SRC);
+        dims = (int *)mxGetDimensions(SRC);
+        /* rows and columns */
+        rows = dims[1];
+        cols = dims[0];
+        if(numdims > 2)
+            bands = dims[2];
+        else
+            bands = 1;
+        pixels = rows * cols * bands;
+        if(numdims > 3)
+            VError("4-D arrays not yet supported");
+        if(mxIsComplex(SRC))
+            VError("Complex data are not yet supported");
+        /* Float ONLY */
+        if(mxIsSingle(SRC)) {
+            src = VCreateImage(bands, rows, cols, VFloatRepn);
+            pfSRC    = (VFloat *) mxGetPr(SRC);
+            float_pp = (VFloat *) VPixelPtr(src, 0, 0, 0);
+            memcpy(float_pp, pfSRC, sizeof(VFloat) * pixels);
+        }
+        /* Bit ONLY */
+        if(mxIsLogical(SRC)) {
+            src = VCreateImage(bands, rows, cols, VBitRepn);
+            pbSRC  = (VBit *) mxGetPr(SRC);
+            bit_pp = (VBit *) VPixelPtr(src, 0, 0, 0);
+            memcpy(bit_pp, pbSRC, sizeof(VBit) * pixels);
+        }
+        /* Short ONLY */
+        if(mxIsInt16(SRC)) {
+            src = VCreateImage(bands, rows, cols, VShortRepn);
+            psSRC    = (VShort *) mxGetPr(SRC);
+            short_pp = (VShort *) VPixelPtr(src, 0, 0, 0);
+            memcpy(short_pp, psSRC, sizeof(VShort) * pixels);
+        }
+        /* UByte ONLY */
+        if(mxIsUint8(SRC)) {
+            src = VCreateImage(bands, rows, cols, VUByteRepn);
+            puSRC    = (VUByte *) mxGetPr(SRC);
+            ubyte_pp = (VUByte *) VPixelPtr(src, 0, 0, 0);
+            memcpy(ubyte_pp, puSRC, sizeof(VUByte) * pixels);
+        }
+        /* Double ONLY */
+        if(mxIsDouble(SRC)) {
+            src = VCreateImage(bands, rows, cols, VDoubleRepn);
+            pdSRC     = (VDouble *) mxGetPr(SRC);
+            double_pp = (VDouble *) VPixelPtr(src, 0, 0, 0);
+            memcpy(double_pp, pdSRC, sizeof(VDouble) * pixels);
+        }
+        /* Append to outlist */
+        VSetAttr(VImageAttrList(src), "name", NULL, VStringRepn, (VString)name);
+        VSetAttr(VImageAttrList(src), "modality", NULL, VStringRepn, (VString)name);
+        VAppendAttr(out_list, "image", NULL, VImageRepn, src);
+        /* load next variable */
+        mxDestroyArray(SRC);
+        SRC = matGetNextVariable(fp, &name);
+    }
+    /* Terminate */
+    matClose(fp);
+    /* Write out the results: */
+    if(! VWriteFile(out_file, out_list))
+        exit(1);
+    fprintf(stderr, "done.\n");
+    return 0;
 }
 
 

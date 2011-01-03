@@ -54,54 +54,46 @@
 * The execution-time of this program can easily outrun your
 * patience.
 */
-double LevelOfSignificanceWXMPSR( double Winput, long int N )
-{
-	unsigned long int W, MaximalW, NumberOfPossibilities, CountLarger;
-	unsigned long int i, RankSum, j;
-	double p;
-
-	/* Determine Wmax, i.e., work with the largest Rank Sum */
-	MaximalW = N * ( N + 1 ) / 2;
-
-	if( Winput < MaximalW / 2 )Winput = MaximalW - Winput;
-
-	W = Winput;    /* Convert to long int */
-
-	if( W != Winput )++W; /* Increase to next full integer */
-
-	/* The total number of possible outcomes is 2**N  */
-	NumberOfPossibilities = pow( 2, N );
-
-	/* Initialize and loop. The loop-interior will be run 2**N times. */
-	CountLarger = 0;
-
-	/* Generate all distributions of sign over ranks as bit-patterns (i). */
-	for( i = 0; i < NumberOfPossibilities; ++i ) {
-		RankSum = 0;
-
-		/*
-		   Shift "sign" bits out of i to determine the Sum of Ranks (j).
-		*/
-		for( j = 0; j < N; ++j ) {
-			if( ( i >> j ) & 1 )RankSum += j + 1;
-		};
-
-		/*
-		* Count the number of "samples" that have a Sum of Ranks larger than
-		* or equal to the one found (i.e., >= W).
-		*/
-		if( RankSum >= W )++CountLarger;
-	};
-
-	/*****************************************************************
-	* The level of significance is the number of outcomes with a
-	* sum of ranks equal to or larger than the one found (W)
-	* divided by the total number of possible outcomes.
-	* The level is doubled to get the two-tailed result.
-	******************************************************************/
-	p = 2 * ( ( double )CountLarger ) / ( ( double )NumberOfPossibilities );
-
-	return p;
+double LevelOfSignificanceWXMPSR(double Winput, long int N) {
+    unsigned long int W, MaximalW, NumberOfPossibilities, CountLarger;
+    unsigned long int i, RankSum, j;
+    double p;
+    /* Determine Wmax, i.e., work with the largest Rank Sum */
+    MaximalW = N * (N + 1) / 2;
+    if(Winput < MaximalW / 2)
+        Winput = MaximalW - Winput;
+    W = Winput;    /* Convert to long int */
+    if(W != Winput)
+        ++W;   /* Increase to next full integer */
+    /* The total number of possible outcomes is 2**N  */
+    NumberOfPossibilities = pow(2, N);
+    /* Initialize and loop. The loop-interior will be run 2**N times. */
+    CountLarger = 0;
+    /* Generate all distributions of sign over ranks as bit-patterns (i). */
+    for(i = 0; i < NumberOfPossibilities; ++i) {
+        RankSum = 0;
+        /*
+           Shift "sign" bits out of i to determine the Sum of Ranks (j).
+        */
+        for(j = 0; j < N; ++j) {
+            if((i >> j) & 1)
+                RankSum += j + 1;
+        };
+        /*
+        * Count the number of "samples" that have a Sum of Ranks larger than
+        * or equal to the one found (i.e., >= W).
+        */
+        if(RankSum >= W)
+            ++CountLarger;
+    };
+    /*****************************************************************
+    * The level of significance is the number of outcomes with a
+    * sum of ranks equal to or larger than the one found (W)
+    * divided by the total number of possible outcomes.
+    * The level is doubled to get the two-tailed result.
+    ******************************************************************/
+    p = 2 * ((double)CountLarger) / ((double)NumberOfPossibilities);
+    return p;
 }
 
 /*

@@ -35,78 +35,66 @@
 #include <via.h>
 
 VDictEntry ConvDict[] = {
-	{ "vox2tal", 0 },
-	{ "tal2vox", 1 },
-	{ NULL }
+    { "vox2tal", 0 },
+    { "tal2vox", 1 },
+    { NULL }
 };
 
-extern void VTal2Pixel( float [3], float [3], float [3], float, float, float, int *, int *, int * );
-extern void VPixel2Tal( float [3], float [3], float [3], int, int, int, float *, float *, float * );
+extern void VTal2Pixel(float [3], float [3], float [3], float, float, float, int *, int *, int *);
+extern void VPixel2Tal(float [3], float [3], float [3], int, int, int, float *, float *, float *);
 extern char *getLipsiaVersion();
 
 int
-main ( int argc, char *argv[] )
-{
-	static VFloat reso = 1;
-	static VShort type = 0;
-	static VOptionDescRec  options[] = {
-		{"resolution", VFloatRepn, 1, ( VPointer ) &reso, VOptionalOpt, NULL, "Voxel resolution in mm"},
-		{
-			"type", VShortRepn, 1, ( VPointer ) &type, VOptionalOpt, ConvDict,
-			"Type of conversion, 'voxel to Talairach' vs. 'Talairach to voxel'"
-		}
-	};
-	FILE *in_file;
-	char *line;
-	int   n = 80;
-	int   b, r, c;
-	float x, y, z;
-	float ca[3], extent[3], voxel[3];
-	char prg_name[50];
-	sprintf( prg_name, "vconvcoord V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg_name );
-
-
-	VParseFilterCmd ( VNumber ( options ), options, argc, argv, &in_file, NULL );
-
-	extent[0] = 135;
-	extent[1] = 175;
-	extent[2] = 118;
-
-	voxel[0] = reso;
-	voxel[1] = reso;
-	voxel[2] = reso;
-
-	ca[0] = 80;
-	ca[1] = 81;
-	ca[2] = 90;
-
-	line = ( char * ) VMalloc( 80 );
-
-	while ( fgets( line, n, in_file ) ) {
-		if ( strlen( line ) < 2 ) continue;
-
-		if ( line[0] == '#' ) continue;
-
-		switch ( type ) {
-		case 0:
-			sscanf( line, "%d %d %d", &c, &r, &b );
-			VPixel2Tal( ca, voxel, extent, b, r, c, &x, &y, &z );
-			fprintf( stderr, " %3d  %3d  %3d:   %.0f, %.0f, %.0f\n", c, r, b, x, y, z );
-			break;
-
-		case 1:
-			sscanf( line, "%f %f %f", &x, &y, &z );
-			VTal2Pixel( ca, voxel, extent, x, y, z, &b, &r, &c );
-			fprintf( stderr, " %8.2f %8.2f %8.2f:   %3d  %3d  %3d\n", x, y, z, c, r, b );
-			break;
-		default:
-			VError( "illegal conversion type" );
-		}
-	}
-
-	fclose( in_file );
-
-	return 0;
+main(int argc, char *argv[]) {
+    static VFloat reso = 1;
+    static VShort type = 0;
+    static VOptionDescRec  options[] = {
+        {"resolution", VFloatRepn, 1, (VPointer) &reso, VOptionalOpt, NULL, "Voxel resolution in mm"},
+        {
+            "type", VShortRepn, 1, (VPointer) &type, VOptionalOpt, ConvDict,
+            "Type of conversion, 'voxel to Talairach' vs. 'Talairach to voxel'"
+        }
+    };
+    FILE *in_file;
+    char *line;
+    int   n = 80;
+    int   b, r, c;
+    float x, y, z;
+    float ca[3], extent[3], voxel[3];
+    char prg_name[50];
+    sprintf(prg_name, "vconvcoord V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg_name);
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, NULL);
+    extent[0] = 135;
+    extent[1] = 175;
+    extent[2] = 118;
+    voxel[0] = reso;
+    voxel[1] = reso;
+    voxel[2] = reso;
+    ca[0] = 80;
+    ca[1] = 81;
+    ca[2] = 90;
+    line = (char *) VMalloc(80);
+    while(fgets(line, n, in_file)) {
+        if(strlen(line) < 2)
+            continue;
+        if(line[0] == '#')
+            continue;
+        switch(type) {
+        case 0:
+            sscanf(line, "%d %d %d", &c, &r, &b);
+            VPixel2Tal(ca, voxel, extent, b, r, c, &x, &y, &z);
+            fprintf(stderr, " %3d  %3d  %3d:   %.0f, %.0f, %.0f\n", c, r, b, x, y, z);
+            break;
+        case 1:
+            sscanf(line, "%f %f %f", &x, &y, &z);
+            VTal2Pixel(ca, voxel, extent, x, y, z, &b, &r, &c);
+            fprintf(stderr, " %8.2f %8.2f %8.2f:   %3d  %3d  %3d\n", x, y, z, c, r, b);
+            break;
+        default:
+            VError("illegal conversion type");
+        }
+    }
+    fclose(in_file);
+    return 0;
 }

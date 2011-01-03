@@ -33,49 +33,39 @@
 
 
 void
-VApplyMinval( VAttrList list, VShort minval )
-{
-	VImage src = NULL;
-	VAttrListPosn posn;
-	int r, c, j, n, m;
-	double sum, nx, u;
-
-
-	/* apply minval */
-	m = 0;
-
-	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & src );
-
-		if ( VPixelRepn( src ) != VShortRepn ) continue;
-
-		if ( VImageNRows( src ) < 2 ) continue;
-
-		n = VImageNBands( src );
-
-		for ( r = 0; r < VImageNRows( src ); r++ ) {
-			for ( c = 0; c < VImageNColumns( src ); c++ ) {
-
-				sum = nx = 0;
-
-				for ( j = 0; j < n; j++ ) {
-					u = ( double )VPixel( src, j, r, c, VShort );
-					sum += u;
-					nx++;
-				}
-
-				if ( sum / nx < minval ) {
-					for ( j = 0; j < n; j++ ) VPixel( src, j, r, c, VShort ) = 0;
-
-					continue;
-				}
-
-				m++;
-			}
-		}
-	}
-
-	if ( m < 1 ) VError( "No voxels above threshold 'minval', use lower threshold" );
+VApplyMinval(VAttrList list, VShort minval) {
+    VImage src = NULL;
+    VAttrListPosn posn;
+    int r, c, j, n, m;
+    double sum, nx, u;
+    /* apply minval */
+    m = 0;
+    for(VFirstAttr(list, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & src);
+        if(VPixelRepn(src) != VShortRepn)
+            continue;
+        if(VImageNRows(src) < 2)
+            continue;
+        n = VImageNBands(src);
+        for(r = 0; r < VImageNRows(src); r++) {
+            for(c = 0; c < VImageNColumns(src); c++) {
+                sum = nx = 0;
+                for(j = 0; j < n; j++) {
+                    u = (double)VPixel(src, j, r, c, VShort);
+                    sum += u;
+                    nx++;
+                }
+                if(sum / nx < minval) {
+                    for(j = 0; j < n; j++)
+                        VPixel(src, j, r, c, VShort) = 0;
+                    continue;
+                }
+                m++;
+            }
+        }
+    }
+    if(m < 1)
+        VError("No voxels above threshold 'minval', use lower threshold");
 }

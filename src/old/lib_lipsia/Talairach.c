@@ -65,42 +65,36 @@ Gabriele Lohmann, MPI-CBS
 \param *z     output z-Talairach coordinate
 */
 void
-VPixel2Tal_Flt( float ca[3], float voxel[3], float extent[3],
-				float band, float row, float col, float *x, float *y, float *z )
-{
-	float bx, rx, cx;
-	float u = 0, v = 0, w = 0;
-	float xscale = 0, yscale = 0, zscale = 0;
-	float vox[3];
-	int i;
-
-	for ( i = 0; i < 3; i++ ) vox[i] = voxel[i];
-
-	*x = 0;
-	*y = 0;
-	*z = 0;
-
-	/* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
-	/* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
-	if ( ca[0] > 70 && voxel[0] > 1.7 )
-		for ( i = 0; i < 3; i++ ) vox[i] = 1;
-
-	/* do transformation */
-	cx = ( float )col  * voxel[0];
-	rx = ( float )row  * voxel[1];
-	bx = ( float )band * voxel[2];
-
-	xscale =  135.0 / extent[0];
-	yscale =  175.0 / extent[1];
-	zscale =  120.0 / extent[2];
-
-	u = ( cx  - ca[0] * vox[0] ) * xscale;
-	v = ( ca[1] * vox[1] - rx )  * yscale;
-	w = ( ca[2] * vox[2] - bx )  * zscale;
-
-	*x = u;
-	*y = v;
-	*z = w;
+VPixel2Tal_Flt(float ca[3], float voxel[3], float extent[3],
+               float band, float row, float col, float *x, float *y, float *z) {
+    float bx, rx, cx;
+    float u = 0, v = 0, w = 0;
+    float xscale = 0, yscale = 0, zscale = 0;
+    float vox[3];
+    int i;
+    for(i = 0; i < 3; i++)
+        vox[i] = voxel[i];
+    *x = 0;
+    *y = 0;
+    *z = 0;
+    /* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
+    /* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
+    if(ca[0] > 70 && voxel[0] > 1.7)
+        for(i = 0; i < 3; i++)
+            vox[i] = 1;
+    /* do transformation */
+    cx = (float)col  * voxel[0];
+    rx = (float)row  * voxel[1];
+    bx = (float)band * voxel[2];
+    xscale =  135.0 / extent[0];
+    yscale =  175.0 / extent[1];
+    zscale =  120.0 / extent[2];
+    u = (cx  - ca[0] * vox[0]) * xscale;
+    v = (ca[1] * vox[1] - rx)  * yscale;
+    w = (ca[2] * vox[2] - bx)  * zscale;
+    *x = u;
+    *y = v;
+    *z = w;
 }
 
 
@@ -118,38 +112,32 @@ VPixel2Tal_Flt( float ca[3], float voxel[3], float extent[3],
 \param *row   voxel row address
 \param *col   voxel column address
 */
-void VTal2Pixel_Flt( float ca[3], float voxel[3], float extent[3],
-					 float x, float y, float z,
-					 float *band, float *row, float *col )
-{
-	float xscale, yscale, zscale;
-	float u, v, w;
-	float vox[3];
-	int i;
-
-	for ( i = 0; i < 3; i++ ) vox[i] = voxel[i];
-
-	/* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
-	/* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
-	if ( ca[0] > 70 && voxel[0] > 1.7 )
-		for ( i = 0; i < 3; i++ ) vox[i] = 1;
-
-
-	xscale =  135.0 / extent[0];
-	yscale =  175.0 / extent[1];
-	zscale =  120.0 / extent[2];
-
-	u = x / xscale + ca[0] * vox[0];
-	v = ca[1] * vox[1] - y / yscale;
-	w = ca[2] * vox[2] - z / zscale;
-
-	u /= voxel[0];
-	v /= voxel[1];
-	w /= voxel[2];
-
-	*col  = u;
-	*row  = v;
-	*band = w;
+void VTal2Pixel_Flt(float ca[3], float voxel[3], float extent[3],
+                    float x, float y, float z,
+                    float *band, float *row, float *col) {
+    float xscale, yscale, zscale;
+    float u, v, w;
+    float vox[3];
+    int i;
+    for(i = 0; i < 3; i++)
+        vox[i] = voxel[i];
+    /* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
+    /* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
+    if(ca[0] > 70 && voxel[0] > 1.7)
+        for(i = 0; i < 3; i++)
+            vox[i] = 1;
+    xscale =  135.0 / extent[0];
+    yscale =  175.0 / extent[1];
+    zscale =  120.0 / extent[2];
+    u = x / xscale + ca[0] * vox[0];
+    v = ca[1] * vox[1] - y / yscale;
+    w = ca[2] * vox[2] - z / zscale;
+    u /= voxel[0];
+    v /= voxel[1];
+    w /= voxel[2];
+    *col  = u;
+    *row  = v;
+    *band = w;
 }
 
 
@@ -167,42 +155,36 @@ void VTal2Pixel_Flt( float ca[3], float voxel[3], float extent[3],
 \param *z     output z-Talairach coordinate
 */
 void
-VPixel2Tal( float ca[3], float voxel[3], float extent[3],
-			int band, int row, int col, float *x, float *y, float *z )
-{
-	float bx, rx, cx;
-	float u = 0, v = 0, w = 0;
-	float xscale = 0, yscale = 0, zscale = 0;
-	float vox[3];
-	int i;
-
-	for ( i = 0; i < 3; i++ ) vox[i] = voxel[i];
-
-	*x = 0;
-	*y = 0;
-	*z = 0;
-
-	/* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
-	/* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
-	if ( ca[0] > 70 && voxel[0] > 1.7 )
-		for ( i = 0; i < 3; i++ ) vox[i] = 1;
-
-	/* do transformation */
-	cx = ( float )col  * voxel[0];
-	rx = ( float )row  * voxel[1];
-	bx = ( float )band * voxel[2];
-
-	xscale =  135.0 / extent[0];
-	yscale =  175.0 / extent[1];
-	zscale =  120.0 / extent[2];
-
-	u = ( cx  - ca[0] * vox[0] ) * xscale;
-	v = ( ca[1] * vox[1] - rx )  * yscale;
-	w = ( ca[2] * vox[2] - bx )  * zscale;
-
-	*x = u;
-	*y = v;
-	*z = w;
+VPixel2Tal(float ca[3], float voxel[3], float extent[3],
+           int band, int row, int col, float *x, float *y, float *z) {
+    float bx, rx, cx;
+    float u = 0, v = 0, w = 0;
+    float xscale = 0, yscale = 0, zscale = 0;
+    float vox[3];
+    int i;
+    for(i = 0; i < 3; i++)
+        vox[i] = voxel[i];
+    *x = 0;
+    *y = 0;
+    *z = 0;
+    /* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
+    /* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
+    if(ca[0] > 70 && voxel[0] > 1.7)
+        for(i = 0; i < 3; i++)
+            vox[i] = 1;
+    /* do transformation */
+    cx = (float)col  * voxel[0];
+    rx = (float)row  * voxel[1];
+    bx = (float)band * voxel[2];
+    xscale =  135.0 / extent[0];
+    yscale =  175.0 / extent[1];
+    zscale =  120.0 / extent[2];
+    u = (cx  - ca[0] * vox[0]) * xscale;
+    v = (ca[1] * vox[1] - rx)  * yscale;
+    w = (ca[2] * vox[2] - bx)  * zscale;
+    *x = u;
+    *y = v;
+    *z = w;
 }
 
 
@@ -220,69 +202,58 @@ VPixel2Tal( float ca[3], float voxel[3], float extent[3],
 \param *row   voxel row address
 \param *col   voxel column address
 */
-void VTal2Pixel( float ca[3], float voxel[3], float extent[3],
-				 float x, float y, float z,
-				 int *band, int *row, int *col )
-{
-	float xscale, yscale, zscale;
-	float u, v, w;
-	float vox[3];
-	int i;
-
-	for ( i = 0; i < 3; i++ ) vox[i] = voxel[i];
-
-	/* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
-	/* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
-	if ( ca[0] > 70 && voxel[0] > 1.7 )
-		for ( i = 0; i < 3; i++ ) vox[i] = 1;
-
-
-	xscale =  135.0 / extent[0];
-	yscale =  175.0 / extent[1];
-	zscale =  120.0 / extent[2];
-
-	u = x / xscale + ca[0] * vox[0];
-	v = ca[1] * vox[1] - y / yscale;
-	w = ca[2] * vox[2] - z / zscale;
-
-	u /= voxel[0];
-	v /= voxel[1];
-	w /= voxel[2];
-
-	*col  = VRint( u );
-	*row  = VRint( v );
-	*band = VRint( w );
+void VTal2Pixel(float ca[3], float voxel[3], float extent[3],
+                float x, float y, float z,
+                int *band, int *row, int *col) {
+    float xscale, yscale, zscale;
+    float u, v, w;
+    float vox[3];
+    int i;
+    for(i = 0; i < 3; i++)
+        vox[i] = voxel[i];
+    /* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
+    /* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
+    if(ca[0] > 70 && voxel[0] > 1.7)
+        for(i = 0; i < 3; i++)
+            vox[i] = 1;
+    xscale =  135.0 / extent[0];
+    yscale =  175.0 / extent[1];
+    zscale =  120.0 / extent[2];
+    u = x / xscale + ca[0] * vox[0];
+    v = ca[1] * vox[1] - y / yscale;
+    w = ca[2] * vox[2] - z / zscale;
+    u /= voxel[0];
+    v /= voxel[1];
+    w /= voxel[2];
+    *col  = VRint(u);
+    *row  = VRint(v);
+    *band = VRint(w);
 }
 
 
 void
-VPixel2MNI( float ca[3], float voxel[3],
-			int band, int row, int col, float *x, float *y, float *z )
-{
-	float bx, rx, cx;
-	float u = 0, v = 0, w = 0;
-	float vox[3];
-	int i;
-
-	*x = *y = *z = 0;
-
-	/* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
-	/* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
-	for ( i = 0; i < 3; i++ ) vox[i] = voxel[i];
-
-	if ( ca[0] > 70 && voxel[0] > 1.7 )
-		for ( i = 0; i < 3; i++ ) vox[i] = 1;
-
-	/* do transformation */
-	cx = ( float )col  * voxel[0];
-	rx = ( float )row  * voxel[1];
-	bx = ( float )band * voxel[2];
-
-	u = ( cx  - ca[0] * vox[0] );
-	v = ( ca[1] * vox[1] - rx );
-	w = ( ca[2] * vox[2] - bx );
-
-	*x = u;
-	*y = v;
-	*z = w;
+VPixel2MNI(float ca[3], float voxel[3],
+           int band, int row, int col, float *x, float *y, float *z) {
+    float bx, rx, cx;
+    float u = 0, v = 0, w = 0;
+    float vox[3];
+    int i;
+    *x = *y = *z = 0;
+    /* check consistency, is CA/CP given in voxel-coordinates or in mm ? */
+    /* Attention!!!!!! This has to be changed in the future !!!!!!!!!!!!!!!!!!!!!! */
+    for(i = 0; i < 3; i++)
+        vox[i] = voxel[i];
+    if(ca[0] > 70 && voxel[0] > 1.7)
+        for(i = 0; i < 3; i++)
+            vox[i] = 1;
+    /* do transformation */
+    cx = (float)col  * voxel[0];
+    rx = (float)row  * voxel[1];
+    bx = (float)band * voxel[2];
+    u = (cx  - ca[0] * vox[0]);
+    v = (ca[1] * vox[1] - rx);
+    w = (ca[2] * vox[2] - bx);
+    *x = u;
+    *y = v;
+    *z = w;
 }

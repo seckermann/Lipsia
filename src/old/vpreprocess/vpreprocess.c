@@ -38,64 +38,55 @@
 extern char *getLipsiaVersion();
 
 int
-main( int argc, char *argv[] )
-{
-	static VDouble  fwhm     =  0;
-	static VFloat   high     =  0;
-	static VFloat   low      =  0;
-	static VBoolean stop     =  FALSE;
-	static VFloat   sharp    =  0.8;
-	static VShort   minval   =  0;
-	static VOptionDescRec  options[] = {
-		{"fwhm", VDoubleRepn, 1, ( VPointer ) &fwhm, VOptionalOpt, NULL, "Spatial filter: FWHM in mm"},
-		{"high", VFloatRepn, 1, ( VPointer ) &high, VOptionalOpt, NULL, "Temporal Filter: Cutoff for high pass/stop in seconds"},
-		{"low",  VFloatRepn, 1, ( VPointer ) &low, VOptionalOpt, NULL, "Temporal Filter: Cutoff for low pass/stop in seconds"},
-		{"stop",  VBooleanRepn, 1, ( VPointer ) &stop, VOptionalOpt, NULL, "Temporal Filter: Stop insted of pass filter"},
-		{"minval", VShortRepn, 1, ( VPointer ) &minval, VOptionalOpt, NULL, "Signal threshold"}
-	};
-	FILE *in_file = NULL, *out_file = NULL;
-	VAttrList list = NULL;
-	extern void VSpatialFilter( VAttrList, VDouble );
-	extern void VApplyMinval( VAttrList, VShort );
-	extern void VFreqFilter( VAttrList, VFloat, VFloat, VBoolean, VFloat );
-	char prg[50];
-	sprintf( prg, "vpreprocess V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg );
-
-	VParseFilterCmd( VNumber( options ), options, argc, argv, &in_file, &out_file );
-
-	if ( fwhm < 0 ) VError( "fwhm must be non-negative" );
-
-	if ( low > high && high > 0 ) VError( "low must be less than high" );
-
-	if ( low < 0 || high < 0 ) VError( "high and low must be non-negative" );
-
-	if ( sharp < 0.01 ) VError( " sharp too small", sharp );
-
-
-	/*
-	** read the file
-	*/
-	if ( ! ( list = VReadFile ( in_file, NULL ) ) ) exit ( 1 );
-
-	fclose( in_file );
-
-
-	if ( fwhm > 0 ) VSpatialFilter( list, fwhm );
-
-	if ( minval > 0 ) VApplyMinval( list, minval );
-
-	if ( low > 0 || high > 0 ) VFreqFilter( list, high, low, stop, sharp );
-
-
-	/*
-	** output
-	*/
-	VHistory( VNumber( options ), options, prg, &list, &list );
-
-	if ( ! VWriteFile ( out_file, list ) ) exit ( 1 );
-
-	fprintf ( stderr, "%s: done.\n", argv[0] );
-	exit( 0 );
+main(int argc, char *argv[]) {
+    static VDouble  fwhm     =  0;
+    static VFloat   high     =  0;
+    static VFloat   low      =  0;
+    static VBoolean stop     =  FALSE;
+    static VFloat   sharp    =  0.8;
+    static VShort   minval   =  0;
+    static VOptionDescRec  options[] = {
+        {"fwhm", VDoubleRepn, 1, (VPointer) &fwhm, VOptionalOpt, NULL, "Spatial filter: FWHM in mm"},
+        {"high", VFloatRepn, 1, (VPointer) &high, VOptionalOpt, NULL, "Temporal Filter: Cutoff for high pass/stop in seconds"},
+        {"low",  VFloatRepn, 1, (VPointer) &low, VOptionalOpt, NULL, "Temporal Filter: Cutoff for low pass/stop in seconds"},
+        {"stop",  VBooleanRepn, 1, (VPointer) &stop, VOptionalOpt, NULL, "Temporal Filter: Stop insted of pass filter"},
+        {"minval", VShortRepn, 1, (VPointer) &minval, VOptionalOpt, NULL, "Signal threshold"}
+    };
+    FILE *in_file = NULL, *out_file = NULL;
+    VAttrList list = NULL;
+    extern void VSpatialFilter(VAttrList, VDouble);
+    extern void VApplyMinval(VAttrList, VShort);
+    extern void VFreqFilter(VAttrList, VFloat, VFloat, VBoolean, VFloat);
+    char prg[50];
+    sprintf(prg, "vpreprocess V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg);
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+    if(fwhm < 0)
+        VError("fwhm must be non-negative");
+    if(low > high && high > 0)
+        VError("low must be less than high");
+    if(low < 0 || high < 0)
+        VError("high and low must be non-negative");
+    if(sharp < 0.01)
+        VError(" sharp too small", sharp);
+    /*
+    ** read the file
+    */
+    if(!(list = VReadFile(in_file, NULL)))
+        exit(1);
+    fclose(in_file);
+    if(fwhm > 0)
+        VSpatialFilter(list, fwhm);
+    if(minval > 0)
+        VApplyMinval(list, minval);
+    if(low > 0 || high > 0)
+        VFreqFilter(list, high, low, stop, sharp);
+    /*
+    ** output
+    */
+    VHistory(VNumber(options), options, prg, &list, &list);
+    if(! VWriteFile(out_file, list))
+        exit(1);
+    fprintf(stderr, "%s: done.\n", argv[0]);
+    exit(0);
 }

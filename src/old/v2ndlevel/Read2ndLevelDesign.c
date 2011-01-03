@@ -10,7 +10,7 @@
 #include <math.h>
 #include <ctype.h>
 
-extern int VStringToken ( char *, char *, int, int );
+extern int VStringToken(char *, char *, int, int);
 
 #define LEN  10000
 
@@ -19,77 +19,62 @@ extern int VStringToken ( char *, char *, int, int );
 ** read a 2nd level design file
 */
 VImage
-VRead2ndLevel ( FILE *fp )
-{
-	VImage dest = NULL;
-	int i, j, nrows, ncols;
-	float val;
-	char buf[LEN], token[32];
-
-	nrows = ncols = 0;
-
-	while ( !feof( fp ) ) {
-		memset( buf, 0, LEN );
-
-		if ( !fgets( buf, LEN, fp ) ) break;
-
-		if ( strlen( buf ) < 1 ) continue;
-
-		if ( buf[0] == '%' ) continue;
-
-		j = 0;
-
-		while ( VStringToken( buf, token, j, 30 ) ) {
-			if ( !sscanf( token, "%f", &val ) )
-				VError( "illegal input string: %s", token );
-
-			j++;
-		}
-
-		if ( ncols == 0 ) ncols = j;
-
-		if ( j < 1 ) continue;
-		else if ( ncols != j ) VError( " inconsistent number of columns in row %d", nrows + 1 );
-
-		nrows++;
-	}
-
-	rewind( fp );
-
-
-	dest = VCreateImage( 1, nrows, ncols, VFloatRepn );
-	VFillImage( dest, VAllBands, 0 );
-	VSetAttr( VImageAttrList( dest ), "modality", NULL, VStringRepn, "X" );
-	VSetAttr( VImageAttrList( dest ), "name", NULL, VStringRepn, "X" );
-	VSetAttr( VImageAttrList ( dest ), "ntimesteps", NULL, VLongRepn, ( VLong )VImageNRows( dest ) );
-	VSetAttr( VImageAttrList( dest ), "nsessions", NULL, VShortRepn, ( VShort )1 );
-	VSetAttr( VImageAttrList( dest ), "designtype", NULL, VShortRepn, ( VShort )2 );
-
-	i = 0;
-
-	while ( !feof( fp ) ) {
-		memset( buf, 0, LEN );
-
-		if ( !fgets( buf, LEN, fp ) ) break;
-
-		if ( strlen( buf ) < 1 ) continue;
-
-		if ( buf[0] == '%' ) continue;
-
-		j = 0;
-
-		while ( VStringToken( buf, token, j, 30 ) ) {
-			sscanf( token, "%f", &val );
-			VPixel( dest, 0, i, j, VFloat ) = val;
-			j++;
-		}
-
-		if ( j < 1 ) continue;
-
-		i++;
-	}
-
-	return dest;
+VRead2ndLevel(FILE *fp) {
+    VImage dest = NULL;
+    int i, j, nrows, ncols;
+    float val;
+    char buf[LEN], token[32];
+    nrows = ncols = 0;
+    while(!feof(fp)) {
+        memset(buf, 0, LEN);
+        if(!fgets(buf, LEN, fp))
+            break;
+        if(strlen(buf) < 1)
+            continue;
+        if(buf[0] == '%')
+            continue;
+        j = 0;
+        while(VStringToken(buf, token, j, 30)) {
+            if(!sscanf(token, "%f", &val))
+                VError("illegal input string: %s", token);
+            j++;
+        }
+        if(ncols == 0)
+            ncols = j;
+        if(j < 1)
+            continue;
+        else if(ncols != j)
+            VError(" inconsistent number of columns in row %d", nrows + 1);
+        nrows++;
+    }
+    rewind(fp);
+    dest = VCreateImage(1, nrows, ncols, VFloatRepn);
+    VFillImage(dest, VAllBands, 0);
+    VSetAttr(VImageAttrList(dest), "modality", NULL, VStringRepn, "X");
+    VSetAttr(VImageAttrList(dest), "name", NULL, VStringRepn, "X");
+    VSetAttr(VImageAttrList(dest), "ntimesteps", NULL, VLongRepn, (VLong)VImageNRows(dest));
+    VSetAttr(VImageAttrList(dest), "nsessions", NULL, VShortRepn, (VShort)1);
+    VSetAttr(VImageAttrList(dest), "designtype", NULL, VShortRepn, (VShort)2);
+    i = 0;
+    while(!feof(fp)) {
+        memset(buf, 0, LEN);
+        if(!fgets(buf, LEN, fp))
+            break;
+        if(strlen(buf) < 1)
+            continue;
+        if(buf[0] == '%')
+            continue;
+        j = 0;
+        while(VStringToken(buf, token, j, 30)) {
+            sscanf(token, "%f", &val);
+            VPixel(dest, 0, i, j, VFloat) = val;
+            j++;
+        }
+        if(j < 1)
+            continue;
+        i++;
+    }
+    return dest;
 }
 
 

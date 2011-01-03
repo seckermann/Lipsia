@@ -27,177 +27,141 @@ enum SKELTYPE {SURFACE, AXIS};
 static int nad8[9] = {3, 5, 3, 5, 8, 5, 3, 5, 3};
 
 static int ad8[9][9] = {
-	{1, 3, 4},   /* 0 */
-	{0, 2, 3, 4, 5}, /* 1 */
-	{1, 4, 5},   /* 2 */
-	{0, 1, 4, 6, 7}, /* 3 */
-	{0, 1, 2, 3, 5, 6, 7, 8}, /* 4 */
-	{1, 2, 4, 7, 8}, /* 5 */
-	{3, 4, 7},   /* 6 */
-	{3, 4, 5, 6, 8}, /* 7 */
-	{4, 5, 7}    /* 8 */
+    {1, 3, 4},   /* 0 */
+    {0, 2, 3, 4, 5}, /* 1 */
+    {1, 4, 5},   /* 2 */
+    {0, 1, 4, 6, 7}, /* 3 */
+    {0, 1, 2, 3, 5, 6, 7, 8}, /* 4 */
+    {1, 2, 4, 7, 8}, /* 5 */
+    {3, 4, 7},   /* 6 */
+    {3, 4, 5, 6, 8}, /* 7 */
+    {4, 5, 7}    /* 8 */
 };
 
 int
-VNumComp8( VBit src_pp[9] )
-{
-	int npixels;
-	int i, j, k, l;
-	int n;
-	int label;
-	int dest_pp[9];
-
-	npixels = 9;
-
-	for ( i = 0; i < npixels; i++ ) dest_pp[i] = 0;
-
-	label = 0;
-
-	for ( i = 0; i < npixels; i++ ) {
-
-		if ( ( src_pp[i] == 0 ) || ( dest_pp[i] > 0 ) ) continue;
-
-		label++;
-		dest_pp[i] = label;
-
-		n = 1;
-
-		while ( n > 0 ) {
-			n = 0;
-
-			for ( j = i; j < npixels; j++ ) {
-
-				if ( ( src_pp[j] == 0 ) || ( dest_pp[j] > 0 ) ) continue;
-
-				for ( k = 0; k < nad8[j]; k++ ) {
-					l = ad8[j][k];
-
-					if ( dest_pp[l] == label ) {
-						dest_pp[j] = label;
-						n = 1;
-						goto next;
-					}
-				}
-
+VNumComp8(VBit src_pp[9]) {
+    int npixels;
+    int i, j, k, l;
+    int n;
+    int label;
+    int dest_pp[9];
+    npixels = 9;
+    for(i = 0; i < npixels; i++)
+        dest_pp[i] = 0;
+    label = 0;
+    for(i = 0; i < npixels; i++) {
+        if((src_pp[i] == 0) || (dest_pp[i] > 0))
+            continue;
+        label++;
+        dest_pp[i] = label;
+        n = 1;
+        while(n > 0) {
+            n = 0;
+            for(j = i; j < npixels; j++) {
+                if((src_pp[j] == 0) || (dest_pp[j] > 0))
+                    continue;
+                for(k = 0; k < nad8[j]; k++) {
+                    l = ad8[j][k];
+                    if(dest_pp[l] == label) {
+                        dest_pp[j] = label;
+                        n = 1;
+                        goto next;
+                    }
+                }
 next:
-				;
-			}
-		}
-	}
-
-	return ( int ) label;
+                ;
+            }
+        }
+    }
+    return (int) label;
 }
 
 
 
 int
-VCheckPlane( VImage src, int b, int r, int c,
-			 int plane_type, int skeltype )
+VCheckPlane(VImage src, int b, int r, int c,
+            int plane_type, int skeltype)
 
 {
-	int i = 0, n = 0, u, n1, n2;
-	int bb, rr, cc;
-	int nbands, nrows, ncols;
-	VBit plane[9];
-
-	nbands = VImageNBands( src );
-	nrows  = VImageNRows( src );
-	ncols  = VImageNColumns( src );
-
-
-	/* set up checking planes */
-
-	switch( plane_type ) {
-
-	case BAND:
-
-		n = 0;
-		i = 0;
-
-		for ( rr = r - 1; rr <= r + 1; rr++ ) {
-			for ( cc = c - 1; cc <= c + 1; cc++ ) {
-				if ( rr >= 0 && rr < nrows
-					 && cc >= 0 && cc < ncols ) {
-					u = VPixel( src, b, rr, cc, VBit );
-				} else
-					u = 0;
-
-				if ( u > 0 ) n++;
-
-				plane[i++] = u;
-			}
-		}
-
-		break;
-
-	case ROW:
-
-		n = 0;
-		i = 0;
-
-		for ( bb = b - 1; bb <= b + 1; bb++ ) {
-			for ( cc = c - 1; cc <= c + 1; cc++ ) {
-				if ( bb >= 0 && bb < nbands
-					 && cc >= 0 && cc < ncols ) {
-					u = VPixel( src, bb, r, cc, VBit );
-				} else
-					u = 0;
-
-				if ( u > 0 ) n++;
-
-				plane[i++] = u;
-			}
-		}
-
-		break;
-
-	case COL:
-
-		n = 0;
-		i = 0;
-
-		for ( bb = b - 1; bb <= b + 1; bb++ ) {
-			for ( rr = r - 1; rr <= r + 1; rr++ ) {
-				if ( bb >= 0 && bb < nbands
-					 && rr >= 0 && rr < nrows ) {
-					u = VPixel( src, bb, rr, c, VBit );
-				} else
-					u = 0;
-
-				if ( u > 0 ) n++;
-
-				plane[i++] = u;
-			}
-		}
-
-		break;
-
-	default:
-		VError( "error in Checkplane" );
-	}
-
-	n--;
-
-	if ( n < 1 ) return 0;
-
-	if ( skeltype == SURFACE && n < 3 ) return 0;
-
-	/*
-	  if (skeltype == AXIS && n <= 1 && testvoxel == 0) return 0;
-	  */
-
-	/*
-	** count number of components before and after deletion
-	*/
-
-	n1 = 1;
-
-	/* after deletion */
-	plane[4] = 0;
-	n2 = VNumComp8( plane );
-
-	if ( n1 == n2 ) return ( int ) 1;
-	else return ( int ) 0;
+    int i = 0, n = 0, u, n1, n2;
+    int bb, rr, cc;
+    int nbands, nrows, ncols;
+    VBit plane[9];
+    nbands = VImageNBands(src);
+    nrows  = VImageNRows(src);
+    ncols  = VImageNColumns(src);
+    /* set up checking planes */
+    switch(plane_type) {
+    case BAND:
+        n = 0;
+        i = 0;
+        for(rr = r - 1; rr <= r + 1; rr++) {
+            for(cc = c - 1; cc <= c + 1; cc++) {
+                if(rr >= 0 && rr < nrows
+                        && cc >= 0 && cc < ncols) {
+                    u = VPixel(src, b, rr, cc, VBit);
+                } else
+                    u = 0;
+                if(u > 0)
+                    n++;
+                plane[i++] = u;
+            }
+        }
+        break;
+    case ROW:
+        n = 0;
+        i = 0;
+        for(bb = b - 1; bb <= b + 1; bb++) {
+            for(cc = c - 1; cc <= c + 1; cc++) {
+                if(bb >= 0 && bb < nbands
+                        && cc >= 0 && cc < ncols) {
+                    u = VPixel(src, bb, r, cc, VBit);
+                } else
+                    u = 0;
+                if(u > 0)
+                    n++;
+                plane[i++] = u;
+            }
+        }
+        break;
+    case COL:
+        n = 0;
+        i = 0;
+        for(bb = b - 1; bb <= b + 1; bb++) {
+            for(rr = r - 1; rr <= r + 1; rr++) {
+                if(bb >= 0 && bb < nbands
+                        && rr >= 0 && rr < nrows) {
+                    u = VPixel(src, bb, rr, c, VBit);
+                } else
+                    u = 0;
+                if(u > 0)
+                    n++;
+                plane[i++] = u;
+            }
+        }
+        break;
+    default:
+        VError("error in Checkplane");
+    }
+    n--;
+    if(n < 1)
+        return 0;
+    if(skeltype == SURFACE && n < 3)
+        return 0;
+    /*
+      if (skeltype == AXIS && n <= 1 && testvoxel == 0) return 0;
+      */
+    /*
+    ** count number of components before and after deletion
+    */
+    n1 = 1;
+    /* after deletion */
+    plane[4] = 0;
+    n2 = VNumComp8(plane);
+    if(n1 == n2)
+        return (int) 1;
+    else
+        return (int) 0;
 }
 
 
@@ -205,59 +169,53 @@ VCheckPlane( VImage src, int b, int r, int c,
 ** test checking plane conditions for a point (Tsao)
 */
 int
-VCheckPointDir( VImage src, int b, int r, int c,
-				VBoolean dir0, VBoolean dir1, VBoolean dir2, VBoolean dir3, VBoolean dir4, VBoolean dir5 )
-{
-	int check;
-	int skeltype = SURFACE;
-	int nbands, nrows, ncols;
+VCheckPointDir(VImage src, int b, int r, int c,
+               VBoolean dir0, VBoolean dir1, VBoolean dir2, VBoolean dir3, VBoolean dir4, VBoolean dir5) {
+    int check;
+    int skeltype = SURFACE;
+    int nbands, nrows, ncols;
+    nrows  = VImageNRows(src);
+    ncols  = VImageNColumns(src);
+    nbands = VImageNBands(src);
+    /*
+    dir = 0;
+    if (r > 0) if (VPixel(src,b,r-1,c,VBit) == 0) goto next;
 
-	nrows  = VImageNRows ( src );
-	ncols  = VImageNColumns ( src );
-	nbands = VImageNBands ( src );
+    dir = 1;
+    if (r < nrows) if (VPixel(src,b,r+1,c,VBit) == 0) goto next;
 
-	/*
-	dir = 0;
-	if (r > 0) if (VPixel(src,b,r-1,c,VBit) == 0) goto next;
+    dir = 2;
+    if (c > 0) if (VPixel(src,b,r,c-1,VBit) == 0) goto next;
 
-	dir = 1;
-	if (r < nrows) if (VPixel(src,b,r+1,c,VBit) == 0) goto next;
+    dir = 3;
+    if (c < ncols) if (VPixel(src,b,r,c+1,VBit) == 0) goto next;
 
-	dir = 2;
-	if (c > 0) if (VPixel(src,b,r,c-1,VBit) == 0) goto next;
+    dir = 4;
+    if (b > 0) if (VPixel(src,b-1,r,c,VBit) == 0) goto next;
 
-	dir = 3;
-	if (c < ncols) if (VPixel(src,b,r,c+1,VBit) == 0) goto next;
+    dir = 5;
+    if (b < nbands) if (VPixel(src,b+1,r,c,VBit) == 0) goto next;
 
-	dir = 4;
-	if (b > 0) if (VPixel(src,b-1,r,c,VBit) == 0) goto next;
+    return 0;
 
-	dir = 5;
-	if (b < nbands) if (VPixel(src,b+1,r,c,VBit) == 0) goto next;
-
-	return 0;
-
-	next:
-	*/
-
-	check = 0;
-
-	if ( dir0 || dir1 ) {
-		check = ( VCheckPlane( src, b, r, c, BAND, skeltype )
-				  && VCheckPlane( src, b, r, c, COL, skeltype ) );
-
-		if ( check == 0 ) return check;
-	} else if ( dir2 || dir3 ) {
-		check = ( VCheckPlane( src, b, r, c, BAND, skeltype )
-				  && VCheckPlane( src, b, r, c, ROW, skeltype ) );
-
-		if ( check == 0 ) return check;
-	} else if ( dir4 || dir5 ) {
-		check = ( VCheckPlane( src, b, r, c, COL, skeltype )
-				  && VCheckPlane( src, b, r, c, ROW, skeltype ) );
-
-		if ( check == 0 ) return check;
-	}
-
-	return check;
+    next:
+    */
+    check = 0;
+    if(dir0 || dir1) {
+        check = (VCheckPlane(src, b, r, c, BAND, skeltype)
+                 && VCheckPlane(src, b, r, c, COL, skeltype));
+        if(check == 0)
+            return check;
+    } else if(dir2 || dir3) {
+        check = (VCheckPlane(src, b, r, c, BAND, skeltype)
+                 && VCheckPlane(src, b, r, c, ROW, skeltype));
+        if(check == 0)
+            return check;
+    } else if(dir4 || dir5) {
+        check = (VCheckPlane(src, b, r, c, COL, skeltype)
+                 && VCheckPlane(src, b, r, c, ROW, skeltype));
+        if(check == 0)
+            return check;
+    }
+    return check;
 }

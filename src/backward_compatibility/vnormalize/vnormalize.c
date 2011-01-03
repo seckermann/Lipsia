@@ -43,65 +43,54 @@
 
 
 /* Later in this file: */
-extern VImage VNormalize ( VImage, VImage, VShort );
+extern VImage VNormalize(VImage, VImage, VShort);
 extern char *getLipsiaVersion();
 
 VDictEntry TALDict[] = {
-	{ "talairach", 0 },
-	{ "mni", 1 },
-	{ NULL }
+    { "talairach", 0 },
+    { "mni", 1 },
+    { NULL }
 };
 
 
-int main ( int argc, char *argv[] )
-{
-	/* Command line options: */
-	static VShort type = 0;
-	static VOptionDescRec  options[] = {
-		{"system", VShortRepn, 1, ( VPointer ) &type, VOptionalOpt, TALDict, "System to be used"}
-	};
-	FILE *in_file, *out_file;
-	VAttrList list;
-	VAttrListPosn posn;
-	VImage src = NULL, dest = NULL;
-	char prg[50];
-	sprintf( prg, "vnormalize V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg );
-
-	/* Parse command line arguments and identify files: */
-	VParseFilterCmd ( VNumber ( options ), options, argc, argv, &in_file, &out_file );
-
-	if ( type < 0 || type > 1 ) VError( " illegal parameter value, 'type' must be 0 or 1" );
-
-
-	/* Read the input file: */
-	list = VReadFile ( in_file, NULL );
-
-	if ( ! list ) exit ( EXIT_FAILURE );
-
-	fclose( in_file );
-
-
-	/*
-	** process each object
-	*/
-	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & src );
-		dest = VNormalize( src, NULL, type );
-		VSetAttrValue ( & posn, NULL, VImageRepn, dest );
-	}
-
-
-	/*
-	** output
-	*/
-	VHistory( 0, NULL, prg, &list, &list );
-
-	if ( ! VWriteFile ( out_file, list ) ) exit ( 1 );
-
-	fprintf ( stderr, "%s: done.\n", argv[0] );
-	return 0;
+int main(int argc, char *argv[]) {
+    /* Command line options: */
+    static VShort type = 0;
+    static VOptionDescRec  options[] = {
+        {"system", VShortRepn, 1, (VPointer) &type, VOptionalOpt, TALDict, "System to be used"}
+    };
+    FILE *in_file, *out_file;
+    VAttrList list;
+    VAttrListPosn posn;
+    VImage src = NULL, dest = NULL;
+    char prg[50];
+    sprintf(prg, "vnormalize V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg);
+    /* Parse command line arguments and identify files: */
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+    if(type < 0 || type > 1)
+        VError(" illegal parameter value, 'type' must be 0 or 1");
+    /* Read the input file: */
+    list = VReadFile(in_file, NULL);
+    if(! list)
+        exit(EXIT_FAILURE);
+    fclose(in_file);
+    /*
+    ** process each object
+    */
+    for(VFirstAttr(list, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & src);
+        dest = VNormalize(src, NULL, type);
+        VSetAttrValue(& posn, NULL, VImageRepn, dest);
+    }
+    /*
+    ** output
+    */
+    VHistory(0, NULL, prg, &list, &list);
+    if(! VWriteFile(out_file, list))
+        exit(1);
+    fprintf(stderr, "%s: done.\n", argv[0]);
+    return 0;
 }

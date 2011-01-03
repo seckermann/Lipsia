@@ -40,66 +40,50 @@
 
 extern char *getLipsiaVersion();
 
-int main ( int argc, char *argv[] )
-{
-	static VString filename = "";
-	static VOptionDescRec options[] = {
-		{
-			"image", VStringRepn, 1, ( VPointer ) &filename, VRequiredOpt, NULL,
-			"image whose header info is copied"
-		}
-	};
-
-	FILE *in_file, *out_file, *fp = NULL;
-	VAttrList list1, list2;
-	VAttrListPosn posn;
-	VImage src1, src2;
-	char prg_name[50];
-	sprintf( prg_name, "vattrcopy V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg_name );
-
-	/* Parse command line arguments and identify files: */
-	VParseFilterCmd ( VNumber ( options ), options, argc, argv, &in_file, & out_file );
-
-
-
-	/* Read 2nd image: */
-	fp = VOpenInputFile ( filename, TRUE );
-	list2 = VReadFile ( fp, NULL );
-
-	if ( ! list2 )  VError( "Error reading %s", filename );
-
-	fclose( fp );
-
-	for ( VFirstAttr ( list2, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & src2 );
-		break;
-	}
-
-
-
-	/* Read 1st image: */
-	if ( ! ( list1 = VReadFile ( in_file, NULL ) ) ) VError( " error reading file" );
-
-	for ( VFirstAttr ( list1, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & src1 );
-		VDestroyAttrList( VImageAttrList ( src1 ) );
-		VImageAttrList ( src1 ) = VCopyAttrList ( VImageAttrList ( src2 ) );
-		break;
-	}
-
-
-
-	/* Write out the results: */
-	VHistory( VNumber( options ), options, prg_name, &list1, &list2 );
-
-	if ( ! VWriteFile ( out_file, list1 ) ) exit ( 1 );
-
-	fprintf ( stderr, "%s: done.\n", argv[0] );
-	return 0;
+int main(int argc, char *argv[]) {
+    static VString filename = "";
+    static VOptionDescRec options[] = {
+        {
+            "image", VStringRepn, 1, (VPointer) &filename, VRequiredOpt, NULL,
+            "image whose header info is copied"
+        }
+    };
+    FILE *in_file, *out_file, *fp = NULL;
+    VAttrList list1, list2;
+    VAttrListPosn posn;
+    VImage src1, src2;
+    char prg_name[50];
+    sprintf(prg_name, "vattrcopy V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg_name);
+    /* Parse command line arguments and identify files: */
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, & out_file);
+    /* Read 2nd image: */
+    fp = VOpenInputFile(filename, TRUE);
+    list2 = VReadFile(fp, NULL);
+    if(! list2)
+        VError("Error reading %s", filename);
+    fclose(fp);
+    for(VFirstAttr(list2, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & src2);
+        break;
+    }
+    /* Read 1st image: */
+    if(!(list1 = VReadFile(in_file, NULL)))
+        VError(" error reading file");
+    for(VFirstAttr(list1, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & src1);
+        VDestroyAttrList(VImageAttrList(src1));
+        VImageAttrList(src1) = VCopyAttrList(VImageAttrList(src2));
+        break;
+    }
+    /* Write out the results: */
+    VHistory(VNumber(options), options, prg_name, &list1, &list2);
+    if(! VWriteFile(out_file, list1))
+        exit(1);
+    fprintf(stderr, "%s: done.\n", argv[0]);
+    return 0;
 }

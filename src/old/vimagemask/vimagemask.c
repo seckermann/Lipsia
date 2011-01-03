@@ -36,117 +36,95 @@
 extern char *getLipsiaVersion();
 
 VImage
-VMaskImage( VImage src, VImage mask, VImage dest, VDouble xmin, VDouble xmax, VShort type )
-{
-	int b, r, c;
-	double u;
-
-	if ( VImageNBands( src ) != VImageNBands( mask ) )
-		VError( " inconsistent number of slices" );
-
-	if ( VImageNRows( src ) != VImageNRows( mask ) )
-		VError( " inconsistent number of rows" );
-
-	if ( VImageNColumns( src ) != VImageNColumns( mask ) )
-		VError( " inconsistent number of columns" );
-
-	dest = VCopyImage( src, NULL, VAllBands );
-
-	for ( b = 0; b < VImageNBands( src ); b++ ) {
-		for ( r = 0; r < VImageNRows( src ); r++ ) {
-			for ( c = 0; c < VImageNColumns( src ); c++ ) {
-				u = VGetPixel( mask, b, r, c );
-
-				if ( type == 1 ) {
-					if ( u < xmin || u > xmax )
-						VSetPixel( dest, b, r, c, 0 );
-				} else {
-					if ( u >= xmin && u <= xmax )
-						VSetPixel( dest, b, r, c, 0 );
-				}
-
-			}
-		}
-	}
-
-	return dest;
+VMaskImage(VImage src, VImage mask, VImage dest, VDouble xmin, VDouble xmax, VShort type) {
+    int b, r, c;
+    double u;
+    if(VImageNBands(src) != VImageNBands(mask))
+        VError(" inconsistent number of slices");
+    if(VImageNRows(src) != VImageNRows(mask))
+        VError(" inconsistent number of rows");
+    if(VImageNColumns(src) != VImageNColumns(mask))
+        VError(" inconsistent number of columns");
+    dest = VCopyImage(src, NULL, VAllBands);
+    for(b = 0; b < VImageNBands(src); b++) {
+        for(r = 0; r < VImageNRows(src); r++) {
+            for(c = 0; c < VImageNColumns(src); c++) {
+                u = VGetPixel(mask, b, r, c);
+                if(type == 1) {
+                    if(u < xmin || u > xmax)
+                        VSetPixel(dest, b, r, c, 0);
+                } else {
+                    if(u >= xmin && u <= xmax)
+                        VSetPixel(dest, b, r, c, 0);
+                }
+            }
+        }
+    }
+    return dest;
 }
 
 VDictEntry TypeDict[] = {
-	{ "outside", 0 },
-	{ "inside", 1 },
-	{ NULL }
+    { "outside", 0 },
+    { "inside", 1 },
+    { NULL }
 };
 
 
 
 int
-main ( int argc, char *argv[] )
-{
-	static VString filename = "";
-	static VDouble xmin = 0;
-	static VDouble xmax = 0;
-	static VShort  type = 0;
-	static VOptionDescRec  options[] = {
-		{"mask", VStringRepn, 1, ( VPointer ) &filename, VOptionalOpt, NULL, "mask image"},
-		{"min", VDoubleRepn, 1, ( VPointer ) &xmin, VRequiredOpt, NULL, "min threshold"},
-		{"max", VDoubleRepn, 1, ( VPointer ) &xmax, VRequiredOpt, NULL, "max threshold"},
-		{"type", VShortRepn, 1, ( VPointer ) &type, VOptionalOpt, TypeDict, "outside range vs. inside range"}
-	};
-	FILE *in_file, *out_file, *fp;
-	VAttrList list = NULL, list1 = NULL;
-	VAttrListPosn posn;
-	VImage src = NULL, dest = NULL, mask = NULL;
-	char prg[50];
-	sprintf( prg, "vimagemask V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg );
-
-	VParseFilterCmd ( VNumber ( options ), options, argc, argv, &in_file, &out_file );
-
-	if ( type < 0 || type > 1 ) VError( " illegal value of parameter '-type'" );
-
-	if ( xmin > xmax ) VError( " 'xmax' must be >= 'xmin'" );
-
-
-	/* read mask */
-	fp = VOpenInputFile ( filename, TRUE );
-	list1 = VReadFile ( fp, NULL );
-
-	if ( ! list1 )  VError( "Error reading mask" );
-
-	fclose( fp );
-
-	for ( VFirstAttr ( list1, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & mask );
-		break;
-	}
-
-	if ( mask == NULL ) VError( " no mask image found" );
-
-
-	/* read image to be masked, and process */
-	if ( ! ( list = VReadFile ( in_file, NULL ) ) ) exit ( 1 );
-
-	fclose( in_file );
-
-	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & src );
-		dest = VMaskImage( src, mask, NULL, xmin, xmax, type );
-		VSetAttrValue ( & posn, NULL, VImageRepn, dest );
-	}
-
-	if ( src == NULL ) VError( " no input image found" );
-
-
-	VHistory( VNumber( options ), options, prg, &list, &list );
-
-	if ( ! VWriteFile ( out_file, list ) ) exit ( 1 );
-
-	fprintf ( stderr, "%s: done.\n", argv[0] );
-	return 0;
+main(int argc, char *argv[]) {
+    static VString filename = "";
+    static VDouble xmin = 0;
+    static VDouble xmax = 0;
+    static VShort  type = 0;
+    static VOptionDescRec  options[] = {
+        {"mask", VStringRepn, 1, (VPointer) &filename, VOptionalOpt, NULL, "mask image"},
+        {"min", VDoubleRepn, 1, (VPointer) &xmin, VRequiredOpt, NULL, "min threshold"},
+        {"max", VDoubleRepn, 1, (VPointer) &xmax, VRequiredOpt, NULL, "max threshold"},
+        {"type", VShortRepn, 1, (VPointer) &type, VOptionalOpt, TypeDict, "outside range vs. inside range"}
+    };
+    FILE *in_file, *out_file, *fp;
+    VAttrList list = NULL, list1 = NULL;
+    VAttrListPosn posn;
+    VImage src = NULL, dest = NULL, mask = NULL;
+    char prg[50];
+    sprintf(prg, "vimagemask V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg);
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+    if(type < 0 || type > 1)
+        VError(" illegal value of parameter '-type'");
+    if(xmin > xmax)
+        VError(" 'xmax' must be >= 'xmin'");
+    /* read mask */
+    fp = VOpenInputFile(filename, TRUE);
+    list1 = VReadFile(fp, NULL);
+    if(! list1)
+        VError("Error reading mask");
+    fclose(fp);
+    for(VFirstAttr(list1, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & mask);
+        break;
+    }
+    if(mask == NULL)
+        VError(" no mask image found");
+    /* read image to be masked, and process */
+    if(!(list = VReadFile(in_file, NULL)))
+        exit(1);
+    fclose(in_file);
+    for(VFirstAttr(list, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & src);
+        dest = VMaskImage(src, mask, NULL, xmin, xmax, type);
+        VSetAttrValue(& posn, NULL, VImageRepn, dest);
+    }
+    if(src == NULL)
+        VError(" no input image found");
+    VHistory(VNumber(options), options, prg, &list, &list);
+    if(! VWriteFile(out_file, list))
+        exit(1);
+    fprintf(stderr, "%s: done.\n", argv[0]);
+    return 0;
 }

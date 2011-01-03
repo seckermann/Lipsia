@@ -38,21 +38,21 @@
 #define MINRESO 0.01
 #define MAXRESO 10
 
-extern VImage VDoTrans( VImage, VImage, VImage, VFloat, VLong );
+extern VImage VDoTrans(VImage, VImage, VImage, VFloat, VLong);
 extern char *getLipsiaVersion();
 
 VDictEntry ITYPDict[] = {
-	{ "trilinear", 0 },
-	{ "NN", 1 },
-	{ NULL }
+    { "trilinear", 0 },
+    { "NN", 1 },
+    { NULL }
 };
 
 VDictEntry TransDict[] = {
-	{ "anat", 0 },
-	{ "zmap", 1 },
-	{ "epi_t1", 2 },
-	{ "all", 3 },
-	{ NULL }
+    { "anat", 0 },
+    { "zmap", 1 },
+    { "epi_t1", 2 },
+    { "all", 3 },
+    { NULL }
 };
 
 
@@ -64,163 +64,129 @@ VDictEntry TransDict[] = {
 #define OTHER         5
 
 int
-VGetModality( VImage src )
-{
-	VAttrListPosn testposn;
-
-	if ( VPixelRepn( src ) == VFloatRepn ) return ZMAP;
-
-	if ( ( VImageNRows( src ) > 150 ) && ( VImageNColumns( src ) > 150 ) )
-		return ( int )HIGH_RES_ANAT;
-
-	if ( VPixelRepn( src ) == VUByteRepn ) return ( int )EPI_T1;
-
-	if ( VLookupAttr ( VImageAttrList( src ), "slice_time", &testposn ) == TRUE )
-		return ( int )FUNCTIONAL;
-
-
-	return ( int )OTHER;
+VGetModality(VImage src) {
+    VAttrListPosn testposn;
+    if(VPixelRepn(src) == VFloatRepn)
+        return ZMAP;
+    if((VImageNRows(src) > 150) && (VImageNColumns(src) > 150))
+        return (int)HIGH_RES_ANAT;
+    if(VPixelRepn(src) == VUByteRepn)
+        return (int)EPI_T1;
+    if(VLookupAttr(VImageAttrList(src), "slice_time", &testposn) == TRUE)
+        return (int)FUNCTIONAL;
+    return (int)OTHER;
 }
 
 
 
-int main ( int argc, char *argv[] )
-{
-	/* Command line options: */
-	static VString image_filename = "";
-	static VLong   type = 0;
-	static VLong   sel  = 3;
-	static VFloat  resolution = 1.0;
-	static VOptionDescRec options[] = {
-		{
-			"trans", VStringRepn, 1, & image_filename, VRequiredOpt, NULL,
-			"File containing transformation matrix"
-		},
-		{
-			"resolution", VFloatRepn, 1, & resolution, VOptionalOpt, NULL,
-			"Output voxel resolution in mm"
-		},
-		{
-			"type", VLongRepn, 1, & type, VOptionalOpt, ITYPDict,
-			"Type of interpolation: trilinear or NN (nearest neighbor)"
-		},
-		{
-			"object", VLongRepn, 1, & sel, VOptionalOpt, TransDict,
-			"Select object(s) to be transformed"
-		}
-	};
-	FILE *in_file, *out_file, *fp;
-	VAttrList list, list1, out_list;
-	VAttrListPosn posn;
-	VImage src = NULL, trans = NULL, dest = NULL;
-	VFloat minreso = 0.001;
-	int mod = 0;
-	char prg[50];
-	sprintf( prg, "vdotrans V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg );
-
-	/* Parse command line arguments and identify files: */
-	VParseFilterCmd ( VNumber( options ), options, argc, argv, &in_file, &out_file );
-
-
-	/* Read transformation image: */
-	fp = VOpenInputFile ( image_filename, TRUE );
-	list1 = VReadFile ( fp, NULL );
-
-	if ( ! list1 ) VError( "Error reading image" );
-
-	fclose( fp );
-
-	for ( VFirstAttr ( list1, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		if ( strcmp( VGetAttrName( &posn ), "transform" ) != 0 ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & trans );
-		break;
-	}
-
-	if ( trans == NULL ) VError( "transformation matrix not found" );
-
-	if ( resolution < MINRESO || resolution > MAXRESO ) VError( "check resolution of destination image" );
-
-
-	/* Read the input file: */
-	list = VReadFile ( in_file, NULL );
-
-	if ( ! list ) VError ( " can't read infile" );
-
-	fclose( in_file );
-
-
-	/*
-	** transform selected objects
-	*/
-	out_list = VCreateAttrList();
-
-	for ( VFirstAttr ( list, & posn ); VAttrExists ( & posn ); VNextAttr ( & posn ) ) {
-		if ( VGetAttrRepn ( & posn ) != VImageRepn ) continue;
-
-		if ( strcmp( VGetAttrName( &posn ), "transform" ) == 0 ) continue;
-
-		VGetAttrValue ( & posn, NULL, VImageRepn, & src );
-
-		mod = VGetModality( src );
-
-		/*
-		if (mod == FUNCTIONAL) continue;
-		*/
-
-		switch ( sel ) {
-
-		case 0:  /* anat */
-
-			if ( mod == HIGH_RES_ANAT ) {
-				dest = VDoTrans( src, NULL, trans, resolution, type );
-				VAppendAttr( out_list, "image", NULL, VImageRepn, dest );
-				goto ende;
-			}
-
-			break;
-
-		case 1:  /* zmap */
-
-			if ( mod == ZMAP ) {
-				dest = VDoTrans( src, NULL, trans, resolution, type );
-				VAppendAttr( out_list, "zmap", NULL, VImageRepn, dest );
-				goto ende;
-			}
-
-			break;
-
-		case 2:  /* epi_t1 */
-
-			if ( mod == EPI_T1 ) {
-				dest = VDoTrans( src, NULL, trans, resolution, type );
-				VAppendAttr( out_list, "image", NULL, VImageRepn, dest );
-				goto ende;
-			}
-
-			break;
-
-		default: /* other */
-			dest = VDoTrans( src, NULL, trans, resolution, type );
-			VAppendAttr( out_list, "image", NULL, VImageRepn, dest );
-		}
-	}
-
-	if ( dest == NULL ) VError( " no object transformed" );
-
-
-	/*
-	** output
-	*/
+int main(int argc, char *argv[]) {
+    /* Command line options: */
+    static VString image_filename = "";
+    static VLong   type = 0;
+    static VLong   sel  = 3;
+    static VFloat  resolution = 1.0;
+    static VOptionDescRec options[] = {
+        {
+            "trans", VStringRepn, 1, & image_filename, VRequiredOpt, NULL,
+            "File containing transformation matrix"
+        },
+        {
+            "resolution", VFloatRepn, 1, & resolution, VOptionalOpt, NULL,
+            "Output voxel resolution in mm"
+        },
+        {
+            "type", VLongRepn, 1, & type, VOptionalOpt, ITYPDict,
+            "Type of interpolation: trilinear or NN (nearest neighbor)"
+        },
+        {
+            "object", VLongRepn, 1, & sel, VOptionalOpt, TransDict,
+            "Select object(s) to be transformed"
+        }
+    };
+    FILE *in_file, *out_file, *fp;
+    VAttrList list, list1, out_list;
+    VAttrListPosn posn;
+    VImage src = NULL, trans = NULL, dest = NULL;
+    VFloat minreso = 0.001;
+    int mod = 0;
+    char prg[50];
+    sprintf(prg, "vdotrans V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg);
+    /* Parse command line arguments and identify files: */
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+    /* Read transformation image: */
+    fp = VOpenInputFile(image_filename, TRUE);
+    list1 = VReadFile(fp, NULL);
+    if(! list1)
+        VError("Error reading image");
+    fclose(fp);
+    for(VFirstAttr(list1, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        if(strcmp(VGetAttrName(&posn), "transform") != 0)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & trans);
+        break;
+    }
+    if(trans == NULL)
+        VError("transformation matrix not found");
+    if(resolution < MINRESO || resolution > MAXRESO)
+        VError("check resolution of destination image");
+    /* Read the input file: */
+    list = VReadFile(in_file, NULL);
+    if(! list)
+        VError(" can't read infile");
+    fclose(in_file);
+    /*
+    ** transform selected objects
+    */
+    out_list = VCreateAttrList();
+    for(VFirstAttr(list, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+        if(VGetAttrRepn(& posn) != VImageRepn)
+            continue;
+        if(strcmp(VGetAttrName(&posn), "transform") == 0)
+            continue;
+        VGetAttrValue(& posn, NULL, VImageRepn, & src);
+        mod = VGetModality(src);
+        /*
+        if (mod == FUNCTIONAL) continue;
+        */
+        switch(sel) {
+        case 0:  /* anat */
+            if(mod == HIGH_RES_ANAT) {
+                dest = VDoTrans(src, NULL, trans, resolution, type);
+                VAppendAttr(out_list, "image", NULL, VImageRepn, dest);
+                goto ende;
+            }
+            break;
+        case 1:  /* zmap */
+            if(mod == ZMAP) {
+                dest = VDoTrans(src, NULL, trans, resolution, type);
+                VAppendAttr(out_list, "zmap", NULL, VImageRepn, dest);
+                goto ende;
+            }
+            break;
+        case 2:  /* epi_t1 */
+            if(mod == EPI_T1) {
+                dest = VDoTrans(src, NULL, trans, resolution, type);
+                VAppendAttr(out_list, "image", NULL, VImageRepn, dest);
+                goto ende;
+            }
+            break;
+        default: /* other */
+            dest = VDoTrans(src, NULL, trans, resolution, type);
+            VAppendAttr(out_list, "image", NULL, VImageRepn, dest);
+        }
+    }
+    if(dest == NULL)
+        VError(" no object transformed");
+    /*
+    ** output
+    */
 ende:
-	VHistory( VNumber( options ), options, prg, &list, &out_list );
-
-	if ( ! VWriteFile ( out_file, out_list ) ) VError ( " can't write output file" );
-
-	fprintf ( stderr, "%s: done.\n", argv[0] );
-	return EXIT_SUCCESS;
+    VHistory(VNumber(options), options, prg, &list, &out_list);
+    if(! VWriteFile(out_file, out_list))
+        VError(" can't write output file");
+    fprintf(stderr, "%s: done.\n", argv[0]);
+    return EXIT_SUCCESS;
 }

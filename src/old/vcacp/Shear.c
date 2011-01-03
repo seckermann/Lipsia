@@ -50,58 +50,48 @@
  * by Alan Paeth, Graphics Interface '86, pp. 77-81.
  */
 
-VImage VShearImageX ( VImage src, VImage dest, VBand band, double shear )
-{
-	int src_nrows, src_ncols, src_nbands;
-	int dest_nrows, dest_ncols, dest_nbands;
-	VRepnKind src_repn, dest_repn;
-	double skew, skewi, skewf, left, oleft;
-	int x, y, b, src_curband, dest_curband;
-	int extra_ncols, sdx, sdy, ddx, ddy;
-
-	/* Read properties of "src": */
-	src_nrows  = VImageNRows ( src );
-	src_ncols  = VImageNColumns ( src );
-	src_nbands = VImageNBands ( src );
-	src_repn   = VPixelRepn ( src );
-
-	/* Check to ensure that "band" exists: */
-	if ( band != VAllBands && ( band < 0 || band >= src_nbands ) ) {
-		VWarning ( "VShearImageY: Band %d referenced in image of %d bands",
-				   band, VImageNBands ( src ) );
-		return NULL;
-	}
-
-	/* Determine properties of "dest": */
-	dest_nrows  = src_nrows;
-	extra_ncols = ( int ) floor ( shear * ( src_nrows - 0.5 ) );
-	dest_ncols  = src_ncols + VMax ( extra_ncols, -extra_ncols ) + 1;
-	dest_nbands = ( band == VAllBands ) ? src_nbands : 1;
-	dest_repn   = src_repn;
-
-	/* Calculate displacements in converting from xy-coord. to
-	   row/column-coord. : */
-	sdx = 0;
-	sdy = src_nrows - 1;
-	ddx = ( extra_ncols < 0 ) ? -extra_ncols : 0;
-	ddy = dest_nrows - 1;
-
-	/* Create dest image */
-	dest = VSelectDestImage ( "VShearImageX", dest,
-							  dest_nbands, dest_nrows, dest_ncols, dest_repn );
-
-	if ( dest == NULL )
-		return NULL;
-
-	/* Set all dest pixels to zero: */
-	VFillImage ( dest, VAllBands, 0.0 );
-
-	/* Treat lower left-hand corner of image as origin, with
-	   y up and x to the right. */
-
-	/*
-	 * Shear a row of an image of a particular type:
-	 */
+VImage VShearImageX(VImage src, VImage dest, VBand band, double shear) {
+    int src_nrows, src_ncols, src_nbands;
+    int dest_nrows, dest_ncols, dest_nbands;
+    VRepnKind src_repn, dest_repn;
+    double skew, skewi, skewf, left, oleft;
+    int x, y, b, src_curband, dest_curband;
+    int extra_ncols, sdx, sdy, ddx, ddy;
+    /* Read properties of "src": */
+    src_nrows  = VImageNRows(src);
+    src_ncols  = VImageNColumns(src);
+    src_nbands = VImageNBands(src);
+    src_repn   = VPixelRepn(src);
+    /* Check to ensure that "band" exists: */
+    if(band != VAllBands && (band < 0 || band >= src_nbands)) {
+        VWarning("VShearImageY: Band %d referenced in image of %d bands",
+                 band, VImageNBands(src));
+        return NULL;
+    }
+    /* Determine properties of "dest": */
+    dest_nrows  = src_nrows;
+    extra_ncols = (int) floor(shear * (src_nrows - 0.5));
+    dest_ncols  = src_ncols + VMax(extra_ncols, -extra_ncols) + 1;
+    dest_nbands = (band == VAllBands) ? src_nbands : 1;
+    dest_repn   = src_repn;
+    /* Calculate displacements in converting from xy-coord. to
+       row/column-coord. : */
+    sdx = 0;
+    sdy = src_nrows - 1;
+    ddx = (extra_ncols < 0) ? -extra_ncols : 0;
+    ddy = dest_nrows - 1;
+    /* Create dest image */
+    dest = VSelectDestImage("VShearImageX", dest,
+                            dest_nbands, dest_nrows, dest_ncols, dest_repn);
+    if(dest == NULL)
+        return NULL;
+    /* Set all dest pixels to zero: */
+    VFillImage(dest, VAllBands, 0.0);
+    /* Treat lower left-hand corner of image as origin, with
+       y up and x to the right. */
+    /*
+     * Shear a row of an image of a particular type:
+     */
 #define ShearRow(type)                                         \
 	{                                                              \
 		type pixel;                                                \
@@ -128,54 +118,46 @@ VImage VShearImageX ( VImage src, VImage dest, VBand band, double shear )
 				type)                                              \
 		= (type) oleft;                                        \
 	}
-
-	/* For each band in the dest image do: */
-	for ( b = 0; b < dest_nbands; b++ ) {
-
-		src_curband = ( band == VAllBands ) ? b : band;
-		dest_curband = ( band == VAllBands ) ? b : 0;
-
-		/* For each row in the source image do: */
-		for ( y = 0; y < src_nrows; y++ ) {
-
-			skew = shear * ( y + 0.5 );
-			skewi = floor ( skew );
-			skewf = skew - skewi;
-
-			oleft = 0.0;
-
-			/* Shear a row according to pixel representation: */
-			switch ( src_repn ) {
-			case VBitRepn:
-				ShearRow ( VBit );
-				break;
-			case VUByteRepn:
-				ShearRow ( VUByte );
-				break;
-			case VSByteRepn:
-				ShearRow ( VSByte );
-				break;
-			case VShortRepn:
-				ShearRow ( VShort );
-				break;
-			case VLongRepn:
-				ShearRow ( VLong );
-				break;
-			case VFloatRepn:
-				ShearRow ( VFloat );
-				break;
-			case VDoubleRepn:
-				ShearRow ( VDouble );
-				break;
-			default:
-				break;
-			}
-		}
-	}
-
-	VCopyImageAttrs ( src, dest );
-	return dest;
-
+    /* For each band in the dest image do: */
+    for(b = 0; b < dest_nbands; b++) {
+        src_curband = (band == VAllBands) ? b : band;
+        dest_curband = (band == VAllBands) ? b : 0;
+        /* For each row in the source image do: */
+        for(y = 0; y < src_nrows; y++) {
+            skew = shear * (y + 0.5);
+            skewi = floor(skew);
+            skewf = skew - skewi;
+            oleft = 0.0;
+            /* Shear a row according to pixel representation: */
+            switch(src_repn) {
+            case VBitRepn:
+                ShearRow(VBit);
+                break;
+            case VUByteRepn:
+                ShearRow(VUByte);
+                break;
+            case VSByteRepn:
+                ShearRow(VSByte);
+                break;
+            case VShortRepn:
+                ShearRow(VShort);
+                break;
+            case VLongRepn:
+                ShearRow(VLong);
+                break;
+            case VFloatRepn:
+                ShearRow(VFloat);
+                break;
+            case VDoubleRepn:
+                ShearRow(VDouble);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    VCopyImageAttrs(src, dest);
+    return dest;
 #undef ShearRow
 }
 
@@ -196,59 +178,48 @@ VImage VShearImageX ( VImage src, VImage dest, VBand band, double shear )
  * by Alan Paeth, Graphics Interface '86, pp. 77-81.
  */
 
-VImage VShearImageY ( VImage src, VImage dest, VBand band, double shear )
-{
-	int src_nrows, src_ncols, src_nbands;
-	int dest_nrows, dest_ncols, dest_nbands;
-	VRepnKind src_repn, dest_repn;
-	double skew, skewi, skewf, left, oleft;
-	int x, y, b, src_curband, dest_curband;
-	int extra_nrows, sdx, sdy, ddx, ddy;
-
-	/* Read properties of "src": */
-	src_nrows  = VImageNRows ( src );
-	src_ncols  = VImageNColumns ( src );
-	src_nbands = VImageNBands ( src );
-	src_repn   = VPixelRepn ( src );
-
-	/* Check to ensure that "band" exists: */
-	if ( band != VAllBands && ( band < 0 || band >= src_nbands ) ) {
-		VWarning ( "VShearImageY: Band %d referenced in image of %d bands",
-				   band, VImageNBands ( src ) );
-		return NULL;
-	}
-
-	/* Determine properties of "dest": */
-	extra_nrows = ( int ) floor ( shear * ( src_ncols - 0.5 ) );
-	dest_nrows  = src_nrows + VMax ( extra_nrows, -extra_nrows ) + 1;
-	dest_ncols  = src_ncols;
-	dest_nbands = ( band == VAllBands ) ? src_nbands : 1;
-	dest_repn   = src_repn;
-
-	/* Calculate displacements in converting from xy-coord. to
-	   row/column-coord. : */
-	sdx = 0;
-	sdy = src_nrows - 1;
-	ddx = 0;
-	ddy = dest_nrows - 1 - ( ( extra_nrows < 0 ) ? -extra_nrows : 0 );
-
-	/* Create dest image */
-	dest = VSelectDestImage ( "VShearImageY", dest,
-							  dest_nbands, dest_nrows, dest_ncols, dest_repn );
-
-	if ( dest == NULL )
-		return NULL;
-
-	/* Set all dest pixels to zero: */
-	VFillImage ( dest, VAllBands, 0.0 );
-
-	/* Treat lower left-hand corner of image as origin, with
-	   y up and x to the right. */
-
-
-	/*
-	 * Shear a column of an image of a particular type:
-	 */
+VImage VShearImageY(VImage src, VImage dest, VBand band, double shear) {
+    int src_nrows, src_ncols, src_nbands;
+    int dest_nrows, dest_ncols, dest_nbands;
+    VRepnKind src_repn, dest_repn;
+    double skew, skewi, skewf, left, oleft;
+    int x, y, b, src_curband, dest_curband;
+    int extra_nrows, sdx, sdy, ddx, ddy;
+    /* Read properties of "src": */
+    src_nrows  = VImageNRows(src);
+    src_ncols  = VImageNColumns(src);
+    src_nbands = VImageNBands(src);
+    src_repn   = VPixelRepn(src);
+    /* Check to ensure that "band" exists: */
+    if(band != VAllBands && (band < 0 || band >= src_nbands)) {
+        VWarning("VShearImageY: Band %d referenced in image of %d bands",
+                 band, VImageNBands(src));
+        return NULL;
+    }
+    /* Determine properties of "dest": */
+    extra_nrows = (int) floor(shear * (src_ncols - 0.5));
+    dest_nrows  = src_nrows + VMax(extra_nrows, -extra_nrows) + 1;
+    dest_ncols  = src_ncols;
+    dest_nbands = (band == VAllBands) ? src_nbands : 1;
+    dest_repn   = src_repn;
+    /* Calculate displacements in converting from xy-coord. to
+       row/column-coord. : */
+    sdx = 0;
+    sdy = src_nrows - 1;
+    ddx = 0;
+    ddy = dest_nrows - 1 - ((extra_nrows < 0) ? -extra_nrows : 0);
+    /* Create dest image */
+    dest = VSelectDestImage("VShearImageY", dest,
+                            dest_nbands, dest_nrows, dest_ncols, dest_repn);
+    if(dest == NULL)
+        return NULL;
+    /* Set all dest pixels to zero: */
+    VFillImage(dest, VAllBands, 0.0);
+    /* Treat lower left-hand corner of image as origin, with
+       y up and x to the right. */
+    /*
+     * Shear a column of an image of a particular type:
+     */
 #define ShearColumn(type)                                           \
 	{                                                                   \
 		type pixel;                                                     \
@@ -277,55 +248,45 @@ VImage VShearImageY ( VImage src, VImage dest, VBand band, double shear )
 				type)                                                   \
 		= (type) oleft;                                             \
 	}
-
-	/* For each band in the dest image do: */
-	for ( b = 0; b < dest_nbands; b++ ) {
-
-		src_curband = ( band == VAllBands ) ? b : band;
-		dest_curband = ( band == VAllBands ) ? b : 0;
-
-		/* For each column in the source image do: */
-		for ( x = 0; x < src_ncols; x++ ) {
-
-			skew = shear * ( x + 0.5 );
-			skewi = floor ( skew );
-			skewf = skew - skewi;
-
-			oleft = 0.0;
-
-			/* Shear a column according to pixel representation: */
-			switch ( src_repn ) {
-			case VBitRepn:
-				ShearColumn ( VBit );
-				break;
-			case VUByteRepn:
-				ShearColumn ( VUByte );
-				break;
-			case VSByteRepn:
-				ShearColumn ( VSByte );
-				break;
-			case VShortRepn:
-				ShearColumn ( VShort );
-				break;
-			case VLongRepn:
-				ShearColumn ( VLong );
-				break;
-			case VFloatRepn:
-				ShearColumn ( VFloat );
-				break;
-			case VDoubleRepn:
-				ShearColumn ( VDouble );
-				break;
-			default:
-				break;
-			}
-
-		}
-
-	}
-
-	VCopyImageAttrs ( src, dest );
-	return dest;
-
+    /* For each band in the dest image do: */
+    for(b = 0; b < dest_nbands; b++) {
+        src_curband = (band == VAllBands) ? b : band;
+        dest_curband = (band == VAllBands) ? b : 0;
+        /* For each column in the source image do: */
+        for(x = 0; x < src_ncols; x++) {
+            skew = shear * (x + 0.5);
+            skewi = floor(skew);
+            skewf = skew - skewi;
+            oleft = 0.0;
+            /* Shear a column according to pixel representation: */
+            switch(src_repn) {
+            case VBitRepn:
+                ShearColumn(VBit);
+                break;
+            case VUByteRepn:
+                ShearColumn(VUByte);
+                break;
+            case VSByteRepn:
+                ShearColumn(VSByte);
+                break;
+            case VShortRepn:
+                ShearColumn(VShort);
+                break;
+            case VLongRepn:
+                ShearColumn(VLong);
+                break;
+            case VFloatRepn:
+                ShearColumn(VFloat);
+                break;
+            case VDoubleRepn:
+                ShearColumn(VDouble);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    VCopyImageAttrs(src, dest);
+    return dest;
 #undef ShearColumn
 }

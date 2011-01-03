@@ -1,11 +1,11 @@
 PROJECT(vgendesign)
 
 ADD_EXECUTABLE(vgendesign vgendesign.c)
-TARGET_LINK_LIBRARIES(vgendesign lipsia ${VIA_LIBRARY} ${FFTW3_FFTW3_LIBRARY})
+TARGET_LINK_LIBRARIES(vgendesign lipsia $ {VIA_LIBRARY} $ {FFTW3_FFTW3_LIBRARY})
 
 SET_TARGET_PROPERTIES(vgendesign PROPERTIES
-    COMPILE_FLAGS -ansi
-    LINK_FLAGS -Wl)
+                      COMPILE_FLAGS -ansi
+                      LINK_FLAGS -Wl)
 
 INSTALL(TARGETS vgendesign
         RUNTIME DESTINATION bin

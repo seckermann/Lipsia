@@ -42,178 +42,141 @@
 #define M   50       /* max number of different events */
 #define K   120      /* max len of a token */
 
-extern int VStringToken ( char *, char *, int, int );
+extern int VStringToken(char *, char *, int, int);
 extern char *getLipsiaVersion();
 
 int
-main ( int argc, char *argv[] )
-{
-	static VFloat tr = 0;
-	static VString filename = "";
-	static VOptionDescRec  options[] = {
-		{"out", VStringRepn, 1, ( VPointer ) &filename, VRequiredOpt, NULL, "Output file"},
-		{"tr", VFloatRepn, 1, ( VPointer ) &tr, VRequiredOpt, NULL, "Repetition time in seconds"}
-	};
-	FILE *in_file, *fp;
-	char buf[LEN], token[K];
-	float onset, duration, height;
-	float onset_array[M][N], onset_dim[M], duration_array[M][N], param_array[M][N];
-	int j, n, id, nid = 0, pid = 0;
-
-	char prg_name[50];
-	sprintf( prg_name, "vspm2lipsia V%s", getLipsiaVersion() );
-
-	fprintf ( stderr, "%s\n", prg_name );
-
-	VParseFilterCmd( VNumber( options ), options, argc, argv, &in_file, NULL );
-
-	duration = 1;
-	height   = 1;
-
-	for ( j = 0; j < M; j++ ) onset_dim[j] = 0;
-
-	/*
-	** parse input file, get onsets
-	*/
-	id = 1;
-
-	while ( !feof( in_file ) ) {
-		memset( buf, 0, LEN );
-		fgets( buf, LEN, in_file );
-
-		if ( strlen( buf ) < 2 ) continue;
-
-		if ( buf[0] == '#' || buf[0] == '%' ) continue;
-
-		n = 0;
-		VStringToken( buf, token, n, 16 );
-
-		if ( strcmp( token, "onset:" ) == 0 ) {
-			n = 1;
-
-			while ( VStringToken( buf, token, n, K ) ) {
-				sscanf( token, "%f", &onset );
-				onset *= tr;
-				onset_array[id][n] = onset;
-				n++;
-
-				if ( n >= N ) VError( " too many onsets" );
-			}
-
-			onset_dim[id] = n;
-			id++;
-		}
-	}
-
-	nid = id;
-	rewind( in_file );
-
-
-
-	/*
-	** get durations
-	*/
-	id = 1;
-
-	while ( !feof( in_file ) ) {
-		memset( buf, 0, LEN );
-		fgets( buf, LEN, in_file );
-
-		if ( strlen( buf ) < 2 ) continue;
-
-		if ( buf[0] == '#' || buf[0] == '%' ) continue;
-
-		for ( j = 0; j < N; j++ ) duration_array[id][j] = 1;
-
-		n = 0;
-		VStringToken( buf, token, n, 16 );
-
-		if ( strcmp( token, "onset:" ) == 0 ) id++;
-
-		if ( strcmp( token, "param:" ) == 0 ) continue;
-
-		if ( strcmp( token, "duration:" ) == 0 ) {
-			n = 1;
-
-			while ( VStringToken( buf, token, n, 16 ) ) {
-				sscanf( token, "%f", &duration );
-				duration *= tr;
-				duration_array[id - 1][n] = duration;
-				n++;
-			}
-		}
-	}
-
-	rewind( in_file );
-
-
-	/*
-	** get params
-	*/
-	id = 1;
-
-	while ( !feof( in_file ) ) {
-		memset( buf, 0, LEN );
-		fgets( buf, LEN, in_file );
-
-		if ( strlen( buf ) < 2 ) continue;
-
-		if ( buf[0] == '#' || buf[0] == '%' ) continue;
-
-		for ( j = 0; j < N; j++ ) param_array[id][j] = 0;
-
-		n = 0;
-		VStringToken( buf, token, n, 16 );
-
-		if ( strcmp( token, "onset:" ) == 0 ) id++;
-
-		if ( strcmp( token, "duration:" ) == 0 ) continue;
-
-		if ( strcmp( token, "param:" ) == 0 ) {
-			param_array[id - 1][0] = 1;
-			n = 1;
-
-			while ( VStringToken( buf, token, n, 16 ) ) {
-				sscanf( token, "%f", &height );
-				param_array[id - 1][n] = height;
-				n++;
-			}
-		}
-	}
-
-	fclose( in_file );
-
-
-	fp = fopen( filename, "w" );
-
-	if ( !fp ) VError( " error opening output file %s", filename );
-
-	pid = nid;
-
-	for ( id = 1; id < nid; id++ ) {
-		height = 1;
-
-		for ( j = 1; j < onset_dim[id]; j++ ) {
-			fprintf( fp, " %3d  %10.2f  %10.2f  %10.2f\n",
-					 id, onset_array[id][j], duration_array[id][j], height );
-		}
-
-		fprintf( fp, "\n" );
-
-		if ( param_array[id][0] > 0 ) {
-			for ( j = 1; j < onset_dim[id]; j++ ) {
-				fprintf( fp, " %3d  %10.2f  %10.2f  %10.2f\n",
-						 pid, onset_array[id][j], duration_array[id][j], param_array[id][j] );
-			}
-
-			pid++;
-			fprintf( fp, "\n" );
-		}
-	}
-
-	fclose( fp );
-
-	return 0;
+main(int argc, char *argv[]) {
+    static VFloat tr = 0;
+    static VString filename = "";
+    static VOptionDescRec  options[] = {
+        {"out", VStringRepn, 1, (VPointer) &filename, VRequiredOpt, NULL, "Output file"},
+        {"tr", VFloatRepn, 1, (VPointer) &tr, VRequiredOpt, NULL, "Repetition time in seconds"}
+    };
+    FILE *in_file, *fp;
+    char buf[LEN], token[K];
+    float onset, duration, height;
+    float onset_array[M][N], onset_dim[M], duration_array[M][N], param_array[M][N];
+    int j, n, id, nid = 0, pid = 0;
+    char prg_name[50];
+    sprintf(prg_name, "vspm2lipsia V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg_name);
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, NULL);
+    duration = 1;
+    height   = 1;
+    for(j = 0; j < M; j++)
+        onset_dim[j] = 0;
+    /*
+    ** parse input file, get onsets
+    */
+    id = 1;
+    while(!feof(in_file)) {
+        memset(buf, 0, LEN);
+        fgets(buf, LEN, in_file);
+        if(strlen(buf) < 2)
+            continue;
+        if(buf[0] == '#' || buf[0] == '%')
+            continue;
+        n = 0;
+        VStringToken(buf, token, n, 16);
+        if(strcmp(token, "onset:") == 0) {
+            n = 1;
+            while(VStringToken(buf, token, n, K)) {
+                sscanf(token, "%f", &onset);
+                onset *= tr;
+                onset_array[id][n] = onset;
+                n++;
+                if(n >= N)
+                    VError(" too many onsets");
+            }
+            onset_dim[id] = n;
+            id++;
+        }
+    }
+    nid = id;
+    rewind(in_file);
+    /*
+    ** get durations
+    */
+    id = 1;
+    while(!feof(in_file)) {
+        memset(buf, 0, LEN);
+        fgets(buf, LEN, in_file);
+        if(strlen(buf) < 2)
+            continue;
+        if(buf[0] == '#' || buf[0] == '%')
+            continue;
+        for(j = 0; j < N; j++)
+            duration_array[id][j] = 1;
+        n = 0;
+        VStringToken(buf, token, n, 16);
+        if(strcmp(token, "onset:") == 0)
+            id++;
+        if(strcmp(token, "param:") == 0)
+            continue;
+        if(strcmp(token, "duration:") == 0) {
+            n = 1;
+            while(VStringToken(buf, token, n, 16)) {
+                sscanf(token, "%f", &duration);
+                duration *= tr;
+                duration_array[id - 1][n] = duration;
+                n++;
+            }
+        }
+    }
+    rewind(in_file);
+    /*
+    ** get params
+    */
+    id = 1;
+    while(!feof(in_file)) {
+        memset(buf, 0, LEN);
+        fgets(buf, LEN, in_file);
+        if(strlen(buf) < 2)
+            continue;
+        if(buf[0] == '#' || buf[0] == '%')
+            continue;
+        for(j = 0; j < N; j++)
+            param_array[id][j] = 0;
+        n = 0;
+        VStringToken(buf, token, n, 16);
+        if(strcmp(token, "onset:") == 0)
+            id++;
+        if(strcmp(token, "duration:") == 0)
+            continue;
+        if(strcmp(token, "param:") == 0) {
+            param_array[id - 1][0] = 1;
+            n = 1;
+            while(VStringToken(buf, token, n, 16)) {
+                sscanf(token, "%f", &height);
+                param_array[id - 1][n] = height;
+                n++;
+            }
+        }
+    }
+    fclose(in_file);
+    fp = fopen(filename, "w");
+    if(!fp)
+        VError(" error opening output file %s", filename);
+    pid = nid;
+    for(id = 1; id < nid; id++) {
+        height = 1;
+        for(j = 1; j < onset_dim[id]; j++) {
+            fprintf(fp, " %3d  %10.2f  %10.2f  %10.2f\n",
+                    id, onset_array[id][j], duration_array[id][j], height);
+        }
+        fprintf(fp, "\n");
+        if(param_array[id][0] > 0) {
+            for(j = 1; j < onset_dim[id]; j++) {
+                fprintf(fp, " %3d  %10.2f  %10.2f  %10.2f\n",
+                        pid, onset_array[id][j], duration_array[id][j], param_array[id][j]);
+            }
+            pid++;
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+    return 0;
 }
 
 

@@ -37,29 +37,23 @@
 
 
 VImage
-VFuncCompress( VImage src, VShort minval )
-{
-	VImage dest = NULL;
-	VShort *short_pp;
-	int i;
-
-
-	short_pp = VImageData( src );
-
-	for ( i = 0; i < VImageNPixels( src ); i++ ) {
-		if ( *short_pp > minval ) return src; /* a non-zero voxel is found */
-
-		short_pp++;
-	}
-
-	dest = VCreateImage( 1, 1, 1, VShortRepn );
-	VPixel( dest, 0, 0, 0, VShort ) = 0;
-	VCopyImageAttrs ( src, dest );
-	VAppendAttr( VImageAttrList( dest ), "ori_nrows", NULL, VShortRepn, VImageNRows( src ) );
-	VAppendAttr( VImageAttrList( dest ), "ori_ncolumns", NULL, VShortRepn, VImageNColumns( src ) );
-	VDestroyImage( src );
-
-	return dest;
+VFuncCompress(VImage src, VShort minval) {
+    VImage dest = NULL;
+    VShort *short_pp;
+    int i;
+    short_pp = VImageData(src);
+    for(i = 0; i < VImageNPixels(src); i++) {
+        if(*short_pp > minval)
+            return src;    /* a non-zero voxel is found */
+        short_pp++;
+    }
+    dest = VCreateImage(1, 1, 1, VShortRepn);
+    VPixel(dest, 0, 0, 0, VShort) = 0;
+    VCopyImageAttrs(src, dest);
+    VAppendAttr(VImageAttrList(dest), "ori_nrows", NULL, VShortRepn, VImageNRows(src));
+    VAppendAttr(VImageAttrList(dest), "ori_ncolumns", NULL, VShortRepn, VImageNColumns(src));
+    VDestroyImage(src);
+    return dest;
 }
 
 

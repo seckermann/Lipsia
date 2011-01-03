@@ -39,51 +39,43 @@
 #define CORONAL  1
 #define SAGITTAL 2
 
-extern VImage VAxial2Coronal_short( VImage, VImage );
-extern VImage VAxial2Sagittal_short( VImage, VImage );
+extern VImage VAxial2Coronal_short(VImage, VImage);
+extern VImage VAxial2Sagittal_short(VImage, VImage);
 
 
 
 VImage
-VTransTimeStep( VImage src, VImage src_tmp, VImage dest, VImage dest_tmp, VImage transform,
-				int nbands1, int nrows1, int ncols1, int orient, VFloat resolution,
-				float zscale, float yscale, float xscale )
-{
-	float b0, r0, c0;
-	float scale[3], shift[3];
-
-	zscale /= resolution;
-	yscale /= resolution;
-	xscale /= resolution;
-
-	scale[0] = zscale;
-	scale[1] = yscale;
-	scale[2] = xscale;
-
-	shift[0] = 0;
-	shift[1] = ( float )nrows1 * 0.5 - yscale * ( float )VImageNRows( src ) * 0.5;
-	shift[2] = ( float )ncols1 * 0.5 - xscale * ( float )VImageNColumns( src ) * 0.5;
-	src_tmp = VTriLinearScale3d( src, src_tmp, nbands1, nrows1, ncols1, shift, scale );
-
-	/*
-	** resample image
-	*/
-	b0 = ( float )nbands1 * 0.5;
-	r0 = ( float )nrows1  * 0.5;
-	c0 = ( float )ncols1  * 0.5;
-	dest = VTriLinearSample3d( src_tmp, dest, transform, b0, r0, c0, nbands1, nrows1, ncols1 );
-
-
-	switch ( orient ) {
-	case AXIAL:
-		return dest;
-	case CORONAL:
-		dest_tmp = VAxial2Coronal_short( dest, dest_tmp );
-		return dest_tmp;
-	case SAGITTAL:
-		dest_tmp = VAxial2Sagittal_short( dest, dest_tmp );
-		return dest_tmp;
-	}
-
-	return NULL;
+VTransTimeStep(VImage src, VImage src_tmp, VImage dest, VImage dest_tmp, VImage transform,
+               int nbands1, int nrows1, int ncols1, int orient, VFloat resolution,
+               float zscale, float yscale, float xscale) {
+    float b0, r0, c0;
+    float scale[3], shift[3];
+    zscale /= resolution;
+    yscale /= resolution;
+    xscale /= resolution;
+    scale[0] = zscale;
+    scale[1] = yscale;
+    scale[2] = xscale;
+    shift[0] = 0;
+    shift[1] = (float)nrows1 * 0.5 - yscale * (float)VImageNRows(src) * 0.5;
+    shift[2] = (float)ncols1 * 0.5 - xscale * (float)VImageNColumns(src) * 0.5;
+    src_tmp = VTriLinearScale3d(src, src_tmp, nbands1, nrows1, ncols1, shift, scale);
+    /*
+    ** resample image
+    */
+    b0 = (float)nbands1 * 0.5;
+    r0 = (float)nrows1  * 0.5;
+    c0 = (float)ncols1  * 0.5;
+    dest = VTriLinearSample3d(src_tmp, dest, transform, b0, r0, c0, nbands1, nrows1, ncols1);
+    switch(orient) {
+    case AXIAL:
+        return dest;
+    case CORONAL:
+        dest_tmp = VAxial2Coronal_short(dest, dest_tmp);
+        return dest_tmp;
+    case SAGITTAL:
+        dest_tmp = VAxial2Sagittal_short(dest, dest_tmp);
+        return dest_tmp;
+    }
+    return NULL;
 }

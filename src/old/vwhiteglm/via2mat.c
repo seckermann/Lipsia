@@ -46,121 +46,93 @@
  * @param src A 2D via image from which the matrix should be generated.
  * @return A reference to the allocated gsl matrix.
  */
-gsl_matrix_float *VFloat2Mat_gsl( VImage src )
-{
-
-	gsl_matrix_float *mat = NULL;
-
-	/* correct datatype? */
-	if ( VPixelRepn( src ) != VFloatRepn )
-		VError( "src must be VFloat in routine VFloat2Mat" );
-
-	/* correct number of bands? */
-	if ( VImageNBands( src ) > 1 )
-		VError( "number of bands (%d) > 1in VFloat2Mat", VImageNBands( src ) );
-
-	/* allocate  pixel matrix */
-	mat = gsl_matrix_float_alloc( VImageNRows( src ), VImageNColumns( src ) );
-
-	/* copy pixel values */
-	memcpy( ( VFloat * )mat->data, ( VFloat * )VPixelPtr( src, 0, 0, 0 ),
-			sizeof( VFloat ) * VImageNRows( src )* VImageNColumns( src ) );
-
-	/* transpose matrix */
-	gsl_matrix_float *dest = gsl_matrix_float_alloc( mat->size2, mat->size1 );
-	gsl_matrix_float_transpose_memcpy( dest, mat );
-
-	/* free memory */
-	gsl_matrix_float_free( mat );
-
-	return dest;
-
+gsl_matrix_float *VFloat2Mat_gsl(VImage src) {
+    gsl_matrix_float *mat = NULL;
+    /* correct datatype? */
+    if(VPixelRepn(src) != VFloatRepn)
+        VError("src must be VFloat in routine VFloat2Mat");
+    /* correct number of bands? */
+    if(VImageNBands(src) > 1)
+        VError("number of bands (%d) > 1in VFloat2Mat", VImageNBands(src));
+    /* allocate  pixel matrix */
+    mat = gsl_matrix_float_alloc(VImageNRows(src), VImageNColumns(src));
+    /* copy pixel values */
+    memcpy((VFloat *)mat->data, (VFloat *)VPixelPtr(src, 0, 0, 0),
+           sizeof(VFloat) * VImageNRows(src)* VImageNColumns(src));
+    /* transpose matrix */
+    gsl_matrix_float *dest = gsl_matrix_float_alloc(mat->size2, mat->size1);
+    gsl_matrix_float_transpose_memcpy(dest, mat);
+    /* free memory */
+    gsl_matrix_float_free(mat);
+    return dest;
 }
 
 /* WARNING: This gsl implementation of VShort2Mat is heavily customized
  * for use within whitecov(). It returns a 2-dim matrix (bands,cols*rows instead of
  * the 3-dim array (cols,rows,bands) from the matlab method.
  */
-gsl_matrix_float *VShort2Mat_gsl( VImage *src, int numsub )
-{
-
-	int allbands = 0, rows = 0, cols = 0, k;
-	gsl_matrix_float *dest;
-
-	/* check geometry, count bands */
-	for ( k = 0; k < numsub; k++ ) {
-
-		if ( VPixelRepn( src[k] ) != VShortRepn )
-			VError( "src must be VShort in routine VShort2Mat_gsl" );
-
-		/* check dimensions */
-		if ( rows == 0 )
-			rows = VImageNRows( src[k] );
-		else {
-			if ( rows != VImageNRows( src[k] ) )
-				VError( "rows do not coincide in routine VShort2Mat_gsl" );
-		}
-
-		if ( cols == 0 )
-			cols = VImageNColumns( src[k] );
-		else {
-			if ( cols != VImageNColumns( src[k] ) )
-				VError( "cols do not coincide in routine VShort2Mat_gsl" );
-		}
-
-		allbands += VImageNBands( src[k] );
-	}
-
-	/* create array */
-	dest = gsl_matrix_float_alloc( allbands, rows * cols );
-	int n, cbands = 0;
-	int r, c, j;
-	double sum1 = 0, sum2 = 0, nxx;
-	double mean = 0, sig = 1;
-	float u = 0, norm = 0;
-	gsl_vector_float *buffer;
-
-	for ( k = 0; k < numsub; k++ ) {
-
-		n = VImageNBands( src[k] );
-		buffer = gsl_vector_float_alloc( n );
-
-		for ( r = 0; r < rows; r++ ) {
-			for ( c = 0; c < cols; c++ ) {
-
-				/* Computing mean and sig */
-				sum1 = sum2 = 0;
-
-				for ( j = 0; j < n; j++ ) {
-					u = ( float )VPixel( src[k], j, r, c, VShort );
-					gsl_vector_float_set( buffer, j, u );
-					sum1 += u;
-					sum2 += u * u;
-				}
-
-				nxx  = ( double )n;
-				mean = sum1 / nxx;
-				sig  = sqrt( ( sum2 - nxx * mean * mean ) / ( nxx - 1.0 ) );
-
-				/* Applying mean and sig */
-				if ( sig > 1 ) {
-					norm = -mean + 100.0 * sig;
-					gsl_vector_float_add_constant( buffer, ( const float )norm );
-					gsl_vector_float_scale( buffer, ( const float )1.0 / sig );
-
-					for ( j = 0; j < n; j++ )
-						gsl_matrix_float_set( dest, j + cbands, r * cols + c, gsl_vector_float_get( buffer, j ) );
-				} else {
-					for ( j = 0; j < n; j++ )
-						gsl_matrix_float_set( dest, j + cbands, r * cols + c, 0.0 );
-				}
-			}
-		}
-
-		cbands += n;
-		gsl_vector_float_free( buffer );
-	}
-
-	return dest;
+gsl_matrix_float *VShort2Mat_gsl(VImage *src, int numsub) {
+    int allbands = 0, rows = 0, cols = 0, k;
+    gsl_matrix_float *dest;
+    /* check geometry, count bands */
+    for(k = 0; k < numsub; k++) {
+        if(VPixelRepn(src[k]) != VShortRepn)
+            VError("src must be VShort in routine VShort2Mat_gsl");
+        /* check dimensions */
+        if(rows == 0)
+            rows = VImageNRows(src[k]);
+        else {
+            if(rows != VImageNRows(src[k]))
+                VError("rows do not coincide in routine VShort2Mat_gsl");
+        }
+        if(cols == 0)
+            cols = VImageNColumns(src[k]);
+        else {
+            if(cols != VImageNColumns(src[k]))
+                VError("cols do not coincide in routine VShort2Mat_gsl");
+        }
+        allbands += VImageNBands(src[k]);
+    }
+    /* create array */
+    dest = gsl_matrix_float_alloc(allbands, rows * cols);
+    int n, cbands = 0;
+    int r, c, j;
+    double sum1 = 0, sum2 = 0, nxx;
+    double mean = 0, sig = 1;
+    float u = 0, norm = 0;
+    gsl_vector_float *buffer;
+    for(k = 0; k < numsub; k++) {
+        n = VImageNBands(src[k]);
+        buffer = gsl_vector_float_alloc(n);
+        for(r = 0; r < rows; r++) {
+            for(c = 0; c < cols; c++) {
+                /* Computing mean and sig */
+                sum1 = sum2 = 0;
+                for(j = 0; j < n; j++) {
+                    u = (float)VPixel(src[k], j, r, c, VShort);
+                    gsl_vector_float_set(buffer, j, u);
+                    sum1 += u;
+                    sum2 += u * u;
+                }
+                nxx  = (double)n;
+                mean = sum1 / nxx;
+                sig  = sqrt((sum2 - nxx * mean * mean) / (nxx - 1.0));
+                /* Applying mean and sig */
+                if(sig > 1) {
+                    norm = -mean + 100.0 * sig;
+                    gsl_vector_float_add_constant(buffer, (const float)norm);
+                    gsl_vector_float_scale(buffer, (const float)1.0 / sig);
+                    for(j = 0; j < n; j++)
+                        gsl_matrix_float_set(dest, j + cbands, r * cols + c, gsl_vector_float_get(buffer, j));
+                } else {
+                    for(j = 0; j < n; j++)
+                        gsl_matrix_float_set(dest, j + cbands, r * cols + c, 0.0);
+                }
+            }
+        }
+        cbands += n;
+        gsl_vector_float_free(buffer);
+    }
+    return dest;
 }
 
