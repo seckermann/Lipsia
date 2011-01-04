@@ -18,6 +18,7 @@
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 #define MIN(x,y) ((x) > (y) ? (y) : (x))
 
+extern char *getLipsiaVersion();
 
 VImage
 VSymmetric(VImage src, VShort type) {
@@ -72,6 +73,9 @@ int main(int argc, char **argv) {
     VAttrList list = NULL;
     VImage src = NULL, dest = NULL;
     VAttrListPosn posn;
+	char prg_name[100];
+	sprintf(prg_name, "vsymmetric V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* Read source image (grey matter): */

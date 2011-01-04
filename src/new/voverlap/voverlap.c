@@ -26,6 +26,8 @@
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
+extern char *getLipsiaVersion();
+
 /*
 double
 Dist1(VImage map1,VImage map2,int *lut)
@@ -101,6 +103,9 @@ main(int argc, char *argv[]) {
     int *tab = NULL, *lut = NULL;
     int b, r, c;
     double u, umax;
+	char prg_name[100];
+	sprintf(prg_name, "voverlap V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /*
     ** read 1st file

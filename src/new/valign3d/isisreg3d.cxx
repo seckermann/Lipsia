@@ -182,12 +182,18 @@ options[] = {
 
 };
 
+extern "C" {
+	char *getLipsiaVersion();
+}
+
 // This is the main function
-int main(
-	int argc, char *argv[] )
+int main(int argc, char *argv[] )
 {
 	// show revision information string constant
-	std::cout << "Core Version: " << isis::util::Application::getCoreVersion() << std::endl;
+	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
+	char prg_name[100];
+	sprintf(prg_name, "valign3d V%s", getLipsiaVersion());
+	std::cout << prg_name << std::endl;
 	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );

@@ -25,6 +25,7 @@
 
 
 extern void gsl_sort_vector(gsl_vector *);
+extern char *getLipsiaVersion();
 
 VDictEntry TypeDict[] = {
     { "mean", 0 },
@@ -201,7 +202,9 @@ main(int argc, char *argv[]) {
     };
     FILE *in_file = NULL, *out_file = NULL;
     VAttrList list = NULL, out_list = NULL;
-    char *prg = "vcheckdata";
+	char prg_name[100];
+	sprintf(prg_name, "vcheckdata V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(type > 7)
         VError(" illegal type");
@@ -210,7 +213,7 @@ main(int argc, char *argv[]) {
     fclose(in_file);
     fprintf(stderr, " computing %s...\n", (VString)TypeDict[type].keyword);
     out_list = VCheckScanner(list, (int)type, high);
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, out_list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

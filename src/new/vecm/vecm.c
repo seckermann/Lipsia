@@ -26,6 +26,8 @@
 #include <omp.h>
 #endif /*_OPENMP*/
 
+extern char *getLipsiaVersion();
+
 /* re-implementation of cblas_sspmv,  cblas_sspmv causes problems */
 void
 my_sspmv(float *A,float *x,float *y,int n)
@@ -321,8 +323,7 @@ VDictEntry TYPDict[] = {
 };
 
 int
-main (int argc,char *argv[])
-{
+main (int argc,char *argv[]) {
   static VString  filename = "";
   static VShort   first  = 2;
   static VShort   length = 0;
@@ -341,8 +342,9 @@ main (int argc,char *argv[])
   VAttrList list=NULL,list1=NULL,out_list=NULL;
   VAttrListPosn posn;
   VImage mask=NULL;
-  char *prg = "vecm";
-
+  char prg_name[100];
+  sprintf(prg_name, "vecm V%s", getLipsiaVersion());
+  fprintf(stderr, "%s\n", prg_name);
   VParseFilterCmd (VNumber (options),options,argc,argv,&in_file,&out_file);
 
 
@@ -383,7 +385,7 @@ main (int argc,char *argv[])
   ** process
   */
   out_list = VECM(list,mask,minval,first,length,type);
-  VHistory(VNumber(options),options,prg,&list,&out_list);
+  VHistory(VNumber(options),options,prg_name,&list,&out_list);
   if (! VWriteFile (out_file, out_list)) exit (1);
   fprintf (stderr, "%s: done.\n", argv[0]);
   return 0;

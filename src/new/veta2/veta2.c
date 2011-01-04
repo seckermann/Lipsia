@@ -25,6 +25,7 @@
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
+extern char *getLipsiaVersion();
 
 double
 Correlation(const float *arr1, const float *arr2, int n) {
@@ -244,8 +245,10 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL, list1 = NULL, out_list = NULL;
     VAttrListPosn posn;
     VImage mask = NULL;
-    char *prg = "veta2";
-    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+	char prg_name[100];
+	sprintf(prg_name, "veta2 V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
+	VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /*
     ** read mask
     */
@@ -275,7 +278,7 @@ main(int argc, char *argv[]) {
     ** process
     */
     out_list = VEta2(list, mask, minval, first, length);
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     if(! VWriteFile(out_file, out_list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

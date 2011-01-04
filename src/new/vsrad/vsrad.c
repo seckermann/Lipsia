@@ -19,7 +19,7 @@
 #include <math.h>
 
 extern VImage VSRAD(VImage, VImage, VShort, VShort, VFloat);
-
+extern char *getLipsiaVersion();
 
 void
 DeleteBorder(VImage src) {
@@ -65,7 +65,9 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL;
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL;
-    char *prg = "vsrad";
+	char prg_name[100];
+	sprintf(prg_name, "vsrad V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     int n, nimages;
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(rho < 0 || rho > 1)
@@ -90,7 +92,7 @@ main(int argc, char *argv[]) {
         VSetAttrValue(& posn, NULL, VImageRepn, src);
         n++;
     }
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

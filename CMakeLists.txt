@@ -29,8 +29,42 @@ SET(LIPSIA_VERSION_MAJOR "2")
 SET(LIPSIA_VERSION_MINOR "0")
 SET(LIPSIA_VERSION_PATCH "0")
 
+ADD_DEFINITIONS(-D_LIPSIA_VERSION_MAJOR=${LIPSIA_VERSION_MAJOR})
+ADD_DEFINITIONS(-D_LIPSIA_VERSION_MINOR=${${CMAKE_PROJECT_NAME}_VERSION_MINOR})
+ADD_DEFINITIONS(-D_LIPSIA_VERSION_PATCH=${${CMAKE_PROJECT_NAME}_VERSION_PATCH})
+
 SET(LIPSIA_SHARED_LIB_VERSION
 	${LIPSIA_VERSION_MAJOR}.${LIPSIA_VERSION_MINOR}.${LIPSIA_VERSION_PATCH})
+
+############################################################
+# SVN revision number
+############################################################
+# Set the revision number if this dir is a svn working copy.
+# The revision number will be stored in SVN_REVISION.
+FIND_FILE(SVNVERSION svnversion
+    PATHS /usr/bin /usr/local/bin
+    DOC "The subversion revision information tool.")
+
+IF (NOT SVN_REVISION)
+	IF (SVNVERSION)
+		EXECUTE_PROCESS(COMMAND ${SVNVERSION}
+			OUTPUT_VARIABLE OUT
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+		string(REGEX MATCH "exported" EXPORTED "${OUT}")
+		IF (NOT EXPORTED)
+			string(REGEX MATCH "^[0-9]+" SVN_REVISION "${OUT}") #@todo wont work with more complex revisions/modified sources
+			SET(SVN_REVISION ${SVN_REVISION})
+		ELSE (NOT EXPORTED)
+			set(SVN_REVISION "exported")
+		ENDIF (NOT EXPORTED)
+	ENDIF (SVNVERSION)
+ENDIF (NOT SVN_REVISION)
+
+IF (SVN_REVISION)
+  MESSAGE(STATUS "SVN Revision: ${SVN_REVISION}")
+  ADD_DEFINITIONS(-D_LIPSIA_SVN_REVISION=${SVN_REVISION})
+ENDIF(SVN_REVISION)
+
 
 # configure install destinations
 # SET(LIPSIA_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")

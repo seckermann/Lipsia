@@ -4,6 +4,11 @@
 #include <map>
 #include <boost/assign.hpp>
 
+
+extern "C" {
+	char *getLipsiaVersion();
+}
+
 using namespace isis;
 
 template<typename TYPE>
@@ -32,6 +37,10 @@ int main( int argc, char **argv )
 	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
+	char prg_name[100];
+	sprintf(prg_name, "vswapdim V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
 	const size_t getBiggestVecElem( const util::fvector4 & vec );
 	std::map<std::string, unsigned int> alongMap = boost::assign::map_list_of
 			( "x", 0 ) ( "y", 1 ) ( "z", 2 ) ( "sagittal", 3 ) ( "coronal", 4 ) ( "axial", 5 );

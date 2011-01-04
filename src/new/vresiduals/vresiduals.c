@@ -38,6 +38,7 @@
 extern gsl_vector *GaussKernel(double);
 extern void GaussMatrix(double, gsl_matrix_float *);
 extern gsl_vector_float *VectorConvolve(gsl_vector_float *, gsl_vector_float *, gsl_vector *);
+extern char *getLipsiaVersion();
 gsl_vector_float *VGlobalMean(VAttrList, VShort, VImage);
 
 
@@ -315,8 +316,9 @@ main(int argc, char *argv[]) {
     VLong itr = 0;
     VFloat sigma = 0, tr = 0;
     int  n;
-    char *prg = "vresiduals";
-    fprintf(stderr, "# %s\n", prg);
+	char prg_name[100];
+	sprintf(prg_name, "vresiduals V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* read design matrix */
     fp = VOpenInputFile(filename, TRUE);
@@ -372,7 +374,7 @@ main(int argc, char *argv[]) {
     dest = VResiduals(list, minval, design, sigma, itr, mask, global_mean);
     VAppendAttr(list, "var_explained", NULL, VImageRepn, dest);
     /* output */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "# %s: done.\n", argv[0]);

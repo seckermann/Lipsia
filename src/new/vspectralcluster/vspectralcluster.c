@@ -34,7 +34,7 @@ extern int *KMeans(gsl_matrix *, int, double *, double *);
 extern gsl_matrix *dmat_x_mat(gsl_matrix *, gsl_matrix *, gsl_matrix *);
 extern gsl_matrix *L_rw(VImage, gsl_matrix *, int, int);
 extern gsl_matrix *L_sym(VImage, gsl_matrix *, int, int, VBoolean);
-
+extern char *getLipsiaVersion();
 
 void
 vprintmat(gsl_matrix *A) {
@@ -165,7 +165,9 @@ main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL, map = NULL;
     /* char *prg = "vspectralcluster: $Revision: 0.0 $"; */
-    char *prg = "vspectralcluster";
+	char prg_name[100];
+	sprintf(prg_name, "vspectralcluster V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(nclusters < 2)
         VError(" number of clusters too small");
@@ -191,7 +193,7 @@ main(int argc, char *argv[]) {
     }
     if(dest == NULL)
         VError(" similarity matrix not found");
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

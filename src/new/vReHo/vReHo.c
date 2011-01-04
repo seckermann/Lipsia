@@ -25,7 +25,7 @@
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
 extern double VKendall_W(gsl_matrix *, int, int);
-
+extern char *getLipsiaVersion();
 
 VAttrList
 VReHo(VAttrList list, VShort minval, VShort first, VShort length) {
@@ -139,7 +139,9 @@ main(int argc, char *argv[]) {
     };
     FILE *in_file, *out_file;
     VAttrList list = NULL, out_list = NULL;
-    char *prg = "vReHo";
+	char prg_name[100];
+	sprintf(prg_name, "vReHo V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /*
     ** read functional data
@@ -152,7 +154,7 @@ main(int argc, char *argv[]) {
     */
     out_list = VReHo(list, minval, first, length);
     /* output */
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     if(! VWriteFile(out_file, out_list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

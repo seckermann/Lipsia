@@ -3,19 +3,23 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define STRINGIFY(x) #x
+#define EXPAND(x) STRINGIFY(x)
+
+/*
 char *getLipsiaVersion() {
-    char url[] = "$HeadURL: https://svnserv.cbs.mpg.de/svn/lipsia/trunk/lipsia/src/lib_lipsia/GetVersion.c $";
+    char url[] = "$HeadURL: https://svnserv.cbs.mpg.de/svn/gr_lipsia/lipsia-2.0/trunk/src/old/lib_lipsia/GetVersion.c $";
     char *ver = (char *)VMalloc(sizeof(char) * 20);
     char *pch;
-    /* check if this version was checked out from the trunk */
+    // check if this version was checked out from the trunk 
     if(strstr(url, "/trunk/")) {
         sprintf(ver, "#TRUNK#");
     }
-    /* check if this version comes from a '/tags/' subdir */
+  //   check if this version comes from a '/tags/' subdir 
     else {
         if((pch = strstr(url, "/tags/"))) {
-            /* in 'tags' lipsia should reside in a directory similar to 'lipsia-X.X.X/'.
-             X.X.X is the version string we are interested in. */
+            // in 'tags' lipsia should reside in a directory similar to 'lipsia-X.X.X/'.
+             X.X.X is the version string we are interested in.
             pch = strstr(url, "lipsia-");
             pch = strtok(pch, "-");
             pch = strtok(NULL, "/");
@@ -24,9 +28,22 @@ char *getLipsiaVersion() {
             else
                 strcpy(ver, pch);
         }
-        /* obviously, this version comes from outer space. Hence, there is no number. */
+  //      /* obviously, this version comes from outer space. Hence, there is no number. 
         else
             sprintf(ver, "0.0.0");
     }
     return ver;
+}
+*/
+char *getLipsiaVersion() {
+	char ver[100];
+	sprintf(ver, EXPAND(_LIPSIA_VERSION_MAJOR) );
+	strcat(ver, ".");
+	strcat(ver, EXPAND(_LIPSIA_VERSION_MINOR) );
+	strcat(ver, ".");
+	strcat(ver, EXPAND(_LIPSIA_VERSION_PATCH) );
+	strcat(ver, " [");
+	strcat(ver, EXPAND(_LIPSIA_SVN_REVISION) );
+	strcat(ver, "]");
+	return ver;
 }

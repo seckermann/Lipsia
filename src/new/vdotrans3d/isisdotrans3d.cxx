@@ -55,6 +55,9 @@
 #include <viaio/mu.h> //this is required for VNumber
 //command line parser options
 
+extern "C" {
+	char *getLipsiaVersion();
+}
 VDictEntry TYPInterpolator[] = { {"Linear", 0}, {"BSpline", 1}, {"NearestNeighbor", 2}, {NULL}};
 
 static VString in_filename = NULL;
@@ -97,13 +100,16 @@ static VOptionDescRec options[] = {
 
 };
 
-#include <boost/concept_check.hpp>
-int main(
 
-	int argc, char *argv[] )
+
+#include <boost/concept_check.hpp>
+int main(int argc, char *argv[] )
 {
 	// show revision information string constant
-	std::cout << "Core Version: " << isis::util::Application::getCoreVersion() << std::endl;
+	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
+	char prg_name[100];
+	sprintf(prg_name, "vdotrans3d V%s", getLipsiaVersion());
+	std::cout << prg_name << std::endl;
 	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
@@ -235,7 +241,6 @@ int main(
 		if ( tmpList.front()->hasProperty( "Vista/extent" ) ) {
 			ref->setProperty<std::string>( "Vista/extent", tmpList.front()->getProperty<std::string>( "Vista/extent" ) );
 		}
-
 		if ( tmpList.front()->hasProperty( "Vista/ca" ) && tmpList.front()->hasProperty( "Vista/cp" ) ) {
 			std::vector< std::string > caTuple;
 			std::vector< std::string > cpTuple;

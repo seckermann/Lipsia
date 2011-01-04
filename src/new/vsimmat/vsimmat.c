@@ -20,6 +20,7 @@
 
 #define NSLICES 2000
 
+extern char *getLipsiaVersion();
 
 double
 Correlation(const float *arr1, const float *arr2, int n) {
@@ -198,7 +199,9 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL, list1 = NULL, list2 = NULL;
     VAttrListPosn posn;
     VImage dest = NULL, mask = NULL;
-    char *prg = "vsimmat";
+	char prg_name[100];
+	sprintf(prg_name, "vsimmat V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /*
     ** read mask
@@ -231,7 +234,7 @@ main(int argc, char *argv[]) {
     dest = SimilarityMatrix(list, mask, minval, fisher);
     list2 = VCreateAttrList();
     VAppendAttr(list2, "matrix", NULL, VImageRepn, dest);
-    VHistory(VNumber(options), options, prg, &list, &list2);
+    VHistory(VNumber(options), options, prg_name, &list, &list2);
     if(! VWriteFile(out_file, list2))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

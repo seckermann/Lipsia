@@ -28,6 +28,7 @@
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
+extern char *getLipsiaVersion();
 
 /*
 double
@@ -124,8 +125,10 @@ int main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage src, *src1;
     int i, j, n = 0;
-    char *prg_name = "vgaussianize";
-    fprintf(stderr, "%s\n", prg_name);
+    char prg_name[100];
+	sprintf(prg_name, "vgaussianize V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
+	
     if(!VParseCommand(VNumber(options), options, & argc, argv)) {
         VReportUsage(argv[0], VNumber(options), options, NULL);
         exit(0);

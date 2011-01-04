@@ -17,6 +17,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+extern char *getLipsiaVersion();
 
 /*
 ** give infos about volumes
@@ -47,7 +48,9 @@ main(int argc, char *argv[]) {
     VImage src_image = NULL, tmp = NULL;
     VAttrListPosn posn;
     int nl = 0;
-    char *prg = "volumeinfo: $Revision: 0.0 $";
+	char prg_name[100];
+	sprintf(prg_name, "volumeinfo V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(0, NULL, argc, argv, &in_file, NULL);
     /* Read source image(s): */

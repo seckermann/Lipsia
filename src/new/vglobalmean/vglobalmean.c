@@ -32,6 +32,7 @@
 #define SQR(x) ((x)*(x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
+extern char *getLipsiaVersion();
 
 gsl_vector_float *
 VGlobalMean(VAttrList list, VImage mask, VShort minval) {
@@ -120,6 +121,9 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL, list1 = NULL;
     VAttrListPosn posn;
     VImage mask = NULL;
+	char prg_name[100];
+	sprintf(prg_name, "vglobalmean V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     int  i;
     gsl_vector_float *gmean = NULL;
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, NULL);

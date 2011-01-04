@@ -50,6 +50,8 @@ extern double VMutualInformation(gsl_vector *, gsl_vector *, int);
 extern double CorrelationPearson(gsl_vector *, gsl_vector *, int);
 extern double CorrelationSpearman(gsl_vector *, gsl_vector *, int);
 extern double VKendallDist(double *, double *, int);
+extern char *getLipsiaVersion();
+
 
 
 int
@@ -77,7 +79,9 @@ main(int argc, char *argv[]) {
     double *ptr, v;
     gsl_vector *array1 = NULL, *array2 = NULL;
     int j, k, n, b, r, c, nslices, nrows, ncols;
-    char *prg = "vcorr";
+	char prg_name[100];
+	sprintf(prg_name, "vcorr V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
@@ -187,7 +191,7 @@ main(int argc, char *argv[]) {
     ** output
     */
     out_list = VCreateAttrList();
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     VSetAttr(VImageAttrList(dest), "modality", NULL, VStringRepn, "conimg");
     VAppendAttr(out_list, "image", NULL, VImageRepn, dest);
     if(! VWriteFile(out_file, out_list))

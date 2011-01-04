@@ -38,6 +38,7 @@ extern gsl_vector *GaussKernel(double);
 extern void GaussMatrix(double, gsl_matrix_float *);
 extern gsl_vector_float *VectorConvolve(gsl_vector_float *, gsl_vector_float *, gsl_vector *);
 gsl_vector_float *VGlobalMean(VAttrList, VShort, VImage);
+extern char *getLipsiaVersion();
 
 
 /*
@@ -293,8 +294,9 @@ main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage dest = NULL, mask = NULL;
     int  n;
-    char *prg = "vrmglobal";
-    fprintf(stderr, "# %s\n", prg);
+	char prg_name[100];
+	sprintf(prg_name, "vrmglobal V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* read mask */
     if(strlen(mask_filename) > 2) {
@@ -322,7 +324,7 @@ main(int argc, char *argv[]) {
     dest = VRmGlobal(list, minval, mask, fwhm);
     VAppendAttr(list, "var_explained", NULL, VImageRepn, dest);
     /* output */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "# %s: done.\n", argv[0]);

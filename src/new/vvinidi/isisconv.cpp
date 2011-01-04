@@ -6,6 +6,9 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <list>
 
+extern "C" {
+	char *getLipsiaVersion();
+}
 
 using namespace isis;
 
@@ -14,7 +17,10 @@ int main( int argc, char **argv )
 	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
-
+	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
+	char prg_name[100];
+	sprintf(prg_name, "vvinidi V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
 	data::IOApplication app( "isis data converter", true, true );
 	app.parameters["tr"] = 0.;
 	app.parameters["tr"].needed() = false;

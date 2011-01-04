@@ -21,6 +21,9 @@
 
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
+
+extern char *getLipsiaVersion();
+
 struct my_params {
     int nt;
     double *array;
@@ -208,7 +211,9 @@ main(int argc, char *argv[]) {
     };
     FILE *in_file = NULL, *out_file = NULL;
     VAttrList list = NULL;
-    char *prg = "vartefact";
+	char prg_name[100];
+	sprintf(prg_name, "vartefact V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
@@ -216,7 +221,7 @@ main(int argc, char *argv[]) {
     /* repair artefact timesteps */
     VArtefact(list, alpha, minval, verbose);
     /* output */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

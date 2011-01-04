@@ -17,6 +17,7 @@
 #include <ctype.h>
 
 extern int VStringToken(char *, char *, int, int);
+extern char *getLipsiaVersion();
 
 #define LEN  10000   /* max number of characters per line in file */
 #define NCOV   200   /* max number of additional covariates     */
@@ -138,6 +139,9 @@ main(int argc, char *argv[]) {
     FILE *out_file = NULL;
     VAttrList list = NULL;
     VImage dest = NULL;
+	char prg_name[100];
+	sprintf(prg_name, "vcovariates V%s", getLipsiaVersion());
+	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, NULL, &out_file);
     if(tr > 500)
         VError(" tr must be given in seconds, not milliseconds");
