@@ -1,0 +1,7 @@
+# RPM post install script file
+
+# remove entry from ldconfig search path
+rm -f /etc/ld.so.conf.d/lipsia.conf
+
+# run ldconfig
+/sbin/ldconfig

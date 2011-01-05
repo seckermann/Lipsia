@@ -1,4 +1,9 @@
 # RPM post install script file
 
+# add entry ldconfig library search path
+cat << EOF > /etc/ld.so.conf.d/lipsia.conf
+    /usr/lib/lipsia
+EOF
+
 # run ldconfig
 /sbin/ldconfig
