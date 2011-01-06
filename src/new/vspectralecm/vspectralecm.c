@@ -46,6 +46,7 @@ my_sspmv(float *A,float *x,float *y,int n)
 
   kk = k = 0;
   for (j=0; j<n; j++) {
+    y[j]=0;
     tmp1 = x[j];
     tmp2 = 0;
     k = kk;
