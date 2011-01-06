@@ -22,11 +22,11 @@
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
+extern char *getLipsiaVersion();
+
 #ifdef _OPENMP
 #include <omp.h>
 #endif /*_OPENMP*/
-
-extern char *getLipsiaVersion();
 
 /* re-implementation of cblas_sspmv,  cblas_sspmv causes problems */
 void
@@ -323,7 +323,8 @@ VDictEntry TYPDict[] = {
 };
 
 int
-main (int argc,char *argv[]) {
+main (int argc,char *argv[])
+{
   static VString  filename = "";
   static VShort   first  = 2;
   static VShort   length = 0;
@@ -331,7 +332,7 @@ main (int argc,char *argv[]) {
   static VShort   minval = 0;
   static VShort   nproc = 4;
   static VOptionDescRec  options[] = {
-    {"mask",VStringRepn,1,(VPointer) &filename,VOptionalOpt,NULL,"mask"},
+    {"mask",VStringRepn,1,(VPointer) &filename,VRequiredOpt,NULL,"mask"},
     {"minval",VShortRepn,1,(VPointer) &minval,VOptionalOpt,NULL,"signal threshold"},
     {"first",VShortRepn,1,(VPointer) &first,VOptionalOpt,NULL,"first timestep to use"},
     {"length",VShortRepn,1,(VPointer) &length,VOptionalOpt,NULL,"length of time series to use, '0' to use full length"},

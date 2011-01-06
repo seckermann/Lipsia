@@ -25,19 +25,8 @@ voxel.
 <div class="subtitle"><b>Usage</b></div>
 <div class="content">
 The program 'vpowerspectrum' calculates various characteristics of the power spectrum
-which can be select using the parameter '-type'. If '-type range' is selected, the relative
-power within a given frequency range is computed. The range is given by the parameters
-'-low' and '-high' which give the wavelengths of the range in seconds. For example,
-the following call computes the power between 1/10 Hz and 1/30 Hz and
-relates it to the overall power.
-<br><br>
-
-<tt><b><a href="#vpowerspectrum"><u>vpowerspectrum</u></a> 
--in data.v -out result.v -type range -low 10 -high 30</b></tt><br><p>
-<br><br>
-
-Alternatively, the spectral centroid can be computed by
-specifying '-type centroid'.
+which can be select using the parameter '-type'. 
+If '-type centroid' or '-type median' is selected, the centroid or the median is computed (Lohmann et al, 2011)
 The spectral centroid indicates where the "center of mass" of the spectrum is. 
 It is calculated as the weighted mean of the frequencies present in the signal
 with their magnitudes as the weights. The parameters '-low' and '-high' may be used to
@@ -51,6 +40,30 @@ Example:
 <tt><b><a href="#vpowerspectrum"><u>vpowerspectrum</u></a> 
 -in data.v -out result.v -type centroid</b></tt><br><p>
 <br><br>
+
+
+If '-type range' is selected, the relative
+power within a given frequency range is computed. This corresponds to the fALFF measure 
+(Zuo et al, 2008). The range is given by the parameters
+'-low' and '-high' which give the wavelengths of the range in seconds. For example,
+the following call computes the power between 1/10 Hz and 1/30 Hz and
+relates it to the overall power.
+<br><br>
+
+
+<tt><b><a href="#vpowerspectrum"><u>vpowerspectrum</u></a> 
+-in data.v -out result.v -type range -low 10 -high 30</b></tt><br><p>
+<br><br>
+
+
+
+<i>References:</i><br>
+Lohmann et al (2011). Spectral centroid and spectral median as new tools for analyzing fMRI data.
+HBM conference Quebec City, 2011(submitted).<br>
+Zou et al 92008). An improved approach to detection of amplitude of low-frequency fluctuation
+(ALFF) for resting-state fMRI: Fractional ALFF. J Neurosci Methods 172:137-141.
+<p><br>
+
 
 </div>
 <a name="vpowerspectrum"></a>
