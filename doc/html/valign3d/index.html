@@ -48,7 +48,7 @@ for getting a transform saved as an nifti-image containing a vector deformation 
 <br>
 <b>Warning: </b>You have to keep in mind that the registration is applied in physical space (scanner space). So the orientation information (i.e. index origin, orientation transform) in both, reference and moving image, should be valid!
 <br>
-If the indexOrigin is not valid you can either use the parameter <tt>-prealign_mass</tt> to align the center of mass of both images or <tt>-prealign_center</tt> to align the geometrical center of both images.<br>
+If the indexOrigin is not valid you can use the parameter <tt>-prealign</tt> to align both images.<br>
 If, however, the orientation transform is not valid you might get a sampling error and then you have to correct it prior using valign3d.<br>
 
 </div>
@@ -146,10 +146,8 @@ This performs a rigid registration on the MNI-atlas
      	The max/min value of the bspline deformation in each direction. Default: 100
     <DT>-gridSize<DD> 
          Number of grid points used for the BSplineDeformable transform to create the deformation field. Default: 5
-    <DT>-prealign_center [ true | false ]<DD> 
-        Using an initializer to align the image centers. Default: false
-    <DT>-prealign_mass [ true | false ]<DD> 
-	Using an initializer to align the center of mass. Default: false
+    <DT>-prealign [ true | false ]<DD> 
+	Using an initializer to align both images. Default: false
     <DT>-verbose<DD> 
         Printing the optimizer values of each iteration. Default: true
     <DT>-smooth<DD> 
