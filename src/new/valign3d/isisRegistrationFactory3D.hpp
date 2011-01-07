@@ -26,7 +26,7 @@
 
 #include "itkImageRegistrationMethod.h"
 
-#include "extITK/isisIterationObserver.hpp"
+#include "isisIterationObserver.hpp"
 
 //transform includes
 
