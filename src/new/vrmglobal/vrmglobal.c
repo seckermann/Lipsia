@@ -24,7 +24,7 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_linalg.h>
 
-#include <lipsia/gsl_utils.h>
+#include <gsl_utils.h>
 
 #define TINY    1.0e-6
 #define NSLICES 2500   /* max number of image slices */
@@ -294,9 +294,9 @@ main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage dest = NULL, mask = NULL;
     int  n;
-	char prg_name[100];
-	sprintf(prg_name, "vrmglobal V%s", getLipsiaVersion());
-	fprintf(stderr, "%s\n", prg_name);
+    char prg_name[100];
+    sprintf(prg_name, "vrmglobal V%s", getLipsiaVersion());
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* read mask */
     if(strlen(mask_filename) > 2) {

@@ -22,7 +22,7 @@
 #include <gsl/gsl_cblas.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
-#include <lipsia/gsl_utils.h>
+#include <gsl_utils.h>
 
 
 #define NSLICES 2500   /* max number of image slices */
