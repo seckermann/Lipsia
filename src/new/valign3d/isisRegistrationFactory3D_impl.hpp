@@ -63,7 +63,7 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::Reset(
 	m_InitialTransformIsSet = false;
 	UserOptions.PRINTRESULTS = false;
 	UserOptions.NumberOfIterations = 1000;
-	UserOptions.NumberOfBins = 50;
+	UserOptions.NumberOfBins = 100;
 	UserOptions.PixelDensity = 0.01;
 	UserOptions.USEOTSUTHRESHOLDING = false;
 	UserOptions.BSplineGridSize = 5;
@@ -265,12 +265,13 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetUpOptimizer()
 				optimizerScaleRegularStepGradient[0] = UserOptions.ROTATIONSCALE;
 				optimizerScaleRegularStepGradient[1] = UserOptions.ROTATIONSCALE;
 				optimizerScaleRegularStepGradient[2] = UserOptions.ROTATIONSCALE;
-				std::cout << "rotationScale: " << UserOptions.ROTATIONSCALE << std::endl;
 				//translation
 				if ( UserOptions.TRANSLATIONSCALE == -1 ) {
 					typename FixedImageType::SizeType imageSize = m_FixedImageRegion.GetSize();
-					UserOptions.TRANSLATIONSCALE = ( sqrt( imageSize[0] * imageSize[0] + imageSize[1] * imageSize[1] + imageSize[2] * imageSize[2] ) );
+					UserOptions.TRANSLATIONSCALE = 
+						( sqrt( imageSize[0] * imageSize[0] + imageSize[1] * imageSize[1] + imageSize[2] * imageSize[2] ) );
 				} 
+// 				std::cout << UserOptions.TRANSLATIONSCALE << std::endl;
 				optimizerScaleRegularStepGradient[3] = 1.0 / UserOptions.TRANSLATIONSCALE;
 				optimizerScaleRegularStepGradient[4] = 1.0 / UserOptions.TRANSLATIONSCALE;
 				optimizerScaleRegularStepGradient[5] = 1.0 / UserOptions.TRANSLATIONSCALE;
@@ -409,9 +410,9 @@ TFixedImageType, TMovingImageType >::prealign()
 	m_MattesMutualInformationMetric->Initialize();
 	typename MovingImageType::SizeType movingImageSize = m_MovingImageRegion.GetSize();
 	short minMax = UserOptions.PREALIGNPRECISION;
-	short stepSizeX = 0.5 * movingImageSize[0] / minMax;
-	short stepSizeY = 0.5 * movingImageSize[1] / minMax;
-	short stepSizeZ = 0.5 * movingImageSize[2] / minMax;
+	short stepSizeX = 0.2 * movingImageSize[0] / minMax;
+	short stepSizeY = 0.2 * movingImageSize[1] / minMax;
+	short stepSizeZ = 0.2 * movingImageSize[2] / minMax;
 	double value = 0;
 	double metricValue = 0;
 	for (int x = -minMax;x<=minMax;x++) {

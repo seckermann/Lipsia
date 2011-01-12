@@ -20,7 +20,7 @@
  *
  *****************************************************************/
 
-//#include "preproc.hpp"
+// #include "fftFilter.hpp"
 
 #include <itkWarpImageFilter.h>
 #include <itkImageMaskSpatialObject.h>
@@ -107,7 +107,7 @@ static VBoolean verbose = false;
 static VFloat rotatioscale = -1;
 static VFloat translationscale = -1;
 static VFloat create_mask = 0;
-
+static VShort precision = 5;
 
 static VOptionDescRec
 options[] = {
@@ -131,6 +131,10 @@ options[] = {
 	},
 	{
 		"iter", VShortRepn, 0, ( VPointer ) &number_of_iterations, VOptionalOpt, 0,
+		"Maximum number of iteration used by the optimizer"
+	},
+	{
+		"precision", VShortRepn, 0, ( VPointer ) &precision, VOptionalOpt, 0,
 		"Maximum number of iteration used by the optimizer"
 	},
 	
@@ -298,8 +302,9 @@ int main(int argc, char *argv[] )
 	FixedThresholdFilter::Pointer fixedThresholdFilter = FixedThresholdFilter::New();
 	MovingThresholdFilter::Pointer movingThresholdFilter = MovingThresholdFilter::New();
 	isis::data::ImageList refList = isis::data::IOFactory::load( ref_filename, "", "" );
-	//if no pixel density is specified it will be calculated to achive a amount of 15000 voxel considered for registration
-	float pixelDens = float( 15000 ) / ( refList.front()->sizeToVector()[0] * refList.front()->sizeToVector()[1] * refList.front()->sizeToVector()[2] ) ;
+	//if no pixel density is specified it will be calculated to achive a amount of 30000 voxel considered for registration
+	float pixelDens = float( 150000 ) / ( refList.front()->sizeToVector()[0] * refList.front()->sizeToVector()[1] * refList.front()->sizeToVector()[2] ) ;
+	if(pixelDens > 1) { pixelDens=1;}
 	isis::data::ImageList inList = isis::data::IOFactory::load( in_filename, "", "" );
 	LOG_IF( refList.empty(), isis::data::Runtime, isis::error ) << "Reference image is empty!";
 	LOG_IF( inList.empty(), isis::data::Runtime, isis::error ) << "Input image is empty!";
@@ -666,6 +671,7 @@ int main(int argc, char *argv[] )
 		registrationFactory->UserOptions.BSplineGridSize = gridSize;
 		registrationFactory->UserOptions.ROTATIONSCALE = rotatioscale;
 		registrationFactory->UserOptions.TRANSLATIONSCALE = translationscale;
+		registrationFactory->UserOptions.PREALIGNPRECISION = precision;
 
 		if ( verbose ) {
 			registrationFactory->UserOptions.SHOWITERATIONATSTEP = 1;

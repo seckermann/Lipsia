@@ -162,7 +162,7 @@ int main(int argc, char *argv[] )
 	ResampleImageFilterType::Pointer resampler = ResampleImageFilterType::New();
 	WarpImageFilterType::Pointer warper = WarpImageFilterType::New();
 	CastImageFilterType::Pointer caster = CastImageFilterType::New();
-	isis::extitk::ProcessUpdate::Pointer progressObserver = isis::extitk::ProcessUpdate::New();
+	//isis::extitk::ProcessUpdate::Pointer progressObserver = isis::extitk::ProcessUpdate::New();
 	TimeStepExtractionFilterType::Pointer timeStepExtractionFilter = TimeStepExtractionFilterType::New();
 	isis::extitk::TransformMerger3D *transformMerger = new isis::extitk::TransformMerger3D;
 	DeformationFieldReaderType::Pointer deformationFieldReader = DeformationFieldReaderType::New();
@@ -373,7 +373,7 @@ int main(int argc, char *argv[] )
 		writer->SetFileName( out_filename );
 
 		if ( !vtrans_filename && trans_filename.number == 1 ) {
-			resampler->AddObserver( itk::ProgressEvent(), progressObserver );
+			//resampler->AddObserver( itk::ProgressEvent(), progressObserver );
 			resampler->SetInput( inputImage );
 			resampler->SetOutputSpacing( outputSpacing );
 			resampler->SetSize( outputSize );
@@ -388,7 +388,7 @@ int main(int argc, char *argv[] )
 		}
 
 		if ( vtrans_filename or trans_filename.number > 1 ) {
-			warper->AddObserver( itk::ProgressEvent(), progressObserver );
+			//warper->AddObserver( itk::ProgressEvent(), progressObserver );
 			warper->SetOutputDirection( outputDirection );
 			warper->SetOutputOrigin( outputOrigin );
 			warper->SetOutputSize( outputSize );
