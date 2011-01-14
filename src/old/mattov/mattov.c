@@ -40,7 +40,7 @@
 
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -64,8 +64,10 @@ main(int argc, char *argv[]) {
     int numdims = 0, *dims = NULL;
     int bands = 0, rows = 0, cols = 0, pixels = 0;
     const char *name = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "mattov V%s", getLipsiaVersion());
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "mattov V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, NULL /* &in_file */ , &out_file);

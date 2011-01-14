@@ -34,7 +34,7 @@ extern int *KMeans(gsl_matrix *, int, double *, double *);
 extern gsl_matrix *dmat_x_mat(gsl_matrix *, gsl_matrix *, gsl_matrix *);
 extern gsl_matrix *L_rw(VImage, gsl_matrix *, int, int);
 extern gsl_matrix *L_sym(VImage, gsl_matrix *, int, int, VBoolean);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 void
 vprintmat(gsl_matrix *A) {
@@ -166,7 +166,9 @@ main(int argc, char *argv[]) {
     VImage src = NULL, dest = NULL, map = NULL;
     /* char *prg = "vspectralcluster: $Revision: 0.0 $"; */
 	char prg_name[100];
-	sprintf(prg_name, "vspectralcluster V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vspectralcluster V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(nclusters < 2)

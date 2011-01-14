@@ -43,7 +43,7 @@
 #define K   120      /* max len of a token */
 
 extern int VStringToken(char *, char *, int, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -58,8 +58,10 @@ main(int argc, char *argv[]) {
     float onset, duration, height;
     float onset_array[M][N], onset_dim[M], duration_array[M][N], param_array[M][N];
     int j, n, id, nid = 0, pid = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vspm2lipsia V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vspm2lipsia V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, NULL);
     duration = 1;

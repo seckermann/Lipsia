@@ -38,7 +38,7 @@
 static VImage SelectBands(VImage);
 static VBoolean Included(int, VArgVector *, VDictEntry *);
 static int Decode(VStringConst, VDictEntry *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 /* Command line options: */
 static VArgVector band_args = {NULL};
@@ -99,8 +99,10 @@ int main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage src, result;
     int nimages = 0, slice = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vseltimesteps V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vseltimesteps V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(VNumber(options), options, argc, argv,

@@ -52,7 +52,7 @@ VDictEntry TALDict[] = {
     { NULL }
 };
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char *argv[]) {
     /* Command line options: */
@@ -126,8 +126,10 @@ int main(int argc, char *argv[]) {
     double g, gbefore, gtwobefore, gafter, gtwoafter;
     /* for percent signal change */
     double sum, nxx, ave;
-    char prg_name[50];
-    sprintf(prg_name, "vextractparam V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vextractparam V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);

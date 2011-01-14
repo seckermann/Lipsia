@@ -221,7 +221,7 @@ options[] = {
 };
 
 extern "C" {
-	char *getLipsiaVersion();
+	void getLipsiaVersion(char*, size_t);
 }
 
 // This is the main function
@@ -230,7 +230,9 @@ int main(int argc, char *argv[] )
 	// show revision information string constant
 	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
 	char prg_name[100];
-	sprintf(prg_name, "valign3d V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "valign3d V%s", ver);
 	std::cout << prg_name << std::endl;
 	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );

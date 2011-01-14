@@ -22,7 +22,7 @@
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 struct my_params {
     int nt;
@@ -212,7 +212,9 @@ main(int argc, char *argv[]) {
     FILE *in_file = NULL, *out_file = NULL;
     VAttrList list = NULL;
 	char prg_name[100];
-	sprintf(prg_name, "vartefact V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vartefact V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))

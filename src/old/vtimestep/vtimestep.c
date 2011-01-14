@@ -41,7 +41,7 @@ VDictEntry TYPEDict[] = {
     { NULL }
 };
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -62,9 +62,11 @@ main(int argc, char *argv[]) {
     VBand band;
     VPointer src_pp, *dest_pp;
     char *ptr1, *ptr2;
-    char prg[50];
-    sprintf(prg, "vtimestep V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vtimestep V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     band = step;
     if(!(list = VReadFile(in_file, NULL)))
@@ -129,7 +131,7 @@ main(int argc, char *argv[]) {
     default:
         VError("illegal repn type");
     }
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     if(! VWriteFile(out_file, out_list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

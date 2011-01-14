@@ -63,7 +63,7 @@ extern VImage VCortex(VImage, VImage, VDouble, VLong, VLong, VLong, VBoolean, VS
 extern int cortex_point(VImage, VImage, int, int, int, short, VDouble, VLong, VLong);
 extern int VCheckPointDir(VImage, int, int, int, VBoolean, VBoolean, VBoolean, VBoolean, VBoolean, VBoolean);
 extern int FinalPoint(VImage, int, int, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 static VBoolean geometry = FALSE;
 
 
@@ -124,8 +124,10 @@ int main(int argc, char *argv[]) {
     VAttrList list;
     VAttrListPosn posn;
     VImage src = NULL, tmp = NULL, result = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "vwhitematter V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vwhitematter V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, & in_file, & out_file);

@@ -61,7 +61,7 @@ extern float t2z_approx(float, float);
 extern double t2p(double, double);
 extern double p2z(double);
 extern double z2p(double);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 double
 VFDR(VImage src, VShort sign, VFloat alpha) {
@@ -287,8 +287,10 @@ main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL;
     double p0 = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vfdr V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vfdr V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, NULL);
     /* process */

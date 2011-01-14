@@ -39,7 +39,7 @@
 #define MAXRESO 10
 
 extern VImage VDoTrans(VImage, VImage, VImage, VFloat, VLong);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry ITYPDict[] = {
     { "trilinear", 0 },
@@ -109,9 +109,11 @@ int main(int argc, char *argv[]) {
     VImage src = NULL, trans = NULL, dest = NULL;
     VFloat minreso = 0.001;
     int mod = 0;
-    char prg[50];
-    sprintf(prg, "vdotrans V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vdotrans V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* Read transformation image: */
@@ -184,7 +186,7 @@ int main(int argc, char *argv[]) {
     ** output
     */
 ende:
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     if(! VWriteFile(out_file, out_list))
         VError(" can't write output file");
     fprintf(stderr, "%s: done.\n", argv[0]);

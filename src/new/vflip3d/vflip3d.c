@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 /*
  *  Flip3dImage
@@ -73,7 +73,9 @@ int main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage src = NULL, result = NULL;
 	char prg_name[100];
-	sprintf(prg_name, "vflip3d V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vflip3d V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
 	VWarning("It is recommended to use the program vswapdim since vflip3d does not support extended header informations");
     /* Parse command line arguments and identify files: */

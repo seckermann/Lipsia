@@ -50,7 +50,7 @@ extern double VMutualInformation(gsl_vector *, gsl_vector *, int);
 extern double CorrelationPearson(gsl_vector *, gsl_vector *, int);
 extern double CorrelationSpearman(gsl_vector *, gsl_vector *, int);
 extern double VKendallDist(double *, double *, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 
@@ -80,7 +80,9 @@ main(int argc, char *argv[]) {
     gsl_vector *array1 = NULL, *array2 = NULL;
     int j, k, n, b, r, c, nslices, nrows, ncols;
 	char prg_name[100];
-	sprintf(prg_name, "vcorr V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vcorr V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))

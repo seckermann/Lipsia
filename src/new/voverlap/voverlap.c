@@ -26,7 +26,7 @@
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 /*
 double
@@ -104,7 +104,9 @@ main(int argc, char *argv[]) {
     int b, r, c;
     double u, umax;
 	char prg_name[100];
-	sprintf(prg_name, "voverlap V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "voverlap V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /*

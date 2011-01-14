@@ -42,7 +42,7 @@
 
 #define LEN 1024
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 
@@ -369,9 +369,11 @@ main(int argc, char *argv[]) {
     FILE *in_file = NULL, *out_file = NULL;
     VAttrList list = NULL;
     float *onset_array = NULL;
-    char prg[50];
-    sprintf(prg, "vslicetime V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vslicetime V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
@@ -383,7 +385,7 @@ main(int argc, char *argv[]) {
     } else {
         VSlicetime_NC(list, minval, tdel, slicetime_correction, onset_array, filename);
     }
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

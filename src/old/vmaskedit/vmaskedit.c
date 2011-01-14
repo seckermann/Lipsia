@@ -39,7 +39,7 @@
 #define LEN 512
 #define SQR(x) ((x) * (x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 extern void VTal2Pixel(float ca[3], float voxel[3], float extent[3],
                        float x, float y, float z,
                        int *band, int *row, int *col);
@@ -193,8 +193,10 @@ int main(int argc, char *argv[]) {
     FILE *out_file;
     VAttrList out_list;
     VImage dest = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "vmaskedit V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vmaskedit V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, NULL, &out_file);
     if(reso <= 0)

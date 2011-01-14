@@ -39,7 +39,7 @@
 
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -64,8 +64,10 @@ main(int argc, char *argv[]) {
     MATFile *fp;
     int n = 0, dims[4];
     int bands = 0, rows = 0, cols = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vtomat V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vtomat V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file,/* &out_file */ NULL);

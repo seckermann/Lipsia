@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 /*********************************************************************
 *
@@ -116,8 +116,10 @@ int
 main(int argc, char *argv[]) {
     int i, n, m;
     double W, p;
-    char prg_name[50];
-    sprintf(prg_name, "vgen_wilcoxtable V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vgen_wilcoxtable V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     n = atoi(argv[1]);
     m = 0;

@@ -44,7 +44,7 @@
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 #define MAXSLICE 100
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char *argv[]) {
     /* Command line options: */
@@ -68,8 +68,10 @@ int main(int argc, char *argv[]) {
     int rr = 0, cc = 0, bands = 0, nrows = 0, ncols = 0, nbands = 0, slice = 0;
     int nrows2 = 0, ncols2 = 0, nbands2 = 0;
     double nvalue, fvalue, svalue, rvalue;
-    char prg_name[50];
-    sprintf(prg_name, "vdifftimecourse V%s", getLipsiaVersion());
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vdifftimecourse V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, NULL, &out_file);

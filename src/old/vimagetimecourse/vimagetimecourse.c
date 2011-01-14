@@ -46,7 +46,7 @@
 #define MAXSLICE 100
 #define LEN 10000
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 test_ascii(int val) {
@@ -134,8 +134,10 @@ int main(int argc, char *argv[]) {
     double sum1, nx, ave;
     double *mean_course = NULL;
     double norm, u, u1, u2, w1, w2;
-    char prg_name[50];
-    sprintf(prg_name, "vimagetimecourse V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vimagetimecourse V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);

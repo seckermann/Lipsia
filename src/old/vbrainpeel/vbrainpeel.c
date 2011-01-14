@@ -40,7 +40,7 @@
 
 
 extern VImage VPeel(VImage, VImage, VDouble, VDouble, VFloat, VShort, VShort);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char *argv[]) {
     static VDouble d1   = 0;
@@ -59,9 +59,11 @@ int main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage src = NULL, dst = NULL;
     FILE *in_file, *out_file;
-    char prg[50];
-    sprintf(prg, "vbrainpeel V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vbrainpeel V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* Read source image(s): */
     if(!(list = VReadFile(in_file, NULL)))
@@ -79,7 +81,7 @@ int main(int argc, char *argv[]) {
         }
     }
     /* Write the results to the output file: */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(!VWriteFile(out_file, list))
         return 1;
     fprintf(stderr, " %s: done.\n", argv[0]);

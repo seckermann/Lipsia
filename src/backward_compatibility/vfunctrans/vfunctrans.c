@@ -42,7 +42,7 @@
 
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 extern void VImageInfoIni(VImageInfo *);
 extern VBoolean ReadHeader(FILE *);
 extern VBoolean VGetImageInfo(FILE *, VAttrList, int, VImageInfo *);
@@ -91,8 +91,10 @@ int main(int argc, char *argv[]) {
     VString ca, cp, extent, str;
     int found = 0;
     int j, dest_nbands;
-    char prg_name[50];
-    sprintf(prg_name, "vfunctrans V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vfunctrans V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||

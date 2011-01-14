@@ -49,7 +49,7 @@
 
 extern double t2z(double, double);
 extern float t2z_approx(float, float);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 VAttrList
@@ -230,11 +230,12 @@ main(int argc, char *argv[]) {
     gsl_vector_float *cont;
     float u;
     int i;
-    char prg[50];
-    sprintf(prg, "vgetcontrast V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vgetcontrast V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
-    fprintf(stderr, " %s\n", prg);
     cont = gsl_vector_float_alloc(contrast.number);
     for(i = 0; i < contrast.number; i++) {
         u = ((VFloat *)contrast.vector)[i];
@@ -245,7 +246,7 @@ main(int argc, char *argv[]) {
     fclose(in_file);
     out_list = VGetContrast(list, cont, type);
     /* Output: */
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     if(! VWriteFile(out_file, out_list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

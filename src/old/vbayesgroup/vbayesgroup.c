@@ -46,7 +46,7 @@
 
 extern double p2z(double);
 extern VImage VBayesGroup(VImage, VImage, VImage, VImage, VBoolean);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 struct my_params {
@@ -79,8 +79,10 @@ int main(int argc, char *argv[]) {
     VImage mean1 = NULL, sigma1 = NULL;
     VImage mean2 = NULL, sigma2 = NULL;
     VString str = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "vbayesgroup V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vbayesgroup V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, NULL, &out_file);

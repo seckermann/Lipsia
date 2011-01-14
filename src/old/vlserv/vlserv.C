@@ -36,7 +36,7 @@
 #include "dock.h"
 
 extern "C" {
-  extern char * getLipsiaVersion();
+  extern void getLipsiaVersion(char*,size_t);
 }
 
 void signal_handler(int sig)
@@ -50,8 +50,10 @@ int main (int argc,char *argv[]) {
   QApplication::setColorSpec( QApplication::ManyColor );
 
   /* write out the revision string */
-  char prg_name[50];	
-  sprintf(prg_name,"vlserv V%s", getLipsiaVersion());
+  char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vlserv V%s", ver);
   
   fprintf (stderr, "%s\n", prg_name);
   

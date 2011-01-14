@@ -38,7 +38,7 @@
 extern VImage VMotionCorrection2d(VAttrList, VShort, VShort, VShort);
 extern void VFreqFilter(VAttrList, VFloat, VFloat, VBoolean, VFloat);
 extern void VApplyMotionCorrection2d(VAttrList, VImage, VString);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -56,9 +56,11 @@ main(int argc, char *argv[]) {
     VImage motion = NULL;
     VAttrList list = NULL;
     VFloat low, high;
-    char prg[50];
-    sprintf(prg, "vmovcorrection2d V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vmovcorrection2d V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* parse command line */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* read data */
@@ -81,7 +83,7 @@ main(int argc, char *argv[]) {
     VApplyMotionCorrection2d(list, motion, filename);
     /* write output */
 ende:
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

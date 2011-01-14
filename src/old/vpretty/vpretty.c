@@ -39,7 +39,7 @@
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -71,9 +71,11 @@ main(int argc, char *argv[]) {
     float voxel[3], x0, x1, x2;
     float tiny = 1.0e-10;
     VString str;
-    char prg[50];
-    sprintf(prg, "vpretty V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vpretty V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(neg > 0)
@@ -189,7 +191,7 @@ main(int argc, char *argv[]) {
         }
     }
     /* Write the results to the output file: */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         fprintf(stderr, "%s: done.\n", argv[0]);
     return 0;

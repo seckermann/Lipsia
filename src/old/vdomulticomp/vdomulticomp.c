@@ -23,7 +23,7 @@
 #include <gsl/gsl_vector.h>
 
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 extern void VPixel2Tal(float [3], float [3], float [3], int, int, int, float *, float *, float *);
 extern VBoolean CheckValue(VImage multicomp, int size, VFloat zval, float sym);
 extern float VolumeSym(Volume vol, VImage src, float sign, VFloat zthr);
@@ -51,10 +51,11 @@ main(int argc, char *argv[]) {
     VImage src = NULL;
     VImage multicomp = NULL, dest = NULL;
     VBoolean symm = FALSE;
-    char prg[50];
-    /* sprintf(prg,"vdomulticomp V%s", getLipsiaVersion()); */
-    sprintf(prg, "vdomulticomp");
-    fprintf(stderr, "%s\n", prg);
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vdomulticom V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /*
     ** Parse command line arguments:
     */
@@ -123,7 +124,7 @@ main(int argc, char *argv[]) {
     /*
     ** Output
     */
-    VHistory(VNumber(options), options, prg, &list1, &list);
+    VHistory(VNumber(options), options, prg_name, &list1, &list);
     if(! VWriteFile(out_file, list))
         VError(" error writing output file");
     fprintf(stderr, "%s: done.\n", argv[0]);

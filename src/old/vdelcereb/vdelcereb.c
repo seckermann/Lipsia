@@ -40,7 +40,7 @@
 
 extern VImage VCerebellum(VImage);
 extern void VDeleteCereb(VImage, VImage *, int, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 static int verbose = 0;
 
@@ -65,8 +65,10 @@ int main(int argc, char *argv[]) {
     VString str;
     int nimages;
     char historystr[] = "history";
-    char prg_name[50];
-    sprintf(prg_name, "vdelcereb V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vdelcereb V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     if(!VParseCommand(VNumber(options), options, &argc, argv) ||

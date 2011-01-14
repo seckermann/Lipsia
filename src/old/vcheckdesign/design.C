@@ -38,7 +38,7 @@
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
 extern "C" {
-  extern char * getLipsiaVersion();
+  extern void getLipsiaVersion(char*, size_t);
 }
 double version=2;
 extern QString origconfpath, idsprog, refpath;
@@ -280,8 +280,10 @@ int main (int argc,char *argv[]) {
   /* Parse command line arguments and identify files: */
   VParseFilterCmd (VNumber (options), options, argc, argv,&in_file,NULL /* &out_file */);
   
-  char prg_name[50];	
-  sprintf(prg_name,"vcheckdesign V%s", getLipsiaVersion());
+  char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vcheckdesign V%s", ver);
   
   fprintf (stderr, "%s\n", prg_name);
 

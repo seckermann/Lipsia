@@ -48,7 +48,7 @@ VDictEntry TYPDict[] = {
 
 
 extern VAttrList *VWhiteRegression(ListInfo *, int, VImage, VShort, VShort, VShort, VArgVector, VString);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char *argv[]) {
     static VArgVector contrast;
@@ -80,9 +80,11 @@ int main(int argc, char *argv[]) {
     VString str = NULL, str1 = NULL;
     ListInfo *linfo;
     int i = 0, n = 0, numsub = 0;
-    char prg[50];
-    sprintf(prg, "vwhiteglm V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vwhiteglm V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||
             ! VIdentifyFiles(VNumber(options), options, "in", & argc, argv, 0) ||
@@ -148,7 +150,7 @@ Usage:
             history_list = VReadHistory(&list);
             if(history_list == NULL)
                 history_list = VCreateAttrList();
-            VPrependHistory(VNumber(options), options, prg, &history_list);
+            VPrependHistory(VNumber(options), options, prg_name, &history_list);
         }
     }
     /* GLM */

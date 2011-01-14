@@ -22,7 +22,7 @@
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -345,7 +345,9 @@ main (int argc,char *argv[])
   VAttrListPosn posn;
   VImage mask=NULL;
   char prg_name[100];
-  sprintf(prg_name, "vecm V%s", getLipsiaVersion());
+  char ver[100];
+  getLipsiaVersion(ver, sizeof(ver));
+  sprintf(prg_name, "vecm V%s", ver);
   fprintf(stderr, "%s\n", prg_name);
   VParseFilterCmd (VNumber (options),options,argc,argv,&in_file,&out_file);
 

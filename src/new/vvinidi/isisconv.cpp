@@ -7,7 +7,7 @@
 #include <list>
 
 extern "C" {
-	char *getLipsiaVersion();
+	void getLipsiaVersion(char*,size_t);
 }
 
 using namespace isis;
@@ -19,7 +19,9 @@ int main( int argc, char **argv )
 	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
 	char prg_name[100];
-	sprintf(prg_name, "vvinidi V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vvinidi V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
 	data::IOApplication app( "isis data converter", true, true );
 	app.parameters["tr"] = 0.;

@@ -24,7 +24,7 @@
 #include <viaio/VImage.h>
 
 static int verbose = 0;
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char **argv) {
     static VDouble sigma = 1.0;
@@ -47,8 +47,10 @@ int main(int argc, char **argv) {
     VAttrListPosn posn;
     int nimages;
     int objects = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vgauss V%s", getLipsiaVersion());
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vgauss V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(VNumber(options), options, argc, argv,

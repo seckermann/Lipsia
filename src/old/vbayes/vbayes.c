@@ -46,7 +46,7 @@
 
 extern double p2z(double);
 extern VAttrList VBayes(VImage [], VImage [], int, VBoolean, VBoolean);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 struct my_params {
@@ -85,8 +85,10 @@ int main(int argc, char *argv[]) {
     VImage cbeta_images[N], sd_images[N];
     int i, nimages = 0;
     VString str = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "vbayes V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vbayes V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||

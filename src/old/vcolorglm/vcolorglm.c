@@ -81,7 +81,7 @@ extern gsl_vector_float *VectorConvolve(gsl_vector_float *, gsl_vector_float *, 
 
 extern VAttrList GetListInfo(VString, ListInfo *);
 extern VBoolean VReadBandDataFD(int, VImageInfo *, int, int, VImage *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 /*
 ** convert a gsl matrix to a 2D vista raster image
@@ -440,9 +440,11 @@ main(int argc, char *argv[]) {
     VLong itr = 0;
     VFloat sigma = 0, tr = 0;
     int  i, n, nimages;
-    char prg[50];
-    sprintf(prg, "vcolorglm V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vcolorglm V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /*
     ** parse command line
     */
@@ -505,7 +507,7 @@ main(int argc, char *argv[]) {
             history_list = VReadHistory(&list);
             if(history_list == NULL)
                 history_list = VCreateAttrList();
-            VPrependHistory(VNumber(options), options, prg, &history_list);
+            VPrependHistory(VNumber(options), options, prg_name, &history_list);
         }
     }
     /*

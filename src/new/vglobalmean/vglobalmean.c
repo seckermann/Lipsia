@@ -32,7 +32,7 @@
 #define SQR(x) ((x)*(x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 gsl_vector_float *
 VGlobalMean(VAttrList list, VImage mask, VShort minval) {
@@ -122,7 +122,9 @@ main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage mask = NULL;
 	char prg_name[100];
-	sprintf(prg_name, "vglobalmean V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vglobalmean V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     int  i;
     gsl_vector_float *gmean = NULL;

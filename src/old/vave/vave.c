@@ -42,7 +42,7 @@
 #define VRintNeg(x) ((int)((x) - 0.5))
 #define VRint(x)  ((x) >= 0 ? VRintPos(x) : VRintNeg(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VImage
 Vave(VImage *src, VImage dest, int n) {
@@ -116,8 +116,10 @@ int main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage src = NULL, *src1, dest = NULL;
     int i, n, npix = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vave V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vave V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /*
     ** parse command line

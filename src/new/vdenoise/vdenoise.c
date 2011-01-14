@@ -18,7 +18,7 @@
 #include <gsl/gsl_wavelet2d.h>
 
 extern void gsl_sort_vector(gsl_vector *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
 
@@ -381,7 +381,9 @@ main(int argc, char *argv[]) {
     VImage src = NULL, dest = NULL;
     int n = 0, nimages = 0;
 	char prg_name[100];
-	sprintf(prg_name, "vdenoise V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vdenoise V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))

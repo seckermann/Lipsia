@@ -36,7 +36,7 @@
 #include <math.h>
 #include <ctype.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VImage
 ConcatDesigns(VImage *design, int nimages) {
@@ -98,9 +98,11 @@ main(int argc, char *argv[]) {
     VImage *design = NULL, tmp = NULL, dest = NULL;
     VAttrListPosn posn;
     int  i, nimages;
-    char prg[50];
-    sprintf(prg, "vcatdesign V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vcatdesign V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||
             ! VIdentifyFiles(VNumber(options), options, "in", & argc, argv, 0) ||
@@ -138,7 +140,7 @@ Usage:
     out_list = VCreateAttrList();
     VAppendAttr(out_list, "image", NULL, VImageRepn, dest);
     /* Output: */
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     fp = VOpenOutputFile(out_filename, TRUE);
     if(!fp)
         VError(" error opening outout file %s", out_filename);

@@ -47,7 +47,7 @@
 
 
 extern VImage VLabelImage3d(VImage, VImage, int, VRepnKind, int *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 #define NSLICES 256   /* max number of slices */
 
@@ -356,9 +356,11 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL, out_list = NULL;
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL;
-    char prg[50];
-    sprintf(prg, "valphasim V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "valphasim V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, NULL);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);

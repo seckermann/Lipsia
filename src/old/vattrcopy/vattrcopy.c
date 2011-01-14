@@ -38,7 +38,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char *argv[]) {
     static VString filename = "";
@@ -52,8 +52,10 @@ int main(int argc, char *argv[]) {
     VAttrList list1, list2;
     VAttrListPosn posn;
     VImage src1, src2;
-    char prg_name[50];
-    sprintf(prg_name, "vattrcopy V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vattrcopy V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, & out_file);

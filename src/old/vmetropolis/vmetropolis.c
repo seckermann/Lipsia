@@ -39,7 +39,7 @@
 #define N 1000   /* max number of trials      */
 #define M 50     /* max number of event types */
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 void
 print_mat(float mat[M][M], int ntypes, FILE *fp) {
@@ -82,8 +82,10 @@ main(int argc, char *argv[]) {
     unsigned char buf[256];
     size_t n = 256;
     VBoolean verbose = TRUE;
-    char prg_name[50];
-    sprintf(prg_name, "vmetropolis V%s", getLipsiaVersion());
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vmetropolis V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, NULL, NULL);
     if(ntypes >= M)

@@ -46,7 +46,7 @@ extern void VGetTalCoord(VImage, float, float, float, float *, float *, float *)
 extern double t2z(double, double);
 extern float t2z_approx(float, float);
 extern double t2p(double, double);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 /*
@@ -269,8 +269,10 @@ int main(int argc, char *argv[]) {
     VString str;
     VImage src, *src1, *src2, *mask;
     int i, nimages = 0, mimages = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vROIpaired_ttest V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vROIpaired_ttest V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     if(!VParseCommand(VNumber(options), options, & argc, argv)) {
         VReportUsage(argv[0], VNumber(options), options, NULL);

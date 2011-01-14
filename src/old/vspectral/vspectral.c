@@ -67,7 +67,7 @@ extern double klag(double, double);
 extern void CovarianceSequence(VImage *, double *, double *, int, int);
 extern double p2t(double, double);
 extern double p2z(double);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -122,8 +122,10 @@ main(int argc, char *argv[]) {
     double  sin(double);
     char   *token = NULL, *tmptoken = NULL;
     char    buf[128];
-    char prg_name[50];
-    sprintf(prg_name, "vspectral V%s", getLipsiaVersion());
+  char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vspectral V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, & in_file, &out_file);

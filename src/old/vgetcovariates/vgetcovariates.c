@@ -65,7 +65,7 @@ extern void VglmGetRegr(VImageInfo *, FILE *, FILE *, int *, VString, VString, c
 extern VBoolean  ReadHeader(FILE *);
 extern VBoolean  VGetImageInfo(FILE *, VAttrList, int, VImageInfo *);
 extern VAttrList ReadAttrList(FILE *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 #define MIN(x,y) ((x)<(y)?(x):(y))
 #define MAX(x,y) ((x)>(y)?(x):(y))
@@ -111,8 +111,10 @@ main(int argc, char *argv[]) {
     int hist_items = 0, pos, *ptrvi;
     char *token = NULL, *tmptoken = NULL;
     char voxelstr[50], extentstr[100], castr[100];
-    char prg_name[50];
-    sprintf(prg_name, "vgetcovariates V%s", getLipsiaVersion());
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vgetcovariates V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, & in_file, & out_file);

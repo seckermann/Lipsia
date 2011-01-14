@@ -42,7 +42,7 @@ VDictEntry ConvDict[] = {
 
 extern void VTal2Pixel(float [3], float [3], float [3], float, float, float, int *, int *, int *);
 extern void VPixel2Tal(float [3], float [3], float [3], int, int, int, float *, float *, float *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -61,8 +61,10 @@ main(int argc, char *argv[]) {
     int   b, r, c;
     float x, y, z;
     float ca[3], extent[3], voxel[3];
-    char prg_name[50];
-    sprintf(prg_name, "vconvcoord V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vconvcoord V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, NULL);
     extent[0] = 135;

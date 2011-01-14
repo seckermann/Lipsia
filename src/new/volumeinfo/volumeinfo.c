@@ -17,7 +17,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 /*
 ** give infos about volumes
@@ -49,7 +49,9 @@ main(int argc, char *argv[]) {
     VAttrListPosn posn;
     int nl = 0;
 	char prg_name[100];
-	sprintf(prg_name, "volumeinfo V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "volumeinfo V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(0, NULL, argc, argv, &in_file, NULL);

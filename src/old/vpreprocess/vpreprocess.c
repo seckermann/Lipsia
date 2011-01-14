@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <fftw3.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -57,9 +57,11 @@ main(int argc, char *argv[]) {
     extern void VSpatialFilter(VAttrList, VDouble);
     extern void VApplyMinval(VAttrList, VShort);
     extern void VFreqFilter(VAttrList, VFloat, VFloat, VBoolean, VFloat);
-    char prg[50];
-    sprintf(prg, "vpreprocess V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vpreprocess V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(fwhm < 0)
         VError("fwhm must be non-negative");
@@ -84,7 +86,7 @@ main(int argc, char *argv[]) {
     /*
     ** output
     */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

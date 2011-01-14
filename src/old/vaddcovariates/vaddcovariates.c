@@ -38,7 +38,7 @@
 #include <ctype.h>
 
 extern int VStringToken(char *, char *, int, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 #define LEN  1600   /* max number of characters per line in file */
 #define NCOV  200   /* max number of additional covariates     */
@@ -129,8 +129,10 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL;
     VAttrListPosn posn;
     VImage design = NULL, dest = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "vaddcovariates V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vaddcovariates V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))

@@ -39,7 +39,7 @@
 
 extern VGraph VSulci(VImage, VFloat, VBoolean);
 extern VImage VCleanImage(VImage, VImage, VImage, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
@@ -63,8 +63,10 @@ int main(int argc, char **argv) {
     VAttrListPosn posn;
     VImage src = NULL;
     VGraph dest = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "vsulcogram V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vsulcogram V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);

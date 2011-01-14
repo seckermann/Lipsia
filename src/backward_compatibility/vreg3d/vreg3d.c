@@ -42,7 +42,7 @@ extern VImage VAxial2Coronal(VImage);
 extern VImage VAxial2Sagittal(VImage);
 extern VImage VReg3d(VImage, VImage, int, int, float, VShort, VShort);
 extern void VRegRefine(VImage, VImage, VImage, int, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry MODDict[] = {
     { "small", 0 },
@@ -106,9 +106,11 @@ int main(int argc, char *argv[]) {
     VImage mdeft = NULL, epi_t1 = NULL;
     VString str;
     float scalec, scaler, scaleb, high_res;
-    char prg[50];
-    sprintf(prg, "vreg3d V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vreg3d V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(range != 0 && range != 1)
@@ -210,7 +212,7 @@ int main(int argc, char *argv[]) {
     ** output
     */
     out_list = VCreateAttrList();
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     VSetAttr(VImageAttrList(transform), "zdim", NULL, VShortRepn, (VShort)VImageNBands(ref));
     VSetAttr(VImageAttrList(transform), "ydim", NULL, VShortRepn, (VShort)VImageNRows(ref));
     VSetAttr(VImageAttrList(transform), "xdim", NULL, VShortRepn, (VShort)VImageNColumns(ref));

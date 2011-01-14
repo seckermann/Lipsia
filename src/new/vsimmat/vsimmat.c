@@ -20,7 +20,7 @@
 
 #define NSLICES 2000
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 double
 Correlation(const float *arr1, const float *arr2, int n) {
@@ -200,7 +200,9 @@ main(int argc, char *argv[]) {
     VAttrListPosn posn;
     VImage dest = NULL, mask = NULL;
 	char prg_name[100];
-	sprintf(prg_name, "vsimmat V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vsimmat V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /*

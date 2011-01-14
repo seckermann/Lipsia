@@ -66,7 +66,7 @@
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
 extern "C" {
-  extern char * getLipsiaVersion();
+  extern void getLipsiaVersion(char*,size_t);
 }
 
 QValueList<ImageData*> imageDataList;
@@ -222,8 +222,10 @@ int main(int argc, char *argv[]) {
 	};
 	FILE *in_file, *f;
 
-        char prg_name[50];	
-        sprintf(prg_name,"vsview V%s", getLipsiaVersion());
+        char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vsview V%s", ver);
   
         fprintf (stderr, "%s\n", prg_name);
 

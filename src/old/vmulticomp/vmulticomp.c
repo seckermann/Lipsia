@@ -49,7 +49,7 @@
 
 extern VImage VMulticomp2d(VImage, VImage, VLong, VLong, VDouble, VDouble, VDouble);
 extern VImage VMulticomp3d(VImage, VImage, VLong, VLong, VDouble, VDouble, VDouble);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 
@@ -76,10 +76,11 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL, out_list = NULL;
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL;
-    char prg[50];
-    /* sprintf(prg,"vmulticomp V%s", getLipsiaVersion()); */
-    sprintf(prg, "vmulticomp");
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vmulticomp V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
@@ -99,7 +100,7 @@ main(int argc, char *argv[]) {
     /* output */
     out_list = VCreateAttrList();
     VAppendAttr(out_list, "multicomp", NULL, VImageRepn, dest);
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     if(! VWriteFile(out_file, out_list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

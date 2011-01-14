@@ -30,7 +30,7 @@
 #include <math.h>
 
 extern VImage VEditImage(VImage, VImage);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char *argv[]) {
     static VLong objnr = -1;
@@ -58,8 +58,10 @@ int main(int argc, char *argv[]) {
     Volumes vsrc;
     VString buf;
     int nobj;
-    char prg_name[50];
-    sprintf(prg_name, "vattredit V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vattredit V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv,

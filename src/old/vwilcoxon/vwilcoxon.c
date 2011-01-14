@@ -52,7 +52,7 @@
 /* two-tailed significance levels */
 extern double LevelOfSignificanceWXMPSR(double Winput, long int N);
 extern double p2z(double);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 VImage
@@ -184,8 +184,10 @@ int main(int argc, char *argv[]) {
     VString str;
     VImage src, *src1, dest = NULL;
     int i, n, npix;
-    char prg_name[50];
-    sprintf(prg_name, "vwilcoxon V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vwilcoxon V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /*
     ** parse command line

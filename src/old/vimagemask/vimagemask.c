@@ -33,7 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VImage
 VMaskImage(VImage src, VImage mask, VImage dest, VDouble xmin, VDouble xmax, VShort type) {
@@ -87,9 +87,11 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL, list1 = NULL;
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL, mask = NULL;
-    char prg[50];
-    sprintf(prg, "vimagemask V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vimagemask V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(type < 0 || type > 1)
         VError(" illegal value of parameter '-type'");
@@ -122,7 +124,7 @@ main(int argc, char *argv[]) {
     }
     if(src == NULL)
         VError(" no input image found");
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

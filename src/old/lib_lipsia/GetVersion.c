@@ -7,7 +7,7 @@
 #define EXPAND(x) STRINGIFY(x)
 
 /*
-char *getLipsiaVersion() {
+void getLipsiaVersion(char*,size_t) {
     char url[] = "$HeadURL: https://svnserv.cbs.mpg.de/svn/gr_lipsia/lipsia-2.0/trunk/src/old/lib_lipsia/GetVersion.c $";
     char *ver = (char *)VMalloc(sizeof(char) * 20);
     char *pch;
@@ -35,15 +35,6 @@ char *getLipsiaVersion() {
     return ver;
 }
 */
-char *getLipsiaVersion() {
-	char ver[100];
-	sprintf(ver, EXPAND(_LIPSIA_VERSION_MAJOR) );
-	strcat(ver, ".");
-	strcat(ver, EXPAND(_LIPSIA_VERSION_MINOR) );
-	strcat(ver, ".");
-	strcat(ver, EXPAND(_LIPSIA_VERSION_PATCH) );
-	strcat(ver, " [");
-	strcat(ver, EXPAND(_LIPSIA_SVN_REVISION) );
-	strcat(ver, "]");
-	return ver;
+void getLipsiaVersion(char *ver, size_t length) {
+	snprintf(ver, length, "%s.%s.%s [%s]",EXPAND(_LIPSIA_VERSION_MAJOR), EXPAND(_LIPSIA_VERSION_MINOR), EXPAND(_LIPSIA_VERSION_PATCH), EXPAND(_LIPSIA_SVN_REVISION) );
 }

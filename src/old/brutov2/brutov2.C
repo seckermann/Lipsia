@@ -53,7 +53,7 @@
 #define APPLICATION_COPYRIGHT "2005,2006,2008,2009,2010 Max-Planck-Institute for Human Cognitive and Brain Sciences"
 
 extern "C" {
-  extern char * getLipsiaVersion();
+  extern void getLipsiaVersion(char*,size_t);
 }
 
 using namespace std;

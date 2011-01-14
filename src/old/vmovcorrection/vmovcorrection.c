@@ -39,7 +39,7 @@
 extern void VSpatialFilter1(VAttrList);
 extern VImage VMotionCorrection3d(VAttrList, VLong, VLong, VLong);
 extern void VApplyMotionCorrection3d(VAttrList, VImage, VString);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 void
@@ -73,9 +73,11 @@ main(int argc, char *argv[]) {
     FILE *in_file = NULL, *out_file = NULL;
     VImage motion = NULL;
     VAttrList list = NULL;
-    char prg[50];
-    sprintf(prg, "vmovcorrection V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vmovcorrection V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* parse command line */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(step < 1)
@@ -99,7 +101,7 @@ main(int argc, char *argv[]) {
     /* apply motion correction */
     VApplyMotionCorrection3d(list, motion, filename);
     /* write output */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

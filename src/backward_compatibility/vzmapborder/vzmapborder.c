@@ -39,7 +39,7 @@
 
 /* Later in this file: */
 extern void PredispImage(VImage, VImage, VImage, VDouble, VDouble, VFloat);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char *argv[]) {
     /* Command line options: */
@@ -78,8 +78,10 @@ int main(int argc, char *argv[]) {
     VImage src = NULL, ref = NULL, dest = NULL;
     VFloat zval = 1.0;
     int i, nbands, nrows, ncols;
-    char prg_name[50];
-    sprintf(prg_name, "vzmapborder V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vzmapborder V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identity files  */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||

@@ -46,7 +46,7 @@
 extern void VGaussianize(VImage *, int);
 extern double t2z(double, double);
 extern float t2z_approx(float, float);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 void
 avevar(float *data, int n, float *a, float *v) {
@@ -194,8 +194,10 @@ int main(int argc, char *argv[]) {
     VString str;
     VImage src, *src1, *src2, dest = NULL;
     int i, n1, n2, npix = 0;
-    char prg_name[50];
-    sprintf(prg_name, "vtwosample_ttest V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vtwosample_ttest V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /*
     ** parse command line

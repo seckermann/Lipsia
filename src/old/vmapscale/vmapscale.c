@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <via.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry ITYPDict[] = {
     { "trilinear", 0 },
@@ -74,8 +74,10 @@ int main(int argc, char *argv[]) {
     float x, y, z;
     float xscale = 1, yscale = 1, zscale = 1;
     float scale[3], shift[3];
-    char prg_name[50];
-    sprintf(prg_name, "vmapscale V%s", getLipsiaVersion());
+	char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vmapscale V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(VNumber(options), options, argc, argv, & in_file, & out_file);

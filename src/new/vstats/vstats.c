@@ -27,7 +27,7 @@
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry TypeDict[] = {
     { "mean", 0 },
@@ -173,7 +173,9 @@ int main(int argc, char *argv[]) {
     VImage src, src1[NIMAGES], dest = NULL;
     int i, n;
 	char prg_name[100];
-	sprintf(prg_name, "vstats V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vstats V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||

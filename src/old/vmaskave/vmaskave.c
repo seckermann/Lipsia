@@ -41,7 +41,7 @@
 #include <gsl/gsl_errno.h>
 
 extern void VRoiInfo(VImage, VImage, VShort, double *, double *, double *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 void
 ttest(double ave1, double var1, double nx1,
@@ -107,8 +107,10 @@ int main(int argc, char *argv[]) {
     float *sumb, *sumr, *sumc, *size;
     int b, r, c;
     VString buffer;
-    char prg_name[50];
-    sprintf(prg_name, "vmaskave V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vmaskave V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||

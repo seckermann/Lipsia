@@ -54,7 +54,7 @@ typedef struct DpointStruct {
     double z;
 } DPoint;
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 extern VImage VTalairach(VImage, VDouble, VDouble, VDouble,
                          DPoint, DPoint, DPoint, DPoint, VLong, VLong, DPoint, VLong);
 
@@ -126,9 +126,11 @@ int main(int argc, char *argv[]) {
     VAttrList list;
     VAttrListPosn posn;
     VImage src = NULL, dst = NULL;
-    char prg[80];
-    sprintf(prg, "vtal V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vtal V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(talairach < 0 || talairach > 1)
         VError(" parameter 'system' must be either 0 or 1");
@@ -147,7 +149,7 @@ int main(int argc, char *argv[]) {
         }
     }
     /* Write the results to the output file: */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(!VWriteFile(out_file, list))
         return 1;
     fprintf(stderr, " %s: done.\n", argv[0]);

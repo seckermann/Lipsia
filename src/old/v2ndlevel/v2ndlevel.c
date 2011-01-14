@@ -49,7 +49,7 @@
 
 extern float VSmoothnessEstim(VImage *, int);
 extern VImage VRead2ndLevel(FILE *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 /*
 ** convert a gsl matrix to a 2D vista raster image
@@ -349,9 +349,11 @@ main(int argc, char *argv[]) {
     VImage *src, tmp;
     float vx, vy, vz;
     int  i, nimages, found;
-    char prg[50];
-    sprintf(prg, "v2ndlevel V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "v2ndlevel V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /*
     ** parse command line
     */
@@ -413,7 +415,7 @@ main(int argc, char *argv[]) {
     /*
     ** Output:
     */
-    VHistory(VNumber(options), options, prg, &list, &out_list);
+    VHistory(VNumber(options), options, prg_name, &list, &out_list);
     f = VOpenOutputFile(out_filename, TRUE);
     if(!f)
         VError(" error opening output file %s", out_filename);

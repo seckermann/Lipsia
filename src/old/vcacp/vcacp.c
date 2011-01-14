@@ -98,7 +98,7 @@ VRepnKind s_repn, ca_repn, cp_repn;
 VAttrList dest_list;
 int ncom;
 float *pcom, *xicom, (*nrfunc)(float[]);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 #define SQR(x) ((x) * (x))
 #define ABS(x) ((x) > 0 ? (x) : -(x))
@@ -1576,8 +1576,10 @@ int main(int argc, char *argv[]) {
     float v0 = 0, v1 = 1, v2 = 2, eps = 0.005;
     float v00 = 0, v11 = 1, v22 = 0;
     gsl_vector *p = NULL;
-    char prg_name[50];
-    sprintf(prg_name, "vcacp V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vcacp V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     tStart = clock();
     angle = (double *) VCalloc(3, sizeof(double));

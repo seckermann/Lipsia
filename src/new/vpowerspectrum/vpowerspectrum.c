@@ -16,7 +16,7 @@
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry TYPEDict[] = {
     { "range", 0 },
@@ -52,8 +52,11 @@ main(int argc, char *argv[]) {
     double alpha;
     double v = 0, u, vsum, wsum, sum;
 	char prg_name[100];
-	sprintf(prg_name, "vpowerspectrum V%s", getLipsiaVersion());
-	fprintf(stderr, "%s\n", prg_name);    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vpowerspectrum V%s", ver);
+	fprintf(stderr, "%s\n", prg_name);    
+	VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
     fclose(in_file);

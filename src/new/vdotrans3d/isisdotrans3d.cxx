@@ -56,7 +56,7 @@
 //command line parser options
 
 extern "C" {
-	char *getLipsiaVersion();
+	void getLipsiaVersion(char*,size_t);
 }
 VDictEntry TYPInterpolator[] = { {"Linear", 0}, {"BSpline", 1}, {"NearestNeighbor", 2}, {NULL}};
 
@@ -108,7 +108,9 @@ int main(int argc, char *argv[] )
 	// show revision information string constant
 	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
 	char prg_name[100];
-	sprintf(prg_name, "vdotrans3d V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vdotrans3d V%s", ver);
 	std::cout << prg_name << std::endl;
 	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
 	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );

@@ -44,7 +44,7 @@ VDictEntry TYPEDict[] = {
     { NULL }
 };
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 void
 VImageMin(VImage src, VImage dest, VImage count) {
@@ -125,8 +125,10 @@ int main(int argc, char *argv[]) {
     int i, nimages, nbands, nrows, ncols;
     VFloat *dest_pp;
     VSByte *cnt_pp;
-    char prg_name[50];
-    sprintf(prg_name, "vnumave V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vnumave V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     if(! VParseCommand(VNumber(options), options, & argc, argv) ||

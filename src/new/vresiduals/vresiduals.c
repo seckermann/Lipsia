@@ -38,7 +38,7 @@
 extern gsl_vector *GaussKernel(double);
 extern void GaussMatrix(double, gsl_matrix_float *);
 extern gsl_vector_float *VectorConvolve(gsl_vector_float *, gsl_vector_float *, gsl_vector *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 gsl_vector_float *VGlobalMean(VAttrList, VShort, VImage);
 
 
@@ -317,7 +317,9 @@ main(int argc, char *argv[]) {
     VFloat sigma = 0, tr = 0;
     int  n;
 	char prg_name[100];
-	sprintf(prg_name, "vresiduals V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vresiduals V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* read design matrix */

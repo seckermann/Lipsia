@@ -44,7 +44,7 @@ VDictEntry TALDict[] = {
 
 extern void VPixel2MNI(float ca[3], float voxel[3], int band, int row, int col, float *x, float *y, float *z);
 extern VImage VBlobSize(VImage, VImage, VDouble, VDouble, VShort, VShort, VBoolean, VString);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -72,9 +72,11 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL;
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL;
-    char prg[50];
-    sprintf(prg, "vblobsize V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vblobsize V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
@@ -91,7 +93,7 @@ main(int argc, char *argv[]) {
     }
     if(src == NULL)
         VError(" no input image found");
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

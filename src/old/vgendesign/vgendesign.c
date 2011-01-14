@@ -61,7 +61,7 @@ double cc = 0.35;
 
 
 extern int VStringToken(char *, char *, int, int);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 typedef struct ComplexStruct {
     double re;
@@ -337,8 +337,10 @@ main(int argc, char *argv[]) {
     fftw_complex *obuf = NULL, *nbuf = NULL;
     fftw_complex *fkernel0 = NULL, *fkernel1 = NULL, *fkernel2 = NULL, *fkernelg = NULL;
     fftw_plan p1, pinv, pk0, pk1, pk2, pkg;
-    char prg_name[50];
-    sprintf(prg_name, "vgendesign V%s", getLipsiaVersion());
+   char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vgendesign V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /* check command line parameters */

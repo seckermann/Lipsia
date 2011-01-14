@@ -40,7 +40,7 @@ direction
 ------------------------------------------------------------------------------*/
 
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry ITYPDict[] = {
     { "linear", 0 },
@@ -94,8 +94,10 @@ int main(int argc, char *argv[]) {
     VDouble v, scale_band, scale_row, scale_col;
     float scale[3], shift[3];
     /* print information */
-    char prg_name[50];
-    sprintf(prg_name, "visotrop V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "visotrop V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     fflush(stderr);
     /* Parse command line arguments: */

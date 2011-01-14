@@ -38,7 +38,7 @@
 /* For portability: */
 #include <X11/Xos.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int main(int argc, char **argv) {
     static VString id = "xxx";
@@ -55,8 +55,10 @@ int main(int argc, char **argv) {
     VString str = NULL;
     int i;
     // int day=0,month=0,year=0;
-    char prg_name[50];
-    sprintf(prg_name, "vanonym V%s", getLipsiaVersion());
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vanonym V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);

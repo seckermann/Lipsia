@@ -36,7 +36,7 @@
 #include <stdlib.h>
 #include <via.h>
 
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -63,9 +63,11 @@ main(int argc, char *argv[]) {
     VBit *bin_pp;
     VBoolean dim3 = FALSE;
     char *ptr1, *ptr2;
-    char prg[50];
-    sprintf(prg, "vbrainmask V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vbrainmask V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     /*
     ** extract first timestep
@@ -160,7 +162,7 @@ main(int argc, char *argv[]) {
         }
         VSetAttrValue(& posn, NULL, VImageRepn, zmap);
     }
-    VHistory(VNumber(options), options, prg, &list1, &list1);
+    VHistory(VNumber(options), options, prg_name, &list1, &list1);
     if(! VWriteFile(out_file, list1))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

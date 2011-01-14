@@ -44,7 +44,7 @@
 
 /* Later in this file: */
 extern VImage VNormalize(VImage, VImage, VShort);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry TALDict[] = {
     { "talairach", 0 },
@@ -63,9 +63,11 @@ int main(int argc, char *argv[]) {
     VAttrList list;
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL;
-    char prg[50];
-    sprintf(prg, "vnormalize V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vnormalize V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /* Parse command line arguments and identify files: */
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(type < 0 || type > 1)
@@ -88,7 +90,7 @@ int main(int argc, char *argv[]) {
     /*
     ** output
     */
-    VHistory(0, NULL, prg, &list, &list);
+    VHistory(0, NULL, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

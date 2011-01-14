@@ -45,7 +45,7 @@
 #include <via.h>
 
 extern void VGetVoxelCoord(VImage, float, float, float, float *, float *, float *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
@@ -226,9 +226,11 @@ main(int argc, char *argv[]) {
     double sum, *sum1 = NULL, *sum2 = NULL, mean, sigma, xerr, u, v, w, nx;
     gsl_interp_accel *acc = NULL;
     gsl_spline *spline = NULL;
-    char prg[50];
-    sprintf(prg, "vtrialaverage V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vtrialaverage V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     /*
     ** parse command line
     */

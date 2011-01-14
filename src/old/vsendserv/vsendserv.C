@@ -42,7 +42,7 @@ int fifoIDout, fifoIDin;
 char fifoName[256];
 
 extern "C" {
-  extern char * getLipsiaVersion();
+  extern void getLipsiaVersion(char*,size_t);
 }
 
 bool startIPC()
@@ -124,8 +124,10 @@ int main(int argc, char *argv[])
   float zp, zn;
   char	buffer[2000];  
 
-  char prg_name[50];	
-  sprintf(prg_name,"vsendserv V%s", getLipsiaVersion());
+  char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vsendserv V%s", ver);
   
   fprintf (stderr, "%s\n", prg_name);
 

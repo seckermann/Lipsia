@@ -31,7 +31,7 @@
 #include <via.h>
 
 extern VImage VZMax(VImage, VImage, VDouble, VDouble, VDouble, VShort, VFloat, VShort, VString);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry TALDict[] = {
     { "voxel", 0 },
@@ -76,9 +76,11 @@ main(int argc, char *argv[]) {
     VAttrList list = NULL;
     VAttrListPosn posn;
     VImage src = NULL, dest = NULL;
-    char prg[50];
-    sprintf(prg, "vzmax V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vzmax V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(neg > 0)
         VError(" parameter 'neg' must be negative");
@@ -98,7 +100,7 @@ main(int argc, char *argv[]) {
     }
     if(src == NULL)
         VError(" no input image found");
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

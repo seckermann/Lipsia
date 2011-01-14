@@ -32,14 +32,16 @@
 #include "MainWindow.h"
 
 extern "C" {
-	extern char *getLipsiaVersion();
+	extern void getLipsiaVersion(char*,size_t);
 }
 
 int main( int argc, char **argv )
 {
 
-	char prg_name[50];
-	sprintf( prg_name, "vqview V%s", getLipsiaVersion() );
+	char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vqview V%s", ver);
 
 	fprintf ( stderr, "%s\n", prg_name );
 

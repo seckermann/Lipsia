@@ -36,7 +36,7 @@
 
 
 extern void VDistortionCorrection(VAttrList, VAttrList, VDouble, VDouble);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 int
 main(int argc, char *argv[]) {
@@ -50,9 +50,11 @@ main(int argc, char *argv[]) {
     };
     FILE *in_file = NULL, *out_file = NULL, *fp = NULL;
     VAttrList list = NULL, list_shift = NULL;
-    char prg[50];
-    sprintf(prg, "vdistortionCorrection V%s", getLipsiaVersion());
-    fprintf(stderr, "%s\n", prg);
+    char prg_name[100];
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vdistortionCorrection V%s", ver);
+    fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
@@ -66,7 +68,7 @@ main(int argc, char *argv[]) {
     /*
     ** output
     */
-    VHistory(VNumber(options), options, prg, &list, &list);
+    VHistory(VNumber(options), options, prg_name, &list, &list);
     if(! VWriteFile(out_file, list))
         exit(1);
     fprintf(stderr, "%s: done.\n", argv[0]);

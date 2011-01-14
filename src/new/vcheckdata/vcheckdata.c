@@ -25,7 +25,7 @@
 
 
 extern void gsl_sort_vector(gsl_vector *);
-extern char *getLipsiaVersion();
+extern void getLipsiaVersion(char*,size_t);
 
 VDictEntry TypeDict[] = {
     { "mean", 0 },
@@ -203,7 +203,9 @@ main(int argc, char *argv[]) {
     FILE *in_file = NULL, *out_file = NULL;
     VAttrList list = NULL, out_list = NULL;
 	char prg_name[100];
-	sprintf(prg_name, "vcheckdata V%s", getLipsiaVersion());
+	char ver[100];
+	getLipsiaVersion(ver, sizeof(ver));
+	sprintf(prg_name, "vcheckdata V%s", ver);
 	fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(type > 7)
