@@ -156,6 +156,15 @@ options[] = {
 		0,
 		"The density of pixels the metric uses. 1 denotes the metric uses all pixels. Has to be > 0. Only operative with a MattesMutualInformation metric"
 	},
+// 	{
+// 		"j",
+// 		VShortRepn,
+// 		1,
+// 		&number_threads,
+// 		VOptionalOpt,
+// 		0,
+// 		"Number of jobs used for computation."
+// 	},
 	{
 		"scale_rotation",
 		VFloatRepn,

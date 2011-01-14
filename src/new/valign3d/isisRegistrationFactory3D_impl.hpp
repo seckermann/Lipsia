@@ -887,7 +887,7 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::StartRegistration
 	m_observer = isis::extitk::IterationObserver::New();
 	m_observer->setVerboseStep( UserOptions.SHOWITERATIONATSTEP );
 	m_RegistrationObject->GetOptimizer()->AddObserver( itk::IterationEvent(), m_observer );
-
+	m_RegistrationObject->SetNumberOfThreads(UserOptions.NumberOfThreads);
 	try {
 		m_RegistrationObject->StartRegistration();
 	} catch ( itk::ExceptionObject &err ) {

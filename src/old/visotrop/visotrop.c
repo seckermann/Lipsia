@@ -130,9 +130,10 @@ int main(int argc, char *argv[]) {
                 ncols = VImageNColumns(src) * scale_col;
                 if(VImageNBands(src) == nbands
                         && VImageNRows(src) == nrows
-                        && VImageNColumns(src) == ncols)
-                    itype = 3;
-                fprintf(stderr, " interpolation type: %s\n", ITYPDict[itype]);
+                        && VImageNColumns(src) == ncols) {
+                    itype = 0;
+				}
+                fprintf(stderr, " interpolation type: %s\n", ITYPDict[itype].keyword);
                 fprintf(stderr, " old dim: %3d %3d %3d\n",
                         VImageNBands(src), VImageNRows(src), VImageNColumns(src));
                 for(i = 0; i < 3; i++)
