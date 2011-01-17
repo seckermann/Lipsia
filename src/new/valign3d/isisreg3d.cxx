@@ -433,6 +433,9 @@ int main(int argc, char *argv[] )
 	//analyse optimizer vector
 	boost::progress_timer time_used;
 
+	if(initialize_mass or initialize_center) {
+		std::cerr << "WARNING!!! It is recommended to use the prealign parameter instead of the -prealign_center or -prealign_mass parameter!" << std::endl;
+	}
 	for ( int counter = 0; counter < repetition; counter++ ) {
 		//transform is the master for determining the number of repetitions
 		if ( transformType.number ) {

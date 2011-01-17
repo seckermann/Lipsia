@@ -439,6 +439,7 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetUpTransform()
 {
 	if ( UserOptions.PREALIGN ) 
 	{
+		std::cout << "Prealigning..." << std::endl;
 		prealign();
 	}
 	//initialize transform
@@ -494,16 +495,6 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetUpTransform()
 
 			m_AffineInitializer->InitializeTransform();
 		}
-	}
-
-	if ( UserOptions.LANDMARKINITIALIZE ) {
-		m_RigidLandmarkInitializer = RigidLandmarkBasedTransformInitializerType::New();
-		m_RigidLandmarkInitializer->SetMovingLandmarks( m_MovingPointContainer );
-		m_RigidLandmarkInitializer->SetFixedLandmarks( m_FixedPointContainer );
-		m_RigidLandmarkInitializer->SetFixedImage( m_FixedImage );
-		m_RigidLandmarkInitializer->SetMovingImage( m_MovingImage );
-		m_RigidLandmarkInitializer->SetTransform( m_VersorRigid3DTransform );
-		m_RigidLandmarkInitializer->InitializeTransform();
 	}
 
 	if ( transform.BSPLINEDEFORMABLETRANSFORM ) {
