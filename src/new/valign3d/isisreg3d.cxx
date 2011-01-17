@@ -134,7 +134,7 @@ options[] = {
 		"Maximum number of iteration used by the optimizer"
 	},
 	{
-		"precision", VShortRepn, 0, ( VPointer ) &precision, VOptionalOpt, 0,
+		"precision", VShortRepn, 1, &precision, VOptionalOpt, 0,
 		"Maximum number of iteration used by the optimizer"
 	},
 	
@@ -191,18 +191,18 @@ options[] = {
 		"Grid size used for the BSplineDeformable transform."
 	},
 
-// 	{
-// 		"prealign_center", VBooleanRepn, 1, &initialize_center, VOptionalOpt, 0,
-// 		"Using an initializer to align the image centers"
-// 	},
+	{
+		"prealign_center", VBooleanRepn, 1, &initialize_center, VOptionalOpt, 0,
+		"Using an initializer to align the image centers"
+	},
 	{
 		"prealign", VBooleanRepn, 1, &prealign, VOptionalOpt, 0,
 		"Prealigning the images using a searchng algorithm"
 	},
-// 	{
-// 		"prealign_mass", VBooleanRepn, 1, &initialize_mass, VOptionalOpt, 0,
-// 		"Using an initializer to align the center of mass"
-// 	},
+	{
+		"prealign_mass", VBooleanRepn, 1, &initialize_mass, VOptionalOpt, 0,
+		"Using an initializer to align the center of mass"
+	},
 	{"verbose", VBooleanRepn, 1, &verbose, VOptionalOpt, 0, "printing the optimizer values of each iteration"},
 	{"smooth", VFloatRepn, 1, &smooth, VOptionalOpt, 0, "Applying a smoothing filter to the fixed and moving image before the registration process"},
 	{"get_inverse", VBooleanRepn, 1, &use_inverse, VOptionalOpt, 0, "Getting the inverse transform"},
