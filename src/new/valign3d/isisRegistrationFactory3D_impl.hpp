@@ -409,10 +409,11 @@ TFixedImageType, TMovingImageType >::prealign()
 	typename VersorRigid3DTransformType::ParametersType newParams = m_VersorRigid3DTransform->GetParameters();
 	m_MattesMutualInformationMetric->Initialize();
 	typename MovingImageType::SizeType movingImageSize = m_MovingImageRegion.GetSize();
+	typename MovingImageType::SpacingType movingImageSpacing = m_MovingImage->GetSpacing();
 	short minMax = UserOptions.PREALIGNPRECISION;
-	short stepSizeX = 0.2 * movingImageSize[0] / minMax;
-	short stepSizeY = 0.2 * movingImageSize[1] / minMax;
-	short stepSizeZ = 0.2 * movingImageSize[2] / minMax;
+	short stepSizeX = (0.2 * movingImageSize[0] * movingImageSpacing[0]) / minMax;
+	short stepSizeY = (0.2 * movingImageSize[1] * movingImageSpacing[1]) / minMax;
+	short stepSizeZ = (0.2 * movingImageSize[2] * movingImageSpacing[2]) / minMax;
 	double value = 0;
 	double metricValue = 0;
 	for (int x = -minMax;x<=minMax;x++) {
