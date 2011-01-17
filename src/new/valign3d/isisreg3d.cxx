@@ -432,6 +432,15 @@ int main(int argc, char *argv[] )
 
 	//analyse optimizer vector
 	boost::progress_timer time_used;
+	
+	//TODO apparently there is a bug when passing transform parameters to the affine transform so we have to warn the user
+	if ( transformType.number ) {
+		for ( int counter = 0; counter < repetition; counter++ ) {
+			if ( ( ( VShort * ) transformType.vector )[counter] == 1 and counter > 0 ){
+				std::cerr << "WARNING!! You are trying to use the affine transform in a pipeline of transforms. Apparently there is a bug in the ITK package. At the moment it is recommended to omit the affine transform!" << std::endl;
+			}
+		}
+	}
 
 	for ( int counter = 0; counter < repetition; counter++ ) {
 		//transform is the master for determining the number of repetitions
