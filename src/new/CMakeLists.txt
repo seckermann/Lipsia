@@ -1,6 +1,5 @@
 #all new programs coming from the lipsia sandbox package
 #isis related programs begin
-add_subdirectory(isisdump)
 add_subdirectory(valign3d)
 add_subdirectory(vvinidi)
 add_subdirectory(vswapdim)
