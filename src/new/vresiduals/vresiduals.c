@@ -109,7 +109,7 @@ VResiduals(VAttrList list, VShort minval, VImage design, VFloat sigma, VLong itr
     VFloat *float_pp;
     float  d;
     int    i, k, l, n, m = 0, npix = 0;
-    float  x, sig, sum = 0, nx = 0, mean = 0, sum2;
+    double x, sig, sum = 0, nx = 0, mean = 0,sum2,tiny=1.0e-6;
     float  sst, sse, ssr, u, v;
     float  *ptr1, *ptr2;
     double *double_pp;
@@ -119,7 +119,10 @@ VResiduals(VAttrList list, VShort minval, VImage design, VFloat sigma, VLong itr
     gsl_matrix *U = NULL, *V = NULL;
     gsl_vector *w;
     gsl_matrix_float *S = NULL;
+
+
     gsl_set_error_handler_off();
+
     /* get image dimensions */
     m = k = nbands = nrows = ncols = nslices = 0;
     for(VFirstAttr(list, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
@@ -233,7 +236,9 @@ VResiduals(VAttrList list, VShort minval, VImage design, VFloat sigma, VLong itr
                     nx++;
                 }
                 mean = sum / nx;
-                sig = sqrt((double)((sum2 - nx * mean * mean) / (nx - 1.0)));
+                sig  = sqrt((double)((sum2 - nx * mean * mean) / (nx - 1.0)));
+		if (sig < tiny) continue;
+
                 /* centering and scaling, Seber, p.330 */
                 ptr1 = y->data;
                 for(i = 0; i < m; i++) {
