@@ -45,17 +45,17 @@ extern void getLipsiaVersion(char*,size_t);
 */
 VImage
 Mat2Vista(gsl_matrix_float *A) {
-    VImage dest = NULL;
-    int i, j;
-    float x;
-    dest = VCreateImage(1, A->size1, A->size2, VFloatRepn);
-    for(i = 0; i < A->size1; i++) {
-        for(j = 0; j < A->size2; j++) {
-            x = fmget(A, i, j);
-            VPixel(dest, 0, i, j, VFloat) = x;
-        }
+  VImage dest = NULL;
+  int i, j;
+  float x;
+  dest = VCreateImage(1, A->size1, A->size2, VFloatRepn);
+  for(i = 0; i < A->size1; i++) {
+    for(j = 0; j < A->size2; j++) {
+      x = fmget(A, i, j);
+      VPixel(dest, 0, i, j, VFloat) = x;
     }
-    return dest;
+  }
+  return dest;
 }
 
 
@@ -64,33 +64,33 @@ Mat2Vista(gsl_matrix_float *A) {
 */
 void
 PseudoInverse(gsl_matrix *U, gsl_matrix *V, gsl_vector *w, gsl_matrix_float *C) {
-    int k, l, j, n, m;
-    double x, u, wmin, wmax, tiny = 1.0e-6;
-    n = C->size1;
-    m = C->size2;
-    gsl_matrix_float_set_zero(C);
-    wmax = 0;
-    for(j = 0; j < n; j++) {
-        u = ABS(dvget(w, j));
-        if(u > wmax)
-            wmax = u;
+  int k, l, j, n, m;
+  double x, u, wmin, wmax, tiny = 1.0e-6;
+  n = C->size1;
+  m = C->size2;
+  gsl_matrix_float_set_zero(C);
+  wmax = 0;
+  for(j = 0; j < n; j++) {
+    u = ABS(dvget(w, j));
+    if(u > wmax)
+      wmax = u;
+  }
+  wmin = wmax * tiny;
+  if(wmin < 1.0e-8)
+    wmin = 1.0e-8;
+  for(k = 0; k < n; k++) {
+    for(l = 0; l < m; l++) {
+      for(j = 0; j < n; j++) {
+	if(dvget(w, j) != 0) {
+	  x = fmget(C, k, l);
+	  u = dvget(w, j);
+	  if(ABS(u) > wmin)
+	    x += dmget(V, k, j) * dmget(U, l, j) / u;
+	  fmset(C, k, l, x);
+	}
+      }
     }
-    wmin = wmax * tiny;
-    if(wmin < 1.0e-8)
-        wmin = 1.0e-8;
-    for(k = 0; k < n; k++) {
-        for(l = 0; l < m; l++) {
-            for(j = 0; j < n; j++) {
-                if(dvget(w, j) != 0) {
-                    x = fmget(C, k, l);
-                    u = dvget(w, j);
-                    if(ABS(u) > wmin)
-                        x += dmget(V, k, j) * dmget(U, l, j) / u;
-                    fmset(C, k, l, x);
-                }
-            }
-        }
-    }
+  }
 }
 
 
@@ -106,7 +106,7 @@ VRmGlobal(VAttrList list, VShort minval, VImage mask, VFloat fwhm) {
     VFloat *float_pp;
     float  d;
     int    i, k, n, m = 0, npix = 0;
-    float  x, sig, sum = 0, nx = 0, mean = 0, sum2;
+    double x, sig, sum=0, nx=0,mean=0, sum2=0;
     float  sst, sse, ssr, u, v;
     float  *ptr1, *ptr2;
     double *double_pp;
@@ -118,37 +118,39 @@ VRmGlobal(VAttrList list, VShort minval, VImage mask, VFloat fwhm) {
     gsl_matrix_float *S = NULL;
     VLong itr = 0;
     float tr = 0, sigma = 0;
+
     gsl_set_error_handler_off();
+
     /* get image dimensions */
     m = k = nbands = nrows = ncols = nslices = 0;
     for(VFirstAttr(list, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
-        if(VGetAttrRepn(& posn) != VImageRepn)
-            continue;
-        VGetAttrValue(& posn, NULL, VImageRepn, & xsrc);
-        if(VPixelRepn(xsrc) != VShortRepn) {
-            VDeleteAttr(&posn);
-            continue;
-        }
-        if(VImageNBands(xsrc) > nbands)
-            nbands = VImageNBands(xsrc);
-        if(VImageNRows(xsrc) > nrows)
-            nrows = VImageNRows(xsrc);
-        if(VImageNColumns(xsrc) > ncols)
-            ncols = VImageNColumns(xsrc);
-        src[k] = xsrc;
-        k++;
+      if(VGetAttrRepn(& posn) != VImageRepn) continue;
+      VGetAttrValue(& posn, NULL, VImageRepn, & xsrc);
+
+      if(VPixelRepn(xsrc) != VShortRepn) {
+	VDeleteAttr(&posn);
+	continue;
+      }
+      if(VImageNBands(xsrc) > nbands)
+	nbands = VImageNBands(xsrc);
+      if(VImageNRows(xsrc) > nrows)
+	nrows = VImageNRows(xsrc);
+      if(VImageNColumns(xsrc) > ncols)
+	ncols = VImageNColumns(xsrc);
+      src[k] = xsrc;
+      k++;
     }
     nslices = k;
+
     /* get pre-coloring info */
     if(VGetAttr(VImageAttrList(src[0]), "repetition_time", NULL, VLongRepn, &itr) != VAttrFound)
-        VError(" TR info missing in header");
+      VError(" TR info missing in header");
     tr = (float) itr / 1000.0;
-    if(tr < 0.0001)
-        VError(" repetition time unknown");
+    if(tr < 0.0001) VError(" repetition time unknown");
     fprintf(stderr, "# TR: %.3f seconds\n", tr);
     sigma = fwhm / sqrt(8 * log(2))  / tr;
-    if(fwhm < TINY)
-        sigma = 0;
+    if (fwhm < TINY) sigma = 0;
+
     /*
     ** create dest image mit varianz-aufklaerung
     */
@@ -156,6 +158,7 @@ VRmGlobal(VAttrList list, VShort minval, VImage mask, VFloat fwhm) {
     VFillImage(dest, VAllBands, 0);
     VCopyImageAttrs(src[0], dest);
     VSetAttr(VImageAttrList(dest), "modality", NULL, VStringRepn, "conimg");
+
     /*
     ** ini design file
     */
@@ -168,11 +171,13 @@ VRmGlobal(VAttrList list, VShort minval, VImage mask, VFloat fwhm) {
         x = gsl_vector_float_get(gmean, k);
         fmset(X, k, n - 1, x);
     }
+
     /*
     ** pre-coloring, set up K-matrix, S=K, V = K*K^T with K=S
     */
     S  = gsl_matrix_float_calloc(m, m);
     GaussMatrix((double)sigma, S);
+
     /*
     ** compute pseudoinverse: singular value decomp, and V * D^-1 * U^T
     */
@@ -198,138 +203,148 @@ VRmGlobal(VAttrList list, VShort minval, VImage mask, VFloat fwhm) {
     beta = gsl_vector_float_calloc(n);
     kernel = GaussKernel((double)sigma);
     npix = 0;
-    for(slice = 0; slice < nslices; slice++) {
-        if(slice % 5 == 10)
-            fprintf(stderr, "# slice: %3d\r", slice);
-        if(VImageNRows(src[slice]) < 2)
-            continue;
-        for(row = 0; row < nrows; row++) {
-            for(col = 0; col < ncols; col++) {
-                if(VPixel(src[slice], 0, row, col, VShort) < minval)
-                    goto next;
-                npix++;
-                /* read time series data */
-                sum = sum2 = nx = 0;
-                ptr1 = y->data;
-                for(i = 0; i < m; i++) {
-                    x = VPixel(src[slice], i, row, col, VShort);
-                    (*ptr1++) = x;
-                    sum  += x;
-                    sum2 += x * x;
-                    nx++;
-                }
-                mean = sum / nx;
-                sig = sqrt((double)((sum2 - nx * mean * mean) / (nx - 1.0)));
-                /* centering and scaling, Seber, p.330 */
-                ptr1 = y->data;
-                for(i = 0; i < m; i++) {
-                    x = ((*ptr1) - mean) / sig;
-                    (*ptr1++) = x + 100.0;
-                }
-                /* S x y */
-                if(sigma > TINY)
-                    ys = VectorConvolve(y, ys, kernel);
-                else
-                    gsl_vector_float_memcpy(ys, y);
-                /* compute beta's */
-                fmat_x_vector(XInv, ys, beta);
-                /* residuals */
-                fmat_x_vector(SX, beta, z);
-                /* subtract  */
-                ptr1 = ys->data;
-                ptr2 = z->data;
-                for(i = 0; i < m; i++) {
-                    d = ((*ptr1++) - (*ptr2++));
-                    d = (d * 2000.0 + 10000.0);
-                    if(isnan(d))
-                        d = 0;
-                    VPixel(src[slice], i, row, col, VShort) = (VShort)d;
-                }
-                /*  multiple coeff of determination R^2 */
-                ptr1 = ys->data;
-                sum = 0;
-                for(i = 0; i < m; i++)
-                    sum += (*ptr1++);
-                mean = sum / (float)m;
-                ptr1 = ys->data;
-                ptr2 = z->data;
-                sst = ssr = sse = 0;
-                for(i = 0; i < m; i++) {
-                    u = *ptr1++;
-                    v = *ptr2++;
-                    sst += SQR(u - mean);
-                    ssr += SQR(v - mean);
-                    sse += (u - v) * (u - v);
-                }
-                d = 1.0 - sse / sst;
-                d = ssr / sst;
-                VPixel(dest, slice, row, col, VFloat) = 100.0 * d;
-next:
-                ;
-            }
-        }
+
+    for (slice = 0; slice < nslices; slice++) {
+      if (slice % 5 == 10) fprintf(stderr, "# slice: %3d\r", slice);
+      if (VImageNRows(src[slice]) < 2)  continue;
+
+      for (row = 0; row < nrows; row++) {
+	for (col = 0; col < ncols; col++) {
+
+	  if (VPixel(src[slice], 0, row, col, VShort) < minval) goto next;
+	  npix++;
+
+	  /* read time series data */
+	  sum = sum2 = nx = 0;
+	  ptr1 = y->data;
+	  for(i = 0; i < m; i++) {
+	    x = VPixel(src[slice], i, row, col, VShort);
+	    (*ptr1++) = x;
+	    sum  += x;
+	    sum2 += x * x;
+	    nx++;
+	  }
+	  mean = sum / nx;
+	  sig = sqrt((double)((sum2 - nx * mean * mean) / (nx - 1.0)));
+	  if (sig < TINY) continue;
+
+	  /* centering and scaling, Seber, p.330 */
+	  ptr1 = y->data;
+	  for(i = 0; i < m; i++) {
+	    x = ((*ptr1) - mean) / sig;
+	    (*ptr1++) = x + 100.0;
+	  }
+
+	  /* S x y */
+	  if(sigma > TINY)
+	    ys = VectorConvolve(y, ys, kernel);
+	  else
+	    gsl_vector_float_memcpy(ys, y);
+
+	  /* compute beta's */
+	  fmat_x_vector(XInv, ys, beta);
+
+	  /* residuals */
+	  fmat_x_vector(SX, beta, z);
+
+	  /* subtract  */
+	  ptr1 = ys->data;
+	  ptr2 = z->data;
+	  for(i = 0; i < m; i++) {
+	    d = ((*ptr1++) - (*ptr2++));
+	    d = (d * 2000.0 + 10000.0);
+	    if(isnan(d))
+	      d = 0;
+	    VPixel(src[slice], i, row, col, VShort) = (VShort)d;
+	  }
+
+	  /*  multiple coeff of determination R^2 */
+	  ptr1 = ys->data;
+	  sum = 0;
+	  for(i = 0; i < m; i++)
+	    sum += (*ptr1++);
+	  mean = sum / (float)m;
+	  ptr1 = ys->data;
+	  ptr2 = z->data;
+	  sst = ssr = sse = 0;
+	  for(i = 0; i < m; i++) {
+	    u = *ptr1++;
+	    v = *ptr2++;
+	    sst += SQR(u - mean);
+	    ssr += SQR(v - mean);
+	    sse += (u - v) * (u - v);
+	  }
+	  d = 1.0 - sse / sst;
+	  d = ssr / sst;
+	  VPixel(dest, slice, row, col, VFloat) = 100.0 * d;
+	next:
+	  ;
+	}
+      }
     }
     if(npix == 0)
-        VError(" no voxels above threshold %d found", minval);
+      VError(" no voxels above threshold %d found", minval);
     return dest;
 }
 
 
 
-
-
 int
-main(int argc, char *argv[]) {
-    static VString  mask_filename = "";
-    static VShort   minval = 0;
-    static VFloat   fwhm = 4.0;
-    static VOptionDescRec  options[] = {
-        {"mask", VStringRepn, 1, (VPointer) &mask_filename, VOptionalOpt, NULL, "Mask for global covariate"},
-        {"fwhm", VFloatRepn, 1, (VPointer) &fwhm, VOptionalOpt, NULL, "fwhm"},
-        {"minval", VShortRepn, 1, (VPointer) &minval, VRequiredOpt, NULL, "Signal threshold"}
-    };
-    FILE *fp = NULL, *in_file = NULL, *out_file = NULL;
-    VAttrList list = NULL, mlist = NULL;
-    VAttrListPosn posn;
-    VImage dest = NULL, mask = NULL;
-    int  n;
-    char prg_name[100];
-	char ver[100];
-	getLipsiaVersion(ver, sizeof(ver));
-	sprintf(prg_name, "vrmglobal V%s", ver);
-    fprintf(stderr, "%s\n", prg_name);
-    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
-    /* read mask */
-    if(strlen(mask_filename) > 2) {
-        fp = VOpenInputFile(mask_filename, TRUE);
-        mlist = VReadFile(fp, NULL);
-        if(! mlist)
-            VError("Error reading mask file");
-        fclose(fp);
-        n = 0;
-        for(VFirstAttr(mlist, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
-            if(VGetAttrRepn(& posn) != VImageRepn)
-                continue;
-            VGetAttrValue(& posn, NULL, VImageRepn, & mask);
-            if(VPixelRepn(mask) != VBitRepn)
-                continue;
-            n++;
-            break;
-        }
-        if((VPixelRepn(mask) != VBitRepn) || (n == 0))
-            VError(" mask image not found ");
+main(int argc, char *argv[]) 
+{
+  static VString  mask_filename = "";
+  static VShort   minval = 0;
+  static VFloat   fwhm = 4.0;
+  static VOptionDescRec  options[] = {
+    {"mask", VStringRepn, 1, (VPointer) &mask_filename, VOptionalOpt, NULL, "Mask for global covariate"},
+    {"fwhm", VFloatRepn, 1, (VPointer) &fwhm, VOptionalOpt, NULL, "fwhm"},
+    {"minval", VShortRepn, 1, (VPointer) &minval, VRequiredOpt, NULL, "Signal threshold"}
+  };
+  FILE *fp = NULL, *in_file = NULL, *out_file = NULL;
+  VAttrList list = NULL, mlist = NULL;
+  VAttrListPosn posn;
+  VImage dest = NULL, mask = NULL;
+  int  n;
+  char prg_name[100];
+  char ver[100];
+
+  getLipsiaVersion(ver, sizeof(ver));
+  sprintf(prg_name, "vrmglobal V%s", ver);
+  fprintf(stderr, "%s\n", prg_name);
+  VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
+
+  /* read mask */
+  if(strlen(mask_filename) > 2) {
+    fp = VOpenInputFile(mask_filename, TRUE);
+    mlist = VReadFile(fp, NULL);
+    if(! mlist) VError("Error reading mask file");
+    fclose(fp);
+
+    n = 0;
+    for(VFirstAttr(mlist, & posn); VAttrExists(& posn); VNextAttr(& posn)) {
+      if(VGetAttrRepn(& posn) != VImageRepn)
+	continue;
+      VGetAttrValue(& posn, NULL, VImageRepn, & mask);
+      if(VPixelRepn(mask) != VBitRepn) continue;
+      n++;
+      break;
     }
-    if(!(list = VReadFile(in_file, NULL)))
-        exit(1);
-    fclose(in_file);
-    dest = VRmGlobal(list, minval, mask, fwhm);
-    VAppendAttr(list, "var_explained", NULL, VImageRepn, dest);
-    /* output */
-    VHistory(VNumber(options), options, prg_name, &list, &list);
-    if(! VWriteFile(out_file, list))
-        exit(1);
-    fprintf(stderr, "# %s: done.\n", argv[0]);
-    exit(0);
+    if((VPixelRepn(mask) != VBitRepn) || (n == 0))
+      VError(" mask image not found ");
+  }
+  if(!(list = VReadFile(in_file, NULL))) exit(1);
+  fclose(in_file);
+
+  dest = VRmGlobal(list, minval, mask, fwhm);
+
+
+  /* output */
+  VAppendAttr(list, "var_explained", NULL, VImageRepn, dest);
+  VHistory(VNumber(options), options, prg_name, &list, &list);
+  if(! VWriteFile(out_file, list))
+    exit(1);
+  fprintf(stderr, "# %s: done.\n", argv[0]);
+  exit(0);
 }
 
 
