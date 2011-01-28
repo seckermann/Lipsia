@@ -4,7 +4,7 @@ PROJECT(LIBLIPSIA)
 SET(LIBLIPSIA_SRC
     GeoInfo.c StatsConversions.c Talairach.c gsl_futils.c gsl_dutils.c via2gsl.c
     SmoothnessEstim.c wilcoxtables.c wilcox_pvals.c Convolve.c GaussConv.c
-    GetVersion.c)
+    GetVersion.c getMemSize.c)
 
 # add the shared library target
 ADD_LIBRARY(lipsia SHARED ${LIBLIPSIA_SRC})

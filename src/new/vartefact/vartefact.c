@@ -19,6 +19,7 @@
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_chebyshev.h>
 
+extern void getLipsiaVersion(char*,size_t);
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 struct my_params {
@@ -252,7 +253,7 @@ main(int argc, char *argv[])
   VArtefact(list,alpha,minval,highpass,verbose);
 
   /* output */
-  VHistory(VNumber(options),options,prg,&list,&list);
+  VHistory(VNumber(options),options,prg_name,&list,&list);
   if (! VWriteFile (out_file, list)) exit (1);
   fprintf (stderr, "%s: done.\n", argv[0]);
   exit(0);
