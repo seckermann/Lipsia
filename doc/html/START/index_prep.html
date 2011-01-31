@@ -57,18 +57,18 @@ The next step will be a registration of the functional data to the MNI brain. He
 <div class="content">
 Lets consider having the functional scan and the corresponding anatomical scan (e.g. anatomical.v). Here we can use the anatomical scan to find a transformation which aligns the anatomical data to the MNI brain and then apply this transform to our functional data.<br>
 To find the transform of the anatomical scan to the MNI brain you have to call:
-<p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in anatomical.v -ref mni.v
+<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -in anatomical.v -ref mni.v
 -trans trans.nii -transform 0 1 2 -optimizer 0 0 2 -bound 10 -prealign -iter 1000 1000 100
 </b></tt><br></p>
 The next call applies the transform trans.nii to the functional data data3.v.<br>
 
-<p><tt><b><a href="../vdotrans3d/vdotrans3d.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
+<p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
 -res 3 -fmri</b></tt><br></p>
 </div>
 <div class="subtitle">Registration without an anatomical scan</div> 
 <div class="content">
 If you have no anatomical scan of your subject you can also use your functional data for finding the transform to the MNI brain. Therefore you have to call:
-<p><tt><b><a href="../valigned3d/index.html"><u>valign3d</u></a> -in data3.v -ref mni.v
+<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -in data3.v -ref mni.v
 -trans trans.nii -transform 0 2 -optimizer 0 2 -bound 10 -smooth 2 -prealign -iter 1000 1000
 </b></tt><br></p>
 

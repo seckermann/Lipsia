@@ -47,7 +47,7 @@ and view it overlaid onto the mean of the functional data:<p>
 <tt> > vlv -in mean -z z.v</tt><p>
 
 If the the functional data and the mask match well, then you may use it.
-If there is a mismatch, then edit it using <a href="../vledit/vledit.html"><u>vledit</u></a>.
+If there is a mismatch, then edit it using <a href="../vledit/index.html"><u>vledit</u></a>.
 
 
 </div>
@@ -105,8 +105,8 @@ a group of 16 subjects has been scanned in two different conditions, and the res
 maps are called "pow1_subj*.v" and "pow2_subj*.v". The '*' is a wildcard representing all 16 data sets.
 To obtain a map showing differences between the two conditions, type
 
-<p><tt><b><a href="../vpaired_ttest/vpaired_ttest.html"><u>vpaired_ttest</u></a> -in1 pow_subj*.v
--in2 pow_subj*.v -out zmap.v -gauss true</b></tt><br></p>
+<p><tt><b><a href="../vpaired_ttest/vpaired_ttest.html"><u>vpaired_ttest</u></a> -in1 pow1_subj*.v
+-in2 pow2_subj*.v -out zmap.v -gauss true</b></tt><br></p>
 
 and view the result:
 
