@@ -65,7 +65,7 @@ static VString out_filename = NULL;
 static VArgVector trans_filename;
 static VString vtrans_filename;
 static VString template_filename = NULL;
-static VBoolean in_found, out_found, trans_found;
+static VBoolean in_found, out_found, trans_found, ref_found;
 static VShort interpolator_type;
 static VArgVector resolution;
 static VBoolean fmri;
@@ -85,7 +85,7 @@ static VOptionDescRec options[] = {
 		"interpolator", VShortRepn,
 		1, &interpolator_type, VOptionalOpt, TYPInterpolator, "The interpolator used to resample the image"
 	}, {"ref", VStringRepn, 1,
-		&template_filename, VOptionalOpt, 0, "The template image"
+		&template_filename, &ref_found, 0, "The template image"
 	}, {"reso", VFloatRepn, 0, ( VPointer ) &resolution,
 		VOptionalOpt, 0, "The output resolution. One value for isotrop output"
 	},

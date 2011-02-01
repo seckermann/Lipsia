@@ -13,7 +13,7 @@ Package: lipsia
 Section: science
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, python-qt4-dev, python-qt4, dcmtk, libisiscore0, isisio0-vista, isisio0-dicom, isisio0-nifti, isisio0-gz-proxy
-Recommends: via-bin, isisio0-tar-proxy, isis-utils, isisio0-png
+Recommends: via-bin, isisio0-tar-proxy, isis-utils, isisio0-png, lipsia-doc
 Description: analysis suite for MRI and fMRI data
  Leipzig Image Processing and Statistical Inference Algorithms (LIPSIA)
  .
