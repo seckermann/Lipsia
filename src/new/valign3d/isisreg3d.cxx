@@ -496,7 +496,7 @@ int main(int argc, char *argv[] )
 		}
 
 		if ( pixel_density >= 1 ) {
-			std::cerr << "metric uses all pixels" << std::endl;
+			std::cerr << "metric uses all voxels" << std::endl;
 		}
 
 		//check grid size

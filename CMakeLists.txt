@@ -163,7 +163,7 @@ INSTALL(DIRECTORY doc/html
   DESTINATION share/doc/lipsia
   PATTERN ".svn" EXCLUDE )
 
-install(PROGRAMS lipsia-help DESTINATION bin)
+#install(PROGRAMS lipsia-help DESTINATION bin)
 
 #installing the scripts
 install(PROGRAMS src/scripts/vpreproc_gui DESTINATION bin)
