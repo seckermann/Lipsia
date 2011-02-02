@@ -1,0 +1,11 @@
+PROJECT(vdespike)
+
+ADD_EXECUTABLE(vdespike vdespike.c)
+TARGET_LINK_LIBRARIES(vdespike lipsia ${VIAIO_LIBRARY} ${GSL_GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${LIPSIA_LIBRARY} ${FFTW3_FFTW3_LIBRARY})
+
+SET_TARGET_PROPERTIES(vdespike PROPERTIES
+                      LINK_FLAGS -Wl)
+
+INSTALL(TARGETS vdespike
+        RUNTIME DESTINATION bin
+        COMPONENT RuntimeLibraries)

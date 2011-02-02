@@ -11,37 +11,38 @@
 <a href="../index.html" class="home">table of contents</a>
 <div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Utilities</div>
 
-<div class="headtitle">vartefact</div>
+<div class="headtitle">vdespike</div>
 <p>
 <div class="subtitle"><b>Background</b></div>
 <div class="content">
-The program 'vartefact' tries to remove artefacts from time series data.
+The program 'vdespike' tries to remove artefacts from time series data.
 It assume that artefacts result from subject movement so that some
 time steps withn the time series are not usable.
 It detects such time steps based on signal variance. Time steps with
 large standard deviation are assumed to be  artefacts.
-'vartefacts' first identifies such time points and then replaces them
+'vdespikes' first identifies such time points and then replaces them
 by interpolating with adjacent time points.<p><br>
 
 <img src="before.gif">
 <img src="after.gif">
 <img src="superimposed.gif">
 <br><br>
+<b>Note:</b> vdespike automatically performs a light baseline drift correction to your data. But this is not a substitution of the baseline drift correction performed by <a href="../vpreprocess/index.html">vpreprocess</a>
 </div>
 <div class="subtitle"><b>Usage</b></div>
 <div class="content">
 Here is a typical calling sequence.<p>
 
 
-<tt><b><a href="#vartefact"><u>vartefact</u></a> 
+<tt><b><a href="#vdespike"><u>vdespike</u></a> 
 -in data.v -out result.v -alpha 4</b></tt><br><p>
 
 This call replaces time steps which are above (mean + 4*sigma)
 by interpolated values.<p>
 </div>
 <br>
-<a name="vartefact"></a>
-<div class="headtitle"><b>Parameters of 'vartefact'</b>:</div>
+<a name="vdespike"></a>
+<div class="headtitle"><b>Parameters of 'vdespike'</b>:</div>
 
 <div class="content">
 <DL>

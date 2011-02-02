@@ -6,7 +6,7 @@ add_subdirectory(vswapdim)
 add_subdirectory(vdotrans3d)
 #end
 add_subdirectory(vReHo)
-add_subdirectory(vartefact)
+add_subdirectory(vdespike)
 add_subdirectory(vcheckdata)
 add_subdirectory(vcorr)
 add_subdirectory(vdenoise)
