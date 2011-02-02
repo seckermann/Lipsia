@@ -81,8 +81,8 @@ Keep in mind that not all combinations of components lead to reasonable results.
 The program valign3d offers the facility to create a chain of sequenced regestration steps allowing you to apply an arbitrary number of registration steps but only one final interpolation step. This avoids data loss due to several interpolation steps.<br>
 The following example shows such a chain composed of 3 different registration steps.<br><br>
 
-> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref reference_image.v -in moving_image.v -trans transform.nii -transform 0 1 2 -optimizer 0 1 2 -iter 500 500 100</tt></b><br><br>
-<b>Step 1:</b> vesor rigid transform, versor rigid optimizer, standard metric and interpolator, maximium number of iterations: 500<br>
+> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref reference_image.v -in moving_image.v -trans transform.nii -transform 0 1 2 -optimizer 0 0 2 </tt></b><br><br>
+<b>Step 1:</b> vesor rigid transform, regular step gradient optimizer, standard metric and interpolator, maximium number of iterations: 500 (default)<br>
 <b>Step 2:</b> affine transform, regular step gradient optimizer, standard metric and interpolator, maximium number of iterations: 500<br>
 <b>Step 3:</b> bspline transform, lbfgsb optimizer, standard metric and interpolator, maximium number of iterations: 100<br><br>
 
