@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Connectivity concordance mapping</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Connectivity concordance mapping</div>
+
+<div class="headtitle">vpaired_ccm</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vpaired_ccm' computes connectivity concordance maps (CCM).
+The main idea is to assign a label to each voxel based on the intersubject reproducibility of
+its whole-brain pattern of connectivity. Specifically, we compute the correlations of time-courses
+of each voxel with every other voxel for each subject. Voxels whose correlation pattern is
+consistent across data sets receive high values.
+Concordance across data sets is measured using either Kendall's W or the Lin's concordance correlation
+coefficient (CCC).
+<p>
+This program is very similar to 'vccm'. The only difference is that 'vpaired_ccm' can only be used
+to assess concordance between two data sets. This limitation leads to a significant increase
+in computational speed. At the same time, more RAM is needed. For standard data sets as described below,
+about 16 GByte of main memory are needed.
+<p>
+<i>References: <br>
+Lohmann et al (2011, submitted), 
+'Model-free analysis of fMRI data using Connectivity Concordance Mapping (CCM)',
+OHBM conference, Quebec City, Canada, June 2011.<br>
+Lin (1989), 'A concordance correlation coefficient to evaluate reproducibility', 
+Biometrics 53(4):1503-1507. <br>
+Kendall et al (1939), 'The Problem of m Rankings', The Annals of Mathematical Statistics 10(3):275-287.
+</i>
+</div>
+
+<div class="subtitle"><b>Preparing input data</b></div>
+<div class="content">
+Preprocessed functional data serve as input to 'vpaired_ccm'.
+The preprocessing should normally include motion correction,
+slicetime correction, spatial smoothing
+and registration to some template (e.g. MNI or Talairach) resampled
+to 3x3x3 mm^3 resolution. Higher resolutions (e.g. 2x2x2 mm^3) are 
+generally not computable on standard hardware. 
+It is important that baseline drifts are removed. 
+See <a href="../START/index_prep.html"><u>standard preprocessing</u></a> chapter for more information on preprocessing.
+<br><br>
+It is essential that the mask is geometrically compatible with the
+functional data and covers the desired portions of the brain. In particular,
+the mask must have the same spatial resolution, the same image matrix size and
+orientation as the functional data.
+To check if the mask is correct, the following calls should be used:
+<br>
+
+> <tt> vtimestep -in functional.v -out tmp.v </tt> <br>
+> <tt> vconvert -in mask.v -out zmask.v -repn float</tt> <br>
+> <tt> vlv -in tmp.v -z zmask.v </tt><br><br>
+
+The first call 'vtimestep' extracts the first time step (volume) from the
+functional data. The second call converts the mask so that it can be 
+visualized in the third call 'vlv'. If the mask aligns well with the
+functional data and covers the desired parts of the brain then all is well
+and the files 'tmp.v' and 'zmask.v' may be deleted. 
+Otherwise, the mask must be redefined.
+</div>
+
+<br>
+
+<div class="subtitle"><b>Calling 'vpaired_ccm'</b></div>
+<div class="content">
+Once the functional data are preprocessed and a mask is defined, the analysis can begin.
+Computation times depend on computer hardware, size of the mask and length of the time series.
+A full-brain coverage mask at 3x3x3 mm^3 and 200 time steps acquired in 15  subjects 
+on a 3GHz cpu may take several hours of computation time. 
+Here is an example call using the standard mask. It will process all data sets called
+'functional_*.v' in the current directory. (Note: the asterisk * is a wildcard and works as
+a placeholder).<br><br>
+
+<tt><b><a href="#vpaired_ccm"><u>vpaired_ccm</u></a> 
+-in1 functional_A.v -in2 functional_B.v -out ccm_AB.v -mask /usr/share/lipsia/mask_3mm.v</b></tt><br><p>
+
+<br></div>
+
+
+<a name="vpaired_ccm"></a>
+<div class="headtitle"><b>Parameters of 'vpaired_ccm'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in1<DD> 
+        First input file. Default: (none)
+    <DT>-in2<DD> 
+        Second input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-mask<DD> 
+        Image mask. Voxels in this mask will be used for CCM.	
+    <DT>-first<DD> 
+	     First time step to include. Default: 2
+	<DT>-minval<DD> 
+	     Signal threshold to exclude nonbrain voxels. Default: 0
+	<DT>-type<DD> 
+	     Type of concordance measure [kendall | ccc]. Default: kendall 
+    <DT>-length<DD> 
+	    Length of time series to use. If set to 0 use everything from <first> to end. Default: 0
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>
