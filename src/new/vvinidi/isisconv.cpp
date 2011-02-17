@@ -14,9 +14,9 @@ using namespace isis;
 
 int main( int argc, char **argv )
 {
-	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
-	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
-	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	isis::util::enableLog<isis::util::DefaultMsgPrint>( isis::error );
+	isis::data::enableLog<isis::util::DefaultMsgPrint>( isis::error );
+	isis::image_io::enableLog<isis::util::DefaultMsgPrint>( isis::error );
 	std::cout << "isis core version: " << isis::util::Application::getCoreVersion() << std::endl;
 	char prg_name[100];
 	char ver[100];
@@ -30,19 +30,19 @@ int main( int argc, char **argv )
 	app.init( argc, argv ); // will exit if there is a problem
 
 	if( app.parameters["tr"]->as<double>() > 0 ) {
-		BOOST_FOREACH( data::ImageList::const_reference ref, app.images ) {
-			ref->setProperty<u_int16_t>( "repetitionTime", app.parameters["tr"]->as<double>() * 1000 );
+		BOOST_FOREACH( std::list<data::Image>::reference ref, app.images ) {
+			ref.setPropertyAs<u_int16_t>( "repetitionTime", app.parameters["tr"]->as<double>() * 1000 );
 		}
 	}
 
 	if( app.images.size() > 1 ) {
 		//we have to sort the output images by the sequenceStart so the number in the output filename represents the
 		//number in the scan protocol
-		typedef std::multimap< boost::posix_time::ptime, boost::shared_ptr<data::Image> > timeStampsType;
+		typedef std::multimap< boost::posix_time::ptime, data::Image > timeStampsType;
 		timeStampsType timeStamps;
-		BOOST_FOREACH( std::list<boost::shared_ptr<data::Image> >::const_reference image, app.images ) {
-			timeStamps.insert( std::make_pair< boost::posix_time::ptime, boost::shared_ptr< data::Image > >(
-								   image->getProperty< boost::posix_time::ptime >( "sequenceStart" ), image ) ) ;
+		BOOST_FOREACH( std::list<data::Image>::const_reference image, app.images ) {
+			timeStamps.insert( std::make_pair< boost::posix_time::ptime, data::Image >(
+								   image.getPropertyAs< boost::posix_time::ptime >( "sequenceStart" ), image ) ) ;
 		}
 
 		if ( timeStamps.size() != app.images.size() ) {
@@ -56,7 +56,7 @@ int main( int argc, char **argv )
 			std::stringstream countString;
 			countString << count++ << "_" << out.leaf();
 			boost::filesystem::path newPath( out.branch_path() /  countString.str() );
-			data::ImageList tmpList;
+			std::list<data::Image> tmpList;
 			tmpList.push_back( map.second );
 			data::IOFactory::write( tmpList, newPath.string(), app.parameters["wf"], app.parameters["wdialect"] );
 		}

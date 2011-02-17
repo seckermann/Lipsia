@@ -234,9 +234,9 @@ int main(int argc, char *argv[] )
 	getLipsiaVersion(ver, sizeof(ver));
 	sprintf(prg_name, "valign3d V%s", ver);
 	std::cout << prg_name << std::endl;
-	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
-	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
-	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	isis::util::enableLog<isis::util::DefaultMsgPrint>( isis::error );
+	isis::data::enableLog<isis::util::DefaultMsgPrint>( isis::error );
+	isis::image_io::enableLog<isis::util::DefaultMsgPrint>( isis::error );
 
 	// DANGER! Kids don't try this at home! VParseCommand modifies the values of argc and argv!!!
 	if ( !VParseCommand( VNumber( options ), options, &argc, argv ) || !VIdentifyFiles( VNumber( options ), options, "in",
@@ -312,11 +312,11 @@ int main(int argc, char *argv[] )
 	MovingOtsuCalcType::Pointer movingOtsuCalculator = MovingOtsuCalcType::New();
 	FixedThresholdFilter::Pointer fixedThresholdFilter = FixedThresholdFilter::New();
 	MovingThresholdFilter::Pointer movingThresholdFilter = MovingThresholdFilter::New();
-	isis::data::ImageList refList = isis::data::IOFactory::load( ref_filename, "", "" );
+	std::list<isis::data::Image> refList = isis::data::IOFactory::load( ref_filename, "", "" );
 	//if no pixel density is specified it will be calculated to achive a amount of 30000 voxel considered for registration
-	float pixelDens = float( 150000 ) / ( refList.front()->sizeToVector()[0] * refList.front()->sizeToVector()[1] * refList.front()->sizeToVector()[2] ) ;
+	float pixelDens = float( 150000 ) / ( refList.front().getSizeAsVector()[0] * refList.front().getSizeAsVector()[1] * refList.front().getSizeAsVector()[2] ) ;
 	if(pixelDens > 1) { pixelDens=1;}
-	isis::data::ImageList inList = isis::data::IOFactory::load( in_filename, "", "" );
+	std::list<isis::data::Image> inList = isis::data::IOFactory::load( in_filename, "", "" );
 	LOG_IF( refList.empty(), isis::data::Runtime, isis::error ) << "Reference image is empty!";
 	LOG_IF( inList.empty(), isis::data::Runtime, isis::error ) << "Input image is empty!";
 	FixedImageType::Pointer fixedImage = fixedAdapter->makeItkImageObject<FixedImageType>( refList.front() );

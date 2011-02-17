@@ -112,9 +112,9 @@ int main(int argc, char *argv[] )
 	getLipsiaVersion(ver, sizeof(ver));
 	sprintf(prg_name, "vdotrans3d V%s", ver);
 	std::cout << prg_name << std::endl;
-	isis::util::enable_log<isis::util::DefaultMsgPrint>( isis::error );
-	isis::data::enable_log<isis::util::DefaultMsgPrint>( isis::error );
-	isis::image_io::enable_log<isis::util::DefaultMsgPrint>( isis::error );
+	isis::util::enableLog<isis::util::DefaultMsgPrint>( isis::error );
+	isis::data::enableLog<isis::util::DefaultMsgPrint>( isis::error );
+	isis::image_io::enableLog<isis::util::DefaultMsgPrint>( isis::error );
 
 	// DANGER! Kids don't try this at home! VParseCommand modifies the values of argc and argv!!!
 	if ( !VParseCommand( VNumber( options ), options, &argc, argv ) || !VIdentifyFiles( VNumber( options ), options, "in",
@@ -201,7 +201,7 @@ int main(int argc, char *argv[] )
 	resampler->SetNumberOfThreads( number_threads );
 	warper->SetNumberOfThreads( number_threads );
 	progress_timer time;
-	isis::data::ImageList tmpList;
+	std::list<isis::data::Image> tmpList;
 
 	//if template file is specified by the user
 	if ( template_filename ) {
@@ -237,18 +237,18 @@ int main(int argc, char *argv[] )
 		}
 	}
 
-	isis::data::ImageList inList = isis::data::IOFactory::load( in_filename, "", "" );
+	std::list<isis::data::Image> inList = isis::data::IOFactory::load( in_filename, "", "" );
 
-	BOOST_FOREACH( isis::data::ImageList::reference ref, inList ) {
-		if ( tmpList.front()->hasProperty( "Vista/extent" ) ) {
-			ref->setProperty<std::string>( "Vista/extent", tmpList.front()->getProperty<std::string>( "Vista/extent" ) );
+	BOOST_FOREACH( std::list<isis::data::Image>::reference ref, inList ) {
+		if ( tmpList.front().hasProperty( "Vista/extent" ) ) {
+			ref.setPropertyAs<std::string>( "Vista/extent", tmpList.front().getPropertyAs<std::string>( "Vista/extent" ) );
 		}
-		if ( tmpList.front()->hasProperty( "Vista/ca" ) && tmpList.front()->hasProperty( "Vista/cp" ) ) {
+		if ( tmpList.front().hasProperty( "Vista/ca" ) && tmpList.front().hasProperty( "Vista/cp" ) ) {
 			std::vector< std::string > caTuple;
 			std::vector< std::string > cpTuple;
-			std::string ca = tmpList.front()->getProperty<std::string>( "Vista/ca" );
-			std::string cp = tmpList.front()->getProperty<std::string>( "Vista/cp" );
-			isis::util::fvector4 oldVoxelSize = tmpList.front()->getProperty<isis::util::fvector4>( "voxelSize" );
+			std::string ca = tmpList.front().getPropertyAs<std::string>( "Vista/ca" );
+			std::string cp = tmpList.front().getPropertyAs<std::string>( "Vista/cp" );
+			isis::util::fvector4 oldVoxelSize = tmpList.front().getPropertyAs<isis::util::fvector4>( "voxelSize" );
 			boost::algorithm::split( caTuple, ca, boost::algorithm::is_any_of( " " ) );
 			boost::algorithm::split( cpTuple, cp, boost::algorithm::is_any_of( " " ) );
 
@@ -263,8 +263,8 @@ int main(int argc, char *argv[] )
 
 			std::string newCa = caTuple[0] + std::string( " " ) + caTuple[1] + std::string( " " ) + caTuple[2];
 			std::string newCp = cpTuple[0] + std::string( " " ) + cpTuple[1] + std::string( " " ) + cpTuple[2];
-			ref->setProperty<std::string>( "Vista/ca", newCa );
-			ref->setProperty<std::string>( "Vista/cp", newCp );
+			ref.setPropertyAs<std::string>( "Vista/ca", newCa );
+			ref.setPropertyAs<std::string>( "Vista/cp", newCp );
 		}
 	}
 
@@ -382,7 +382,7 @@ int main(int argc, char *argv[] )
 			resampler->SetOutputOrigin( outputOrigin );
 			resampler->SetOutputDirection( outputDirection );
 			resampler->Update();
-			isis::data::ImageList imgList = movingAdapter->makeIsisImageObject<OutputImageType>( resampler->GetOutput() );
+			std::list<isis::data::Image> imgList = movingAdapter->makeIsisImageObject<OutputImageType>( resampler->GetOutput() );
 			isis::data::IOFactory::write( imgList, out_filename, "" , "" );
 			// DEBUG
 			//          writer->SetInput(resampler->GetOutput());
@@ -402,7 +402,7 @@ int main(int argc, char *argv[] )
 			}
 
 			warper->Update();
-			isis::data::ImageList imgList = movingAdapter->makeIsisImageObject<OutputImageType>( warper->GetOutput() );
+			std::list<isis::data::Image> imgList = movingAdapter->makeIsisImageObject<OutputImageType>( warper->GetOutput() );
 			isis::data::IOFactory::write( imgList, out_filename, "", "" );
 		}
 	}
@@ -511,7 +511,7 @@ int main(int argc, char *argv[] )
 		tileImageFilter->SetLayout( layout );
 		tileImageFilter->GetOutput()->SetDirection( direction4D );
 		tileImageFilter->Update();
-		isis::data::ImageList imgList = movingAdapter->makeIsisImageObject<FMRIOutputType>( tileImageFilter->GetOutput() );
+		std::list<isis::data::Image> imgList = movingAdapter->makeIsisImageObject<FMRIOutputType>( tileImageFilter->GetOutput() );
 		isis::data::IOFactory::write( imgList, out_filename, "" , "" );
 	}
 
