@@ -168,6 +168,7 @@ INSTALL(DIRECTORY doc/html
 #installing the scripts
 install(PROGRAMS src/scripts/vpreproc_gui DESTINATION bin)
 install(PROGRAMS src/scripts/vcreatemask DESTINATION bin)
+install(PROGRAMS src/scripts/vnormalization DESTINATION bin)
 
 # install ressource files
 FILE(GLOB RES_FILES data/*)
