@@ -148,9 +148,9 @@ typename TOutput::Pointer itkAdapter::internCreateItk( const bool behaveAsItkRea
 
 	if( spacing[3] == 0 ) { spacing[3] = 1; }
 
-	const util::fvector4 readVec = m_ImageISIS.getPropertyAs<util::fvector4>( "readVec" );
+	const util::fvector4 readVec = m_ImageISIS.getPropertyAs<util::fvector4>( "rowVec" );
 
-	const util::fvector4 phaseVec = m_ImageISIS.getPropertyAs<util::fvector4>( "phaseVec" );
+	const util::fvector4 phaseVec = m_ImageISIS.getPropertyAs<util::fvector4>( "columnVec" );
 
 	const util::fvector4 sliceVec = m_ImageISIS.getPropertyAs<util::fvector4>( "sliceVec" );
 
@@ -276,8 +276,8 @@ template<typename TImageITK, typename TOutputISIS> std::list<data::Image> itkAda
 	//these are properties eventually manipulated by itk. So we can not take the
 	//parameters from the isis image which was handed over to the itkAdapter
 	retImage.setPropertyAs( "indexOrigin", util::fvector4( indexOrigin[0], indexOrigin[1], indexOrigin[2], indexOrigin[3] ) );
-	retImage.setPropertyAs( "readVec", util::fvector4( imageDirection[0][0], imageDirection[1][0], imageDirection[2][0], 0 ) );
-	retImage.setPropertyAs( "phaseVec", util::fvector4( imageDirection[0][1], imageDirection[1][1], imageDirection[2][1], 0 ) );
+	retImage.setPropertyAs( "rowVec", util::fvector4( imageDirection[0][0], imageDirection[1][0], imageDirection[2][0], 0 ) );
+	retImage.setPropertyAs( "columnVec", util::fvector4( imageDirection[0][1], imageDirection[1][1], imageDirection[2][1], 0 ) );
 	retImage.setPropertyAs( "sliceVec", util::fvector4( imageDirection[0][2], imageDirection[1][2], imageDirection[2][2], 0 ) );
 	retImage.setPropertyAs( "voxelSize", util::fvector4( imageSpacing[0], imageSpacing[1], imageSpacing[2], imageSpacing[3] ) );
 	//this will splice down the image the same way it was handed over to the itkAdapter
