@@ -101,15 +101,28 @@ or<br><br>
 > <tt> <b><a href="#vdotrans3d"><u>vdotrans3d</u></a> -ref reference_image.v -in moving_image.v -itktrans transform.tra -out registered_image.v</tt></b><br><br>
 
 If the -ref parameter is missing, vdotrans3d uses the image attributes of the moving image (and if specified, the parameter -reso) to create the output file.<br><br>
+If you want to apply your transform to a functional image the call looks like:<br><br>
+
+ > <tt> <b><a href="#vdotrans3d"><u>vdotrans3d</u></a> -ref reference_image.v -in moving_functional_image.v -trans transform.tra -out registered_image.v -fmri -res 3</tt></b><br><br>
+ The -res parameter denotes the output resolution of your functional data. If you omit this parameter vdotrans3d takes the resolution of your reference image. So in case you take an anatomical image as the reference image it is recommended to specify a output resolution (in most cases a resolution of 3mm is convenient).
+
+
+
 </div>
 
-<div class="subtitle"><b>Registration on the MNI-Atlas</b></div>
+<div class="subtitle"><b>Registration to the MNI-Atlas</b></div>
 <div class="content">
-If you want to perform a registration on the MNI-atlas you simply have to specify the MNI-atlas as the reference image:
+If you want to perform a registration to the MNI-atlas you simply have to specify the MNI-atlas as the reference image:
 <br><br>
-> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref /usr/share/lipsia/T1_fsl.v -in moving_image.v -trans transform.nii</b></tt>
+> <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref /usr/share/lipsia/mni.v -in moving_image.v -trans transform.nii</b></tt>
 <br><br>
-This performs a rigid registration on the MNI-atlas
+This performs a rigid registration to the MNI-atlas.<br><br>
+However if you want to perform a whole normalization of a functional data set the call looks like:<br><br>
+
+ > <tt> <b><a href="#valign3d"><u>valign3d</u></a> -ref /usr/share/lipsia/mni.v -in anatomical_image.v -trans transform.nii -transform 0 1 2 -optimizer 0 0 2 -prealign</b></tt><br><br>
+> <tt> <b><a href="#vdotrans3d"><u>vdotrans3d</u></a> -ref /usr/share/lipsia/mni.v -in functional_image.v -trans transform.nii -out normalized_functional.v -fmri -res 3</b></tt><br><br>
+
+
 
 </div>
 
@@ -126,14 +139,14 @@ This performs a rigid registration on the MNI-atlas
         Moving image file. Default: (none)
     <DT>-mask<DD> 
         Image file containing region of interest mask.
-    <DT>-itktrans<DD>
+    <DT>-txttrans<DD>
         The output transform file (text). Default: (none)
     <DT>-trans<DD>
         The output transform file containing the vector deformation field.<br>
         Has to be of type nifti. Default: (none)
     <DT>-tin<DD> 
         Initial transform input. Default: (none)
-	Has to be a transform gained with -itktrans. 
+	Has to be a transform gained with -txttrans. 
     <DT>-bins<DD> 
         Number of bins used by the mattes mutual information metric to calculate the image histogram. Default: 50
     <DT>-iter<DD> 
