@@ -38,8 +38,6 @@ will reside in <tt>/scr/experiment1/prep</tt>. Here is the content of "do.sh":<p
 <b>Preprocessing pipeline without an anatomical scan:</b><br><br>
 
 <tt>
-REF=/usr/share/lipsia/epi_template_2mm.v<br>
-REF2=/usr/share/lipsia/epi_template_3mm.v<br><br>
 
 proc ()<br>
 {<br> 
@@ -47,9 +45,7 @@ proc ()<br>
   vnormvals -in tmp0.v -scale 10 -out tmp1.v<br>
   vslicetime -in tmp1.v -out tmp2.v<br>
   vmovcorrection -in tmp2.v -out tmp3.v -report list_$1.txt<br>
-  valign3d -in tmp3.v -ref $REF -trans trans.nii -transform 0 2 \<br>
-     -optimizer 0 2 -bound 10 -prealign -smooth 2 -iter 1000 1000<br>
-  vdotrans3d -in tmp3.v -ref $REF2 -trans trans.nii -out tmp4.v -res 3 -fmri<br>
+  vreg2ref -fun tmp3.v -out tmp4.v<br>
   vpreprocess -in tmp4.v -out prep_$1.v -fwhm 6 -low 10 -high 90<br>
 }<br>
 
@@ -61,8 +57,6 @@ proc subj003<br>
 <b>Preprocessing pipeline using an anatomical scan:</b><br><br>
 
 <tt>
-REF=/usr/share/lipsia/mni.v<br>
-REF2=/usr/share/lipsia/epi_template_3mm.v<br><br>
 
 proc ()<br>
 {<br> 
@@ -70,13 +64,7 @@ proc ()<br>
   vnormvals -in tmp0.v -scale 10 -out tmp1.v<br>
   vslicetime -in tmp1.v -out tmp2.v<br>
   vmovcorrection -in tmp2.v -out tmp3.v -report list_$1.txt<br>
-  #registering the anatomical data to the functional scan<br>
-  valign3d -in anatomical.v -ref tmp3.v -trans trans.nii -prealign<br>
-  vdotrans3d -in anatomical.v -ref tmp3.v -trans trans.nii -out reg_anatomical.v -res 1<br>
-  #registering this anatomical data to the mni brain<br>
-  valign3d -in reg_anatomical.v -ref $REF -trans trans.nii -transform 0 1 2 \<br>
-     -optimizer 0 0 2 -bound 15 -prealign -iter 1000 1000 100<br>
-  vdotrans3d -in tmp3.v -ref $REF2 -trans trans.nii -out tmp4.v -res 3 -fmri<br>
+  vreg2ref -ana anatomical_image.v -fun tmp3.v -out tmp4.v<br>
   vpreprocess -in tmp4.v -out prep_$1.v -fwhm 6 -low 10 -high 90<br>
 }<br>
 

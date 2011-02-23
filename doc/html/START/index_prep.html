@@ -55,21 +55,46 @@ The next step will be a registration of the functional data to the MNI brain. He
 </div>
 <div class="subtitle">Registration using an anatomical scan</div> 
 <div class="content">
-Lets consider having the functional scan and the corresponding anatomical scan (e.g. anatomical.v). Here we can use the anatomical scan to find a transformation which aligns the anatomical data to the MNI brain and then apply this transform to our functional data.<br>
-To find the transform of the anatomical scan to the MNI brain you have to call:
-<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -in anatomical.v -ref mni.v
--trans trans.nii -transform 0 1 2 -optimizer 0 0 2 -bound 10 -prealign -iter 1000 1000 100
-</b></tt><br></p>
+Lets consider having the functional scan and the corresponding anatomical scan (e.g. anatomical.v). Here we can use the anatomical scan to find a transformation which aligns the anatomical data to the MNI brain and then apply this transform to our functional data.<br><br>
+
+<b><u>The easy way:</b></u><br><br>
+
+The following call normalizes your functional data data3.v to the Lipsia MNI brain /usr/share/lipsia/mni.v:<br>
+ <p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -ana anatomical -fun data3.v -out data4.v</b></tt><br></p>
+ However, if you want to choose your own reference image you can use the following call:<br>
+  <p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -ana anatomical -fun data3.v -out data4.v -ref your_reference_image.v</b></tt><br></p>
+
+ 
+<br>
+<b><u>The more complicated but modifiable way:</b></u><br><br>
+First we have to align the functional and anatomical images:<br>
+ <p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -ref data3.v -in anatomical.v -trans trans_ana_to_fun.nii </b></tt><br></p>
+ <p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -ref data3.v -in anatomical.v -out reg_ana_to_fun.v -trans trans_ana_to_fun.nii -res 1</b></tt><br></p>
+
+To find the transform of the registered anatomical scan to the MNI brain you have to call:
+<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -in reg_ana_to_fun.v -ref /usr/share/lipsia/mni.v
+-trans trans.nii -transform 0 1 2 -optimizer 0 0 2 -bound 20 -smooth 1</b></tt><br></p>
 The next call applies the transform trans.nii to the functional data data3.v.<br>
 
 <p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
 -res 3 -fmri</b></tt><br></p>
+As you see using <a href="../vreg2ref/index.html"><u>vreg2ref</u></a> is much easier than using the combination of <a href="../valign3d/index.html"><u>valign3d and vdotrans3d</u></a>. But if you want to modify some registration-related parameters the second approach is more suitable for you.<br>
 </div>
 <div class="subtitle">Registration without an anatomical scan</div> 
 <div class="content">
-If you have no anatomical scan of your subject you can also use your functional data for finding the transform to the MNI brain. Therefore you have to call:
-<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -in data3.v -ref mni.v
--trans trans.nii -transform 0 2 -optimizer 0 2 -bound 10 -smooth 2 -prealign -iter 1000 1000
+If you have no anatomical scan of your subject you can also use your functional data for finding the transform to the MNI brain.
+<br><br>
+<b><u>The easy way:</b></u><br><br>
+
+The following call normalizes your functional data data3.v to the Lipsia MNI epi brain /usr/share/lipsia/epi_template_3mm.v:<br>
+<p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -fun data3.v -out data4.v</b></tt><br></p>
+However, if you want to choose your own reference image you can use the following call:<br>
+<p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -fun data3.v -out data4.v -ref your_reference_image.v</b></tt><br></p>
+<br>
+<b><u>The more complicated but modifiable way:</b></u><br><br>
+
+<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -in data3.v -ref /usr/share/lipsia/epi_template_3mm.v
+-trans trans.nii -transform 0 2 -optimizer 0 2 -bound 10 -smooth 2
 </b></tt><br></p>
 
 valign3d will take the first timestep of the functional scan and use it to search the transform to the MNI brain. So now all you have to do is applying this transform to your functional data:<br>
