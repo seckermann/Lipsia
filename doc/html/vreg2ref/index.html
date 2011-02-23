@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Normalization to a reference image</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Normalization to a reference image</div>
+<div class="headtitle">vnormalize</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program vnormalize is a little wrapper script which combines the applications <A HREF="../valign3d/index.html">valign3d and vdotrans3d</A>. It also has a very simplified user interface. <br>
+Actually it is designed to normalize functional images to a reference image. If you have an anatomical scan you can use this. But it is also possible to normalize only specifying a functional image. 
+<p>
+
+</div>
+<div class="subtitle"><b>Normalization of your functional data using an anatomical image</b></div>
+<div class="content">
+In most cases you scan your functional data in combination with an anatomical image. The call to normalize your functional data to the MNI-brain using your anatomical image looks like:<br><br>
+<tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -fun functional_data.v -ana anatomical_data -out normalized_functional_data.v </tt></b>
+
+<br><br>
+Of course you can specify your own reference image:<br><br>
+<tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -ref your_reference_image.v -fun functional_data.v -ana anatomical_data -out normalized_functional_data.v </tt></b>
+
+</div>
+<div class="subtitle"><b>Normalization of your functional data without an anatomical image</b></div>
+<div class="content">
+Sometimes you only have the functional data for normalization to a reference image. The call for this looks like:<br><br>
+
+<tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -fun functional_data.v -out normalized_functional_data.v </tt></b>
+<br><br>
+So all you have to do is to omit the -ana parameter. vreg2ref automatically changes the way of registration to the reference image. If you have not specified a reference image vreg2ref automatically uses the Lipsia MNI-brain. If you want to use your own reference image the call looks like:<br><br>
+ <tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -ref your_reference_image.v -fun functional_data.v -out normalized_functional_data.v </tt></b>
+
+<br>
+<br>
+</div>
+
+<a name="valign3d"></a>
+<div class="headtitle"><b>Parameters of 'vreg2ref'</b>:</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-ref<DD> 
+        Fixed image file. Default: /usr/share/lipsia/mni.v
+    <DT>-ana<DD> 
+        Your anatomical image. Default: None
+    <DT>-fun<DD>
+        Your functional image. Default: None
+    <DT>-out<DD>
+        Your normalized image. Required
+
+
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

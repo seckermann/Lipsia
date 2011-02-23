@@ -38,7 +38,7 @@ if __name__ == '__main__':
     ref_ana = "/usr/share/lipsia/mni.v"
     ref_func = "/usr/share/lipsia/epi_template_3mm.v"
 
-    app = core.Application("vnormalization")
+    app = core.Application("vreg2ref")
     app.addParameter("out","","string")
     app.setDescription("out","The output image")
     app.setNeeded("out", True)
