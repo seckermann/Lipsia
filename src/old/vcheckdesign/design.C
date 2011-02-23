@@ -61,7 +61,7 @@ Design::Design( QWidget *parent, const char *name ) {
   VImage mask=NULL, src=NULL, src1=NULL, orth=NULL, gamma=NULL;
   VAttrListPosn posn;
   double sum=0, w=0;
-  VFloat repetition_time;
+  VLong repetition_time;
   VString session_lengths=NULL, session_covariates=NULL; 
   VString modality=NULL, name1=NULL;
   char *token=NULL;
@@ -99,7 +99,7 @@ Design::Design( QWidget *parent, const char *name ) {
   
   /*repetition time */
   if (VGetAttr (VImageAttrList (src), "repetition_time", NULL,
-		VFloatRepn, (VPointer) &repetition_time) != VAttrFound) 
+		VLongRepn, (VPointer) &repetition_time) != VAttrFound) 
     VError(" attribute 'repetition_time' missing in design.");
   if (verbose) fprintf(stderr,"repetition time: %f\n",repetition_time);
 
@@ -163,10 +163,9 @@ Design::Design( QWidget *parent, const char *name ) {
 	
   //even number?
   if ((double)sesslength[0]/2.0 != rint((double)sesslength[0]/2.0)) sesslength[0]=sesslength[0]-1;
-
   // OPEN OF THE MAIN WIDGET
   condanz = VImageNRows(src);
-  center = new designCW( this, "center", version, (double)repetition_time/1000.0, sessanz, sesslength, sesscov, src, src1, orth, gamma);
+  center = new designCW( this, "center", version, (float)repetition_time/1000.0, sessanz, sesslength, sesscov, src, src1, orth, gamma);
  
   setCentralWidget( center );
   

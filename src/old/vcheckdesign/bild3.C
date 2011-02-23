@@ -299,6 +299,7 @@ void Bild3::paintEvent( QPaintEvent * ) {
 	  paint.drawLine (int (80+zoom2*(int)((double)(j-posit2)*((double)vgroesse-100.0)/(double)(ses_1/2))),25, int (80+zoom2*(int)((double)(j-posit2)*((double)vgroesse-100.0)/(double)(ses_1/2))),30 );
 	  paint.drawLine (int (80+zoom2*(int)((double)(j-posit2)*((double)vgroesse-100.0)/(double)(ses_1/2))), int (hgroesse-20), int (80+zoom2*(int)((double)(j-posit2)*((double)vgroesse-100.0)/(double)(ses_1/2))), int (hgroesse-15));
 	  paint.drawText (int (80+zoom2*(int)((double)(j-posit2)*((double)vgroesse-100.0)/(double)(ses_1/2))-3), 20, tr("%1").arg((double)(ses_1)/j*TR), 4 );
+	
 	}
     }
   } else if (mode_m==4) { // +++++ ORTHOGONALITY +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
