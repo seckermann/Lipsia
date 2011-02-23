@@ -18,19 +18,19 @@ def reg_ana_to_func(image_func, image_ana, reg_prg, rsmpl_prg):
 
 def reg_ana_to_ref(image_ana,image_ref,reg_prg):
     print "Registration: anatomical image to reference image..."
-    os.system(reg_prg + " -ref " + image_ref + " -in " +  image_ana + " -trans trans_ana_to_ref.nii -transform 0 1 2 -optimizer 0 0 2 -prealign -smooth 1")
+    os.system(reg_prg + " -ref " + image_ref + " -in " +  image_ana + " -trans trans_to_ref.nii -transform 0 1 2 -optimizer 0 0 2 -prealign -smooth 1")
 
 def reg_func_to_ref(image_ana,image_ref,reg_prg):
     print "Registration: functional image to reference image..."
-    os.system(reg_prg + " -ref " + image_ref + " -in " +  image_func + " -trans trans_func_to_ref.nii -transform 0 2 -optimizer 0 2 -prealign -smooth 2 -bound 15")
+    os.system(reg_prg + " -ref " + image_ref + " -in " +  image_func + " -trans trans_to_ref.nii -transform 0 2 -optimizer 0 2 -prealign -smooth 2 -bound 15")
 
 def resample_func_to_ref(image_func, image_ref, rsmpl_prg, image_out):
     print "Resampling: functional image to reference image..."
-    os.system(rsmpl_prg + " -ref " + image_ref + " -in " + image_func + " -trans trans_func_to_ref.nii -out " + image_out + " -reso 3 -fmri")
+    os.system(rsmpl_prg + " -ref " + image_ref + " -in " + image_func + " -trans trans_to_ref.nii -out " + image_out + " -reso 3 -fmri")
 
 def resample_ana_to_ref(image_ana, image_ref, rsmpl_prg, image_out):
     print "Resampling: anatomical image to reference image..."
-    os.system(rsmpl_prg + " -ref " + image_ref + " -in " + image_ana + " -trans trans_ana_to_ref.nii -out " + image_out)
+    os.system(rsmpl_prg + " -ref " + image_ref + " -in " + image_ana + " -trans trans_to_ref.nii -out " + image_out)
 
 if __name__ == '__main__':
     reg_prg = "/usr/bin/valign3d"
@@ -85,6 +85,5 @@ if __name__ == '__main__':
         resample_ana_to_ref(image_ana, image_ref, rsmpl_prg, image_out)
 
         
-    os.system("rm trans_ana_to_ref.nii")
-    os.system("rm trans_func_to_ref.nii")
+    os.system("rm trans_to_ref.nii")
 

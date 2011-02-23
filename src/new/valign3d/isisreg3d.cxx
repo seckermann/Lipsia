@@ -44,6 +44,8 @@
 #include "itkOtsuThresholdImageCalculator.h"
 #include "itkBinaryThresholdImageFilter.h"
 
+#include "itkHistogramMatchingImageFilter.h"
+
 #include <fstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/progress.hpp>
@@ -292,7 +294,9 @@ int main(int argc, char *argv[] )
 	typedef itk::OtsuThresholdImageCalculator<MovingImageType> MovingOtsuCalcType;
 	typedef itk::BinaryThresholdImageFilter<FixedImageType, FixedImageType> FixedThresholdFilter;
 	typedef itk::BinaryThresholdImageFilter<MovingImageType, MovingImageType> MovingThresholdFilter;
+	typedef itk::HistogramMatchingImageFilter<MovingImageType, MovingImageType> MatchingFilterType;
 	MaskImageReaderType::Pointer maskReader = MaskImageReaderType::New();
+	MatchingFilterType::Pointer matcher = MatchingFilterType::New();
 	itk::AffineTransform<double, Dimension>::Pointer tmpTransform = itk::AffineTransform<double, Dimension>::New();
 	itk::TransformFileWriter::Pointer transformWriter = itk::TransformFileWriter::New();
 	VectorWriterType::Pointer vectorWriter = VectorWriterType::New();
@@ -422,6 +426,15 @@ int main(int argc, char *argv[] )
 	}
 
 	RegistrationFactoryType::Pointer registrationFactory = RegistrationFactoryType::New();
+	matcher->SetNumberOfHistogramLevels(100);
+	matcher->SetNumberOfMatchPoints(15);
+	matcher->ThresholdAtMeanIntensityOn();
+	matcher->SetReferenceImage(fixedImage);
+	matcher->SetInput(movingImage);
+	matcher->Update();
+	movingImage->DisconnectPipeline();
+	movingImage = matcher->GetOutput();
+	
 	//analyse transform vector
 	//transform is the master for determining the number of repetitions
 	int repetition = transformType.number;

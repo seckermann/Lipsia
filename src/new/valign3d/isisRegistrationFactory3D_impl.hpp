@@ -396,6 +396,10 @@ TFixedImageType, TMovingImageType >::prealign()
 	m_RigidInitializer->SetMovingImage( m_MovingImage );
 	m_RigidInitializer->GeometryOn();
 	m_RigidInitializer->InitializeTransform();
+	if(!metric.MATTESMUTUALINFORMATION) {
+		 m_MattesMutualInformationMetric = MattesMutualInformationMetricType::New();
+	}
+
 	m_MattesMutualInformationMetric->SetMovingImage( m_MovingImage );
 	m_MattesMutualInformationMetric->SetFixedImage( m_FixedImage );
 	m_MattesMutualInformationMetric->SetFixedImageRegion( m_FixedImageRegion );
@@ -677,21 +681,12 @@ TFixedImageType, TMovingImageType >::GetTransformVectorField(
 	typename itk::Transform<double, FixedImageDimension, MovingImageDimension>::InputPointType fixedPoint;
 	typename itk::Transform<double, FixedImageDimension, MovingImageDimension>::OutputPointType movingPoint;
 	typename DeformationFieldType::IndexType index;
+		
 	VectorType displacement;
-
 	while ( !fi.IsAtEnd() ) {
 		index = fi.GetIndex();
 		m_DeformationField->TransformIndexToPhysicalPoint( index, fixedPoint );
-
-		if ( transform.BSPLINEDEFORMABLETRANSFORM )
-			movingPoint = m_BSplineTransform->TransformPoint( fixedPoint );
-
- 		if ( transform.VERSORRIGID )
- 			movingPoint = m_VersorRigid3DTransform->TransformPoint( fixedPoint );
- 
- 		if ( transform.AFFINE )
- 			movingPoint = m_AffineTransform->TransformPoint( fixedPoint );
-
+		movingPoint = m_RegistrationObject->GetOutput()->Get()->TransformPoint( fixedPoint );
 		displacement = movingPoint - fixedPoint;
 		fi.Set( displacement );
 		++fi;

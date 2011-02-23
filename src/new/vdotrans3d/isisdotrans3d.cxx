@@ -32,6 +32,7 @@
 #include <itkWindowedSincInterpolateImageFunction.h>
 
 #include <itkResampleImageFilter.h>
+#include <itkVectorResampleImageFilter.h>
 #include <itkWarpImageFilter.h>
 #include <itkCastImageFilter.h>
 
@@ -141,6 +142,7 @@ int main(int argc, char *argv[] )
 	typedef itk::Image<PixelType, fmriDimension> FMRIInputType;
 	typedef itk::Image<PixelType, fmriDimension> FMRIOutputType;
 	typedef itk::ResampleImageFilter<InputImageType, OutputImageType> ResampleImageFilterType;
+	typedef itk::VectorResampleImageFilter<DeformationFieldType, DeformationFieldType, double> ResampleDeformationImageFilterType;
 	typedef itk::WarpImageFilter<OutputImageType, OutputImageType, DeformationFieldType> WarpImageFilterType;
 	typedef itk::CastImageFilter<InputImageType, OutputImageType> CastImageFilterType;
 	typedef itk::ImageFileReader<InputImageType> ImageReaderType;
@@ -155,13 +157,16 @@ int main(int argc, char *argv[] )
 	typedef itk::Transform<double, Dimension, Dimension>* TransformPointer;
 	itk::Transform<double, Dimension, Dimension>::ParametersType parameters;
 	typedef itk::LinearInterpolateImageFunction<OutputImageType, double> LinearInterpolatorType;
+	typedef itk::LinearInterpolateImageFunction<DeformationFieldType, double> LinearDeformationInterpolatorType;
 	typedef itk::NearestNeighborInterpolateImageFunction<OutputImageType, double> NearestNeighborInterpolatorType;
 	typedef itk::BSplineInterpolateImageFunction<OutputImageType, double> BSplineInterpolatorType;
 	LinearInterpolatorType::Pointer linearInterpolator = LinearInterpolatorType::New();
+	LinearDeformationInterpolatorType::Pointer defInterpolator = LinearDeformationInterpolatorType::New();
 	NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
 	BSplineInterpolatorType::Pointer bsplineInterpolator = BSplineInterpolatorType::New();
 	itk::TransformFileReader::Pointer transformFileReader = itk::TransformFileReader::New();
 	ResampleImageFilterType::Pointer resampler = ResampleImageFilterType::New();
+	ResampleDeformationImageFilterType::Pointer deformationResampler = ResampleDeformationImageFilterType::New();
 	WarpImageFilterType::Pointer warper = WarpImageFilterType::New();
 	CastImageFilterType::Pointer caster = CastImageFilterType::New();
 	//isis::extitk::ProcessUpdate::Pointer progressObserver = isis::extitk::ProcessUpdate::New();
@@ -331,6 +336,14 @@ int main(int argc, char *argv[] )
 		deformationFieldReader->SetFileName( vtrans_filename );
 		deformationFieldReader->Update();
 	}
+// 	//here we have to resample the deformation field according to the resolution of our input image
+// 	DeformationFieldType::Pointer defField = DeformationFieldType::New();
+// 	deformationResampler->SetInput( deformationFieldReader->GetOutput() );
+// 	deformationResampler->SetOutputSpacing( inputImage->GetSpacing() );
+// 	deformationResampler->Update();
+// 	defField = deformationResampler->GetOutput();
+	DeformationFieldType::Pointer defField = DeformationFieldType::New();
+	defField = deformationFieldReader->GetOutput();
 
 	if ( resolution.number && template_filename ) {
 		for ( unsigned int i = 0; i < 3; i++ ) {
@@ -398,7 +411,7 @@ int main(int argc, char *argv[] )
 			warper->SetInput( inputImage );
 
 			if ( trans_filename.number == 0 ) {
-				warper->SetDeformationField( deformationFieldReader->GetOutput() );
+				warper->SetDeformationField( defField );
 			}
 
 			warper->Update();
@@ -459,7 +472,7 @@ int main(int argc, char *argv[] )
 			warper->SetInput( inputImage );
 
 			if ( trans_filename.number == 0 ) {
-				warper->SetDeformationField( deformationFieldReader->GetOutput() );
+				warper->SetDeformationField( defField );
 			}
 		}
 
