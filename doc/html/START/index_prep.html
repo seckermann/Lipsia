@@ -60,9 +60,9 @@ Lets consider having the functional scan and the corresponding anatomical scan (
 <b><u>The easy way:</b></u><br><br>
 
 The following call normalizes your functional data data3.v to the Lipsia MNI brain /usr/share/lipsia/mni.v:<br>
- <p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -ana anatomical -fun data3.v -out data4.v</b></tt><br></p>
+ <p><tt><b><a href="../vnormdata/index.html"><u>vnormdata</u></a> -ana anatomical -fun data3.v -out data4.v</b></tt><br></p>
  However, if you want to choose your own reference image you can use the following call:<br>
-  <p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -ana anatomical -fun data3.v -out data4.v -ref your_reference_image.v</b></tt><br></p>
+  <p><tt><b><a href="../vnormdata/index.html"><u>vnormdata</u></a> -ana anatomical -fun data3.v -out data4.v -ref your_reference_image.v</b></tt><br></p>
 
  
 <br>
@@ -78,7 +78,7 @@ The next call applies the transform trans.nii to the functional data data3.v.<br
 
 <p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
 -res 3 -fmri</b></tt><br></p>
-As you see using <a href="../vreg2ref/index.html"><u>vreg2ref</u></a> is much easier than using the combination of <a href="../valign3d/index.html"><u>valign3d and vdotrans3d</u></a>. But if you want to modify some registration-related parameters the second approach is more suitable for you.<br>
+As you see using <a href="../vnormdata/index.html"><u>vnormdata</u></a> is much easier than using the combination of <a href="../valign3d/index.html"><u>valign3d and vdotrans3d</u></a>. But if you want to modify some registration-related parameters the second approach is more suitable for you.<br>
 </div>
 <div class="subtitle">Registration without an anatomical scan</div> 
 <div class="content">
@@ -87,9 +87,9 @@ If you have no anatomical scan of your subject you can also use your functional 
 <b><u>The easy way:</b></u><br><br>
 
 The following call normalizes your functional data data3.v to the Lipsia MNI epi brain /usr/share/lipsia/epi_template_3mm.v:<br>
-<p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -fun data3.v -out data4.v</b></tt><br></p>
+<p><tt><b><a href="../vnormdata/index.html"><u>vnormdata</u></a> -fun data3.v -out data4.v</b></tt><br></p>
 However, if you want to choose your own reference image you can use the following call:<br>
-<p><tt><b><a href="../vreg2ref/index.html"><u>vreg2ref</u></a> -fun data3.v -out data4.v -ref your_reference_image.v</b></tt><br></p>
+<p><tt><b><a href="../vnormdata/index.html"><u>vnormdata</u></a> -fun data3.v -out data4.v -ref your_reference_image.v</b></tt><br></p>
 <br>
 <b><u>The more complicated but modifiable way:</b></u><br><br>
 

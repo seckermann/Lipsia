@@ -10,7 +10,7 @@
 
 <a href="../index.html" class="home">table of contents</a>
 <div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Normalization to a reference image</div>
-<div class="headtitle">vreg2ref</div>
+<div class="headtitle">vnormdata</div>
 <p>
 <div class="subtitle"><b>Background</b></div>
 <div class="content">
@@ -22,28 +22,28 @@ Actually it is designed to normalize functional images to a reference image. If 
 <div class="subtitle"><b>Normalization of your functional data using an anatomical image</b></div>
 <div class="content">
 In most cases you scan your functional data in combination with an anatomical image. The call to normalize your functional data to the MNI-brain using your anatomical image looks like:<br><br>
-<tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -fun functional_data.v -ana anatomical_data -out normalized_functional_data.v </tt></b>
+<tt> <b><a href="#vnormdata"><u>vnormdata</u></a> -fun functional_data.v -ana anatomical_data -out normalized_functional_data.v </tt></b>
 
 <br><br>
 Of course you can specify your own reference image:<br><br>
-<tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -ref your_reference_image.v -fun functional_data.v -ana anatomical_data -out normalized_functional_data.v </tt></b>
+<tt> <b><a href="#vnormdata"><u>vnormdata</u></a> -ref your_reference_image.v -fun functional_data.v -ana anatomical_data -out normalized_functional_data.v </tt></b>
 
 </div>
 <div class="subtitle"><b>Normalization of your functional data without an anatomical image</b></div>
 <div class="content">
 Sometimes you only have the functional data for normalization to a reference image. The call for this looks like:<br><br>
 
-<tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -fun functional_data.v -out normalized_functional_data.v </tt></b>
+<tt> <b><a href="#vnormdata"><u>vnormdata</u></a> -fun functional_data.v -out normalized_functional_data.v </tt></b>
 <br><br>
-So all you have to do is to omit the -ana parameter. vreg2ref automatically changes the way of registration to the reference image. If you have not specified a reference image vreg2ref automatically uses the Lipsia MNI-brain. If you want to use your own reference image the call looks like:<br><br>
- <tt> <b><a href="#vreg2ref"><u>vreg2ref</u></a> -ref your_reference_image.v -fun functional_data.v -out normalized_functional_data.v </tt></b>
+So all you have to do is to omit the -ana parameter. vnormdata automatically changes the way of registration to the reference image. If you have not specified a reference image vnormdata automatically uses the Lipsia MNI-brain. If you want to use your own reference image the call looks like:<br><br>
+ <tt> <b><a href="#vnormdata"><u>vnormdata</u></a> -ref your_reference_image.v -fun functional_data.v -out normalized_functional_data.v </tt></b>
 
 <br>
 <br>
 </div>
 
 <a name="valign3d"></a>
-<div class="headtitle"><b>Parameters of 'vreg2ref'</b>:</div>
+<div class="headtitle"><b>Parameters of 'vnormdata'</b>:</div>
 
 <div class="content">
 <DL>
