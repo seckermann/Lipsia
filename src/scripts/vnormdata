@@ -12,7 +12,7 @@ def checkFile(fileName):
 
 def reg_ana_to_func(image_func, image_ana, reg_prg, rsmpl_prg):
     print "Registration: anatomical image to functional image..."
-    os.system(reg_prg + " -ref " + image_func + " -in " + image_ana + " -prealign -trans trans_ana_to_func.nii -smooth 2")
+    os.system(reg_prg + " -ref " + image_func + " -in " + image_ana + " -prealign -trans trans_ana_to_func.nii -smooth 1")
     os.system(rsmpl_prg + " -ref " + image_func + " -in " + image_ana + " -trans trans_ana_to_func.nii -out aligned_ana.v -reso 1")
     os.system("rm trans_ana_to_func.nii")
 
