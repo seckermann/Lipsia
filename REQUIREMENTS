@@ -3,11 +3,19 @@ System Requirements:
 
 Lipsia is tested for the following operating systems (32bit):
 
-- Debian Etch Linux
+- Debian Lenny 32bit and 64bit
 
-- SuSE 10.3
+- Debian Squeeze 32bit and 64bit
 
-- Fedora 8
+- Debian Wheezy 32bit and 64bit
+
+- Ubuntu Hardy 32bit and 64bit
+
+- Ubuntu Jaunty 32bit and 64bit
+
+- Ubuntu Lucid 32bit and 64bit
+
+- Ubuntu Natty 32bit and 64bit
 
 - In order to use Lipsia on other Linux systems, the sources must be downloaded and compiled
 
@@ -15,9 +23,13 @@ Lipsia is tested for the following operating systems (32bit):
 The following packages must be installed
 ----------------------------------------
 
-- Volumetric Image Analysis 1.5 (VIA)
+- medical data integration toolkit (ISIS)
 
-- DICOM Toolkit 1-3.5 (DCMTK)
+- ISIS plugin for vista files (isisio0-vista)
+
+- ISIS python bridge (isis-python)
+
+- Volumetric Image Analysis 2.0 (VIA)
 
 - Gnu Scientific Library (GSL)
 
@@ -37,4 +49,17 @@ Further system requirements:
 
 - If necessary, compatibility packages for qt 3
 
+Optional requirements:
+----------------------
 
+- ISIS plugin for nifti files (isisio0-nifti)
+
+- ISIS plugin for dicom files (isisio0-dicom)
+
+- ISIS plugin for tar files (isisio0-tar-proxy)
+
+- ISIS plugin for gz files (isisio0-gz-proxy)
+
+- ISIS plugin for raw files (isisio0-raw)
+
+- ISIS plugin for png files (isisio0-png)
