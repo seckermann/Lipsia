@@ -1,3 +1,0 @@
-debian/tmp/usr/bin/* usr/bin
-debian/tmp/usr/share/lipsia/* usr/share/lipsia
-debian/tmp/usr/lib/lipsia/* usr/lib/lipsia
