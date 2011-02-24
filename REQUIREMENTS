@@ -17,37 +17,36 @@ Lipsia is tested for the following operating systems (32bit):
 
 - Ubuntu Natty 32bit and 64bit
 
+- Red Hat 5.5 / CentOS 5.5 64bit
+
 - In order to use Lipsia on other Linux systems, the sources must be downloaded and compiled
 
 
-The following packages must be installed
-----------------------------------------
+The following packages must be installed (debian package names)
+---------------------------------------------------------------
 
-- medical data integration toolkit (ISIS)
+- ISIS medical data integration toolkit (libisiscore0)
 
 - ISIS plugin for vista files (isisio0-vista)
 
 - ISIS python bridge (isis-python)
 
-- Volumetric Image Analysis 2.0 (VIA)
+- Volumetric Image Analysis 2.0 (libvia2)
 
-- Gnu Scientific Library (GSL)
+- Gnu Scientific Library (libgsl0ldbl)
 
-- Fast Fourier Transform West (FFTW3)
+- Fast Fourier Transform West (libfftw3-3)
 
-- ATLAS library (CPU specific)
+- ATLAS library (CPU specific, e.g. libatlas3gf-base)
 
+- QT 3 with multithread and OpenGL support (libqt3-mt)
 
-Further system requirements:
-----------------------------
+- Boost C++ suplemental libraries (libboost1.35)
 
-- QT 3 with multithread and OpenGL support
+- OpenGL libraries (libgl1-mesa-glx | nvidia-glx)
 
-- Xorg with OpenGL support
+- C binding for Fortran libraries (libf2c2)
 
-- If necessary, compatibility packages for libstdc++
-
-- If necessary, compatibility packages for qt 3
 
 Optional requirements:
 ----------------------
