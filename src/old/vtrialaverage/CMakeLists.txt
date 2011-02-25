@@ -1,13 +1,13 @@
-PROJECT(vtrialaver)
+PROJECT(vtrialaverage)
 
 INCLUDE_DIRECTORIES(../lib_lipsia)
 
-ADD_EXECUTABLE(vtrialaver vtrialaverage.c)
-TARGET_LINK_LIBRARIES(vtrialaver lipsia ${VIA_LIBRARY})
+ADD_EXECUTABLE(vtrialaverage vtrialaverage.c)
+TARGET_LINK_LIBRARIES(vtrialaverage lipsia ${VIA_LIBRARY})
 
-SET_TARGET_PROPERTIES(vtrialaver PROPERTIES
+SET_TARGET_PROPERTIES(vtrialaverage PROPERTIES
                       LINK_FLAGS -Wl)
 
-INSTALL(TARGETS vtrialaver
+INSTALL(TARGETS vtrialaverage
         RUNTIME DESTINATION bin
         COMPONENT RuntimeLibraries)
