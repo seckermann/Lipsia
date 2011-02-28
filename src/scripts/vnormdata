@@ -1,4 +1,11 @@
 #! /usr/bin/python
+#
+#    vnormdata
+#
+#    This program is a little wrapper script which performs a nonlinear normalization to
+#    a functional data set. Specifying an anatomical image will force vnormdata to use
+#    this one to find the transform to the reference image.
+#
 
 from isis import *
 import sys
@@ -49,13 +56,13 @@ if __name__ == '__main__':
     app.addParameter("ref","/usr/share/lipsia/mni.v","string")
     app.setDescription("ref", "The reference image.")
     app.init(len(sys.argv),sys.argv, True)
-    
+
     checkFile(reg_prg)
     checkFile(rsmpl_prg)
     image_ana = app.getParameterAsString("ana")
     image_func = app.getParameterAsString("fun")
     image_ref = app.getParameterAsString("ref")
-    image_out = app.getParameterAsString("out") 
+    image_out = app.getParameterAsString("out")
 
     checkFile(image_ref)
 
@@ -84,6 +91,6 @@ if __name__ == '__main__':
     else:
         resample_ana_to_ref(image_ana, image_ref, rsmpl_prg, image_out)
 
-        
+
     os.system("rm trans_to_ref.nii")
 

@@ -1,0 +1,31 @@
+lipsia (2.1.0)
+
+  * Revised the REQUIREMENTS file
+  * Fixed bug in vcheckdesign when showing powerspectrum
+  * Fixed bug in valign3d. (saving a rigid transform as a vector deformationmap discards the rotation information)
+  * New program: vnormdata. This program is a little wrapper script which performs a nonlinear normalization to
+    a functional data set. Specifying an anatomical image will force vnormdata to use this one to find the transform to
+    the reference image.
+  * Revised the documentation
+  * Renamed vtrialaver to vtrialaverage
+  * Added niftov and vtonifti for backward-compatibility -> so we got Lipsia
+    got the dependency to nifti again.
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Thu, 24 Feb 2011 14:10:14 +0100
+
+lipsia (2.0.0)
+
+  * New version of lipsia containing programs of the lipsia 1.6.1 and
+    the last lipsia-sandbox version 0.4.3.
+  * Old converters niftov, dictov, brutov, vtonifti are removed.
+  * New version of vmovcorrection
+  * Restructured documentation
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Fri, 05 Nov 2010 13:49:00 -0400
+
+lipsia (1.6.1)
+
+  * Fixed bug in vpreprocess (FreqFilter.c)
+  * New version of vmovementcorrection written by PD Dr Gabriele Lohmann
+
+ -- Erik Tuerke <tuerke@cbs.mpg.de>  Tue, 21 Sep 2010 18:00:00 -0400
