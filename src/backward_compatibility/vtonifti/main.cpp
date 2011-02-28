@@ -74,9 +74,6 @@ int main(int argc, char *argv[])
 	VAttrList in_list;
 	VAttrListPosn posn;
 
-        char prg_name[50];	
-        sprintf(prg_name,"vtonifti V%s", getLipsiaVersion());
-        fprintf (stderr, "%s\n", prg_name);
 	VWarning("It is highly recommended to use vvinidi for data conversion from vista to nifti!!! This program should only be used if you are too inert to modifiy your old scripts. Furthermore, there will be no support for this program anymore!!");
 
 	/* Parse command line arguments and identify files: */

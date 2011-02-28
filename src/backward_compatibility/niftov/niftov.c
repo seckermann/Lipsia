@@ -112,10 +112,6 @@ main (int argc,char *argv[])
   nifti_image *src;
   VAttrList out_list, out_list1;
   char vox[100];
-  char prg_name[50];	
-  sprintf(prg_name,"niftov V%s", getLipsiaVersion());
-  
-  fprintf (stderr, "%s\n", prg_name);
   VWarning("It is highly recommended to use vvinidi for data conversion from nifti to vista!!! This program should only be used if you are too lazy to modify your old scripts. Furthermore, there will be no support for this program anymore!!");
   /* Parse command line arguments and identify files: */
   VParseFilterCmd (VNumber (options), options, argc, argv,NULL /* &in_file */ ,&out_file);
@@ -124,7 +120,7 @@ main (int argc,char *argv[])
   out_list = VCreateAttrList();
 
   /* history */
-  VHistory(VNumber(options),options,prg_name,&out_list,&out_list); 
+  VHistory(VNumber(options),options,"niftovv",&out_list,&out_list); 
 
   if (is_nifti_file(niftifile)!=1) VError("Input file is not NIfTI-1"); 
  
