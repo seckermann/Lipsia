@@ -47,6 +47,8 @@ The following packages must be installed (debian package names)
 
 - C binding for Fortran libraries (libf2c2)
 
+-  IO libraries for the NIfTI-1 data format (libnifti)
+
 
 Optional requirements:
 ----------------------
