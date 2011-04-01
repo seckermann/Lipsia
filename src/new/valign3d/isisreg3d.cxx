@@ -110,6 +110,7 @@ static VFloat rotatioscale = -1;
 static VFloat translationscale = -1;
 static VFloat create_mask = 0;
 static VShort precision = 5;
+static VBoolean ignore_orientation = false;
 
 static VOptionDescRec
 options[] = {
@@ -127,18 +128,18 @@ options[] = {
 		"filename of the transform used as an initial transform"
 	},
 	//parameter inputs
-	{
-		"bins", VShortRepn, 1, &number_of_bins, VOptionalOpt, 0,
-		"Number of bins used by the MattesMutualInformationMetric to calculate the image histogram"
-	},
+// 	{
+// 		"bins", VShortRepn, 1, &number_of_bins, VOptionalOpt, 0,
+// 		"Number of bins used by the MattesMutualInformationMetric to calculate the image histogram"
+// 	},
 	{
 		"iter", VShortRepn, 0, ( VPointer ) &number_of_iterations, VOptionalOpt, 0,
 		"Maximum number of iteration used by the optimizer"
 	},
-	{
-		"precision", VShortRepn, 1, &precision, VOptionalOpt, 0,
-		"Maximum number of iteration used by the optimizer"
-	},
+// 	{
+// 		"precision", VShortRepn, 1, &precision, VOptionalOpt, 0,
+// 		"Maximum number of iteration used by the optimizer"
+// 	},
 	
 // 	{
 // 		"create_mask" , VFloatRepn, 1, &create_mask, VOptionalOpt, 0,
@@ -167,24 +168,24 @@ options[] = {
 // 		0,
 // 		"Number of jobs used for computation."
 // 	},
-	{
-		"scale_rotation",
-		VFloatRepn,
-		1,
-		&rotatioscale,
-		VOptionalOpt,
-		0,
-		"debug"
-	},
-	{
-		"scale_translation",
-		VFloatRepn,
-		1,
-		&translationscale,
-		VOptionalOpt,
-		0,
-		"debug"
-	},
+// 	{
+// 		"scale_rotation",
+// 		VFloatRepn,
+// 		1,
+// 		&rotatioscale,
+// 		VOptionalOpt,
+// 		0,
+// 		"debug"
+// 	},
+// 	{
+// 		"scale_translation",
+// 		VFloatRepn,
+// 		1,
+// 		&translationscale,
+// 		VOptionalOpt,
+// 		0,
+// 		"debug"
+// 	},
 // 	{"j", VShortRepn, 1, &number_threads, VOptionalOpt, 0, "Number of threads used for the registration"},
 // 	{"cf", VFloatRepn, 1, &coarse_factor, VOptionalOpt, 0, "Coarse factor. Multiple of the max and min step length of the optimizer. Standard is 1"},
 	{"bound", VFloatRepn, 1, &bspline_bound, VOptionalOpt, 0, "max/min value of the bepline deformation."},
@@ -193,18 +194,19 @@ options[] = {
 		"Grid size used for the BSplineDeformable transform."
 	},
 
-	{
-		"prealign_center", VBooleanRepn, 1, &initialize_center, VOptionalOpt, 0,
-		"Using an initializer to align the image centers"
-	},
+// 	{
+// 		"prealign_center", VBooleanRepn, 1, &initialize_center, VOptionalOpt, 0,
+// 		"Using an initializer to align the image centers"
+// 	},
 	{
 		"prealign", VBooleanRepn, 1, &prealign, VOptionalOpt, 0,
 		"Prealigning the images using a searchng algorithm"
 	},
-	{
-		"prealign_mass", VBooleanRepn, 1, &initialize_mass, VOptionalOpt, 0,
-		"Using an initializer to align the center of mass"
-	},
+// 	{
+// 		"prealign_mass", VBooleanRepn, 1, &initialize_mass, VOptionalOpt, 0,
+// 		"Using an initializer to align the center of mass"
+// 	},
+	{"ignore_orientation", VBooleanRepn, 1, &ignore_orientation, VOptionalOpt, 0, "Sets the orientation of both images to identy orientation"},
 	{"verbose", VBooleanRepn, 1, &verbose, VOptionalOpt, 0, "printing the optimizer values of each iteration"},
 	{"smooth", VFloatRepn, 1, &smooth, VOptionalOpt, 0, "Applying a smoothing filter to the fixed and moving image before the registration process"},
 	{"get_inverse", VBooleanRepn, 1, &use_inverse, VOptionalOpt, 0, "Getting the inverse transform"},
@@ -424,7 +426,15 @@ int main(int argc, char *argv[] )
 		//      writer->SetFileName("movingMask.nii");
 		//      writer->Update();
 	}
-
+	if(ignore_orientation)
+	{
+		FixedImageType::DirectionType fixedDirection;
+		MovingImageType::DirectionType movingDirection;
+		fixedDirection.SetIdentity();
+		movingDirection.SetIdentity();
+		fixedImage->SetDirection( fixedDirection );
+		movingImage->SetDirection( movingDirection );
+	}
 	RegistrationFactoryType::Pointer registrationFactory = RegistrationFactoryType::New();
 	matcher->SetNumberOfHistogramLevels(100);
 	matcher->SetNumberOfMatchPoints(15);
