@@ -86,7 +86,7 @@ static VString out_filename = NULL;
 static VString vout_filename = NULL;
 static VString pointset_filename = NULL;
 static VString transform_filename_in = NULL;
-static VShort number_of_bins = 50;
+static VShort number_of_bins = 256;
 static VArgVector number_of_iterations;
 static VFloat pixel_density = 0;
 static VArgVector grid_size;
@@ -128,10 +128,10 @@ options[] = {
 		"filename of the transform used as an initial transform"
 	},
 	//parameter inputs
-// 	{
-// 		"bins", VShortRepn, 1, &number_of_bins, VOptionalOpt, 0,
-// 		"Number of bins used by the MattesMutualInformationMetric to calculate the image histogram"
-// 	},
+	{
+		"bins", VShortRepn, 1, &number_of_bins, VOptionalOpt, 0,
+		"Number of bins used by the MattesMutualInformationMetric to calculate the image histogram"
+	},
 	{
 		"iter", VShortRepn, 0, ( VPointer ) &number_of_iterations, VOptionalOpt, 0,
 		"Maximum number of iteration used by the optimizer"
@@ -141,10 +141,10 @@ options[] = {
 // 		"Maximum number of iteration used by the optimizer"
 // 	},
 	
-// 	{
-// 		"create_mask" , VFloatRepn, 1, &create_mask, VOptionalOpt, 0,
-// 		"Create a mask with the otsu method"
-// 	},
+	{
+		"create_mask" , VFloatRepn, 1, &create_mask, VOptionalOpt, 0,
+		"Create a mask with the otsu method"
+	},
 // 	{
 // 		"seed", VShortRepn, 1, &initial_seed, VOptionalOpt, 0,
 // 		"The initialize seed for the MattesMutualInformationMetric"
@@ -206,7 +206,6 @@ options[] = {
 // 		"prealign_mass", VBooleanRepn, 1, &initialize_mass, VOptionalOpt, 0,
 // 		"Using an initializer to align the center of mass"
 // 	},
-	{"ignore_orientation", VBooleanRepn, 1, &ignore_orientation, VOptionalOpt, 0, "Sets the orientation of both images to identy orientation"},
 	{"verbose", VBooleanRepn, 1, &verbose, VOptionalOpt, 0, "printing the optimizer values of each iteration"},
 	{"smooth", VFloatRepn, 1, &smooth, VOptionalOpt, 0, "Applying a smoothing filter to the fixed and moving image before the registration process"},
 	{"get_inverse", VBooleanRepn, 1, &use_inverse, VOptionalOpt, 0, "Getting the inverse transform"},
@@ -419,22 +418,14 @@ int main(int argc, char *argv[] )
 		fixedImage = fixedThresholdFilter->GetOutput();
 		movingImage = movingThresholdFilter->GetOutput();
 		//TODO debug
-		//      writer->SetInput( fixedImage );
-		//      writer->SetFileName("fixedMask.nii");
-		//      writer->Update();
-		//      writer->SetInput( movingImage );
-		//      writer->SetFileName("movingMask.nii");
-		//      writer->Update();
+		     writer->SetInput( fixedImage );
+		     writer->SetFileName("fixedMask.nii");
+		     writer->Update();
+		     writer->SetInput( movingImage );
+		     writer->SetFileName("movingMask.nii");
+		     writer->Update();
 	}
-	if(ignore_orientation)
-	{
-		FixedImageType::DirectionType fixedDirection;
-		MovingImageType::DirectionType movingDirection;
-		fixedDirection.SetIdentity();
-		movingDirection.SetIdentity();
-		fixedImage->SetDirection( fixedDirection );
-		movingImage->SetDirection( movingDirection );
-	}
+
 	RegistrationFactoryType::Pointer registrationFactory = RegistrationFactoryType::New();
 	matcher->SetNumberOfHistogramLevels(100);
 	matcher->SetNumberOfMatchPoints(15);

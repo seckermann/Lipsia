@@ -414,18 +414,22 @@ TFixedImageType, TMovingImageType >::prealign()
 	m_MattesMutualInformationMetric->Initialize();
 	typename MovingImageType::SizeType movingImageSize = m_MovingImageRegion.GetSize();
 	typename MovingImageType::SpacingType movingImageSpacing = m_MovingImage->GetSpacing();
-	short minMax = UserOptions.PREALIGNPRECISION;
-	short stepSizeX = (0.2 * movingImageSize[0] * movingImageSpacing[0]) / minMax;
-	short stepSizeY = (0.2 * movingImageSize[1] * movingImageSpacing[1]) / minMax;
-	short stepSizeZ = (0.2 * movingImageSize[2] * movingImageSpacing[2]) / minMax;
+	short prec = 5;
+	float ratio = 0.3;
+	float minMaxX = ratio * movingImageSize[0] * movingImageSpacing[0];
+	float minMaxY = ratio * movingImageSize[1] * movingImageSpacing[1];
+	float minMaxZ = ratio * movingImageSize[2] * movingImageSpacing[2];
+	float stepSizeX = minMaxX / (float)prec;
+	float stepSizeY = minMaxY / (float)prec;
+	float stepSizeZ = minMaxZ / (float)prec;
 	double value = 0;
 	double metricValue = 0;
-	for (int x = -minMax;x<=minMax;x++) {
-		for (int y = -minMax;y<=minMax;y++) {
-			for (int z = -minMax;z<=minMax;z++) {
-				searchParams[3] = params[3] +  x * stepSizeX;
-				searchParams[4] = params[4] +  y * stepSizeY;
-				searchParams[5] = params[5] +  z * stepSizeZ;
+	for (float x = -minMaxX;x<=minMaxX;x+=stepSizeX) {
+		for (float y = -minMaxY;y<=minMaxY;y+=stepSizeY) {
+			for (float z = -minMaxZ;z<=minMaxZ;z+=stepSizeZ) {
+				searchParams[3] = params[3] +  x;
+				searchParams[4] = params[4] +  y;
+				searchParams[5] = params[5] +  z;
 				metricValue = static_cast<double>( m_MattesMutualInformationMetric->GetValue(  searchParams ) );
 				if ( value >  metricValue ) {
 					value = metricValue;
