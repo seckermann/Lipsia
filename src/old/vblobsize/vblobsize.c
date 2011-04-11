@@ -59,7 +59,7 @@ main(int argc, char *argv[]) {
         {"neg", VDoubleRepn, 1, (VPointer) &neg, VOptionalOpt, NULL, "Negative threshold on zmap"},
         {
             "system", VShortRepn, 1, (VPointer) &type, VRequiredOpt, TALDict,
-            "Coordinate system to be used in output (voxel,mm,talairach)"
+            "Coordinate system to be used in output (voxel,mm,talairach, MNI)"
         },
         {"minsize", VShortRepn, 1, (VPointer) &minsize, VOptionalOpt, NULL, "Minimal size per area (in mm^3)"},
         {"median", VBooleanRepn, 1, &clear_median, VOptionalOpt, NULL, "Whether to clear median" },
