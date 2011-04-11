@@ -86,7 +86,7 @@ static VString out_filename = NULL;
 static VString vout_filename = NULL;
 static VString pointset_filename = NULL;
 static VString transform_filename_in = NULL;
-static VShort number_of_bins = 256;
+static VShort number_of_bins = 50;
 static VArgVector number_of_iterations;
 static VFloat pixel_density = 0;
 static VArgVector grid_size;
