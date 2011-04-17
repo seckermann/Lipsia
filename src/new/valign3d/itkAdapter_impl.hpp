@@ -34,8 +34,8 @@ template<typename TImage> typename TImage::Pointer
 itkAdapter::makeItkImageObject( const data::Image &src, const bool behaveAsItkReader )
 {
 	typedef TImage OutputImageType;
-	m_ImageISIS = src;
-	m_TypeID = m_ImageISIS.getChunkAt( 0 ).getTypeID();
+	m_ImageISIS = boost::shared_ptr< data::Image >( new data::Image(src) );
+	m_TypeID = m_ImageISIS->getChunkAt( 0 ).getTypeID();
 
 	switch ( m_TypeID ) {
 	case data::ValuePtr<int8_t>::staticID:
@@ -140,17 +140,17 @@ typename TOutput::Pointer itkAdapter::internCreateItk( const bool behaveAsItkRea
 	T( 2, 1 ) = 0;
 	T( 2, 2 ) = 1;
 	// apply transformation to local isis image copy
-	m_ImageISIS.transformCoords( T );
+	m_ImageISIS->transformCoords( T );
 	//getting the required metadata from the isis image
-	const util::fvector4 dimensions( m_ImageISIS.getSizeAsVector() );
-	const util::fvector4 indexOrigin( m_ImageISIS.getPropertyAs<util::fvector4>( "indexOrigin" ) );
-	util::fvector4 spacing( m_ImageISIS.getPropertyAs<util::fvector4>( "voxelSize" ) );
+	const util::fvector4 dimensions( m_ImageISIS->getSizeAsVector() );
+	const util::fvector4 indexOrigin( m_ImageISIS->getPropertyAs<util::fvector4>( "indexOrigin" ) );
+	util::fvector4 spacing( m_ImageISIS->getPropertyAs<util::fvector4>( "voxelSize" ) );
 
 	if( spacing[3] == 0 ) { spacing[3] = 1; }
 
-	const util::fvector4 readVec = m_ImageISIS.getPropertyAs<util::fvector4>( "rowVec" );
-	const util::fvector4 phaseVec = m_ImageISIS.getPropertyAs<util::fvector4>( "columnVec" );
-	const util::fvector4 sliceVec = m_ImageISIS.getPropertyAs<util::fvector4>( "sliceVec" );
+	const util::fvector4 readVec = m_ImageISIS->getPropertyAs<util::fvector4>( "rowVec" );
+	const util::fvector4 phaseVec = m_ImageISIS->getPropertyAs<util::fvector4>( "columnVec" );
+	const util::fvector4 sliceVec = m_ImageISIS->getPropertyAs<util::fvector4>( "sliceVec" );
 	//  std::cout << "indexOrigin: " << indexOrigin << std::endl;
 	//  std::cout << "readVec: " << readVec << std::endl;
 	//  std::cout << "phaseVec: " << phaseVec << std::endl;
@@ -196,12 +196,12 @@ typename TOutput::Pointer itkAdapter::internCreateItk( const bool behaveAsItkRea
 	importer->SetSpacing( itkSpacing );
 	importer->SetOrigin( itkOrigin );
 	importer->SetDirection( itkDirection );
-	m_ImagePropertyMap = static_cast<util::PropertyMap>( m_ImageISIS );
-	m_RelevantDim = m_ImageISIS.getChunkAt( 0 ).getRelevantDims();
+	m_ImagePropertyMap = static_cast<util::PropertyMap>( *m_ImageISIS );
+	m_RelevantDim = m_ImageISIS->getChunkAt( 0 ).getRelevantDims();
 	//reorganisation of memory according to the chunk organisiation
-	void *targePtr = malloc( m_ImageISIS.getBytesPerVoxel() * m_ImageISIS.getVolume() );
+	void *targePtr = malloc( m_ImageISIS->getBytesPerVoxel() * m_ImageISIS->getVolume() );
 	typename InputImageType::PixelType *refTarget = ( typename InputImageType::PixelType * ) targePtr;
-	std::vector< boost::shared_ptr<data::Chunk> > chList = m_ImageISIS.getChunksAsVector();
+	std::vector< boost::shared_ptr<data::Chunk> > chList = m_ImageISIS->getChunksAsVector();
 	size_t chunkIndex = 0;
 	BOOST_FOREACH(  std::vector<boost::shared_ptr<data::Chunk> >::reference ref, chList ) {
 		data::Chunk &chRef = *ref;
@@ -212,7 +212,7 @@ typename TOutput::Pointer itkAdapter::internCreateItk( const bool behaveAsItkRea
 	}
 	importer->SetImportPointer( refTarget, itkSize[0], false );
 	rescaler->SetInput( importer->GetOutput() );
-	std::pair<util::ValueReference, util::ValueReference> minMaxPair = m_ImageISIS.getMinMax();
+	std::pair<util::ValueReference, util::ValueReference> minMaxPair = m_ImageISIS->getMinMax();
 	rescaler->SetOutputMinimum( minMaxPair.first->as<typename InputImageType::PixelType>() );
 	rescaler->SetOutputMaximum( minMaxPair.second->as<typename InputImageType::PixelType>() );
 	rescaler->Update();
@@ -244,20 +244,18 @@ template<typename TImageITK, typename TOutputISIS> std::list<data::Image> itkAda
 		indexOrigin[1] = -indexOrigin[1];
 	}
 
-	//TODO adopt conversion to the new interface
-#warning conversion has changed
 	data::Chunk
-	tmpChunk ( data::MemChunk< ITKRepn >( src->GetBufferPointer(), imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) ) ;
+	retChunk ( data::MemChunk< ISISRepn >( src->GetBufferPointer(), imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) ) ;
 	//we have to convert the datatype of retChunk to the desired TOutputISIS type to avoid autoscaling
-	data::Chunk retChunk ( data::MemChunk<ISISRepn>( imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) );
-	const data::scaling_pair scale = tmpChunk.getScalingTo( data::ValuePtr<ISISRepn>::staticID, data::noscale );
+// 	data::Chunk retChunk ( data::MemChunk<ISISRepn>( imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) );
+// 	const data::scaling_pair scale = tmpChunk.getScalingTo( data::ValuePtr<ISISRepn>::staticID, data::noscale );
 	//
-	data::numeric_convert<ITKRepn, ISISRepn>(
+	/*data::numeric_convert<ITKRepn, ISISRepn>(
 		tmpChunk.asValuePtr<ITKRepn>(),
 		retChunk.asValuePtr<ISISRepn>(),
 		scale.first->as<double>(),
 		scale.second->as<double>() );
-	//dummy join to allow creating this chunk
+	*///dummy join to allow creating this chunk
 	retChunk.join( m_ImagePropertyMap );
 
 	//since the acquisitionNumber is not stored in the PropertyMap of the image, we have
