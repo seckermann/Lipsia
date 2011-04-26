@@ -119,7 +119,7 @@ VRegression(ListInfo *linfo, int nlists, VShort minval, VImage design, VFloat si
     float d, err;
     int   i, k, l, n, m = 0, nt, fd = 0, npix = 0;
     int   i0 = 0, i1 = 0;
-    float u, sig, trace = 0, trace2 = 0, var = 0, sum = 0, nx = 0, mean = 0, sum2;
+    double u, sig, trace = 0, trace2 = 0, var = 0, sum = 0, nx = 0, mean = 0, sum2;
     float *ptr1, *ptr2;
     double x;
     gsl_matrix_float *X = NULL, *XInv = NULL, *SX = NULL;
@@ -369,9 +369,11 @@ VRegression(ListInfo *linfo, int nlists, VShort minval, VImage design, VFloat si
                         err += d * d;
                         VPixel(res_map[i - i0], slice, row, col, VFloat) = d;
                     }
-                    err = sqrt(err);
+                    if (err > 0) err = sqrt(err); 
                     for(i = i0; i < i1; i++) {
                         d = VPixel(res_map[i - i0], slice, row, col, VFloat);
+						if (err > 1.0e-6) d /= err;
+						else d = 0; 
                         VPixel(res_map[i - i0], slice, row, col, VFloat) = d / err;
                     }
                 }

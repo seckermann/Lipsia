@@ -110,7 +110,6 @@ static VFloat rotatioscale = -1;
 static VFloat translationscale = -1;
 static VFloat create_mask = 0;
 static VShort precision = 5;
-static VBoolean ignore_orientation = false;
 
 static VOptionDescRec
 options[] = {

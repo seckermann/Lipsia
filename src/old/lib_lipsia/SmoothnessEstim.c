@@ -55,6 +55,7 @@ VSmoothnessEstim(VImage *resmap, int ntimesteps) {
                     tsumy += (ux - u) * (ux - u);
                     tsumz += (uz - u) * (uz - u);
                 }
+
                 if(ABS(tsumu) < tiny)
                     continue;
                 if(ABS(tsumx) < tiny)
@@ -79,10 +80,11 @@ VSmoothnessEstim(VImage *resmap, int ntimesteps) {
     vx = sumx / nx;
     vy = sumy / nx;
     vz = sumz / nx;
-    f = -2.0 * log(2.0);
+	f = -2.0 * log(2.0);
     sx = sqrt(f / log(1.0 - vx / (2.0 * v)));
     sy = sqrt(f / log(1.0 - vy / (2.0 * v)));
     sz = sqrt(f / log(1.0 - vz / (2.0 * v)));
+
     u = (sx + sy + sz) / 3.0f;
     return u;
 }
