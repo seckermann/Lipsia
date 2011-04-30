@@ -76,7 +76,7 @@ To find the transform of the registered anatomical scan to the MNI brain you hav
 -trans trans.nii -transform 0 1 2 -optimizer 0 0 2 -bound 20 -smooth 1</b></tt><br></p>
 The next call applies the transform trans.nii to the functional data data3.v.<br>
 
-<p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -in data3.v -out data4.v -trans trans.nii
+<p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -ref /usr/share/lipsia/mni.v -in data3.v -out data4.v -trans trans.nii
 -res 3 -fmri</b></tt><br></p>
 As you see using <a href="../vnormdata/index.html"><u>vnormdata</u></a> is much easier than using the combination of <a href="../valign3d/index.html"><u>valign3d and vdotrans3d</u></a>. But if you want to modify some registration-related parameters the second approach is more suitable for you.<br>
 </div>
