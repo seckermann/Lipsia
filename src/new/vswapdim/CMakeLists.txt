@@ -1,5 +1,5 @@
 PROJECT(vswapdim)
-add_executable(vswapdim isisswap.cpp)
+add_executable(vswapdim isisflip.cpp)
 
 # target_link_libraries(vswapdim ${ISIS_LIB} ${ISIS_LIB_DEPENDS} dl /usr/lib/liboil-0.3.a)
 target_link_libraries(vswapdim lipsia ${ISIS_LIB} ${ISIS_LIB_DEPENDS} dl )

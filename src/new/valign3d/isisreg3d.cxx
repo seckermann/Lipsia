@@ -448,11 +448,11 @@ int main(int argc, char *argv[] )
 
 	if(!vout_filename && !out_filename) {
 		std::cerr << "No filename for the transformation was specified. Exiting..." << std::endl;
-		return 1;
+		return EXIT_FAILURE;
 	}
 	
 	if(initialize_mass or initialize_center) {
-		std::cerr << "WARNING!!! It is recommended to use the prealign parameter instead of the -prealign_center or -prealign_mass parameter!" << std::endl;
+		std::cerr << "WARNING!!! It is recommended to use the -prealign parameter instead of the -prealign_center or -prealign_mass parameter!" << std::endl;
 	}
 	
 	for ( int counter = 0; counter < repetition; counter++ ) {

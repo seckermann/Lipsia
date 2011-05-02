@@ -197,7 +197,10 @@ int main(int argc, char *argv[] )
 	isis::adapter::itkAdapter *movingAdapter = new isis::adapter::itkAdapter;
 	//transform object used for inverse transform
 	itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::Pointer transform = itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::New();
-
+	if(!out_filename) {
+		std::cerr << "No output file specified. Exiting..." << std::endl;
+		return EXIT_FAILURE;
+	}
 	if ( !trans_filename.number and !vtrans_filename ) {
 		std::cout << "No transform specified!!" << std::endl;
 		return EXIT_FAILURE;
@@ -215,6 +218,7 @@ int main(int argc, char *argv[] )
 		templateImage = fixedAdapter->makeItkImageObject<InputImageType>( tmpList.front()  );
 	}
 
+	
 	//setting up the output resolution
 	if ( resolution.number ) {
 		if ( static_cast<unsigned int> ( resolution.number ) < Dimension ) {
