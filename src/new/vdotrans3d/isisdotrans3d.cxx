@@ -71,7 +71,7 @@ static VShort interpolator_type;
 static VArgVector resolution;
 static VBoolean fmri;
 static VBoolean use_inverse = false;
-static VShort number_threads = 1;
+static VShort number_threads = 0;
 
 static VOptionDescRec options[] = {
 	//requiered inputs
@@ -197,6 +197,34 @@ int main(int argc, char *argv[] )
 	isis::adapter::itkAdapter *movingAdapter = new isis::adapter::itkAdapter;
 	//transform object used for inverse transform
 	itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::Pointer transform = itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::New();
+	//number of threads were not specified
+	if(!number_threads) {
+		unsigned short nt=1;
+#ifdef WIN32
+		SYSTEM_INFO sysinfo;
+		GetSystemInfo( &sysinfo );
+		nt = sysinfo.dwNumberOfProcessors;
+#else
+#ifdef __APPLE__
+		int mib[4];
+		size_t len = sizeof(nt);
+		mib[0] = CTL_HW;
+		mib[1] = HW_AVAILCPU;
+
+		sysct1(mib, 2, &nt, &len, NULL, 0);
+		if( nt < 1 ) {
+			mib[1] = HW_NCPU;
+			sysct1( mib, 2, &nt, &len, NULL, 0);
+			if( nt < 1 ) {
+				nt = 1;
+			}
+		}
+#else
+		nt = sysconf( _SC_NPROCESSORS_ONLN );
+#endif
+#endif
+		number_threads = nt;
+	}
 	if(!out_filename) {
 		std::cerr << "No output file specified. Exiting..." << std::endl;
 		return EXIT_FAILURE;
