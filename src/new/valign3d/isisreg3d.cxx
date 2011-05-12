@@ -95,7 +95,7 @@ static VArgVector interpolatorType;
 static VArgVector optimizerType;
 static VArgVector metricType;
 static VBoolean in_found, ref_found, pointset_found;
-static VShort number_threads = 1;
+static VShort number_threads = 0;
 static VShort initial_seed = 1;
 static VBoolean initialize_center = false;
 static VBoolean initialize_mass = false;
@@ -158,15 +158,15 @@ options[] = {
 		0,
 		"The density of pixels the metric uses. 1 denotes the metric uses all pixels. Has to be > 0. Only operative with a MattesMutualInformation metric"
 	},
-// 	{
-// 		"j",
-// 		VShortRepn,
-// 		1,
-// 		&number_threads,
-// 		VOptionalOpt,
-// 		0,
-// 		"Number of jobs used for computation."
-// 	},
+ 	{
+ 		"j",
+ 		VShortRepn,
+ 		1,
+ 		&number_threads,
+ 		VOptionalOpt,
+ 		0,
+ 		"Number of jobs used for computation."
+ 	},
 // 	{
 // 		"scale_rotation",
 // 		VFloatRepn,
@@ -381,6 +381,35 @@ int main(int argc, char *argv[] )
 
 	MovingImageType::Pointer movingOtsuImage;
 	FixedImageType::Pointer fixedOtsuImage;
+
+	//number of threads were not specified
+	if(!number_threads) {
+		unsigned short nt=1;
+#ifdef WIN32
+		SYSTEM_INFO sysinfo;
+		GetSystemInfo( &sysinfo );
+		nt = sysinfo.dwNumberOfProcessors;
+#else
+#ifdef __APPLE__
+		int mib[4];
+		size_t len = sizeof(nt);
+		mib[0] = CTL_HW;
+		mib[1] = HW_AVAILCPU;
+
+		sysct1(mib, 2, &nt, &len, NULL, 0);
+		if( nt < 1 ) {
+			mib[1] = HW_NCPU;
+			sysct1( mib, 2, &nt, &len, NULL, 0);
+			if( nt < 1 ) {
+				nt = 1;
+			}
+		}
+#else
+		nt = sysconf( _SC_NPROCESSORS_ONLN );
+#endif
+#endif
+		number_threads = nt;
+	}
 
 	if( create_mask ) {
 		size_t fixedThreshold = 0;

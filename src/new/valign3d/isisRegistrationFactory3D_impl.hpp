@@ -388,7 +388,7 @@ template<class TFixedImageType, class TMovingImageType>
 void RegistrationFactory3D <
 TFixedImageType, TMovingImageType >::prealign()
 {
-	
+	m_MattesMutualInformationMetric->SetNumberOfThreads( UserOptions.NumberOfThreads );	
 	m_VersorRigid3DTransform = VersorRigid3DTransformType::New();
 	m_RigidInitializer = RigidCenteredTransformInitializerType::New();
 	m_RigidInitializer->SetTransform( m_VersorRigid3DTransform );
@@ -878,7 +878,12 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::StartRegistration
 	m_observer = isis::extitk::IterationObserver::New();
 	m_observer->setVerboseStep( UserOptions.SHOWITERATIONATSTEP );
 	m_RegistrationObject->GetOptimizer()->AddObserver( itk::IterationEvent(), m_observer );
-	m_RegistrationObject->SetNumberOfThreads(UserOptions.NumberOfThreads);
+	//mt is not working with lbfgsb optimizer 
+	if( !optimizer.LBFGSBOPTIMIZER ) {
+		m_RegistrationObject->SetNumberOfThreads(UserOptions.NumberOfThreads);
+	} else {
+		m_RegistrationObject->SetNumberOfThreads(1);
+	}
 	try {
 		m_RegistrationObject->StartRegistration();
 	} catch ( itk::ExceptionObject &err ) {
