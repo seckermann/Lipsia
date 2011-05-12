@@ -1,3 +1,10 @@
+lipsia (2.1.1)
+
+  * isis dependent program are linked to libisiscore0.so.0.3.1
+  * The bin size parameter in valign3d changed from 256 to 50 
+  * Fixed some problems when working with huge images (>500 mb)
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Wed, 11 May 2011 16:30:00 +0100
 lipsia (2.1.0)
 
   * Revised the REQUIREMENTS file
