@@ -70,6 +70,7 @@ static VBoolean in_found, out_found, trans_found, ref_found;
 static VShort interpolator_type;
 static VArgVector resolution;
 static VBoolean fmri;
+static VBoolean identity;
 static VBoolean use_inverse = false;
 static VShort number_threads = 0;
 
@@ -98,6 +99,7 @@ static VOptionDescRec options[] = {
 	}, {"use_inverse", VBooleanRepn, 1, &use_inverse,
 		VOptionalOpt, 0, "Using the inverse of the transform"
 	}, {"j" , VShortRepn, 1, &number_threads, VOptionalOpt, 0 , "Number of threads"}
+	,{"identity", VBooleanRepn, 1, &identity, VOptionalOpt, 0, "Reample with the identity transform"}
 
 };
 
@@ -229,7 +231,7 @@ int main(int argc, char *argv[] )
 		std::cerr << "No output file specified. Exiting..." << std::endl;
 		return EXIT_FAILURE;
 	}
-	if ( !trans_filename.number and !vtrans_filename ) {
+	if ( !identity && !trans_filename.number && !vtrans_filename ) {
 		std::cout << "No transform specified!!" << std::endl;
 		return EXIT_FAILURE;
 	}
@@ -352,13 +354,17 @@ int main(int argc, char *argv[] )
 			ti = transformList->begin();
 
 			//setting up the resample object
-			if ( use_inverse ) {
+			if(identity) {
+				itk::IdentityTransform<double, 3>::Pointer identityTransform = itk::IdentityTransform<double,3>::New();
+				resampler->SetTransform( identityTransform );	
+			}
+			else if ( use_inverse ) {
 				transform->SetParameters( static_cast<TransformPointer>( ( *ti ).GetPointer() )->GetInverseTransform()->GetParameters() );
 				transform->SetFixedParameters( static_cast<TransformPointer>( ( *ti ).GetPointer() )->GetInverseTransform()->GetFixedParameters() );
 				resampler->SetTransform( transform );
 			}
 
-			if ( !use_inverse ) {
+			else if ( !use_inverse ) {
 				resampler->SetTransform( static_cast<ConstTransformPointer> ( ( *ti ).GetPointer() ) );
 			}
 		}
@@ -419,7 +425,7 @@ int main(int argc, char *argv[] )
 	if ( !fmri ) {
 		writer->SetFileName( out_filename );
 
-		if ( !vtrans_filename && trans_filename.number == 1 ) {
+		if ( !vtrans_filename && trans_filename.number == 1 && identity ) {
 			//resampler->AddObserver( itk::ProgressEvent(), progressObserver );
 			resampler->SetInput( inputImage );
 			resampler->SetOutputSpacing( outputSpacing );
@@ -434,7 +440,7 @@ int main(int argc, char *argv[] )
 			//          writer->Update();
 		}
 
-		if ( vtrans_filename or trans_filename.number > 1 ) {
+		if ( vtrans_filename or trans_filename.number > 1 && !identity ) {
 			//warper->AddObserver( itk::ProgressEvent(), progressObserver );
 			warper->SetOutputDirection( outputDirection );
 			warper->SetOutputOrigin( outputOrigin );
