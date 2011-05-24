@@ -101,7 +101,7 @@ static VBoolean initialize_center = false;
 static VBoolean initialize_mass = false;
 static VBoolean prealign = true;
 static VString mask_filename = NULL;
-static VFloat smooth = 0;
+static VFloat smooth = 2;
 static VBoolean use_inverse = false;
 static VFloat coarse_factor = 1;
 static VFloat bspline_bound = 15.0;
@@ -456,7 +456,7 @@ int main(int argc, char *argv[] )
 
 	RegistrationFactoryType::Pointer registrationFactory = RegistrationFactoryType::New();
 	matcher->SetNumberOfHistogramLevels(100);
-	matcher->SetNumberOfMatchPoints(15);
+	matcher->SetNumberOfMatchPoints(30);
 	matcher->ThresholdAtMeanIntensityOn();
 	matcher->SetReferenceImage(fixedImage);
 	matcher->SetInput(movingImage);
@@ -529,7 +529,7 @@ int main(int argc, char *argv[] )
 		} else if ( ( bsplineCounter + 1 ) > grid_size.number and grid_size.number ) {
 			gridSize = ( ( VShort * ) grid_size.vector )[grid_size.number - 1];
 		} else {
-			gridSize = 5;
+			gridSize = 6;
 		}
 
 		if ( transform == 2 ) {
