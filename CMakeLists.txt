@@ -89,6 +89,8 @@ ENDIF(SVN_REVISION)
 # target directory of the header files
 # SET(LIPSIA_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/lipsia")
 
+OPTION(QT3_SUPPORT "Toggle Qt-3 support" OFF)
+
 #isis related settings
 add_definitions(-D_ENABLE_LOG=1)
 add_definitions(-D_ENABLE_DEBUG=0)
@@ -110,6 +112,10 @@ FIND_PACKAGE(GSL REQUIRED)
 
 # look for fftw3
 FIND_PACKAGE(FFTW3 REQUIRED)
+
+if(QT3_SUPPORT)
+	FIND_PACKAGE(Qt3 REQUIRED)
+endif(QT3_SUPPORT)
 
 # look for OpenGL
 FIND_PACKAGE(OpenGL REQUIRED)
