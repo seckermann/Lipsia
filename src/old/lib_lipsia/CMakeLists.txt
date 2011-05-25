@@ -31,9 +31,10 @@ SET_TARGET_PROPERTIES(lipsia_static PROPERTIES
                      )
 
 # install shared and static libraries
+
 INSTALL(TARGETS lipsia lipsia_static
-        LIBRARY DESTINATION lib/lipsia COMPONENT RuntimeLibraries
-        ARCHIVE DESTINATION lib/lipsia COMPONENT Development)
+        LIBRARY DESTINATION ${LIB_INSTALL_PATH} COMPONENT RuntimeLibraries
+        ARCHIVE DESTINATION ${LIB_INSTALL_PATH} COMPONENT Development)
 
 # install header files
 FILE(GLOB LIPSIA_HDR "${CMAKE_SOURCE_DIR}/src/old/lib_lipsia/*.h")

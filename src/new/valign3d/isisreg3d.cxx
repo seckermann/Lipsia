@@ -392,7 +392,7 @@ int main(int argc, char *argv[] )
 		nt = sysinfo.dwNumberOfProcessors;
 #else
 #ifdef __APPLE__
-#include <sys/param.h>
+/*#include <sys/param.h>
 #include <sys/sysctl.h>
 		int mib[4];
 		size_t len = sizeof(nt);
@@ -406,7 +406,8 @@ int main(int argc, char *argv[] )
 			if( nt < 1 ) {
 				nt = 1;
 			}
-		}
+		}*/
+		std::cout << "Autodetection of number of threads is not yet working on mac. You can use the parameter -j to specify the number of threads!" << std::endl; 
 #else
 		nt = sysconf( _SC_NPROCESSORS_ONLN );
 #endif

@@ -208,19 +208,20 @@ int main(int argc, char *argv[] )
 		nt = sysinfo.dwNumberOfProcessors;
 #else
 #ifdef __APPLE__
+/*
 		int mib[4];
 		size_t len = sizeof(nt);
 		mib[0] = CTL_HW;
 		mib[1] = HW_AVAILCPU;
 
-		sysct1(mib, 2, &nt, &len, NULL, 0);
+		sysctl(mib, 2, &nt, &len, NULL, 0);
 		if( nt < 1 ) {
 			mib[1] = HW_NCPU;
-			sysct1( mib, 2, &nt, &len, NULL, 0);
+			sysctl( mib, 2, &nt, &len, NULL, 0);
 			if( nt < 1 ) {
 				nt = 1;
 			}
-		}
+		}*/
 #else
 		nt = sysconf( _SC_NPROCESSORS_ONLN );
 #endif

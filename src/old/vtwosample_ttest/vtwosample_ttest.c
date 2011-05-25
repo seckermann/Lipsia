@@ -119,7 +119,7 @@ TwoSampleTest(VImage *src1, VImage *src2, VImage dest, int n1, int n2, VShort ty
                 for(i = 0; i < n1; i++) {
                     data1[i] = 0;
                     u = VPixel(src1[i], b, r, c, VFloat);
-                    if(isnanf(u) || isinff(u))
+                    if(isnanf(u) || isinf(u))
                         continue;
                     if(ABS(u) > tiny)
                         k++;
@@ -131,7 +131,7 @@ TwoSampleTest(VImage *src1, VImage *src2, VImage dest, int n1, int n2, VShort ty
                 for(i = 0; i < n2; i++) {
                     data2[i] = 0;
                     u = VPixel(src2[i], b, r, c, VFloat);
-                    if(isnanf(u) || isinff(u))
+                    if(isnanf(u) || isinf(u))
                         continue;
                     if(ABS(u) > tiny)
                         k++;
@@ -144,7 +144,7 @@ TwoSampleTest(VImage *src1, VImage *src2, VImage dest, int n1, int n2, VShort ty
                 if(var1 < tiny || var2 < tiny)
                     continue;
                 t = (ave1 - ave2) / sqrt(var1 / nx1 + var2 / nx2);
-                if(isnanf(t) || isinff(t))
+                if(isnanf(t) || isinf(t))
                     continue;
                 switch(type) {
                 case 0:

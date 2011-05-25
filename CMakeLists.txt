@@ -7,6 +7,8 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0002 NEW)
 endif(COMMAND cmake_policy)
 
+include(InstallRequiredSystemLibraries)
+
 IF(NOT UNIX)
   MESSAGE(FATAL_ERROR
     "The lipsia project only supports unix platforms, at the moment."
@@ -23,6 +25,13 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 IF(LIPSIA_INCLUDE_ROOT)
     INCLUDE_DIRECTORIES(${LIPSIA_INCLUDE_ROOT})
 ENDIF(LIPSIA_INCLUDE_ROOT)
+
+
+IF(APPLE)
+	set(LIB_INSTALL_PATH lib)
+else(APPLE)
+	set(LIB_INSTALL_PATH lib/lipsia)
+endif(APPLE)
 
 # the name of the Lipsia library
 SET(LIPSIA_LIBRARY "lipsia")
@@ -149,8 +158,25 @@ INSTALL(DIRECTORY doc/html
 
 #installing the scripts
 install(PROGRAMS src/scripts/vcreatemask DESTINATION bin)
-install(PROGRAMS src/scripts/vnormdata DESTINATION bin)
+#install(PROGRAMS src/scripts/vnormdata DESTINATION bin)
 
+#############################################################
+# CPack config
+#############################################################
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "lipsia")
+set(CPACK_PACKAGE_VENDOR "Erik Tuerke")
+set(CPACK_PACKAGE_CONTACT "tuerke@cbs.mpg.de")
+set(CPACK_PACKAGE_NAME "Lipsia")
+set(CPACK_BUNDLE_NAME ${CPACK_PACKAGE_NAME})
+set(CPACK_COMPONENTS_ALL "RuntimeLibraries" "Development")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
+set(CPACK_PACKAGE_VERSION_MAJOR ${LIPSIA_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${LIPSIA_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${LIPSIA_VERSION_PATCH})
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${LIPSIA_VERSION_MAJOR}.${LIPSIA_VERSION_MINOR}.${LIPSIA_VERSION_PATCH}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_BUILD_TYPE})
+include(CPack)
+
+message(STATUS "cpack package name: ${CPACK_PACKAGE_FILE_NAME}")
 # install ressource files
 FILE(GLOB RES_FILES data/*)
 # remove '.svn' element from filelist
@@ -171,3 +197,4 @@ ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/design)
 MESSAGE(STATUS "isis include: ${ISIS_INCLUDE_DIRS}")
 MESSAGE(STATUS "isis libs: ${ISIS_LIB}")
 MESSAGE(STATUS "isis lib depends: ${ISIS_LIB_DEPENDS}")
+MESSAGE(STATUS "installing lipsia libraries to ${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_PATH}")
