@@ -386,20 +386,23 @@ int main(int argc, char *argv[] )
 	if(!number_threads) {
 		unsigned short nt=1;
 #ifdef WIN32
+#include <windows.h>
 		SYSTEM_INFO sysinfo;
 		GetSystemInfo( &sysinfo );
 		nt = sysinfo.dwNumberOfProcessors;
 #else
 #ifdef __APPLE__
+#include <sys/param.h>
+#include <sys/sysctl.h>
 		int mib[4];
 		size_t len = sizeof(nt);
 		mib[0] = CTL_HW;
 		mib[1] = HW_AVAILCPU;
 
-		sysct1(mib, 2, &nt, &len, NULL, 0);
+		sysctl(mib, 2, &nt, &len, NULL, 0);
 		if( nt < 1 ) {
 			mib[1] = HW_NCPU;
-			sysct1( mib, 2, &nt, &len, NULL, 0);
+			sysctl( mib, 2, &nt, &len, NULL, 0);
 			if( nt < 1 ) {
 				nt = 1;
 			}

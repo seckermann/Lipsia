@@ -96,9 +96,6 @@ add_definitions(-D_ENABLE_DEBUG=0)
 # look for VIA
 FIND_PACKAGE(VIA REQUIRED)
 
-# look for Qt3
-FIND_PACKAGE(Qt3 REQUIRED)
-
 # look for GSL
 FIND_PACKAGE(GSL REQUIRED)
 
