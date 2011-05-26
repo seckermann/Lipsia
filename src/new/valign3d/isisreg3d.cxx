@@ -449,13 +449,6 @@ int main(int argc, char *argv[] )
 		movingImage->DisconnectPipeline();
 		fixedImage = fixedThresholdFilter->GetOutput();
 		movingImage = movingThresholdFilter->GetOutput();
-		//TODO debug
-		     writer->SetInput( fixedImage );
-		     writer->SetFileName("fixedMask.nii");
-		     writer->Update();
-		     writer->SetInput( movingImage );
-		     writer->SetFileName("movingMask.nii");
-		     writer->Update();
 	}
 
 	RegistrationFactoryType::Pointer registrationFactory = RegistrationFactoryType::New();
@@ -539,8 +532,9 @@ int main(int argc, char *argv[] )
 		if ( transform == 2 ) {
 			bsplineCounter++;
 		}
-
-		registrationFactory->Reset();
+		if( counter > 0) {
+			registrationFactory->Reset();
+		}
 
 		//check pixel density
 		if ( pixel_density <= 0 ) {

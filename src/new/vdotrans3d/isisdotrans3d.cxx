@@ -426,7 +426,7 @@ int main(int argc, char *argv[] )
 	if ( !fmri ) {
 		writer->SetFileName( out_filename );
 
-		if ( !vtrans_filename && trans_filename.number == 1 && identity ) {
+		if ( (!vtrans_filename && trans_filename.number == 1) || identity ) {
 			//resampler->AddObserver( itk::ProgressEvent(), progressObserver );
 			resampler->SetInput( inputImage );
 			resampler->SetOutputSpacing( outputSpacing );

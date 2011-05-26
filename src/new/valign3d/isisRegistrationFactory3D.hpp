@@ -416,7 +416,8 @@ private:
 	typename CenteredAffineTransformType::Pointer m_CenteredAffineTransform;
 
 	typename BSplineTransformType::Pointer m_BSplineTransform;
-
+	typename BSplineTransformType::ParametersType m_BSplineParameters;
+	
 	BulkTransformType::Pointer m_BulkTransform;
 
 	//metric

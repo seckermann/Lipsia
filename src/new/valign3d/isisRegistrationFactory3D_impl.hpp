@@ -59,7 +59,6 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::Reset(
 	interpolator.BSPLINE = false;
 	interpolator.LINEAR = false;
 	interpolator.NEARESTNEIGHBOR = false;
-	m_FixedImageIsBigger = false;
 	m_InitialTransformIsSet = false;
 	UserOptions.PRINTRESULTS = false;
 	UserOptions.NumberOfIterations = 1000;
@@ -271,7 +270,6 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetUpOptimizer()
 					UserOptions.TRANSLATIONSCALE = 
 						( sqrt( imageSize[0] * imageSize[0] + imageSize[1] * imageSize[1] + imageSize[2] * imageSize[2] ) );
 				} 
-// 				std::cout << UserOptions.TRANSLATIONSCALE << std::endl;
 				optimizerScaleRegularStepGradient[3] = 1.0 / UserOptions.TRANSLATIONSCALE;
 				optimizerScaleRegularStepGradient[4] = 1.0 / UserOptions.TRANSLATIONSCALE;
 				optimizerScaleRegularStepGradient[5] = 1.0 / UserOptions.TRANSLATIONSCALE;
@@ -435,7 +433,6 @@ TFixedImageType, TMovingImageType >::prealign()
 					value = metricValue;
 					newParams = searchParams;
 				}
-//  				std::cout << x << ":" << y << ":" << z << "=" << static_cast<double>( m_MattesMutualInformationMetric->GetValue(  searchParams ) ) << std::endl;
 			}
 		}
 	}
@@ -534,11 +531,10 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetUpTransform()
 		m_BSplineTransform->SetGridOrigin( bsplineOrigin );
 		m_BSplineTransform->SetGridRegion( bsplineRegion );
 		m_BSplineTransform->SetGridDirection( bsplineDirection );
-		typedef typename BSplineTransformType::ParametersType BSplineParametersType;
 		m_NumberOfParameters = m_BSplineTransform->GetNumberOfParameters();
-		BSplineParametersType bsplineParameters( m_NumberOfParameters );
-		bsplineParameters.Fill( 0.0 );
-		m_BSplineTransform->SetParameters( bsplineParameters );
+		m_BSplineParameters.SetSize( m_NumberOfParameters );
+		m_BSplineParameters.Fill( 0.0 );
+		m_BSplineTransform->SetParameters( m_BSplineParameters );
 		m_RegistrationObject->SetInitialTransformParameters( m_BSplineTransform->GetParameters() );
 	}
 
@@ -584,9 +580,6 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetUpMetric()
 		if ( transform.BSPLINEDEFORMABLETRANSFORM ) {
 			m_MattesMutualInformationMetric->SetUseCachingOfBSplineWeights( true );
 		}
-
-		//multi threading approach
-		//m_MattesMutualInformationMetric->SetNumberOfThreads(UserOptions.NumberOfThreads);
 	}
 
 	if ( metric.VIOLAWELLSMUTUALINFORMATION ) {
@@ -609,7 +602,6 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetUpMetric()
 				* UserOptions.PixelDensity );
 		m_ViolaWellsMutualInformationMetric->SetFixedImageStandardDeviation( 0.4 );
 		m_ViolaWellsMutualInformationMetric->SetMovingImageStandardDeviation( 0.4 );
-		//m_ViolaWellsMutualInformationMetric->SetNumberOfThreads(UserOptions.NumberOfThreads);
 	}
 
 	if ( metric.MUTUALINFORMATIONHISTOGRAM ) {
@@ -716,6 +708,7 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetInitialTransfo
 
 	if ( !strcmp( initialTransformName, "AffineTransform" ) and transform.BSPLINEDEFORMABLETRANSFORM ) {
 		m_BSplineTransform->SetBulkTransform( dynamic_cast<AffineTransformType *>( initialTransform ) );
+		m_RegistrationObject->SetInitialTransformParameters( m_BSplineTransform->GetParameters() );
 	}
 
 	if ( !strcmp( initialTransformName, "VersorRigid3DTransform" ) and transform.BSPLINEDEFORMABLETRANSFORM ) {
@@ -747,39 +740,7 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetInitialTransfo
 		m_RegistrationObject->SetInitialTransformParameters( m_VersorRigid3DTransform->GetParameters() );
 	}
 }
-/*
- this method checks the images sizes of the fixed and the moving image.
- if the fixed image size in any direction is bigger than the image size
- of the moving image in the respective direction it will create a binary
- image which contains the intersection of both images
 
- */
-template<class TFixedImageType, class TMovingImageType>
-void RegistrationFactory3D<TFixedImageType, TMovingImageType>::CheckImageSizes(
-	void )
-{
-	for ( int i = 0; i < FixedImageDimension; i++ ) {
-		if ( m_FixedImageRegion.GetSize()[i] * m_FixedImage->GetSpacing()[i] > m_MovingImageRegion.GetSize()[i] * m_MovingImage->GetSpacing()[i] ) {
-			m_FixedImageIsBigger = true;
-		}
-	}
-
-	//  if ( m_FixedImageIsBigger ) {
-	//      m_MovingImageMaskObject = MaskObjectType::New();
-	//      m_MovingThresholdFilter = MovingThresholdFilterType::New();
-	//      m_MovingMinMaxCalculator = MovingMinMaxCalculatorType::New();
-	//      m_MovingMinMaxCalculator->SetImage( m_MovingImage );
-	//      m_MovingMinMaxCalculator->Compute();
-	//      m_MovingThresholdFilter->SetInput( m_MovingImage );
-	//      m_MovingThresholdFilter->SetOutsideValue( 0 );
-	//      m_MovingThresholdFilter->SetInsideValue( 255 );
-	//      m_MovingThresholdFilter->SetUpperThreshold( m_MovingMinMaxCalculator->GetMaximum() );
-	//      m_MovingThresholdFilter->SetLowerThreshold( m_MovingMinMaxCalculator->GetMinimum() );
-	//      m_MovingThresholdFilter->Update();
-	//      m_MovingImageMaskObject->SetImage( m_MovingThresholdFilter->GetOutput() );
-	//      m_MovingImageMaskObject->Update();
-	//  }
-}
 
 template<class TFixedImageType, class TMovingImageType>
 void RegistrationFactory3D<TFixedImageType, TMovingImageType>::SetMovingPointContainer( typename RigidLandmarkBasedTransformInitializerType::LandmarkPointContainer pointContainer )
@@ -871,19 +832,12 @@ void RegistrationFactory3D<TFixedImageType, TMovingImageType>::StartRegistration
 	this->UpdateParameters();
 	//check the image sizes and creat a joint image mask if the fixed image is bigger than the moving image
 	//to avoid a itk sample error caused by a lack of spatial samples used by the metric
-	this->CheckImageSizes();
-	//  if ( !UserOptions.USEMASK ) {
-	//      this->SetFixedImageMask();
-	//  }
+
 	m_observer = isis::extitk::IterationObserver::New();
 	m_observer->setVerboseStep( UserOptions.SHOWITERATIONATSTEP );
 	m_RegistrationObject->GetOptimizer()->AddObserver( itk::IterationEvent(), m_observer );
-	//mt is not working with lbfgsb optimizer 
-	if( !optimizer.LBFGSBOPTIMIZER ) {
-		m_RegistrationObject->SetNumberOfThreads(UserOptions.NumberOfThreads);
-	} else {
-		m_RegistrationObject->SetNumberOfThreads(1);
-	}
+	m_RegistrationObject->SetNumberOfThreads(UserOptions.NumberOfThreads);
+	
 	try {
 		m_RegistrationObject->StartRegistration();
 	} catch ( itk::ExceptionObject &err ) {
