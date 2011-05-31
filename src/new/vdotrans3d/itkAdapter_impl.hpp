@@ -243,7 +243,6 @@ template<typename TImageITK, typename TOutputISIS> std::list<data::Image> itkAda
 		indexOrigin[0] = -indexOrigin[0];
 		indexOrigin[1] = -indexOrigin[1];
 	}
-
 	data::Chunk
 	tmpChunk ( data::MemChunk< ITKRepn >( src->GetBufferPointer(), imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) ) ;
 	//we have to convert the datatype of retChunk to the desired TOutputISIS type to avoid autoscaling
@@ -295,6 +294,7 @@ template<typename TImageITK, typename TOutputISIS> std::list<data::Image> itkAda
 
 		chRef.join( *m_ChunkPropertyMapVector[chunkCounter], false );
 	}
+
 	std::list<data::Image> retList;
 	retList.push_back( retImage );
 	//declare transformation matrix T (NIFTI -> DICOM)
@@ -315,6 +315,7 @@ template<typename TImageITK, typename TOutputISIS> std::list<data::Image> itkAda
 	BOOST_FOREACH( std::list<data::Image>::reference ref, retList ) {
 		ref.transformCoords( T );
 	}
+	
 	return retList;
 }
 

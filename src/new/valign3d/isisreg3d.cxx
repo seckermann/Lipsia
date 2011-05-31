@@ -110,6 +110,7 @@ static VFloat rotatioscale = -1;
 static VFloat translationscale = -1;
 static VFloat create_mask = 0;
 static VShort precision = 5;
+static VBoolean histogram_matching = true;
 
 static VOptionDescRec
 options[] = {
@@ -140,10 +141,10 @@ options[] = {
 // 		"Maximum number of iteration used by the optimizer"
 // 	},
 	
-	{
-		"create_mask" , VFloatRepn, 1, &create_mask, VOptionalOpt, 0,
-		"Create a mask with the otsu method"
-	},
+// 	{
+// 		"create_mask" , VFloatRepn, 1, &create_mask, VOptionalOpt, 0,
+// 		"Create a mask with the otsu method"
+// 	},
 // 	{
 // 		"seed", VShortRepn, 1, &initial_seed, VOptionalOpt, 0,
 // 		"The initialize seed for the MattesMutualInformationMetric"
@@ -208,6 +209,7 @@ options[] = {
 	{"verbose", VBooleanRepn, 1, &verbose, VOptionalOpt, 0, "printing the optimizer values of each iteration"},
 	{"smooth", VFloatRepn, 1, &smooth, VOptionalOpt, 0, "Applying a smoothing filter to the fixed and moving image before the registration process"},
 	{"get_inverse", VBooleanRepn, 1, &use_inverse, VOptionalOpt, 0, "Getting the inverse transform"},
+	{"histogram_matching", VBooleanRepn, 1, &histogram_matching, VOptionalOpt, 0, "Applying a histogram matching algorithm prior registration"},
 
 	//component inputs
 	{"metric", VShortRepn, 0, ( VPointer ) &metricType, VOptionalOpt, TYPMetric, "Type of the metric"}, {
@@ -450,16 +452,18 @@ int main(int argc, char *argv[] )
 		fixedImage = fixedThresholdFilter->GetOutput();
 		movingImage = movingThresholdFilter->GetOutput();
 	}
-
 	RegistrationFactoryType::Pointer registrationFactory = RegistrationFactoryType::New();
-	matcher->SetNumberOfHistogramLevels(100);
-	matcher->SetNumberOfMatchPoints(30);
-	matcher->ThresholdAtMeanIntensityOn();
-	matcher->SetReferenceImage(fixedImage);
-	matcher->SetInput(movingImage);
-	matcher->Update();
-	movingImage->DisconnectPipeline();
-	movingImage = matcher->GetOutput();
+	if( histogram_matching ) {
+		matcher->SetNumberOfThreads( number_threads );
+		matcher->SetNumberOfHistogramLevels(100);
+		matcher->SetNumberOfMatchPoints(30);
+		matcher->ThresholdAtMeanIntensityOn();
+		matcher->SetReferenceImage(fixedImage);
+		matcher->SetInput(movingImage);
+		matcher->Update();
+		movingImage->DisconnectPipeline();
+		movingImage = matcher->GetOutput();
+	}
 	
 	//analyse transform vector
 	//transform is the master for determining the number of repetitions
