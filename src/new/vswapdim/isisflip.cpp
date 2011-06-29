@@ -8,30 +8,23 @@
 
 using namespace isis;
 
-extern "C" {
-	void getLipsiaVersion(char*, size_t);
-}
 
 int main( int argc, char **argv )
 {
-	class : public data::Image::ChunkOp
+	class : public data::ChunkOp
 	{
 	public:
 		data::dimensions dim;
 		bool operator()( data::Chunk &ch, util::FixedVector<size_t, 4> /*posInImage*/ ) {
-			return ch.swapAlong( dim );
+			ch.swapAlong( dim );
+			return true;
 		}
 	} flifu;
 
-	char prg_name[100];
-	char ver[100];
-	getLipsiaVersion(ver, sizeof(ver));
-	sprintf(prg_name, "vswapdim V%s", ver);
-	std::cout << prg_name << std::endl;
 	ENABLE_LOG( data::Runtime, util::DefaultMsgPrint, error );
 	std::map<std::string, unsigned int> alongMap = boost::assign::map_list_of
 			( "row", 0 ) ( "column", 1 ) ( "slice", 2 ) ( "x", 3 ) ( "y", 4 ) ( "z", 5 );
-	data::IOApplication app( "vswapdim", true, true );
+	data::IOApplication app( "isisflip", true, true );
 	util::Selection along( "row,column,slice,x,y,z" );
 	util::Selection flip( "image,space,both" );
 	along.set( "x" );
