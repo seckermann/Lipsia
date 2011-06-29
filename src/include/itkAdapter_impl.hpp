@@ -245,17 +245,17 @@ template<typename TImageITK, typename TOutputISIS> std::list<data::Image> itkAda
 	}
 
 	data::Chunk
-	retChunk ( data::MemChunk< ISISRepn >( src->GetBufferPointer(), imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) ) ;
+	tmpChunk ( data::MemChunk< ITKRepn >( src->GetBufferPointer(), imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) ) ;
 	//we have to convert the datatype of retChunk to the desired TOutputISIS type to avoid autoscaling
-// 	data::Chunk retChunk ( data::MemChunk<ISISRepn>( imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) );
-// 	const data::scaling_pair scale = tmpChunk.getScalingTo( data::ValuePtr<ISISRepn>::staticID, data::noscale );
+	data::Chunk retChunk ( data::MemChunk<ISISRepn>( imageSize[0], imageSize[1], imageSize[2], imageSize[3] ) );
+	const data::scaling_pair scale = tmpChunk.getScalingTo( data::ValuePtr<ISISRepn>::staticID, data::noscale );
 	//
-	/*data::numeric_convert<ITKRepn, ISISRepn>(
+	data::numeric_convert<ITKRepn, ISISRepn>(
 		tmpChunk.asValuePtr<ITKRepn>(),
 		retChunk.asValuePtr<ISISRepn>(),
 		scale.first->as<double>(),
 		scale.second->as<double>() );
-	*///dummy join to allow creating this chunk
+	//dummy join to allow creating this chunk
 	retChunk.join( m_ImagePropertyMap );
 
 	//since the acquisitionNumber is not stored in the PropertyMap of the image, we have
@@ -279,21 +279,21 @@ template<typename TImageITK, typename TOutputISIS> std::list<data::Image> itkAda
 	retImage.spliceDownTo( static_cast<data::dimensions> ( m_RelevantDim ) );
 	//add the residual parameters to the image
 	retImage.join( m_ImagePropertyMap, false );
-	std::vector< boost::shared_ptr< data::Chunk> > chList = retImage.getChunksAsVector();
+	std::vector< data::Chunk > chList = retImage.copyChunksToVector();
 	LOG_IF( chList.size() != m_ChunkPropertyMapVector.size(), data::Debug, warning ) << "The image size has changed. The chunk-specific metadata will be interpolated.";
 	//iterate through the spliced chunks of the image and set all the chunk specific parameters
 	size_t chunkCounter = 0;
-	BOOST_FOREACH( std::vector< boost::shared_ptr< data::Chunk > >::reference chRef, chList ) {
+	BOOST_FOREACH( std::vector< data::Chunk >::reference chRef, chList ) {
 		//TODO if the number of chunks gained by the splice method differs from
 		//the size of the m_ChunkPropertyMapVector the size of the image was changed in itk.
 		//Thus we have to interpolate the parameters (sliceTime so far)
-		chRef->join( static_cast<util::PropertyMap &>( retImage ), false );
+		chRef.join( static_cast<util::PropertyMap &>( retImage ), false );
 
 		if( chunkCounter < ( m_ChunkPropertyMapVector.size() - 1 ) ) {
 			chunkCounter++;
 		}
 
-		chRef->join( *m_ChunkPropertyMapVector[chunkCounter], false );
+		chRef.join( *m_ChunkPropertyMapVector[chunkCounter], false );
 	}
 	std::list<data::Image> retList;
 	retList.push_back( retImage );
