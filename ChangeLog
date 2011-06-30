@@ -1,3 +1,12 @@
+lipsia (2.1.2)
+  * valign3d is now capable of multithreading
+  * add uninstall target
+  * interface of vswapdim changed
+  * linked against libisiscore0_0.3.3
+  * linked against libvia2_2.0.2
+  
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Thu, 30 Jun 2011 16:30:00 +0100
+
 lipsia (2.1.1)
 
   * isis dependent program are linked to libisiscore0.so.0.3.1

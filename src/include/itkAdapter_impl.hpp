@@ -121,6 +121,7 @@ typename TOutput::Pointer itkAdapter::internCreateItk( const bool behaveAsItkRea
 	typename OutputImageType::DirectionType itkDirection;
 	typename OutputImageType::SizeType itkSize;
 	typename OutputImageType::RegionType itkRegion;
+ //	util::DefaultMsgPrint::stopBelow( warning );
 	PropKeyListType propKeyList;
 	//itk::MetaDataDictionary myItkDict;
 	// since ITK uses a dialect of the Nifti image space, we need to transform

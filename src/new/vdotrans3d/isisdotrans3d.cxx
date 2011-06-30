@@ -241,7 +241,6 @@ int main(int argc, char *argv[] )
 	warper->SetNumberOfThreads( number_threads );
 	progress_timer time;
 	std::list<isis::data::Image> tmpList;
-
 	//if template file is specified by the user
 	if ( template_filename ) {
 		tmpList = isis::data::IOFactory::load( template_filename, "" );
