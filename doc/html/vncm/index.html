@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Node centrality mapping</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Node centrality mapping</div>
+
+<div class="headtitle">vncm</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vncm' computes node (degree) centrality maps (NCM).
+NCM attributes a value to each voxel in the brain 
+such that a voxel receives a large value if it is strongly correlated with many 
+other nodes.
+These maps can be used for subsequent statistical tests much like
+contrast images in standard GLM analyses.<br><br>
+<i>Reference: Buckner et al.(2009), J Neurosci, 29(6):1860-1873.</i>
+</div>
+<div class="subtitle"><b>Preparing input data</b></div>
+<div class="content">
+Preprocessed functional data serve as input to 'vncm'.
+The preprocessing should normally include motion correction,
+slicetime correction, spatial smoothing
+and registration to some template (e.g. MNI or Talairach) resampled
+to 3x3x3 mm^3 resolution. Higher resolutions (e.g. 2x2x2 mm^3) are 
+generally not computable on standard hardware. 
+It is important that baseline drifts are removed
+(see also 'vecm').
+<p>>
+
+Different experimental conditions may be contrasted provided the data are acquired
+in separate runs. The length
+of a run needed to produce reliable results depends on the specifics of the 
+experimental design. Typically, a run lasts for several minutes. 
+<p>
+</div>
+<div class="subtitle"><b>Defining a mask</b></div>
+<div class="content">
+A region of interest (ROI) must be specified beforehand using the option '-mask'.
+The easiest way is to use the standard mask. It is located at 
+/usr/share/lipsia/mask_3mm.v. For more information, see 'vecm'.
+<p>
+
+</div>
+<div class="subtitle"><b>Calling 'vncm'</b></div>
+<div class="content">
+Once the functional data are preprocessed and a mask is defined, the analysis can begin.
+Here is an example call using the standard mask. In this exmaple, correlation values are thresholded 
+at t=0.5, i.e. correlations below 0.5 are set to zero, correlations above 0.5 are set to one.<br><br>
+<tt><b><a href="#vncm"><u>vncm</u></a> 
+-in functional.v -out ncm.v -mask /usr/share/lipsia/mask_3mm.v -th 0.5</b></tt><br><p>
+
+<br>
+</div>
+
+<div class="subtitle"><b>Further infos</b></div>
+<div class="content">
+If the resulting NCMs are to be used in subsequent t-tests they need to be transformed
+to ensure Gaussianity. This can be done using the program 'vgaussianize'.
+For paired t-tests and twosample t-tests, special program options in 'vpaired-ttest'
+and 'vtwosample-ttest' exist so that 'vgaussianize' is not needed.
+It is also not needed if non-parametric tests like Wilcoxon's tests are used.
+</div>
+
+<br>
+
+<a name="vncm"></a>
+<div class="headtitle"><b>Parameters of 'vncm'</b>:</div>
+
+<div class="content">
+<DL>
+
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-mask<DD> 
+        Image mask. Voxels in this mask will be used for NCM.	
+    <DT>-threshold. Default: 0.5<DD>
+         Correlation values below the threshold are set to 0, above to 1.
+    <DT>-first<DD> 
+	First time step to include. Default: 2
+    <DT>-length<DD> 
+	Length of time series to use. If set to 0 use everything from <first> to end. Default: 0
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>
