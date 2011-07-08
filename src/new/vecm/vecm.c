@@ -167,6 +167,13 @@ VECM(VAttrList list,VImage mask,VShort minval,VShort first,VShort length,VShort 
   }
   nslices = i;
 
+  if (VImageNBands(mask) != nslices) 
+    VError(" number of slices inconsistent: %d, mask: %d",nslices,VImageNBands(mask));
+  if (VImageNRows(mask) != nrows) 
+    VError(" number of rows inconsistent: %d, mask: %d",nrows,VImageNRows(mask));
+  if (VImageNColumns(mask) != ncols) 
+    VError(" number of columns inconsistent: %d, mask: %d",ncols,VImageNColumns(mask));
+
 
   /* get time steps to include */
   if (length < 1) length = ntimesteps-2;
