@@ -265,6 +265,15 @@ VSpectralECM(VAttrList list,VImage mask,VDouble wavelength,VShort nlags,
   nslices = i;
 
 
+  if (VImageNBands(mask) != nslices)
+    VError(" number of slices inconsistent: %d, mask: %d",nslices,VImageNBands(mask));
+  if (VImageNRows(mask) != nrows)
+    VError(" number of rows inconsistent: %d, mask: %d",nrows,VImageNRows(mask));
+  if (VImageNColumns(mask) != ncols)
+    VError(" number of columns inconsistent: %d, mask: %d",ncols,VImageNColumns(mask));
+
+
+
   /* get time steps to include */
   if (length < 1) length = ntimesteps-2;
   last = first + length -1;
@@ -525,7 +534,7 @@ main (int argc,char *argv[])
   for (VFirstAttr (list1, & posn); VAttrExists (& posn); VNextAttr (& posn)) {
     if (VGetAttrRepn (& posn) != VImageRepn) continue;
     VGetAttrValue (& posn, NULL,VImageRepn, & mask);
-    if (VPixelRepn(mask) != VBitRepn) {
+    if (VPixelRepn(mask) != VBitRepn && VPixelRepn(mask) != VUByteRepn && VPixelRepn(mask) != VShortRepn) {
       mask = NULL;
       continue;
     }
