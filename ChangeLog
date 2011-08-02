@@ -1,3 +1,7 @@
+lipsia (2.1.3)
+  * fixed bug with wrong left/right orientation of the mni templates
+  * the max number of threads is 4 unless the user does not set this parameter
+
 lipsia (2.1.2)
   * valign3d is now capable of multithreading
   * add uninstall target
