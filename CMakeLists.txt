@@ -205,7 +205,6 @@ MESSAGE(STATUS "isis libs: ${ISIS_LIB}")
 MESSAGE(STATUS "isis lib depends: ${ISIS_LIB_DEPENDS}")
 MESSAGE(STATUS "installing lipsia libraries to ${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_PATH}")
 
-#*/
 
 #add uninstall target
 

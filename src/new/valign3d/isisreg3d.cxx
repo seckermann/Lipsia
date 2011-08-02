@@ -328,6 +328,44 @@ int main(int argc, char *argv[] )
 	FixedImageType::Pointer fixedImage = fixedAdapter->makeItkImageObject<FixedImageType>( refList.front() );
 	MovingImageType::Pointer movingImage = movingAdapter->makeItkImageObject<MovingImageType>( inList.front() );
 
+	//number of threads were not specified
+	if(!number_threads) {
+		unsigned short nt=1;
+#ifdef WIN32
+#include <windows.h>
+		SYSTEM_INFO sysinfo;
+		GetSystemInfo( &sysinfo );
+		nt = sysinfo.dwNumberOfProcessors;
+		if(nt > 4) {
+			nt = 4;
+		}
+#else
+#ifdef __APPLE__
+/*#include <sys/param.h>
+#include <sys/sysctl.h>
+		int mib[4];
+		size_t len = sizeof(nt);
+		mib[0] = CTL_HW;
+		mib[1] = HW_AVAILCPU;
+
+		sysctl(mib, 2, &nt, &len, NULL, 0);
+		if( nt < 1 ) {
+			mib[1] = HW_NCPU;
+			sysctl( mib, 2, &nt, &len, NULL, 0);
+			if( nt < 1 ) {
+				nt = 1;
+			}
+		}*/
+		std::cout << "Autodetection of number of threads is not yet working on mac. You can use the parameter -j to specify the number of threads!" << std::endl; 
+#else
+		nt = sysconf( _SC_NPROCESSORS_ONLN );
+		if(nt > 4) {
+			nt = 4;
+		}
+#endif
+#endif
+		number_threads = nt;
+	}
 	if ( smooth ) {
 		GaussianFilterType::Pointer fixedGaussianFilterX = GaussianFilterType::New();
 		GaussianFilterType::Pointer fixedGaussianFilterY = GaussianFilterType::New();
@@ -384,38 +422,6 @@ int main(int argc, char *argv[] )
 	MovingImageType::Pointer movingOtsuImage;
 	FixedImageType::Pointer fixedOtsuImage;
 
-	//number of threads were not specified
-	if(!number_threads) {
-		unsigned short nt=1;
-#ifdef WIN32
-#include <windows.h>
-		SYSTEM_INFO sysinfo;
-		GetSystemInfo( &sysinfo );
-		nt = sysinfo.dwNumberOfProcessors;
-#else
-#ifdef __APPLE__
-/*#include <sys/param.h>
-#include <sys/sysctl.h>
-		int mib[4];
-		size_t len = sizeof(nt);
-		mib[0] = CTL_HW;
-		mib[1] = HW_AVAILCPU;
-
-		sysctl(mib, 2, &nt, &len, NULL, 0);
-		if( nt < 1 ) {
-			mib[1] = HW_NCPU;
-			sysctl( mib, 2, &nt, &len, NULL, 0);
-			if( nt < 1 ) {
-				nt = 1;
-			}
-		}*/
-		std::cout << "Autodetection of number of threads is not yet working on mac. You can use the parameter -j to specify the number of threads!" << std::endl; 
-#else
-		nt = sysconf( _SC_NPROCESSORS_ONLN );
-#endif
-#endif
-		number_threads = nt;
-	}
 
 	if( create_mask ) {
 		size_t fixedThreshold = 0;

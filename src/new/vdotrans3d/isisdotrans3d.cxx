@@ -206,6 +206,9 @@ int main(int argc, char *argv[] )
 		SYSTEM_INFO sysinfo;
 		GetSystemInfo( &sysinfo );
 		nt = sysinfo.dwNumberOfProcessors;
+		if(nt > 4 ) {
+			nt = 4;
+		}
 #else
 #ifdef __APPLE__
 /*
@@ -224,6 +227,9 @@ int main(int argc, char *argv[] )
 		}*/
 #else
 		nt = sysconf( _SC_NPROCESSORS_ONLN );
+		if(nt > 4) {
+			nt = 4;
+		}
 #endif
 #endif
 		number_threads = nt;
