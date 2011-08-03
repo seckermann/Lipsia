@@ -36,6 +36,10 @@
 #include <math.h>
 #include <stdlib.h>
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif /*OPENMP */
+
 extern void VSpatialFilter1(VAttrList);
 extern VImage VMotionCorrection3d(VAttrList, VLong, VLong, VLong);
 extern void VApplyMotionCorrection3d(VAttrList, VImage, VString);
@@ -63,12 +67,14 @@ main(int argc, char *argv[]) {
     static VLong   i0      = 5;
     static VLong   maxiter = 200;
     static VLong   step    = 3;
+    static VShort  nproc = 4;
     static VString filename = "";
     static VOptionDescRec  options[] = {
         {"tref", VLongRepn, 1, (VPointer) &i0, VOptionalOpt, NULL, "reference time step"},
         {"report", VStringRepn, 1, (VPointer) &filename, VOptionalOpt, NULL, "report file"},
         {"step", VLongRepn, 1, (VPointer) &step, VOptionalOpt, NULL, "Step size (e.g. 2 or 3)"},
-        {"iterations", VLongRepn, 1, (VPointer) &maxiter, VOptionalOpt, NULL, "Max number of iterations"}
+        {"iterations", VLongRepn, 1, (VPointer) &maxiter, VOptionalOpt, NULL, "Max number of iterations"},
+	{"j", VShortRepn, 1,(VPointer) &nproc, VOptionalOpt, NULL, "number of processors to use, '0' to use all"}
     };
     FILE *in_file = NULL, *out_file = NULL;
     VImage motion = NULL;
@@ -84,6 +90,16 @@ main(int argc, char *argv[]) {
         VError(" illegal step size %d", step);
     if(i0 < 0)
         VError(" illegal reference time step %d", i0);
+
+
+/*openmp stuff */
+#ifdef _OPENMP
+    int num_procs=omp_get_num_procs();
+    if (nproc > 0 && nproc < num_procs) num_procs = nproc;
+    printf("using %d cores\n",(int)num_procs);
+    omp_set_num_threads(num_procs);
+#endif /*OPENMP */
+
     /* read data */
     if(!(list = VReadFile(in_file, NULL)))
         VError(" error reading data, perhaps insufficient memory ?");
