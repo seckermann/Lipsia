@@ -115,7 +115,7 @@ main(int argc, char *argv[]) {
         VGetAttrValue(& posn, NULL, VImageRepn, & src);
         if(VPixelRepn(src) != VShortRepn)
             continue;
-        if(k < 1)
+        if(k < 0)
             VCopyImageAttrs(src, dest);
         k++;
         if(VImageNRows(src) < 2)
