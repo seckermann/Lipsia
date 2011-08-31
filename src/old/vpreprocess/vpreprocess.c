@@ -35,6 +35,10 @@
 #include <stdlib.h>
 #include <fftw3.h>
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif /*OPENMP */
+
 extern void getLipsiaVersion(char*,size_t);
 
 int
@@ -45,12 +49,14 @@ main(int argc, char *argv[]) {
     static VBoolean stop     =  FALSE;
     static VFloat   sharp    =  0.8;
     static VShort   minval   =  0;
+    static VShort   nproc = 4;
     static VOptionDescRec  options[] = {
         {"fwhm", VDoubleRepn, 1, (VPointer) &fwhm, VOptionalOpt, NULL, "Spatial filter: FWHM in mm"},
         {"high", VFloatRepn, 1, (VPointer) &high, VOptionalOpt, NULL, "Temporal Filter: Cutoff for high pass/stop in seconds"},
         {"low",  VFloatRepn, 1, (VPointer) &low, VOptionalOpt, NULL, "Temporal Filter: Cutoff for low pass/stop in seconds"},
         {"stop",  VBooleanRepn, 1, (VPointer) &stop, VOptionalOpt, NULL, "Temporal Filter: Stop insted of pass filter"},
-        {"minval", VShortRepn, 1, (VPointer) &minval, VOptionalOpt, NULL, "Signal threshold"}
+        {"minval", VShortRepn, 1, (VPointer) &minval, VOptionalOpt, NULL, "Signal threshold"},
+	{"j", VShortRepn, 1,(VPointer) &nproc, VOptionalOpt, NULL, "number of processors to use, '0' to use all"}
     };
     FILE *in_file = NULL, *out_file = NULL;
     VAttrList list = NULL;
@@ -62,6 +68,15 @@ main(int argc, char *argv[]) {
 	getLipsiaVersion(ver, sizeof(ver));
 	sprintf(prg_name, "vpreprocess V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
+
+/*openmp stuff*/
+#ifdef _OPENMP
+    int num_procs=omp_get_num_procs();
+    if (nproc > 0 && nproc < num_procs) num_procs = nproc;
+    printf("using %d cores\n",(int)num_procs);
+    omp_set_num_threads(num_procs);
+#endif
+
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(fwhm < 0)
         VError("fwhm must be non-negative");
