@@ -927,8 +927,8 @@ class MyForm(QtGui.QMainWindow):
         outFile = str(self.output_dir).rstrip("/") + "/reg_" + file.split("/")[len(file.split("/"))-1]
         #registration
         prealign = ""
-        if(self.ui.check_prealign.isChecked()):
-            prealign = " -prealign_mass"
+        if(not self.ui.check_prealign.isChecked()):
+            prealign = " -prealign false"
         bound = self.ui.text_bound.text()
         iter_bspline = self.ui.text_iter_deformable.text()
         iter_affine = self.ui.text_iter_affine.text()
@@ -949,17 +949,29 @@ class MyForm(QtGui.QMainWindow):
         #check if an anatomical image was specified
         origFile = str(self.myFileList[self.currentImageIndex])
         movingFile = file
+        anatomicalFile = ""
+        ana=True
         try:
-            movingFile = self.anatomicalImageDict[str(origFile)]
+            anatomicalFile = self.anatomicalImageDict[str(origFile)]
         except:
+            ana=False
             pass
-        self.debugOutput("Registration of " + movingFile + " on " + str(self.ui.template_box.currentText()) + "..." , True)
-        self.applyCommand("valign3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + movingFile + " -trans trans.nii -transform " + transform + " -optimizer " + optimizer + " -bound " + str(bound) + " " + prealign + " -iter " + str(max_iterations) + " -v")
+
+        if(ana):
+            self.debugOutput("Registration of anatomical image " + anatomicalFile + " to functional image " + movingFile, True)
+            self.applyCommand("valign3d -ref " + movingFile + " -in " + anatomicalFile + " -trans ana_to_func.nii")
+            self.debugOutput("Resampling anatomical image", True)
+            self.applyCommand("vdotrans3d -ref " + movingFile + " -in " + anatomicalFile + " -trans ana_to_func.nii -res 1 -out ana_to_func.v")
+            self.debugOutput("Registration of anatomical image to template " + str(self.ui.template_box.currentText()), True)
+            self.applyCommand("valign3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in ana_to_func.v -trans trans.nii -transform " + transform +" -optimizer " + optimizer + " -bound " + str(bound) + " " + prealign +  " -iter " +  str(max_iterations) + " -v")
+        else:
+            self.debugOutput("Registration of " + movingFile + " on " + str(self.ui.template_box.currentText()) + "..." , True)
+            self.applyCommand("valign3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + movingFile + " -trans trans.nii -transform " + transform + " -optimizer " + optimizer + " -bound " + str(bound) + " " + prealign + " -iter " + str(max_iterations) + " -v")
         #resampling
-        if(self.ui.check_show_reg_resuts.isChecked()):
+        if(self.ui.check_show_reg_resuts.isChecked() and ana):
             self.progress()
             self.debugOutput("Resampling the image to check the registration result...", True)
-            self.applyCommand("vdotrans3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + movingFile + " -trans trans.nii -out regResult.v")
+            self.applyCommand("vdotrans3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in ana_to_func.v -trans trans.nii -out regResult.v")
             self.debugOutput("Opening viewer to show the registration results. Close it to continue!", True)
             self.applyCommand("vlv " + self.templateDict[str(self.ui.template_box.currentText())] + " & ")
             self.applyCommand("vlv regResult.v")
@@ -969,6 +981,8 @@ class MyForm(QtGui.QMainWindow):
         self.applyCommand("vdotrans3d -ref " + self.templateDict[str(self.ui.template_box.currentText())] + " -in " + file + " -trans trans.nii -res " + resolution + " -fmri -out " + outFile + " -interpolator " + str(interpolator))
         self.removeList.append(outFile)
         self.removeListEver.append("trans.nii")
+        self.removeListEver.append("ana_to_func.v")
+        self.removeListEver.append("ana_to_func.nii")
         self.removeListEver.append("regResult.v")
         return outFile
 
