@@ -45,7 +45,8 @@ proc ()<br>
   vnormvals -in tmp0.v -scale 10 -out tmp1.v<br>
   vslicetime -in tmp1.v -out tmp2.v<br>
   vmovcorrection -in tmp2.v -out tmp3.v -report list_$1.txt<br>
-  vnormdata -fun tmp3.v -out tmp4.v<br>
+  valign3d -ref /usr/share/lipsia/epi_template_3mm.v -in tmp3.v -trans trans.nii -transform 0 1 2 -optimizer 0 0 2 -bound 10 <br>
+  vdotrans3d -ref /usr/share/lipsia/epi_template_3mm.v -in tmp3.v -trans trans.nii -out tmp4.v -fmri <br>
   vpreprocess -in tmp4.v -out prep_$1.v -fwhm 6 -low 10 -high 90<br>
 }<br>
 
@@ -64,7 +65,11 @@ proc ()<br>
   vnormvals -in tmp0.v -scale 10 -out tmp1.v<br>
   vslicetime -in tmp1.v -out tmp2.v<br>
   vmovcorrection -in tmp2.v -out tmp3.v -report list_$1.txt<br>
-  vnormdata -ana anatomical_image.v -fun tmp3.v -out tmp4.v<br>
+  valign3d -ref tmp3.v -in anatomical_image.v -trans trans.nii<br>
+  vdotrans3d -ref tmp3.v -in anatomical_image.v -trans trans.nii -out ana_to_fun.v -res 1<br>
+  valign3d -ref /usr/share/lipsia/mni.v -in ana_to_fun.v -trans trans.nii -transform 0 1 2 -optimizer 0 0 2<br>
+  vdotrans3d -ref /usr/share/lipsia/mni.v -in ana_to_fun.v -trans trans.nii -out reg_anatomical_image.v<br>
+  vdotrans3d -ref /usr/share/lipsia/mni.v -in tmp3.v -trans trans.nii -out tmp4.v -res 3 -frmi<br>
   vpreprocess -in tmp4.v -out prep_$1.v -fwhm 6 -low 10 -high 90<br>
 }<br>
 

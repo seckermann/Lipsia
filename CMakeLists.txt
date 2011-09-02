@@ -165,6 +165,7 @@ INSTALL(DIRECTORY doc/html
 #installing the scripts
 install(PROGRAMS src/scripts/vcreatemask DESTINATION bin)
 #install(PROGRAMS src/scripts/vnormdata DESTINATION bin)
+install(PROGRAMS src/scripts/vpreproc_gui DESTINATION bin)
 
 #############################################################
 # CPack config
