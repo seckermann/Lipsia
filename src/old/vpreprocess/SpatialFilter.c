@@ -102,7 +102,6 @@ VSConvolveCol (VImage src,VImage dest,VImage kernel)
   VFillImage(dest,VAllBands,0);
   dim  = VImageNColumns(kernel);
   d    = dim/2;
-#pragma omp parallel for
   for (b=0; b<nbands; b++) {
     for (r=0; r<nrows; r++) {
       for (c=d; c<ncols-d; c++) {
@@ -142,7 +141,6 @@ VSConvolveRow (VImage src,VImage dest,VImage kernel)
   nbands = VImageNBands (src);
 
   dest = VSelectDestImage("VConvolveRow",dest,nbands,nrows,ncols,VFloatRepn);
-#pragma omp parallel for
   for (b=0; b<nbands; b++) {
     for (r=d; r<nrows-d; r++) {
       for (c=0; c<ncols; c++) {

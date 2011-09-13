@@ -64,7 +64,7 @@ VDictEntry TYPInterpolator[] = { {"Linear", 0}, {"BSpline", 1}, {"NearestNeighbo
 static VString in_filename = NULL;
 static VString out_filename = NULL;
 static VArgVector trans_filename;
-static VString vtrans_filename;
+static VArgVector vtrans_filename;
 static VString template_filename = NULL;
 static VBoolean in_found, out_found, trans_found, ref_found;
 static VShort interpolator_type;
@@ -94,8 +94,8 @@ static VOptionDescRec options[] = {
 	{
 		"fmri", VBooleanRepn, 1, &fmri,
 		VOptionalOpt, 0, "Input and output image file are functional data"
-	}, {"trans", VStringRepn, 1,
-		&vtrans_filename, VOptionalOpt, 0, "Vector deformation field"
+	}, {"trans", VStringRepn, 0,
+		(VPointer) &vtrans_filename, VOptionalOpt, 0, "Vector deformation field"
 	}, {"use_inverse", VBooleanRepn, 1, &use_inverse,
 		VOptionalOpt, 0, "Using the inverse of the transform"
 	}, {"j" , VShortRepn, 1, &number_threads, VOptionalOpt, 0 , "Number of threads"}
@@ -197,6 +197,7 @@ int main(int argc, char *argv[] )
 	InputImageType::Pointer templateImage = InputImageType::New();
 	isis::adapter::itkAdapter *fixedAdapter = new isis::adapter::itkAdapter;
 	isis::adapter::itkAdapter *movingAdapter = new isis::adapter::itkAdapter;
+	DeformationFieldType::Pointer defField = DeformationFieldType::New();
 	//transform object used for inverse transform
 	itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::Pointer transform = itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::New();
 	//number of threads were not specified
@@ -238,7 +239,7 @@ int main(int argc, char *argv[] )
 		std::cerr << "No output file specified. Exiting..." << std::endl;
 		return EXIT_FAILURE;
 	}
-	if ( !identity && !trans_filename.number && !vtrans_filename ) {
+	if ( !identity && !trans_filename.number && !vtrans_filename.number ) {
 		std::cout << "No transform specified!!" << std::endl;
 		return EXIT_FAILURE;
 	}
@@ -347,7 +348,7 @@ int main(int argc, char *argv[] )
 				transformMerger->push_back( ( *ti ).GetPointer() );
 			}
 
-			transformMerger->setTemplateImage<InputImageType>( templateImage );
+			//transformMerger->setTemplateImage<InputImageType>( templateImage );
 			transformMerger->merge();
 			warper->SetDeformationField( transformMerger->getTransform() );
 		}
@@ -376,9 +377,23 @@ int main(int argc, char *argv[] )
 		}
 	}
 
-	if ( vtrans_filename ) {
-		deformationFieldReader->SetFileName( vtrans_filename );
-		deformationFieldReader->Update();
+	if ( vtrans_filename.number ) {
+		if ( vtrans_filename.number > 1 ) {
+			std::cout << "more than one vtrans" << std::endl;
+			for ( size_t i = 0; i < vtrans_filename.number; i++ ) {
+				deformationFieldReader->SetFileName( ((VStringConst*) vtrans_filename.vector)[i] );
+				deformationFieldReader->UpdateLargestPossibleRegion();
+				deformationFieldReader->Update();
+				
+				transformMerger->addVectorField( deformationFieldReader->GetOutput() );
+			}
+			transformMerger->merge();
+			defField = transformMerger->getTransform();
+		} else {
+			deformationFieldReader->SetFileName( ((VStringConst*) vtrans_filename.vector)[0] );
+			deformationFieldReader->Update();
+			defField = deformationFieldReader->GetOutput();
+	}
 	}
 // 	//here we have to resample the deformation field according to the resolution of our input image
 // 	DeformationFieldType::Pointer defField = DeformationFieldType::New();
@@ -386,8 +401,7 @@ int main(int argc, char *argv[] )
 // 	deformationResampler->SetOutputSpacing( inputImage->GetSpacing() );
 // 	deformationResampler->Update();
 // 	defField = deformationResampler->GetOutput();
-	DeformationFieldType::Pointer defField = DeformationFieldType::New();
-	defField = deformationFieldReader->GetOutput();
+	
 
 	if ( resolution.number && template_filename ) {
 		for ( unsigned int i = 0; i < 3; i++ ) {
@@ -431,7 +445,7 @@ int main(int argc, char *argv[] )
 	if ( !fmri ) {
 		writer->SetFileName( out_filename );
 
-		if ( (!vtrans_filename && trans_filename.number == 1) || identity ) {
+		if ( (!vtrans_filename.number && trans_filename.number == 1) || identity ) {
 			//resampler->AddObserver( itk::ProgressEvent(), progressObserver );
 			resampler->SetInput( inputImage );
 			resampler->SetOutputSpacing( outputSpacing );
@@ -446,7 +460,7 @@ int main(int argc, char *argv[] )
 			//          writer->Update();
 		}
 
-		if ( vtrans_filename or trans_filename.number > 1 && !identity ) {
+		if ( vtrans_filename.number or trans_filename.number > 1 && !identity ) {
 			//warper->AddObserver( itk::ProgressEvent(), progressObserver );
 			warper->SetOutputDirection( outputDirection );
 			warper->SetOutputOrigin( outputOrigin );
@@ -507,7 +521,7 @@ int main(int argc, char *argv[] )
 			resampler->SetOutputOrigin( fmriOutputOrigin );
 		}
 
-		if ( vtrans_filename ) {
+		if ( vtrans_filename.number ) {
 			//warper->AddObserver(itk::ProgressEvent(), progressObserver);
 			warper->SetOutputDirection( fmriOutputDirection );
 			warper->SetOutputOrigin( fmriOutputOrigin );
@@ -554,7 +568,7 @@ int main(int argc, char *argv[] )
 				tileImage = resampler->GetOutput();
 			}
 
-			if ( vtrans_filename ) {
+			if ( vtrans_filename.number ) {
 				warper->SetInput( tmpImage );
 				warper->Update();
 				tileImage = warper->GetOutput();

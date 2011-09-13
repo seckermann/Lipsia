@@ -27,6 +27,7 @@
 #include "itkBSplineDeformableTransform.h"
 #include "itkImageRegistrationMethod.h"
 #include "itkAddImageFilter.h"
+#include "itkImage.h"
 
 #include <list>
 
@@ -59,15 +60,17 @@ public:
 
 	TransformMerger3D();
 
-	void merge(
+	bool merge(
 		void );
 
 	DeformationFieldType::Pointer getTransform(
 		void );
+		
+	void addVectorField( DeformationFieldType::Pointer field ) { m_FieldList.push_back( field ) ;} ;
 
 
 	//here we setting up the temporaryDeformationField_ and deformationField_. The properties are defined be the templateImage which is specified by the setTemplateImage method,
-	template <typename TImage> void setTemplateImage( TImage *templateImage ) {
+/*	template <typename TImage> void setTemplateImage( TImage *templateImage ) {
 		imageRegion_ = templateImage->GetLargestPossibleRegion();
 		deformationField_ = DeformationFieldType::New();
 		deformationField_->SetRegions( imageRegion_.GetSize() );
@@ -83,7 +86,7 @@ public:
 		temporaryDeformationField_->Allocate();
 	}
 
-
+*/
 private:
 	unsigned int transformType_;
 	Self::iterator transformIterator_;
@@ -95,10 +98,12 @@ private:
 	BSplineDeformableTransformType::Pointer outputTransform_;
 
 	DeformationFieldType::Pointer deformationField_;
-	DeformationFieldType::Pointer temporaryDeformationField_;
+	
 	itk::ImageBase<3>::RegionType imageRegion_;
 
 	AddImageFilterType::Pointer addImageFilter_;
+	std::vector< DeformationFieldType::Pointer > m_FieldList; 
+	
 
 };
 
