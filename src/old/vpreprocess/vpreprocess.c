@@ -68,16 +68,17 @@ main(int argc, char *argv[]) {
 	getLipsiaVersion(ver, sizeof(ver));
 	sprintf(prg_name, "vpreprocess V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
-
+    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
 /*openmp stuff*/
 #ifdef _OPENMP
     int num_procs=omp_get_num_procs();
-    if (nproc > 0 && nproc < num_procs) num_procs = nproc;
+    if (nproc > 0 && nproc < num_procs) {
+	    num_procs = nproc;
+	}
     printf("using %d cores\n",(int)num_procs);
     omp_set_num_threads(num_procs);
 #endif
 
-    VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
     if(fwhm < 0)
         VError("fwhm must be non-negative");
     if(low > high && high > 0)
