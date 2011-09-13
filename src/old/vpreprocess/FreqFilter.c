@@ -133,7 +133,6 @@ VFreqFilter(VAttrList list, VFloat high, VFloat low, VBoolean stop, VFloat sharp
         if(k % 2 == 0)
             fprintf(stderr, "# slice %3d\r", k);
         for(r = 0; r < nrows; r++) {
-#pragma omp parallel for
             for(c = 0; c < ncols; c++) {
                 /* get data */
                 sum = 0;

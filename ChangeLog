@@ -3,6 +3,7 @@ lipsia (2.1.3)
   * the max number of threads is 4 unless the user does not set this parameter
 
 lipsia (2.1.2)
+
   * valign3d is now capable of multithreading
   * add uninstall target
   * interface of vswapdim changed
@@ -18,6 +19,7 @@ lipsia (2.1.1)
   * Fixed some problems when working with huge images (>500 mb)
 
  -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Wed, 11 May 2011 16:30:00 +0100
+
 lipsia (2.1.0)
 
   * Revised the REQUIREMENTS file
