@@ -180,7 +180,6 @@ VSConvolveBand (VImage src,VImage dest,VImage kernel)
   nbands = VImageNBands (src);
 
   dest = VSelectDestImage("VConvolveBand",dest,nbands,nrows,ncols,VFloatRepn);
-#pragma omp parallel for
   for (b=d; b<nbands-d; b++) {
     for (r=0; r<nrows; r++) {
       for (c=0; c<ncols; c++) {
