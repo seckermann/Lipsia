@@ -28,6 +28,7 @@
 #include "itkImageRegistrationMethod.h"
 #include "itkAddImageFilter.h"
 #include "itkImage.h"
+#include "itkVectorResampleImageFilter.h"
 
 #include <list>
 
@@ -46,6 +47,7 @@ public:
 	typedef std::list<TransformBasePointer> Superclass;
 
 	typedef itk::Vector<float, 3> VectorType;
+	typedef itk::Image<float, 3> ImageType;
 	typedef itk::Image<VectorType, 3> DeformationFieldType;
 	typedef itk::ImageRegionIterator<DeformationFieldType> DeformationFieldIteratorType;
 
@@ -54,6 +56,7 @@ public:
 	typedef itk::VersorRigid3DTransform<double> VersorRigid3DTransformType;
 	typedef itk::AffineTransform<double, 3> AffineTransformType;
 	typedef itk::BSplineDeformableTransform<double, 3, 3> BSplineDeformableTransformType;
+	typedef itk::VectorResampleImageFilter<DeformationFieldType, DeformationFieldType, double> ResampleDeformationImageFilterType;
 
 	typedef itk::AddImageFilter<DeformationFieldType, DeformationFieldType, DeformationFieldType> AddImageFilterType;
 
@@ -66,8 +69,9 @@ public:
 	DeformationFieldType::Pointer getTransform(
 		void );
 		
-	void addVectorField( DeformationFieldType::Pointer field ) { m_FieldList.push_back( field ) ;} ;
-
+	void addVectorField( DeformationFieldType::Pointer field ) { m_FieldList.push_back( field ) ;} 
+	void setVectorField( std::vector< DeformationFieldType::Pointer > vec ) { m_FieldList = vec; }
+	void setTemplateImage( itk::Image<float, 3>::Pointer image ) { m_Image = image; }
 
 	//here we setting up the temporaryDeformationField_ and deformationField_. The properties are defined be the templateImage which is specified by the setTemplateImage method,
 /*	template <typename TImage> void setTemplateImage( TImage *templateImage ) {
@@ -98,8 +102,12 @@ private:
 	BSplineDeformableTransformType::Pointer outputTransform_;
 
 	DeformationFieldType::Pointer deformationField_;
+	ImageType::Pointer m_Image;
+	
+	ResampleDeformationImageFilterType::Pointer resampler;
 	
 	itk::ImageBase<3>::RegionType imageRegion_;
+	itk::Size<3> m_DesiredSize;
 
 	AddImageFilterType::Pointer addImageFilter_;
 	std::vector< DeformationFieldType::Pointer > m_FieldList; 

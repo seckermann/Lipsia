@@ -198,6 +198,8 @@ int main(int argc, char *argv[] )
 	isis::adapter::itkAdapter *fixedAdapter = new isis::adapter::itkAdapter;
 	isis::adapter::itkAdapter *movingAdapter = new isis::adapter::itkAdapter;
 	DeformationFieldType::Pointer defField = DeformationFieldType::New();
+	DeformationFieldType::Pointer defFieldTmp = DeformationFieldType::New();
+	std::vector< DeformationFieldType::Pointer> defFieldList;
 	//transform object used for inverse transform
 	itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::Pointer transform = itk::MatrixOffsetTransformBase<double, Dimension, Dimension>::New();
 	//number of threads were not specified
@@ -330,6 +332,7 @@ int main(int argc, char *argv[] )
 	} else {
 		outputDirection = templateImage->GetDirection();
 		outputOrigin = templateImage->GetOrigin();
+		transformMerger->setTemplateImage( templateImage );
 	}
 
 	if ( trans_filename.number ) {
@@ -379,21 +382,22 @@ int main(int argc, char *argv[] )
 
 	if ( vtrans_filename.number ) {
 		if ( vtrans_filename.number > 1 ) {
-			std::cout << "more than one vtrans" << std::endl;
 			for ( size_t i = 0; i < vtrans_filename.number; i++ ) {
 				deformationFieldReader->SetFileName( ((VStringConst*) vtrans_filename.vector)[i] );
 				deformationFieldReader->UpdateLargestPossibleRegion();
-				deformationFieldReader->Update();
-				
-				transformMerger->addVectorField( deformationFieldReader->GetOutput() );
+				defFieldTmp = deformationFieldReader->GetOutput();
+				defFieldList.push_back( defFieldTmp );
+				transformMerger->setVectorField( defFieldList );
+				defFieldTmp->DisconnectPipeline();
 			}
 			transformMerger->merge();
+			defField->DisconnectPipeline();
 			defField = transformMerger->getTransform();
 		} else {
 			deformationFieldReader->SetFileName( ((VStringConst*) vtrans_filename.vector)[0] );
 			deformationFieldReader->Update();
 			defField = deformationFieldReader->GetOutput();
-	}
+	    }
 	}
 // 	//here we have to resample the deformation field according to the resolution of our input image
 // 	DeformationFieldType::Pointer defField = DeformationFieldType::New();

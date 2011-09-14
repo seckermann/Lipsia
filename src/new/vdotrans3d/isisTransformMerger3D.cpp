@@ -25,6 +25,7 @@
 #define ISISTRANSFORMMERGER3D_H_
 
 #include "isisTransformMerger3D.hpp"
+#include "itkImageFileWriter.h"
 #include "boost/foreach.hpp"
 
 namespace isis
@@ -38,6 +39,7 @@ TransformMerger3D::TransformMerger3D()
 	tmpTransform_ = BSplineDeformableTransformType::New();
 	outputTransform_ = BSplineDeformableTransformType::New();
 	addImageFilter_ = AddImageFilterType::New();
+	resampler = ResampleDeformationImageFilterType::New();
 }
 
 bool TransformMerger3D::merge(
@@ -47,21 +49,38 @@ bool TransformMerger3D::merge(
 		if( m_FieldList.size() <= 1 ) {
 			return false;
 		}
+
 		
 		DeformationFieldType::Pointer temporaryDeformationField;
 		for( size_t i = 0; i < m_FieldList.size() - 1; i++ ) {
-			addImageFilter_->SetInput1( m_FieldList[i] );
-			addImageFilter_->SetInput2( m_FieldList[i+1] );	
-			addImageFilter_->Update();
+			resampler->SetInput( m_FieldList[i] );
+			resampler->SetOutputOrigin( m_Image->GetOrigin() );
+			resampler->SetOutputSpacing( m_Image->GetSpacing() );
+			resampler->SetSize( m_Image->GetLargestPossibleRegion().GetSize() );
+			resampler->SetOutputDirection( m_Image->GetDirection() );
 			
-			temporaryDeformationField = addImageFilter_->GetOutput();
+			resampler->Update();
+			temporaryDeformationField = resampler->GetOutput();
+			addImageFilter_->SetInput1( temporaryDeformationField );
+			temporaryDeformationField->DisconnectPipeline();
+			
+			resampler->SetInput( m_FieldList[i+1] );
+			resampler->SetOutputOrigin( m_Image->GetOrigin() );
+			resampler->SetOutputSpacing( m_Image->GetSpacing() );
+			resampler->SetSize( m_Image->GetLargestPossibleRegion().GetSize() );
+			resampler->SetOutputDirection( m_Image->GetDirection() );
+			resampler->Update();
+			temporaryDeformationField = resampler->GetOutput();
+			addImageFilter_->SetInput2( temporaryDeformationField );	
+			addImageFilter_->Update();
+			temporaryDeformationField->DisconnectPipeline();
 			
 		}
-		
 		
 		deformationField_ = addImageFilter_->GetOutput();
 		return true;
 }
+
 
 TransformMerger3D::DeformationFieldType::Pointer TransformMerger3D::getTransform(
 	void )
