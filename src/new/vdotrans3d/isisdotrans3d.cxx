@@ -332,7 +332,6 @@ int main(int argc, char *argv[] )
 	} else {
 		outputDirection = templateImage->GetDirection();
 		outputOrigin = templateImage->GetOrigin();
-		transformMerger->setTemplateImage( templateImage );
 	}
 
 	if ( trans_filename.number ) {
@@ -340,20 +339,7 @@ int main(int argc, char *argv[] )
 
 		if ( number_trans > 1 ) {
 			std::cout << "More than one transform is set. This is not possible, yet!" << std::endl;
-
-			for ( unsigned int i = 0; i < number_trans; i++ ) {
-				itk::TransformFileReader::TransformListType *transformList =
-					new itk::TransformFileReader::TransformListType;
-				transformFileReader->SetFileName( ( ( VStringConst * ) trans_filename.vector )[i] );
-				transformFileReader->Update();
-				transformList = transformFileReader->GetTransformList();
-				itk::TransformFileReader::TransformListType::const_iterator ti = transformList->begin();
-				transformMerger->push_back( ( *ti ).GetPointer() );
-			}
-
-			//transformMerger->setTemplateImage<InputImageType>( templateImage );
-			transformMerger->merge();
-			warper->SetDeformationField( transformMerger->getTransform() );
+			return EXIT_FAILURE;
 		}
 
 		if ( number_trans == 1 ) {
@@ -380,14 +366,15 @@ int main(int argc, char *argv[] )
 		}
 	}
 
+
 	if ( vtrans_filename.number ) {
 		if ( vtrans_filename.number > 1 ) {
+		    transformMerger->setNumberOfThreads(number_threads);
 			for ( size_t i = 0; i < vtrans_filename.number; i++ ) {
 				deformationFieldReader->SetFileName( ((VStringConst*) vtrans_filename.vector)[i] );
 				deformationFieldReader->UpdateLargestPossibleRegion();
 				defFieldTmp = deformationFieldReader->GetOutput();
-				defFieldList.push_back( defFieldTmp );
-				transformMerger->setVectorField( defFieldList );
+				transformMerger->push_back( defFieldTmp );
 				defFieldTmp->DisconnectPipeline();
 			}
 			transformMerger->merge();
@@ -399,13 +386,6 @@ int main(int argc, char *argv[] )
 			defField = deformationFieldReader->GetOutput();
 	    }
 	}
-// 	//here we have to resample the deformation field according to the resolution of our input image
-// 	DeformationFieldType::Pointer defField = DeformationFieldType::New();
-// 	deformationResampler->SetInput( deformationFieldReader->GetOutput() );
-// 	deformationResampler->SetOutputSpacing( inputImage->GetSpacing() );
-// 	deformationResampler->Update();
-// 	defField = deformationResampler->GetOutput();
-	
 
 	if ( resolution.number && template_filename ) {
 		for ( unsigned int i = 0; i < 3; i++ ) {

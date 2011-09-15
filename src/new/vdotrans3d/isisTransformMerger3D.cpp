@@ -34,58 +34,28 @@ namespace extitk
 {
 
 TransformMerger3D::TransformMerger3D()
+    : m_NT(1),
+    m_DeformationField( DeformationFieldType::New())
 {
-	transformType_ = 0;
-	tmpTransform_ = BSplineDeformableTransformType::New();
-	outputTransform_ = BSplineDeformableTransformType::New();
-	addImageFilter_ = AddImageFilterType::New();
-	resampler = ResampleDeformationImageFilterType::New();
+	
 }
 
-bool TransformMerger3D::merge(
-	void 
-){
-		typedef std::list< DeformationFieldType::Pointer > ListType;
-		if( m_FieldList.size() <= 1 ) {
-			return false;
-		}
-
-		
-		DeformationFieldType::Pointer temporaryDeformationField;
-		for( size_t i = 0; i < m_FieldList.size() - 1; i++ ) {
-			resampler->SetInput( m_FieldList[i] );
-			resampler->SetOutputOrigin( m_Image->GetOrigin() );
-			resampler->SetOutputSpacing( m_Image->GetSpacing() );
-			resampler->SetSize( m_Image->GetLargestPossibleRegion().GetSize() );
-			resampler->SetOutputDirection( m_Image->GetDirection() );
-			
-			resampler->Update();
-			temporaryDeformationField = resampler->GetOutput();
-			addImageFilter_->SetInput1( temporaryDeformationField );
-			temporaryDeformationField->DisconnectPipeline();
-			
-			resampler->SetInput( m_FieldList[i+1] );
-			resampler->SetOutputOrigin( m_Image->GetOrigin() );
-			resampler->SetOutputSpacing( m_Image->GetSpacing() );
-			resampler->SetSize( m_Image->GetLargestPossibleRegion().GetSize() );
-			resampler->SetOutputDirection( m_Image->GetDirection() );
-			resampler->Update();
-			temporaryDeformationField = resampler->GetOutput();
-			addImageFilter_->SetInput2( temporaryDeformationField );	
-			addImageFilter_->Update();
-			temporaryDeformationField->DisconnectPipeline();
-			
-		}
-		
-		deformationField_ = addImageFilter_->GetOutput();
-		return true;
+bool TransformMerger3D::merge(void ) const  {
+	
+    if ( size() < 2 ) {
+	return false;
+    }
+    DeformationFieldType::Pointer tmpDefField = DeformationFieldType::New();
+    BOOST_FOREACH( TransformMerger3D::const_reference fieldRef, *this)
+    {
+	
+    }
 }
 
 
-TransformMerger3D::DeformationFieldType::Pointer TransformMerger3D::getTransform(
-	void )
+DeformationFieldType::Pointer TransformMerger3D::getTransform(void ) const
 {
-	return deformationField_;
+	return m_DeformationField;
 }
 
 
