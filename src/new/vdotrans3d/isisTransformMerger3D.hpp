@@ -46,17 +46,14 @@ class TransformMerger3D : public std::list<DeformationFieldType::Pointer>
 {
 public:
 
-    
-	
-
-	typedef itk::VectorResampleImageFilter<DeformationFieldType, DeformationFieldType, double> ResampleDeformationImageFilterType;
+	typedef itk::WarpVectorImageFilter<DeformationFieldType, DeformationFieldType, DeformationFieldType> ResampleDeformationImageFilterType;
 
 	typedef itk::AddImageFilter<DeformationFieldType, DeformationFieldType, DeformationFieldType> AddImageFilterType;
 	typedef itk::WarpVectorImageFilter<DeformationFieldType, DeformationFieldType, DeformationFieldType> WarpImageFilterType;
 
 
 	TransformMerger3D();
-	bool merge(void ) const;
+	bool merge(void );
 	DeformationFieldType::Pointer getTransform(void ) const;
 	
 	void setNumberOfThreads( const size_t &nt ) { m_NT = nt; }
@@ -67,6 +64,8 @@ private:
 	
 	DeformationFieldType::Pointer m_DeformationField;
 	ImageType::Pointer m_TemplateImage;
+	ResampleDeformationImageFilterType::Pointer m_Resampler;
+	AddImageFilterType::Pointer m_AddImageFilter;
 	size_t m_NT;
 	
 	

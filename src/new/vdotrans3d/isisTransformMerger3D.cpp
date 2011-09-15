@@ -35,21 +35,42 @@ namespace extitk
 
 TransformMerger3D::TransformMerger3D()
     : m_NT(1),
-    m_DeformationField( DeformationFieldType::New())
+    m_DeformationField( DeformationFieldType::New() ),
+    m_Resampler ( ResampleDeformationImageFilterType::New() ),
+    m_AddImageFilter( AddImageFilterType::New() )
 {
 	
 }
 
-bool TransformMerger3D::merge(void ) const  {
+bool TransformMerger3D::merge(void )  {
 	
     if ( size() < 2 ) {
 	return false;
     }
+    
     DeformationFieldType::Pointer tmpDefField = DeformationFieldType::New();
+    size_t index = 0;
     BOOST_FOREACH( TransformMerger3D::const_reference fieldRef, *this)
     {
-	
+	if ( index > 0 ) {
+	    m_Resampler->SetInput( tmpDefField );
+	    m_Resampler->SetOutputOrigin( fieldRef->GetOrigin() );
+	    m_Resampler->SetOutputSpacing( fieldRef->GetSpacing() );
+	    m_Resampler->SetOutputDirection( fieldRef->GetDirection() );
+	    m_Resampler->SetDeformationField( fieldRef );
+	    m_AddImageFilter->SetInput1( m_Resampler->GetOutput() );
+	    m_AddImageFilter->SetInput2( fieldRef );
+	    m_AddImageFilter->Update();
+	    tmpDefField = m_AddImageFilter->GetOutput();
+	    tmpDefField->DisconnectPipeline();
+	} else {
+	    tmpDefField = fieldRef;
+	    
+	}
+	index++; 
     }
+    m_DeformationField = tmpDefField;
+    return true;
 }
 
 
