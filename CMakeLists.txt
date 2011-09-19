@@ -1,13 +1,11 @@
-PROJECT(LIPSIA)
+
 
 # address warnings by cmake
-cmake_minimum_required(VERSION 2.4)
-if(COMMAND cmake_policy)
-  cmake_policy(SET CMP0003 NEW)
-  cmake_policy(SET CMP0002 NEW)
-endif(COMMAND cmake_policy)
+cmake_minimum_required(VERSION 2.6)
 
-include(InstallRequiredSystemLibraries)
+include(InstallRequiredSystemLibraries) #http://docdb.fnal.gov/ILC/sid/stanitz/ilcsoft-latest/cmake-2.4.8/Modules/InstallRequiredSystemLibraries.cmake
+
+PROJECT(LIPSIA)
 
 IF(NOT UNIX)
   MESSAGE(FATAL_ERROR
@@ -49,35 +47,6 @@ SET(LIPSIA_SHARED_LIB_VERSION
 	${LIPSIA_VERSION_MAJOR}.${LIPSIA_VERSION_MINOR}.${LIPSIA_VERSION_PATCH})
 
 ############################################################
-# SVN revision number
-############################################################
-# Set the revision number if this dir is a svn working copy.
-# The revision number will be stored in SVN_REVISION.
-FIND_FILE(SVNVERSION svnversion
-    PATHS /usr/bin /usr/local/bin
-    DOC "The subversion revision information tool.")
-
-IF (NOT SVN_REVISION)
-	IF (SVNVERSION)
-		EXECUTE_PROCESS(COMMAND ${SVNVERSION}
-			OUTPUT_VARIABLE OUT
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-		string(REGEX MATCH "exported" EXPORTED "${OUT}")
-		IF (NOT EXPORTED)
-			string(REGEX MATCH "^[0-9]+" SVN_REVISION "${OUT}") #@todo wont work with more complex revisions/modified sources
-			SET(SVN_REVISION ${SVN_REVISION})
-		ELSE (NOT EXPORTED)
-			set(SVN_REVISION "exported")
-		ENDIF (NOT EXPORTED)
-	ENDIF (SVNVERSION)
-ENDIF (NOT SVN_REVISION)
-
-IF (SVN_REVISION)
-  MESSAGE(STATUS "SVN Revision: ${SVN_REVISION}")
-  ADD_DEFINITIONS(-D_LIPSIA_SVN_REVISION=${SVN_REVISION})
-ENDIF(SVN_REVISION)
-
-############################################################
 # RCS revision number
 ############################################################
 # The revision number is based on GIT commit informations.
@@ -86,7 +55,7 @@ find_program(GIT_COMMAND git DOC "The rcs revision description information tool.
 
 if (NOT GIT_REVISION)
   if (GIT_COMMAND)
-    execute_process(COMMAND ${GIT_COMMAND} describe OUTPUT_VARIABLE OUT WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_STRIP_TRAILING_WHITESPACE)
+    execute_process(COMMAND ${GIT_COMMAND} describe --always OUTPUT_VARIABLE OUT WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_STRIP_TRAILING_WHITESPACE)
     string(REGEX MATCH "[0-9]+-[^-]+$" GIT_REVISION "${OUT}") #@todo wont work with more complex revisions/modified sources
     set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${GIT_REVISION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_BUILD_TYPE})
   else(GIT_COMMAND)
