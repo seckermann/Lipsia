@@ -36,5 +36,10 @@ void getLipsiaVersion(char*,size_t) {
 }
 */
 void getLipsiaVersion(char *ver, size_t length) {
-	snprintf(ver, length, "%s.%s.%s [%s]",EXPAND(_LIPSIA_VERSION_MAJOR), EXPAND(_LIPSIA_VERSION_MINOR), EXPAND(_LIPSIA_VERSION_PATCH), EXPAND(_LIPSIA_SVN_REVISION) );
+#ifdef LIPSIA_RCS_REVISION
+	snprintf(ver, length, "%s.%s.%s [%s]",EXPAND(_LIPSIA_VERSION_MAJOR), EXPAND(_LIPSIA_VERSION_MINOR), EXPAND(_LIPSIA_VERSION_PATCH), EXPAND(_LIPSIA_RCS_REVISION) );
+#else
+	snprintf(ver, length, "%s.%s.%s",EXPAND(_LIPSIA_VERSION_MAJOR), EXPAND(_LIPSIA_VERSION_MINOR), EXPAND(_LIPSIA_VERSION_PATCH) );
+#endif 
 }
+
