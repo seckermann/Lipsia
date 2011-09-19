@@ -1,0 +1,73 @@
+lipsia (2.1.3svn255-0) stable; urgency=low
+
+  * fixed bug with wrong left/right orientation of the mni template
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Tue, 02 Aug 2011 15:00:00 +0100
+
+lipsia (2.1.2svn239-0) stable; urgency=low
+
+  * valign3d is now capable of multithreading
+  * add uninstall target
+  * interface of vswapdim changed 
+  * linked against libisiscore0_0.3.3
+  * linked against libvia2_2.0.2
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Wed, 29 Jun 2011 16:30:00 +0100
+
+lipsia (2.1.1svn214-0) stable; urgency=low
+
+  * isis dependent program are linked to libisiscore0.so.0.3.1
+  * The bin size parameter in valign3d changed from 256 to 50 
+  * Fixed some problems when working with huge images (>500 mb)
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Wed, 11 May 2011 16:30:00 +0100
+
+
+lipsia (2.1.0svn191-0) stable; urgency=low
+
+  * Removed vpreproc_gui
+  * Revised the REQUIREMENTS file
+  * Fixed bug in vcheckdesign when showing powerspectrum
+  * Fixed bug in valign3d. (saving a rigid transform as a vector deformationmap discards the rotation information)
+  * New program: vnormdata. This program is a little wrapper script which performs a nonlinear normalization to
+    a functional data set. Specifying an anatomical image will force vnormdata to use this one to find the transform to
+    the reference image.
+  * Revised the documentation
+  * Renamed vtrialaver to vtrialaverage
+  * Added niftov and vtonifti for backward-compatibility -> so we got Lipsia
+    got the dependency to nifti again.
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Thu, 24 Feb 2011 14:10:14 +0100
+
+lipsia (2.0.0-6) stable; urgency=low
+
+  * New version of lipsia containing programs of the lipsia 1.6.1 and
+    the last lipsia-sandbox version 0.4.3.
+  * Old converters niftov, dictov, brutov, vtonifti are removed.
+  * New version of vmovcorrection
+  * Restructured documentation
+
+ -- Lipsia Group (The official Lipsia developer group) <lipsia@cbs.mpg.de>  Fri, 05 Nov 2010 13:49:00 -0400
+
+lipsia (1.6.1-0) unstable; urgency=low
+
+  * Fixed bug in vpreprocess (FreqFilter.c)
+  * New version of vmovementcorrection written by PD Dr Gabriele Lohmann
+
+ -- Erik Tuerke <tuerke@cbs.mpg.de>  Tue, 21 Sep 2010 18:00:00 -0400
+
+lipsia (1.6.0-1) unstable; urgency=low
+
+  * New Upstream Version. Merge all patches with upstream.
+  * Wrote manpage for LIPSIA and symlink it for all included binaries.
+  * Compile internal libraries as SOs and install them into /usr/lib/lipsia.
+    All binaries are configured with a corresponding RPATH setting.
+
+ -- Michael Hanke <michael.hanke@gmail.com>  Wed, 03 Jun 2009 09:19:20 +0200
+
+lipsia (1.5.0+svn3520-1) unstable; urgency=low
+
+  * Initial Debian packaging attempt. The is a complete rewrite of the orginal
+    packaging effort done by the upstream developers (Closes: #521412).
+
+ -- Michael Hanke <michael.hanke@gmail.com>  Fri, 27 Mar 2009 13:31:52 +0100

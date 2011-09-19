@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+
+comp=morse1
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/cmake.mk
+
+DEB_CMAKE_EXTRA_FLAGS = \
+    -DCMAKE_C_COMPILER="/usr/bin/gcc" \
+    -DBUILD_SHARED_LIBS:BOOL=ON \
+    -DCMAKE_INSTALL_RPATH="/usr/lib/lipsia" \
+    -DCMAKE_SKIP_RPATH:BOOL=OFF \
+    -DQT3_SUPPORT:BOOL=ON \
+    -DITK_DIR="/usr/lib/cmake/ITK-4.0" 
+
+DEB_SHLIBDEPS_INCLUDE_lipsia = debian/lipsia/usr/lib/lipsia
+
+install/lipsia::
+	# generate fake manpages for all commands
+	if [ -f debian/lipsia.links ]; then rm debian/lipsia.links; fi
+	for c in debian/tmp/usr/bin/* ; do \
+		echo "/usr/share/man/man1/lipsia.1.gz /usr/share/man/man1/$$(basename $$c).1.gz" \
+			>> debian/lipsia.links; \
+	done
+
+	# copy data files to /usr/share/lipsia
+	rm "debian/tmp/usr/share/lipsia" -fr; \
+	mkdir "debian/tmp/usr/share/lipsia"; \
+	for d in data/* ; do \
+		cp "$$d" "debian/tmp/usr/share/lipsia/" -r;\
+	done

@@ -1,0 +1,78 @@
+Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
+Upstream-Name: lipsia
+Upstream-Maintainer: LIPSIA developers <lipsia@cns.mpg.de>
+Upstream-Source: http://www.cbs.mpg.de/institute/software/lipsia
+
+
+Files: *
+Copyright: 1996-2008 MPI for Human Cognitive and Brain Sciences,
+  Leipzig <lipsia@cns.mpg.de>
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+
+Files: src/anatov/dbh.h
+Copyright: Copyright, 1986-1995 Biomedical Imaging Resource Mayo Foundation
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+
+Files: src/vledit/*
+Copyright: 2005 Hannes Niederhausen <niederhausen@cbs.mpg.de>
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+
+Files: src/lib_lipsia/(Convolve,Gauss).c
+ src/vattredit/vattredit.c
+ src/vcacp/(Rotate,Shear).c
+ src/vgauss/vgauss.*
+Copyright: 1993, 1994 University of British Columbia
+License: Other
+ Permission to use, copy, modify, distribute, and sell this software and its
+ documentation for any purpose is hereby granted without fee, provided that
+ the above copyright notice appears in all copies and that both that
+ copyright notice and this permission notice appear in supporting
+ documentation. UBC makes no representations about the suitability of this
+ software for any purpose. It is provided "as is" without express or
+ implied warranty.
+
+
+Files: src/lib_vlh/flow.*
+Copyright: 1996 by Trolltech AS.
+License: GPL-2+
+ These files are derived from an example shipped as part of the Qt
+ documentation and are cover by the Qt license(s).
+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+
+Files: src/lib_lipsia/wilcox_pvals.c
+Copyright: 1996 Rob van Son <rob@fon.let.uva.nl>
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+
+Files: debian/*
+Copyright: Copyright 2008, Michael Hanke <michael.hanke@gmail.com>
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+
+Files: src/lib_vlh/trilinear.C
+Copyright: 1998-2002 Thomas Arnold <arnold@cns.mpg.de>
+License: Other
+ This software may be freely copied, modified, and redistributed provided
+ that this copyright notice is preserved on all copies.
+
+ You may not distribute this software, in whole or in part, as part of any
+ commercial product without the express consent of the author.
+
+ There is no warranty or other guarantee of the fitness of this software
+ for any purpose. It is provided solely "as is".
