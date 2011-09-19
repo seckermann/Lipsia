@@ -207,7 +207,7 @@ typename TOutput::Pointer itkAdapter::internCreateItk( const bool behaveAsItkRea
 	BOOST_FOREACH(  std::vector<data::Chunk >::reference ref, chList ) {
 		data::Chunk &chRef = ref;
 		typename InputImageType::PixelType *target = refTarget + chunkIndex++ * chRef.getVolume();
-		chRef.getValuePtr<typename InputImageType::PixelType>().copyToMem( 0, ( chRef.getVolume() - 1 ), target );
+		chRef.getValuePtr<typename InputImageType::PixelType>().copyToMem( target,  chRef.getVolume() );
 		boost::shared_ptr<util::PropertyMap> tmpMap ( new util::PropertyMap ( static_cast<util::PropertyMap>( chRef ) ) );
 		m_ChunkPropertyMapVector.push_back( tmpMap );
 	}
