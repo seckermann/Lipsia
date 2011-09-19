@@ -77,6 +77,30 @@ IF (SVN_REVISION)
   ADD_DEFINITIONS(-D_LIPSIA_SVN_REVISION=${SVN_REVISION})
 ENDIF(SVN_REVISION)
 
+############################################################
+# RCS revision number
+############################################################
+# The revision number is based on GIT commit informations.
+# It will be stored in GIT_REVISION.
+find_program(GIT_COMMAND git DOC "The rcs revision description information tool.")
+
+if (NOT GIT_REVISION)
+  if (GIT_COMMAND)
+    execute_process(COMMAND ${GIT_COMMAND} describe OUTPUT_VARIABLE OUT WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(REGEX MATCH "[0-9]+-[^-]+$" GIT_REVISION "${OUT}") #@todo wont work with more complex revisions/modified sources
+    set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${GIT_REVISION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_BUILD_TYPE})
+  else(GIT_COMMAND)
+    message(STATUS "git not found")
+  endif (GIT_COMMAND)
+endif (NOT GIT_REVISION)
+
+if (GIT_REVISION)
+  message(STATUS "RCS Revision: ${GIT_REVISION}")
+  add_definitions(-DLIPSIA_RCS_REVISION=${GIT_REVISION})
+  set(LIPSIA_REV_STRING ${${CMAKE_PROJECT_NAME}_VERSION_MAJOR}.${${CMAKE_PROJECT_NAME}_VERSION_MINOR}.${${CMAKE_PROJECT_NAME}_VERSION_PATCH}-${GIT_REVISION})
+else(GIT_REVISION)
+  set(LIPSIA_REV_STRING ${${CMAKE_PROJECT_NAME}_VERSION_MAJOR}.${${CMAKE_PROJECT_NAME}_VERSION_MINOR}.${${CMAKE_PROJECT_NAME}_VERSION_PATCH})
+endif(GIT_REVISION)
 
 # configure install destinations
 # SET(LIPSIA_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
