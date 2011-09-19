@@ -68,17 +68,15 @@ The following call normalizes your functional data data3.v to the Lipsia MNI bra
 <br>
 <b><u>The more complicated but modifiable way:</b></u><br><br>
 First we have to align the functional and anatomical images:<br>
- <p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -ref data3.v -in anatomical.v -trans trans_ana_to_fun.nii </b></tt><br></p>
- <p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -ref data3.v -in anatomical.v -out reg_ana_to_fun.v -trans trans_ana_to_fun.nii -res 1</b></tt><br></p>
+ <p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -ref anatomical.v -in data3.v -trans trans_fun_to_ana.nii </b></tt><br></p>
 
 To find the transform of the registered anatomical scan to the MNI brain you have to call:
-<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -in reg_ana_to_fun.v -ref /usr/share/lipsia/mni.v
--trans trans.nii -transform 0 1 2 -optimizer 0 0 2 -bound 20 -smooth 1</b></tt><br></p>
-The next call applies the transform trans.nii to the functional data data3.v.<br>
+<p><tt><b><a href="../valign3d/index.html"><u>valign3d</u></a> -ref /usr/share/lipsia/mni.v -in anatomical.v -trans trans.nii -transform 0 1 2 -optimizer 0 0 2</b></tt><br></p>
+The next call applies the transform trans_fun_to_ana.nii and trans.nii to the functional data data3.v.<br>
 
-<p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -ref /usr/share/lipsia/mni.v -in data3.v -out data4.v -trans trans.nii
+<p><tt><b><a href="../vdotrans3d/index.html"><u>vdotrans3d</u></a> -ref /usr/share/lipsia/mni.v -in data3.v -out data4.v -trans trans_fun_to_ana.nii trans.nii
 -res 3 -fmri</b></tt><br></p>
-As you see using <a href="../vnormdata/index.html"><u>vnormdata</u></a> is much easier than using the combination of <a href="../valign3d/index.html"><u>valign3d and vdotrans3d</u></a>. But if you want to modify some registration-related parameters the second approach is more suitable for you.<br>
+As you see, using <a href="../vnormdata/index.html"><u>vnormdata</u></a> is much easier than using the combination of <a href="../valign3d/index.html"><u>valign3d and vdotrans3d</u></a>. But if you want to modify some registration-related parameters the second approach is more suitable for you.<br>
 </div>
 <div class="subtitle">Registration without an anatomical scan</div> 
 <div class="content">
