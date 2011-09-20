@@ -23,7 +23,8 @@ def reg_func_to_ana(image_func, image_ana, reg_prg, rsmpl_prg):
 
 def reg_ana_to_ref(image_ana,image_ref,reg_prg):
     print "Registration: anatomical image to reference image..."
-    os.system(reg_prg + " -ref " + image_ref + " -in " +  image_ana + " -trans trans_to_ref.nii -transform 0 1 2 -optimizer 0 0 2 -iter 100 100 25")
+    os.system(reg_prg + " -ref " + image_ref + " -in " +  image_ana + " -trans trans_to_ref.nii -transform 0 1 2 -optimizer 0 0 2 ")
+    os.system(rsmpl_prg + "  -ref " + image_ref + " -in " +  image_ana + " -trans trans_to_ref.nii -out /tmp/check.v")
 
 def reg_func_to_ref(image_ana,image_ref,reg_prg):
     print "Registration: functional image to reference image..."
