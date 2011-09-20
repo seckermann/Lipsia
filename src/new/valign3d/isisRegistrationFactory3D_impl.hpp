@@ -677,7 +677,6 @@ TFixedImageType, TMovingImageType >::GetTransformVectorField(
 	typename itk::Transform<double, FixedImageDimension, MovingImageDimension>::InputPointType fixedPoint;
 	typename itk::Transform<double, FixedImageDimension, MovingImageDimension>::OutputPointType movingPoint;
 	typename DeformationFieldType::IndexType index;
-
 	VectorType displacement;
 	while ( !fi.IsAtEnd() ) {
 		index = fi.GetIndex();
