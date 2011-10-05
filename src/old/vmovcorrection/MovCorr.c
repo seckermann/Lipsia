@@ -256,7 +256,6 @@ VMotionCorrection3d(VAttrList list, VLong i0, VLong step, VLong maxiter) {
     */
     fprintf(stderr, "# estimating motion parameters...\n");
     float progress=0;
-#pragma omp parallel for
     for(i = 0; i < n; i++) {
 	
 	fprintf(stderr, " Progress: %3.2f %\r", ((float)(++progress * 100)/ (float)n));
