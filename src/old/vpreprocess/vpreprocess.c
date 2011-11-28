@@ -63,7 +63,6 @@ main(int argc, char *argv[]) {
 	sprintf(prg_name, "vpreprocess V%s", ver);
     fprintf(stderr, "%s\n", prg_name);
     VParseFilterCmd(VNumber(options), options, argc, argv, &in_file, &out_file);
-
     if(fwhm < 0)
         VError("fwhm must be non-negative");
     if(low > high && high > 0)
@@ -78,12 +77,14 @@ main(int argc, char *argv[]) {
     if(!(list = VReadFile(in_file, NULL)))
         exit(1);
     fclose(in_file);
+
+    if(low > 0 || high > 0)
+        VFreqFilter(list, high, low, stop, sharp);
     if(fwhm > 0)
         VSpatialFilter(list, fwhm);
     if(minval > 0)
         VApplyMinval(list, minval);
-    if(low > 0 || high > 0)
-        VFreqFilter(list, high, low, stop, sharp);
+
     /*
     ** output
     */

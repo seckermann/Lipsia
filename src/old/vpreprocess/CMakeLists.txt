@@ -8,4 +8,4 @@ SET_TARGET_PROPERTIES(vpreprocess PROPERTIES
 
 INSTALL(TARGETS vpreprocess
         RUNTIME DESTINATION bin
-        COMPONENT RuntimeLibraries)
+                COMPONENT RuntimeLibraries)

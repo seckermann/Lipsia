@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Lipsia - Physiological noise</title>
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+<a href="../index.html" class="home">table of contents</a>
+<div class="toptitle">LIPSIA &nbsp;&nbsp;&nbsp; Physiological noise removal</div>
+
+<div class="headtitle">vcompcor</div>
+<p>
+<div class="subtitle"><b>Background</b></div>
+<div class="content">
+The program 'vcompcor' tries to remove physiological noise from fMRI data.
+The algorithm assumes that high temporal variance is indicative of physiological noise.
+The first step is to identify regions of high temporal variance. The second step 
+is to obtain the first few principal components of these regions amd finally these components
+are factored out via linear regression.
+
+<p>
+<i>Reference: Behzadi et al. (2007),
+A component based noise correction method (CompCor) for BOLD and perfusion based fMRI,
+Neuroimage,37(1):90-101.</i><p><br>
+</div>
+<div class="subtitle"><b>Usage</b></div>
+<div class="content">
+The program expects fMRI time series data as input. The algorithm expects the data
+to be baseline corrected. If they are not already baseline corrected by some previous processing step,
+they should be corrected within 'vcompcor' using frequency cutoffs similar to the
+program 'vpreprocess'. 
+In order to identify regions dominated by physiological noise, 'vcompcor' computes the temporal
+variance in each voxel and creates a ranking so that high variance voxels receive high ranks.
+A variance threshold '-fraction' must be specified. 
+It defines the fraction of voxels that are included into the region of interest.
+For example, if 'fraction' is set to 0.02, then the top 2 percent high variance voxels are
+included into the ROI. <br>
+It may often be helpful to check temporal variance as it is the criterium by which voxels are included
+into the ROI. Therefore, an additional image is created which provides a variance map (not thresholded).
+Its name can be specified by the parameter '-r2'.<br>
+Below is an example.</p>
+
+<br><br>
+
+<tt><b><a href="#vcompcor"><u>vcompcor</u></a> 
+-in functional.v -out result.v -fraction 0.01 -ncomp 4 -r2 r2.v</b></tt><br><p>
+
+<br><br>
+</div>
+<a name="vcompcor"></a>
+<div class="headtitle"><b>Parameters of 'vcompcor'</b>:</div>
+
+<div class="content">
+<DL>
+    <DT>-help<DD>
+        Prints usage information.
+    <DT>-in<DD> 
+        Input file. Default: (none)
+    <DT>-out<DD>
+        Output file. Default: (none)
+    <DT>-fraction<DD> 
+        Fraction of voxels to be included into the ROI. Default: 0.01
+    <DT>-ncomp<DD>
+        Number of principal components to be used. Default: 4
+    <DT>-minval<DD>
+        Signal threshold. Default: 0
+    <DT>-high<DD> 
+        upper frequency theshold in seconds for detrending. Default: 100
+    <DT>-r2<DD> 
+        Image showing temporal variance. Default: r2.v
+</DL>
+
+</div>
+
+<br>
+<hr class="hr" />
+
+<A href="http://www.cbs.mpg.de/index.xml"><img src="../images/minerva.bmp" border="0" style="margin-right:4px" align="left"></a>
+
+
+<FONT style="font-family:Arial, Helvetica; font-size:8pt;"> 
+Max Planck Institute for Human Cognitive and Brain Sciences. Further Information:
+<A href="mailto:lipsia@cbs.mpg.de">lipsia@cbs.mpg.de</A>
+<BR>Copyright &copy; 2007 Max Planck Institute for Human Cognitive and Brain Sciences.
+All rights reserved.
+
+<br><br>
+
+</BODY></HTML>

@@ -102,6 +102,7 @@ VSConvolveCol (VImage src,VImage dest,VImage kernel)
   VFillImage(dest,VAllBands,0);
   dim  = VImageNColumns(kernel);
   d    = dim/2;
+
   for (b=0; b<nbands; b++) {
     for (r=0; r<nrows; r++) {
       for (c=d; c<ncols-d; c++) {
@@ -141,6 +142,7 @@ VSConvolveRow (VImage src,VImage dest,VImage kernel)
   nbands = VImageNBands (src);
 
   dest = VSelectDestImage("VConvolveRow",dest,nbands,nrows,ncols,VFloatRepn);
+
   for (b=0; b<nbands; b++) {
     for (r=d; r<nrows-d; r++) {
       for (c=0; c<ncols; c++) {
@@ -180,6 +182,7 @@ VSConvolveBand (VImage src,VImage dest,VImage kernel)
   nbands = VImageNBands (src);
 
   dest = VSelectDestImage("VConvolveBand",dest,nbands,nrows,ncols,VFloatRepn);
+
   for (b=d; b<nbands-d; b++) {
     for (r=0; r<nrows; r++) {
       for (c=0; c<ncols; c++) {
@@ -273,6 +276,7 @@ VSpatialFilter(VAttrList list,VDouble fwhm)
 
     size = (int)(6.0 * sigma + 1.5);
     if ((size & 1) == 0) size++;
+    fprintf(stderr," size= %d\n",size);
 
     for (b=0; b<nslices; b++) {
       if (VImageNRows(src[b]) < 2) continue;
