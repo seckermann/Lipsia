@@ -75,7 +75,7 @@ pictureView::pictureView( QWidget *parent, const char *name,
 	letzte=0;
 	Xplus=0; Yplus=0; Zplus=0;
 
-	if (pr->verbose) qWarning( tr("initialize view %1").arg(typ) );
+	if (pr->verbose) qWarning( "initialize view %d",typ );
 
 	setPalette( QPalette( QColor( 0,0,0) ) );
 	QWidget::setMouseTracking ( TRUE );
