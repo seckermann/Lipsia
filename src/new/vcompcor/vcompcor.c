@@ -25,8 +25,8 @@
 
 #define NSLICES 2000
 
-extern int isnan(double);
-extern int isinf(double);
+//extern int isnan(double);
+//extern int isinf(double);
 extern gsl_matrix *VPCA(gsl_matrix *,int,int);
 
 #define SQR(x) ((x) * (x))
